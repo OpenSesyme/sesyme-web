@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Sesyme | Write Feedback</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  	<link rel="stylesheet" href="../css/w3.css">
+  	<link rel="stylesheet" href="../css/font-awesome/css/font-awesome.css">
+  	<link rel="stylesheet" type="../text/css" href="../css/animation.css">
+  	<link rel="stylesheet" type="text/css" href="../css/animate.css">
+  	<link rel="stylesheet" type="text/css" href="../css/main.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  	<script type="text/javascript" src="../js/main.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm fixed-top write-quest-nav">
+		<ul class="nav navbar-nav">
+            <li class="nav-item">
+                <button type="button" class="nav-link" onclick="history.back(-1)"><i class="fa fa-arrow-left"></i> Back</button>
+            </li>
+        </ul>
+
+		<a class="mx-auto" href="../index.html">
+    		<img src="../img/sesyme_logo.png" alt="Logo" style="width:130px;">
+  		</a>
+	</nav>
+
+	<section id="write_feedback" class="align-items-center">
+		<div class="content mx-auto">
+			<div class="row align-items-center w3-center">
+				<div class="col-sm-6 js-tilt" data-tilt>
+					<img src="../img/feedback-img.png" >
+				</div>
+				<div class="col-sm-6 ">
+					<form class="feedback-form" method="POST">
+						<h4 class="w3-left">Feedback</h4>
+						<div class="wrap-input" data-validate="Title of what you are reporting">
+							<input class="input" type="text" name="report" placeholder="What are you reporting (Optional)">
+							<span class="shadow-input1"></span>
+						</div>
+
+						<div class="wrap-input" data-validate="More details on what you are reporting">
+							<textarea class="input" name="description" placeholder="Provide more details (Compulsory)"></textarea>
+							<span class="shadow-input1"></span>
+						</div>
+
+						<div class="form-text text-left">
+							We will respond via email to feedbacks and questions. You may also send feedback to <a href="mailto:info@sesyme.com">info@sesyme.com</a>.
+						</div>
+						<div class="container-contact1-form-btn">
+							<button type="button" class="feedback-btns mr-5">Cancel</button><button type="button" class="feedback-btns">Submit</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script type="text/javascript" src="../js/tilt.js"></script>
+</body>
+</html>
