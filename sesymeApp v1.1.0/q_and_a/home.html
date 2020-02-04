@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sesyme | Questions</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  	<link rel="stylesheet" href="../css/w3.css">
+  	<link rel="stylesheet" href="../css/font-awesome/css/font-awesome.css">
+  	<link rel="stylesheet" type="../text/css" href="../css/animation.css">
+  	<link rel="stylesheet" type="text/css" href="../css/animate.css">
+  	<link rel="stylesheet" type="text/css" href="../css/main.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  	<script type="text/javascript" src="../js/main.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm fixed-top" id="sesyme_nav">
+		<a class="navbar-brand" href="#">
+    		<img src="../img/sesyme_logo.png" alt="Logo" style="width:140px;">
+  		</a>
+
+  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item w3-center">
+					<a class="nav-link" href="#" style="margin-right: 30px; margin-top: 5px;">
+						<i class="fa fa-home" style="font-size: 31px"></i>
+						<h3>Home</h3>
+					</a>
+				</li>
+				<li class="nav-item w3-center">
+					<a class="nav-link" href="../books/index.html" style="margin-right: 30px; margin-top: 5px;">
+						<img src="../img/booksImg.png" alt="Profile Picture" style="width: 34px;">
+						<h3>Books</h3>
+					</a>
+				</li>
+				<li class="nav-item w3-center">
+					<a class="nav-link" href="../notifications/notifications.html" style="margin-right: 30px; margin-top: 5px;">
+						<i class="fa fa-bell-o" style="font-size: 30px"></i>
+						<h3>Notifications</h3>
+					</a>
+				</li>
+				<li class="nav-item w3-center">
+					<a class="nav-link">
+						<img src="../img/profilePic.jpg" alt="Profile Picture" style="width: 35px; border-radius: 50px;">
+						<h3>Profile</h3>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<section id="q_and_a" class="scroll">
+		<div class="content m-auto">
+			<div class="searchBar row pt-3 pb-1">
+				<form class="col-sm-12" action="#" method="GET">
+					<div class="form-group has-search">
+						<span class="fa fa-search form-control-feedback"></span>
+						<input type="text" class="form-control" placeholder="Search">
+					</div>
+				</form>
+			</div>
+
+			<div class="my-interests">
+				<nav id="interestsNav" class="interests-nav">
+				    <div id="interestsNavContents" class="interests-nav-contents">
+				        <a class="interests-nav-link" aria-selected="true">All</a>
+				        <a class="interests-nav-link">Geography</a>
+				        <a class="interests-nav-link">Mathematics</a>
+				        <a class="interests-nav-link">Physics</a>
+				        <a class="interests-nav-link">Business</a>
+				        <a class="interests-nav-link">Accounting</a>
+				        <a class="interests-nav-link">Psychology</a>
+				        <a class="interests-nav-link">Humanities</a>
+				        <a class="interests-nav-link">Theology</a>
+				        <a class="interests-nav-link">Economics</a>
+				        <a class="interests-nav-link">Engineering</a>
+				        <a class="interests-nav-link">Law</a>  
+				        <a class="interests-nav-link">Health</a>  
+				        <a class="interests-nav-link">Arts</a>  
+				        <a class="interests-nav-link">Chemistry</a>  
+				        <a class="interests-nav-link">Education</a>  
+				        <a class="interests-nav-link">Multimedia</a>  
+				        <a class="interests-nav-link">Biology</a>
+						<a class="interests-nav-link">Agriculture</a>
+				        <a class="interests-nav-link">General</a>
+
+						<span id="pnIndicator" class="pn-ProductNav_Indicator"></span>
+				    </div>
+				</nav>
+				<button id="pnAdvancerLeft" class="pn-Advancer pn-Advancer_Left" type="button">
+					<svg class="pn-Advancer_Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 551 1024"><path d="M445.44 38.183L-2.53 512l447.97 473.817 85.857-81.173-409.6-433.23v81.172l409.6-433.23L445.44 38.18z"/></svg>
+				</button>
+				<button id="pnAdvancerRight" class="pn-Advancer pn-Advancer_Right" type="button">
+					<svg class="pn-Advancer_Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 551 1024"><path d="M105.56 985.817L553.53 512 105.56 38.183l-85.857 81.173 409.6 433.23v-81.172l-409.6 433.23 85.856 81.174z"/></svg>
+				</button>
+			</div>
+
+			<div class="questions">
+				<!-- Loading Questions -->
+			</div>
+		</div>
+
+		<div class="write-questionBtn">
+			<a href="write_question.html">
+				<i class="fa fa-pencil"></i>
+			</a>
+		</div>
+	</section>
+
+	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-messaging.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../js/main.js"></script>
+	<script type="text/javascript" src="../js/moments.js"></script>
+	<script type="text/javascript" src="../js/functions.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+		    $('#q_and_a').height($(window).height());
+		});
+	</script>
+</body>
+</html>
