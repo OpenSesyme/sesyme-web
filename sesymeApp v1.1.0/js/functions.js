@@ -1024,6 +1024,10 @@ function loadWriteQuestion()
 			postQuestion(title, description);
 		}
 	});
+
+	$('#pick_image').on('click', function(){
+		$('.image_file').click();
+	});
 }
 
 function postQuestion(title, description){

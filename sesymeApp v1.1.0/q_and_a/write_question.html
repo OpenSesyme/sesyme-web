@@ -1,51 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Type Question</title>
 	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   	<link rel="stylesheet" href="../css/w3.css">
+  	<link rel="stylesheet" href="../css/style.css">
   	<link rel="stylesheet" href="../css/font-awesome/css/font-awesome.css">
   	<link rel="stylesheet" type="../text/css" href="../css/animation.css">
   	<link rel="stylesheet" type="text/css" href="../css/animate.css">
   	<link rel="stylesheet" type="text/css" href="../css/main.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>\
-		<style type="text/css">
-			div.fileinputs {
-				position: relative;
-			}
-
-			div.fakefile {
-				position: absolute;
-				top: 0px;
-				left: 0px;
-				z-index: 1;
-				margin-left: 20%;
-				margin-bottom: 12%;
-
-			}
-
-			input.file {
-				position: relative;
-				background-color: transparent;
-				text-align: left;
-				-moz-opacity:0 ;
-				filter:alpha(opacity: 0);
-				opacity: 0;
-				z-index: 2;
-				margin-left: 40%;
-
-			}
-
-			#questionDiscription
-			{
-				margin-top: 3%;
-				z-index: 3;
-			}
-		</style>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-sm fixed-top write-quest-nav">
@@ -82,10 +50,10 @@
 				    <textarea name="questionDiscription" id="questionDiscription" placeholder="e.g. I heard its a textbook subscription platform, so how is it going to work? Can you explain it further for me."></textarea>
 				    <label for="questionDiscription">Provide more details</label>
 				    <div style="width: 200px;">
-				    	<a href="#" class="w3-right" style="position: absolute; right: 28%; margin-top: 5px; font-size: 20px; color: #6400ae;">
+				    	<a class="w3-right" id="pick_image" style="position: absolute; right: 28%; margin-top: 20px; font-size: 20px; color: #6400ae; cursor: pointer;">
 
 							<div class="fileinputs">
-								<input type="file" class="image_file" />
+								<input type="file" class="image_file" onclick="event.stopPropagation();"/>
 								<div class="fakefile">
 									<input />
 									<i class="fa fa-image"></i>
