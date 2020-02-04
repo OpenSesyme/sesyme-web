@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sesyme | Books</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  	<link rel="stylesheet" href="../css/w3.css">
+  	<link rel="stylesheet" href="../css/font-awesome/css/font-awesome.css">
+  	<link rel="stylesheet" type="../text/css" href="../css/animation.css">
+  	<link rel="stylesheet" type="text/css" href="../css/animate.css">
+  	<link rel="stylesheet" type="text/css" href="../css/main.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  	<script type="text/javascript" src="../js/main.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm fixed-top" id="sesyme_nav">
+		<a class="navbar-brand" href="../q_and_a/index.html">
+    		<img src="../img/sesyme_logo.png" alt="Logo" style="width:140px;">
+  		</a>
+
+  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item w3-center">
+					<a class="nav-link" href="../q_and_a/index.html" style="margin-right: 30px; margin-top: 5px;">
+						<i class="fa fa-home" style="font-size: 31px"></i>
+						<h3>Home</h3>
+					</a>
+				</li>
+				<li class="nav-item w3-center">
+					<a class="nav-link" href="#" style="margin-right: 30px; margin-top: 5px;">
+						<img src="../img/booksImg.png" alt="Profile Picture" style="width: 34px;">
+						<h3>Books</h3>
+					</a>
+				</li>
+				<li class="nav-item w3-center">
+					<a class="nav-link" href="../notifications/notifications.html" style="margin-right: 30px; margin-top: 5px;">
+						<i class="fa fa-bell-o" style="font-size: 30px"></i>
+						<h3>Notifications</h3>
+					</a>
+				</li>
+				<li class="nav-item w3-center">
+					<a class="nav-link" href="../profile/profile.html">
+						<img src="../img/profilePic.jpg" alt="Profile Picture" style="width: 35px; border-radius: 50px;">
+						<h3>Profile</h3>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<section id="books_home">
+		<div class="content">
+			<div class="sidenav">
+				<button class="explore active-tab" id="explo"><i class="fa fa-compass"></i> Explore</button>
+				<button class="library" id="libry"><i class="fa fa-book"></i> Library</button>
+				<button class="sesyme-books" id="alls"><i class="fa fa-eye"></i> All Books</button>
+			</div>
+
+			<div class="main scroll">
+				<div class="search-book container" id="explore">
+					<div class="searchBar row">
+						<form class="col-sm-4 offset-sm-4" action="#" method="GET">
+							<div class="form-group has-search">
+								<span class="fa fa-search form-control-feedback"></span>
+								<input type="text" class="form-control" value="Accounting Principles" placeholder="Search">
+							</div>
+						</form>
+					</div>
+
+					<div id="searchResults" class="mb-3">
+						<h3>Search results for: <i>Accounting Principles</i></h3>
+						<div class="row">
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/bk2.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/acc.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/acc2.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								
+							</div>
+						</div>
+					</div>
+
+					<div id="recommendations">
+						<h3>Recommeded for you</h3>
+						<div class="row">
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/1.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/2.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/3.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/acc3.jpg" alt="book name"></a>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/audit.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/4.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/5.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/finance.jpg" alt="book name"></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="my-library" id="library">
+					<div class="row my-books">
+						<div class="col-3">
+							<div class="book">
+								<a href="reading_book.html"><img src="../img/books/bk2.jpg" alt="book name"></a>
+								<div class="progress" style="height:10px; background-color: #fff; border-radius: 0; border: 1px solid #6400ae;">
+								    <div class="progress-bar" style="width:60%;height:20px; background-color: #6400ae;"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-3">
+							<div class="book">
+								<a href="reading_book.html"><img src="../img/books/3.jpg" alt="book name"></a>
+								<div class="progress" style="height:10px; background-color: #fff; border-radius: 0; border: 1px solid #6400ae;">
+								    <div class="progress-bar" style="width:20%;height:20px; background-color: #6400ae;"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-3">
+							<div class="book">
+								<a href="reading_book.html"><img src="../img/books/2.jpg" alt="book name"></a>
+								<div class="progress" style="height:10px; background-color: #fff; border-radius: 0;border: 1px solid #6400ae;">
+								    <div class="progress-bar" style="width:2%;height:20px; background-color: #6400ae;"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-3">
+							<div class="book">
+								<a href="reading_book.html"><img src="../img/books/6.jpg" alt="book name"></a>
+								<div class="progress" style="height:10px; background-color: #fff; border-radius: 0; border: 1px solid #6400ae;">
+								    <div class="progress-bar" style="width:2%;height:20px; background-color: #6400ae;"></div>
+								</div>
+							</div>	
+						</div>
+					</div>
+
+					<div class="row my-books">
+						<div class="col-3">
+							<div class="book">
+								<a href="reading_book.html"><img src="../img/books/auditors.jpg" alt="book name"></a>
+								<div class="progress" style="height:10px; background-color: #fff; border-radius: 0; border: 1px solid #6400ae;">
+								    <div class="progress-bar" style="width:60%;height:20px; background-color: #6400ae;"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-3">
+							<div class="book">
+								<a href="reading_book.html"><img src="../img/books/1.jpg" alt="book name"></a>
+								<div class="progress" style="height:10px; background-color: #fff; border-radius: 0; border: 1px solid #6400ae;">
+								    <div class="progress-bar" style="width:20%;height:20px; background-color: #6400ae;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="all-books" id="allBooks">
+					<div class="searchBar row">
+						<form class="col-sm-4 offset-sm-4" action="#" method="GET">
+							<div class="form-group has-search">
+								<span class="fa fa-search form-control-feedback"></span>
+								<input type="text" class="form-control" placeholder="Search">
+							</div>
+						</form>
+					</div>
+					<div class="category">
+						<h3>Accounting <a href="#" class="w3-right view-all">view all</a></h3>
+						<div class="row">
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/acc.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/2.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/3.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/bk2.jpg" alt="book name"></a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="category">
+						<h3>Business <a href="#" class="w3-right view-all">view all</a></h3>
+						<div class="row">
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/1.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/3.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/5.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/acc.jpg" alt="book name"></a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="category">
+						<h3>Economics <a href="#" class="w3-right view-all">view all</a></h3>
+						<div class="row">
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/bk2.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/bk2.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/bk2.jpg" alt="book name"></a>
+								</div>
+							</div>
+
+							<div class="col-3">
+								<div class="book">
+									<a href="preview.html"><img src="../img/books/bk2.jpg" alt="book name"></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  	<script type="text/javascript" src="../js/main.js"></script>
+  	<script type="text/javascript">
+  		$(document).on("click", 'ul li', function(){
+		    $('ul li').removeClass('active');
+		    $(this).addClass('active');
+		});
+  		$(document).ready(function(){
+		    $(".explore").click(function(){
+		    	$('#explore').fadeIn("slow").show();
+		    	$('#explo').addClass("active-tab")
+		    	$('#libry').removeClass("active-tab");
+		    	$('#alls').removeClass("active-tab");
+		        $('#library').hide();
+		        $('#allBooks').hide();
+		    });
+
+		    $(".library").click(function(){
+		    	$('#library').fadeIn("slow").show();
+		    	$('#explo').removeClass("active-tab");
+		    	$('#alls').removeClass("active-tab");
+		    	$('#libry').addClass("active-tab");
+		        $('#explore').hide();
+		        $('#allBooks').hide();
+		    });
+
+		    $(".sesyme-books").click(function(){
+		    	$('#allBooks').fadeIn("slow").show();
+		    	$('#explo').removeClass("active-tab");
+		    	$('#libry').removeClass("active-tab");
+		    	$('#alls').addClass("active-tab");
+		    	$('#library').hide();
+		        $('#explore').hide();
+		    });
+		});
+  	</script>
+</body>
+</html>
