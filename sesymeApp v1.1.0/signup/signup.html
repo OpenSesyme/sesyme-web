@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SesymeApp | Sign up</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  	<link rel="stylesheet" type="text/css" href="../css/main.css">
+  	<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+  	<link rel="stylesheet" href="../css/font-awesome/css/font-awesome.css">
+  	<script src="../js/main.js"></script>
+  	<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script src="../js/moments.js"></script>
+  	<style>
+  		body {
+  			background-color: #fff !important;
+  		}
+  	</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm fixed-top w3-card" id="sesyme_nav">
+		<a class="navbar-brand" href="../index.html">
+    		<img src="../img/sesyme_logo.png" alt="Logo" style="width:120px;">
+  		</a>
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item">
+				<a class="nav-link">About</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link">Blog</a>
+			</li>
+		</ul>
+	</nav>
+	<section id="signup">
+		<div class="container">
+			<div class="content">
+				<div class="page" id="page1">
+					<h2>Sign-up</h2>
+					<div class="sign-form-1">
+						<form action="#" method="POST">
+							<input type="email" id="email_sign_up" placeholder="Email">
+							<input type="password" id="password_sign_up" placeholder="Password">
+							<input type="password" id="verify_password_sign_up" placeholder="Verify Password">
+							<p id="error_message_sign_up" class="text-danger" style="display: none;">
+								<!-- Error message -->
+							</p>
+							<!-- <p id="password_message_sign_up"  style="font-size: .8em">Password must contain the following:</p>
+							<ul style="font-size: .8em; margin-top: -10px; margin-left: -10px">
+								<li>at least one number 0-9</li>
+								<li>A special character e.g. "," "@" "$" etc</li>
+								<li>At least one Uppercase</li>
+								<li>At least one Lowercase</li>
+								<li>Must be at least 7 characters long</li>
+							</ul> -->
+
+							<div class="login-btn">
+								<span>Already have an account? <a href="../index.html">Login</a></span>
+							</div>
+
+							<hr class="hr-line" style="width: 50%, margin: auto;">
+
+							<div style="text-align: center; margin-top: 30px;">
+								<a><img src="../img/btn_google.png" style="width: 40%;"></a>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="page" id="page2">
+					<h2> <span style="color: #b3b3b3">Sign-up</span> / Basic Info</h2>
+					<div class="sign-form-2">
+						<div id="basic_info"></div>
+						<form action="#" method="POST">
+							<input type="text" id="fullName_sign_up" placeholder="Full name (e.g. Name Surname)" />
+							<div class="row">
+								<div class="col-sm-6">
+									<input type="date" id="datepicker_sign_up" name="datePicker" placeholder="Birthday" />
+								</div>
+								<div class="col-sm-6">
+									<select id="gender_sign_up">
+										<option selected disabled>- Select Gender -</option>
+										<option>Male</option>
+										<option>Female</option>
+										<option>Unspecified</option>
+									</select>
+								</div>
+							</div>
+
+							<input type="text" id="course_sign_up" placeholder="Course" />
+							<input type="phone" id="phone_sign_up" placeholder="Phone Number">
+							<input type="number" id="student_no_sign_up" placeholder="Student Number">
+
+							<div  class="row">
+								<div class="col-sm-6">
+									<select id="university_selector">
+										<option disabled selected>- Select University -</option>
+										<option>University of Cape Town</option>
+										<option>Cape Peninsula University of Technology</option>
+										<option>Central University of Technology</option>
+										<option>Durban University of Technology</option>
+										<option>University of Fort Hare</option>
+										<option>University of the Free State</option>
+										<option>University of KwaZulu-Natal</option>
+										<option>University of Limpopo</option>
+										<option>Mangosuthu University of Technology</option>
+										<option>University of Mpumalanga</option>
+										<option>North-West University</option>
+										<option>University of Pretoria</option>
+										<option>Rhodes University</option>
+										<option>Sefako Makgatho Health Sciences University</option>
+										<option>Sol Plaatje University</option>
+										<option>University of Stellenbosch</option>
+										<option>University of the Western Cape</option>
+										<option>University of the Witwatersrand</option>
+										<option>University of Johannesburg</option>
+										<option>Nelson Mandela University</option>
+										<option>University of South Africa</option>
+										<option>Tshwane University of Technology</option>
+										<option>University of Venda</option>
+										<option>Vaal University of Technology</option>
+										<option>Walter Sisulu University</option>
+										<option>University of Zululand</option>
+									</select>
+								</div>
+
+								<div class="col-sm-6">
+									<select id="Affiliation_selector">
+										<option selected disabled>- Select Affiliation -</option>
+										<option>Student</option>
+										<option>Lecturer</option>
+										<option>Alumnus</option>
+									</select>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="page" id="page3">
+					<h2> <span style="color: #b3b3b3">Sign-up / Basic Info</span> / Display</h2>
+					<div class="display-images">
+						<div class="cover-image w3-display-container">
+							<img src="../img/cover.jpg" alt="Cover">
+							<div class="w3-display-bottomright">
+								<input type="file" id="coverPic" />
+								<label for="coverPic"><i class="fa fa-photo fa-2x"></i></label>
+							</div>
+						</div>
+						<div class="profile-pic w3-display-container">
+							<img src="../img/profilePic.jpg" alt="Profile Picture">
+							<div class="w3-display-middle">
+								<input type="file" id="profilePic" />
+								<label for="profilePic"><i class="fa fa-photo fa-2x"></i></label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="page" id="page4">
+					<h2> <span style="color: #b3b3b3">Sign-up / Basic Info / Display</span> / Choose Interests</h2>
+					<div id="select_interests" class="sign-up-form-3">
+						<div id="interest_status"></div>
+						<div class="row" style="text-align: center; margin-bottom: 4px;">
+                            <div class="col-md-3">
+                                <div class="custom-control custom-checkbox image-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="ck1a" value="Auditing">
+                                    <label class="custom-control-label" for="ck1a">
+                                        <img src="../img/Buzwe.jpg" alt="" class="img-fluid">
+                                    </label>
+                                    <p>Auditing</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="custom-control custom-checkbox image-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="ck1b" value="Financial Mathematics">
+                                    <label class="custom-control-label" for="ck1b">
+                                        <img src="../img/Buzwe.jpg" alt="#" class="img-fluid">
+                                    </label>
+                                    <p>Financial Mathematics</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="custom-control custom-checkbox image-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="ck1c" value="Taxation">
+                                    <label class="custom-control-label" for="ck1c">
+                                        <img src="../img/Buzwe.jpg" alt="#" class="img-fluid">
+                                    </label>
+                                    <p>Taxation</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="custom-control custom-checkbox image-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="ck1d" value="Business">
+                                    <label class="custom-control-label" for="ck1d">
+                                        <img src="../img/Buzwe.jpg" alt="#" class="img-fluid">
+                                    </label>
+                                    <p>Business</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="text-align: center; margin-bottom: 4px;">
+                            <div class="col-md-3">
+                                <div class="custom-control custom-checkbox image-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="ck2a" value="Law">
+                                    <label class="custom-control-label" for="ck2a">
+                                        <img src="../img/Buzwe.jpg" alt="" class="img-fluid">
+                                    </label>
+                                    <p>Law</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="custom-control custom-checkbox image-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="ck2b" value="Statistics">
+                                    <label class="custom-control-label" for="ck2b">
+                                        <img src="../img/Buzwe.jpg" alt="#" class="img-fluid">
+                                    </label>
+                                    <p>Statistics</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="custom-control custom-checkbox image-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="ck2c" value="Management Accounting">
+                                    <label class="custom-control-label" for="ck2c">
+                                        <img src="../img/Buzwe.jpg" alt="#" class="img-fluid">
+                                    </label>
+                                    <p>Management Accounting</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+		                        <div class="custom-control custom-checkbox image-checkbox">
+		                            <input type="checkbox" class="custom-control-input" id="ck3a" value="Economics">
+		                            <label class="custom-control-label" for="ck3a">
+		                                <img src="../img/Buzwe.jpg" alt="" class="img-fluid">
+		                            </label>
+		                            <p>Economics</p>
+		                        </div>
+		                    </div>
+                        </div>
+
+                        <div class="row" style="text-align: center;">
+
+		                    <div class="col-md-3">
+                                <div class="custom-control custom-checkbox image-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="ck4b" value="Financial Accounting">
+                                    <label class="custom-control-label" for="ck4b">
+                                        <img src="../img/Buzwe.jpg" alt="#" class="img-fluid">
+                                    </label>
+                                    <p>Financial Accounting</p>
+                                </div>
+                            </div>
+		                    <div class="col-md-3">
+		                        <div class="custom-control custom-checkbox image-checkbox">
+		                            <input type="checkbox" class="custom-control-input" id="ck3c" value="Finance">
+		                            <label class="custom-control-label" for="ck3c">
+		                                <img src="../img/Buzwe.jpg" alt="#" class="img-fluid">
+		                            </label>
+		                            <p>Finance</p>
+		                        </div>
+		                    </div>
+		                </div>
+					</div>
+				</div>
+
+				<div class="page" id="page5">
+					<h2> <span style="color: #b3b3b3">Sign-up / Basic Info / Display / Choice Interests</span> / Subscription</h2>
+					<div class="choosing-subscription justify-content-md-center" id="choosing_subscription">
+						<div class="premium-version w3-card">
+							<div class="header">
+								<h3>Premium Version</h3>
+							</div>
+							<div class="details">
+								<ul>
+									<li>Read Any Prescribed book</li>
+									<li>No Ads</li>
+									<li>List item ---</li>
+								</ul>
+
+								<div class="continue-btn">
+									<a href="packages.html" class="subscribe-btn">Subscribe</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="free-version w3-card">
+							<div class="header">
+								<h3>Free Version</h3>
+							</div>
+
+							<div class="details">
+								<ul>
+									<li>Read Any Prescribed book</li>
+									<li>No Ads</li>
+									<li>List item ---</li>
+								</ul>
+
+								<div class="continue-btn">
+									<a href="../q_and_a/index.html" class="subscribe-btn">Continue</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="packages" id="packages" style="visibility: hidden;">
+						<div class="">
+							testing
+						</div>
+					</div>
+				</div>
+
+				<div style="align-content: flex-end;">
+					<ul id="sesyme_paging" class="pagination justify-content-end"></ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-messaging.js"></script>
+	<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+	<!-- <script src="https://www.solodev.com/assets/pagination/jquery.twbsPagination.js"></script> -->
+	<script src="../js/pagination-plugin.js"></script>
+	<script src="../js/functions.js"></script>
+	<script src="../js/main.js"></script>
+	<script>
+        $('#datepicker').datepicker({
+            uiLibrary: 'bootstrap4'
+        });
+
+        // var currentPage;
+        var totalPages;
+
+
+
+		$('#sesyme_paging').toggleClass('disabled', currentPage === totalPages);
+
+		$(document).ready(function(){
+		    $(".subscribe-btn").click(function(){
+		    	$('#packages').fadeIn("slow").show();
+		        $('#choosing_subscription').hide();
+
+		    });
+		});
+    </script>
+</body>
+</html>
