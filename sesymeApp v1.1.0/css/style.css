@@ -183,3 +183,36 @@ a {
 .page-active {
   display: block;
 }
+
+div.fileinputs {
+	position: relative;
+}
+
+div.fileinputs input {
+	display: none;
+}
+
+div.fakefile {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+	margin-left: 20%;
+	margin-bottom: 12%;
+}
+
+input.file {
+	position: relative;
+	background-color: transparent;
+	text-align: left;
+	-moz-opacity:0 ;
+	filter:alpha(opacity: 0);
+	opacity: 0;
+	z-index: 2;
+	margin-left: 40%;
+}
+
+#questionDiscription{
+	margin-top: 3%;
+	z-index: 3;
+}
