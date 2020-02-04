@@ -568,6 +568,72 @@ function replyStatus(error)
 	$('.reply_status').html('<div class="text-danger">'+error+'</div>');
 }
 
+//select categories
+var autocomplete = new SelectPure(".select-categories", {
+options: [
+  	{
+    	label: "Auditing",
+    	value: "Auditing",
+  	},
+  	{
+    	label: "Business",
+    	value: "Business",
+  	},
+  	{
+    	label: "Taxation",
+    	value: "Taxation",
+  	},
+  	{
+    	label: "Financial Mathematics",
+    	value: "Financial Mathematics",
+  	},
+  	{
+    	label: "Law",
+    	value: "Law",
+  	},
+  	{
+    	label: "Statistic",
+    	value: "Statistic",
+  	},
+  	{
+    	label: "Management Accounting",
+    	value: "Management Accounting",
+  	},
+		{
+			label: "Economics",
+			value: "Economics",
+		},
+		{
+			label: "Financial Accounting",
+			value: "Financial Accounting",
+		},
+		{
+			label: "Finance",
+			value: "Finance",
+		},
+      ],
+      value: false,
+      placeholder: ["Click to select categories"],
+      multiple: true,
+      autocomplete: true,
+      icon: "fa fa-times",
+      onChange: value => { console.log(value); },
+      classNames: {
+		select: "select-pure__select",
+		dropdownShown: "select-pure__select--opened",
+		multiselect: "select-pure__select--multiple",
+		label: "select-pure__label",
+		placeholder: "select-pure__placeholder",
+		dropdown: "select-pure__options",
+		option: "select-pure__option",
+		autocompleteInput: "select-pure__autocomplete",
+		selectedLabel: "select-pure__selected-label",
+		selectedOption: "select-pure__option--selected",
+		placeholderHidden: "select-pure__placeholder--hidden",
+		optionHidden: "select-pure__option--hidden",
+      }
+  });
+
 function changePage(){
 
 	//sign up
