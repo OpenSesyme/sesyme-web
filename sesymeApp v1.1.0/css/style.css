@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+@import url(https://fonts.googleapis.com/css?family=Alegreya+Sans:300,400,700);
+
+@font-face {
+  	font-family: "untitled-font-1";
+  	src:url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/untitled-font-1.eot");
+  	src:url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/untitled-font-1.eot#iefix") format("embedded-opentype"),
+    	url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/untitled-font-1.woff") format("woff"),
+    	url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/untitled-font-1.ttf") format("truetype"),
+    	url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/untitled-font-1.svg#untitled-font-1") format("svg");
+  	font-weight: normal;
+  	font-style: normal;
+}
+
+* {
+    font-family: sans-serif;
+}
+
+body {
+    color: black;
+    letter-spacing: .18em;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*===========================================
+			Sesyme Nav 
+===========================================*/
+#sesyme_nav {
+	background-color: #fff !important;
+	box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+}
+
+#sesyme_nav ul li a {
+	color: #6400ae;
+	font-weight: 500;
+}
+
+#signup {
+	padding: 6em;
+	padding-right: 13em;
+	padding-left: 13em;
+}
+
+#signup .content {
+	box-shadow:0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
+	padding: 1em;
+	border-top: 6px solid #6400ae;
+	border-radius: 0 0  10px 10px;
+}
+
+#signup .content h2 {
+	color: #6400ae;
+	font-size: 1.1rem;
+	font-family: 'Roboto', sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+#signup .content .sign-form-1 {
+	padding: 1em;
+	padding-right: 20%;
+	padding-left: 20%;
+}
+
+#signup .content .sign-form-1 input {
+	width: 100%;
+	margin-bottom: 20px;
+	padding: .4em;
+	border: none;
+	background-color: rgb(99, 0, 174, .1);
+	border-bottom: 2px solid #6400ae;
+	border-radius: 0;
+	font-family: 'Roboto', sans-serif;
+	font-weight: bold;
+	color: #6400ae;
+}
+
+#signup .content .sign-form-1 .login-btn {
+	margin-top: 20px;
+	margin-bottom: 30px;
+	font-size: 12px;
+}
+
+#signup .content .sign-form-1 .login-btn a {
+	color: #6400ae;
+	font-weight: bold;
+}
+
+/*---------------------------------------------------------------------*/
+
+#signup .content .sign-form-2 {
+	padding: 1em;
+	padding-right: 15%;
+	padding-left: 15%;
+}
+
+#signup .content .sign-form-2 input, select {
+	width: 100%;
+	margin-bottom: 20px;
+	padding: .4em;
+	height: 40px;
+	background-color: rgb(99, 0, 174, .1);
+	border: none;
+	border-bottom: 2px solid #6400ae;
+	border-radius: 0;
+	font-family: 'Roboto', sans-serif;
+	font-weight: bold;
+	color: #6400ae;
+}
+
+#signup .content .sign-form-2 input:focus, select:focus {
+	border: 1px solid #6400ae;
+	background-color: rgb(99, 0, 174, .3);
+	outline: none;
+	transition: .5s;
+}
+
+#signup .content .sign-form-2 #datepicker {
+	width: auto !important;
+}
+#signup .content .sign-form-2 #datepicker .gj-button {
+	height: 70px !important
+}
+
+/*---------------------------------------------------------------------*/
+
+#signup .content .sign-up-form-3 {
+	padding: 1em;
+	padding-right: 15%;
+	padding-left: 15%;
+}
+
+#signup .content .sign-up-form-3 .custom-control.image-checkbox {
+  position: relative;
+  padding-left: 0;
+}
+
+#signup .content .sign-up-form-3 .custom-control.image-checkbox .custom-control-input:checked ~ .custom-control-label:after, .custom-control.image-checkbox .custom-control-input:checked ~ .custom-control-label:before {
+  opacity: 1;
+}
+
+#signup .content .sign-up-form-3 .custom-control.image-checkbox label {
+  cursor: pointer;
+}
+
+#signup .content .sign-up-form-3 .custom-control.image-checkbox label:before {
+  border-color: #007bff;
+  background-color: #007bff;
+}
+
+#signup .content .sign-up-form-3 .custom-control.image-checkbox label:after, .custom-control.image-checkbox label:before {
+  transition: opacity .3s ease;
+  opacity: 0;
+  left: 3.5rem;
+  top: 2rem;
+}
+
+#signup .content .sign-up-form-3 .custom-control.image-checkbox label:focus, .custom-control.image-checkbox label:hover {
+  opacity: .8;
+}
+
+#signup .content .sign-up-form-3 .custom-control.image-checkbox label img {
+  border-radius: 50%;
+  width: 80px;
+}
+
+#signup .content .sign-up-form-3 .form-group-image-checkbox.is-invalid label {
+  color: #dc3545;
+}
+
+#signup .content .sign-up-form-3 .form-group-image-checkbox.is-invalid .invalid-feedback {
+  display: block;
+}
+
+.page {
+  display: none;
+}
+
+.page-active {
+  display: block;
+}
