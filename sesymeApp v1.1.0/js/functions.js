@@ -810,6 +810,11 @@ function populateQuestions(question){
 	var categories = "#" + category.join(" #");
 	var edited = question.edited;
 	var image = question.imageUrl;
+	var style = "width: 100%; height: 300px; margin-bottom: 5px;";
+	if (image == null) {
+		style = "display: none;";
+	}
+	console.log(style);
 	var type = question.type;
 	var name = "Unknown";
 	var userImage = "../img/profilePic.jpg";
@@ -845,6 +850,7 @@ function populateQuestions(question){
 				<div class="quest-discription">\
 					<p>'+description+'</p>\
 				</div>\
+				<img class="postImage" src="'+image+'" alt="../img/cover.jpg" style="'+style+'"></image>\
 				<div class="quest-footer">\
 					<div class="likes-and-replays pb-2">\
 						<span><i class="fa fa-heart"></i> '+likes+'</span>\
