@@ -23,7 +23,7 @@ html {
 }
 
 body {
-    color: black;   
+    color: black;
     background-color: #f2f2f2;
 }
 
@@ -47,7 +47,7 @@ a {
 }
 
 /*===========================================
-			Sesyme Nav 
+			Sesyme Nav
 ===========================================*/
 #sesyme_nav {
 	background-color: #6400ae !important;
@@ -71,7 +71,7 @@ a {
 }
 
 /*===========================================
-			Sesyme Homepage 
+			Sesyme Homepage
 ===========================================*/
 #sesyme_home {
 	margin-top: 30px;
@@ -151,7 +151,7 @@ a {
 }
 
 /*===========================================
-      Sesyme signup 
+      Sesyme signup
 ===========================================*/
 
 #signup {
@@ -630,7 +630,7 @@ a {
 }
 
 /*===========================================
-      Sesyme Question and Answer 
+      Sesyme Question and Answer
 ===========================================*/
 
 #q_and_a {
@@ -638,12 +638,12 @@ a {
     padding-bottom: 10px;
 }
 
-.scroll { 
-    margin:4px, 4px; 
-    padding:4px; 
-    overflow-x: hidden; 
-    overflow-x: auto; 
-    text-align:justify; 
+.scroll {
+    margin:4px, 4px;
+    padding:4px;
+    overflow-x: hidden;
+    overflow-x: auto;
+    text-align:justify;
 }
 
 /* width */
@@ -653,17 +653,17 @@ a {
 
 /* Track */
 #q_and_a::-webkit-scrollbar-track {
-  background: #e6e6e6; 
+  background: #e6e6e6;
 }
- 
+
 /* Handle */
 #q_and_a::-webkit-scrollbar-thumb {
-  background: #999; 
+  background: #999;
 }
 
 /* Handle on hover */
 #q_and_a::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 #q_and_a .content {
@@ -804,7 +804,7 @@ a {
 
 #q_and_a .content .questions .quest1 .quest-footer .likes-and-replays {
     padding-left: 3%;
-    padding-right: 3%; 
+    padding-right: 3%;
     border-bottom: 1px solid #e6e6e6;
 }
 
@@ -848,7 +848,7 @@ a {
 }
 
 /*===========================================
-      Sesyme Writing Question 
+      Sesyme Writing Question
 ===========================================*/
 
 
@@ -884,7 +884,7 @@ a {
 
 #write_question {
     padding-top: 70px;
-    background-color: #fff; 
+    background-color: #fff;
     height: 100vh;
 }
 
@@ -894,9 +894,18 @@ a {
 }
 
 #write_question .content .field {
+    position: relative;
     display: flex;
     flex-flow: column-reverse;
     margin-bottom: 1em;
+}
+
+#write_question .content .field #qImage {
+    position: absolute;
+    width: 100%;
+    top: 330px;
+    left: 0;
+    right: 0;
 }
 
 #write_question .content label, input, textarea {
@@ -917,6 +926,7 @@ a {
 }
 
 #write_question .content textarea {
+  position: relative;
     border: 0;
     -webkit-appearance: none;
     border-radius: 0;
@@ -1095,7 +1105,7 @@ a {
 }
 
 /*===========================================
-      Sesyme Reading Replies 
+      Sesyme Reading Replies
 ===========================================*/
 
 #read_replies {
@@ -1109,17 +1119,17 @@ a {
 
 /* Track */
 #read_replies::-webkit-scrollbar-track {
-  background: #e6e6e6; 
+  background: #e6e6e6;
 }
- 
+
 /* Handle */
 #read_replies::-webkit-scrollbar-thumb {
-  background: #999; 
+  background: #999;
 }
 
 /* Handle on hover */
 #read_replies::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 #read_replies .content {
@@ -1338,7 +1348,7 @@ a {
 
 #read_replies .content .replies .reply1 .reply-footer .likes-and-replays {
     padding-left: 3%;
-    padding-right: 3%; 
+    padding-right: 3%;
     border-bottom: 1px solid #e6e6e6;
 }
 
@@ -1588,21 +1598,21 @@ a {
 
 /* Track */
 #books_home .content .main::-webkit-scrollbar-track {
-  background: #e6e6e6; 
+  background: #e6e6e6;
 }
- 
+
 /* Handle */
 #books_home .content .main::-webkit-scrollbar-thumb {
-  background: #999; 
+  background: #999;
 }
 
 /* Handle on hover */
 #books_home .content .main::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 #books_home .content .main .search-book {
-   
+
 }
 
 #books_home .content .main .search-bookt .searchBar .has-search {
@@ -1615,7 +1625,7 @@ a {
     border-radius: 50px;
 }
 
-#books_home .content .main .search-book .searchBar .has-search .form-control-feedback { 
+#books_home .content .main .search-book .searchBar .has-search .form-control-feedback {
     position: absolute;
     z-index: 2;
     display: block;
@@ -1677,7 +1687,7 @@ a {
 #books_home .content .main .my-library .my-books {
     text-align: center;
     margin-bottom: 20px;
-} 
+}
 
 #books_home .content .main .my-library .my-books img {
     width: 150px;
@@ -1722,7 +1732,7 @@ a {
     border-radius: 50px;
 }
 
-#books_home .content .main .all-books .searchBar .has-search .form-control-feedback { 
+#books_home .content .main .all-books .searchBar .has-search .form-control-feedback {
     position: absolute;
     z-index: 2;
     display: block;
@@ -1752,17 +1762,17 @@ a {
 
 /* Track */
 #previewBook::-webkit-scrollbar-track {
-    background: #e6e6e6; 
+    background: #e6e6e6;
 }
- 
+
 /* Handle */
 #previewBook::-webkit-scrollbar-thumb {
-    background: #999; 
+    background: #999;
 }
 
 /* Handle on hover */
 #previewBook::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+    background: #555;
 }
 
 #previewBook .content .book-details {
@@ -1891,8 +1901,8 @@ a {
 
 #write_reply {
     padding-top: 70px;
-    background-color: #fff; 
-    height: 100vh; 
+    background-color: #fff;
+    height: 100vh;
 }
 
 
@@ -1954,7 +1964,7 @@ a {
     transform: 10px;
 }
 
-#write_reply .content .icons .btn-float:active, 
+#write_reply .content .icons .btn-float:active,
 #write_reply .content .icons.btn-float:focus {
     outline: none;
 }
@@ -2099,17 +2109,17 @@ a {
 
 /* Track */
 #userProfile::-webkit-scrollbar-track {
-  background: #e6e6e6; 
+  background: #e6e6e6;
 }
- 
+
 /* Handle */
 #userProfile::-webkit-scrollbar-thumb {
-  background: #999; 
+  background: #999;
 }
 
 /* Handle on hover */
 #userProfile::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 #userProfile .content {
@@ -2123,14 +2133,14 @@ a {
 
 #userProfile .content .fb-profile img.fb-image-lg {
     z-index: 0;
-    width: 100%;  
+    width: 100%;
     margin-bottom: 10px;
 }
 
 #userProfile .content .fb-image-profile {
     margin: -90px 10px 0px 30px;
     z-index: 9;
-    width: 25%; 
+    width: 25%;
     border: 4px solid #fff;
     border-radius: 50%;
 }
@@ -2160,7 +2170,7 @@ a {
     #userProfile .content .fb-image-profile {
         margin: -45px 10px 0px 25px;
         z-index: 9;
-        width: 20%; 
+        width: 20%;
     }
 }
 
@@ -2252,7 +2262,7 @@ a {
     box-sizing: border-box;
     width: 100%;
     height: 100vh;
-    background-image: linear-gradient(rgb(0,0,0,0.6), rgb(99, 0, 174,0.7)); 
+    background-image: linear-gradient(rgb(0,0,0,0.6), rgb(99, 0, 174,0.7));
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -2292,7 +2302,7 @@ a {
     100% {
         width: 100%;
         opacity: 0;
-    }  
+    }
 }
 
 @keyframes open-animation {
@@ -2386,11 +2396,11 @@ a {
 }
 
 #userProfile .popup .content .pages-read {
-    background: url(../img/pages_bg.jpg); 
+    background: url(../img/pages_bg.jpg);
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover; 
+    background-size: cover;
     text-align: center;
 }
 
@@ -2412,7 +2422,7 @@ a {
 }
 
 #userProfile .popup .content .books-read {
-    background: url(../img/books_bg.jpg); 
+    background: url(../img/books_bg.jpg);
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -2428,17 +2438,13 @@ a {
     padding: 0;
 }
 
-#userProfile .popup .content .books-read h2 { 
-    font-weight: bold; 
-    font-size: 3rem; 
-    font-family: 'Abril Fatface', serif; 
-    margin: 0; 
-    text-shadow: 2px 4px 3px rgba(0,0,0,0.3); 
+#userProfile .popup .content .books-read h2 {
+    font-weight: bold;
+    font-size: 3rem;
+    font-family: 'Abril Fatface', serif;
+    margin: 0;
+    text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
     color: #753d70;
-}
-
-/*===========================================
-            Write Feedback 
 ===========================================*/
 
 #write_feedback {
@@ -2452,17 +2458,17 @@ a {
 
 /* Track */
 #write_feedback::-webkit-scrollbar-track {
-  background: #e6e6e6; 
+  background: #e6e6e6;
 }
- 
+
 /* Handle */
 #write_feedback::-webkit-scrollbar-thumb {
-  background: #999; 
+  background: #999;
 }
 
 /* Handle on hover */
 #write_feedback::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 #write_feedback .content {
@@ -2585,9 +2591,11 @@ a {
         opacity: 0;
     }
 }
+=======
+}
 
 /*===========================================
-            Edit User Profile 
+            Edit User Profile
 ===========================================*/
 
 #editProfilele {
@@ -2601,17 +2609,17 @@ a {
 
 /* Track */
 #editProfile::-webkit-scrollbar-track {
-  background: #e6e6e6; 
+  background: #e6e6e6;
 }
- 
+
 /* Handle */
 #editProfile::-webkit-scrollbar-thumb {
-  background: #999; 
+  background: #999;
 }
 
 /* Handle on hover */
 #editProfile::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 #editProfile .content {
@@ -2621,7 +2629,7 @@ a {
 
 #editProfile .content .fb-profile img.fb-image-lg {
     z-index: 0;
-    width: 100%;  
+    width: 100%;
     margin-bottom: 10px;
     margin-top: 40px;
 }
@@ -2629,7 +2637,7 @@ a {
 #editProfile .content .fb-image-profile {
     margin: -90px 10px 0px 250px;
     z-index: 9;
-    width: 23%; 
+    width: 23%;
     border: 4px solid #fff;
     border-radius: 50%;
 }
@@ -2638,12 +2646,12 @@ a {
     #editProfile .content .fb-image-profile {
         margin: -45px 10px 0px 25px;
         z-index: 9;
-        width: 20%; 
+        width: 20%;
     }
 }
 
 /*===========================================
-            User Notifications 
+            User Notifications
 ===========================================*/
 
 #notifications {
@@ -2657,17 +2665,17 @@ a {
 
 /* Track */
 #notifications::-webkit-scrollbar-track {
-  background: #e6e6e6; 
+  background: #e6e6e6;
 }
- 
+
 /* Handle */
 #notifications::-webkit-scrollbar-thumb {
-  background: #999; 
+  background: #999;
 }
 
 /* Handle on hover */
 #notifications::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 #notifications .content {
