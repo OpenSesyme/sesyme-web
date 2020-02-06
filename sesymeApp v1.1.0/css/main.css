@@ -894,9 +894,18 @@ a {
 }
 
 #write_question .content .field {
+    position: relative;
     display: flex;
     flex-flow: column-reverse;
     margin-bottom: 1em;
+}
+
+#write_question .content .field #qImage {
+    position: absolute;
+    width: 100%;
+    top: 330px;
+    left: 0;
+    right: 0;
 }
 
 #write_question .content label, input, textarea {
@@ -917,6 +926,7 @@ a {
 }
 
 #write_question .content textarea {
+  position: relative;
     border: 0;
     -webkit-appearance: none;
     border-radius: 0;

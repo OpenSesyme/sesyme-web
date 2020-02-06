@@ -9,6 +9,8 @@ var myNextPage = 1;
 var arrayInterest = [];
 var myEmail = null;
 var selectedQuestion = null;
+var questionCategories = [];
+var file = null;
 
 /*======================================
 		Firebase initialisation
@@ -501,73 +503,6 @@ function showSignUpError (error){
 	}
 }
 
-
-function verifyQuestion(title, description)
-{
-	var error = "";
-
-	var title_ = title.toLowerCase();
-
-	console.log();
-
-	if(title.length < 6)
-	{
-		error = "Your question should be at least 6 words long";
-	}else if(description.length < 15)
-	{
-		error = "Your description should be at least 15 words long";
-	}else  if(!title_.includes("what") && !title_.includes("how") && !title_.includes("when") &&  !title_.includes("who"))
-	 {
-		 error = "Your question should contain What or How or When or Who";
-	 }else
-	 {
-	 		error = "";
-	 }
-
-	questionStatus(error);
-	if(error == "")
-	{
-		return true;
-	}else
-	{
-		return false;
-	}
-}
-
-function questionStatus(error)
-{
-	$('.question_status').html('<div class="text-danger">'+error+'</div>');
-}
-
-function verify_reply(description)
-{
-
-	var error = "";
-
-	if(description.length < 3)
-	{
-		error = "Your reply should be at least 3 letters long";
-	}else
-	 {
-	 		error = "";
-	 }
-
-	replyStatus(error);
-	if(error == "")
-	{
-		return true;
-	}else
-	{
-		return false;
-	}
-
-}
-
-function replyStatus(error)
-{
-	$('.reply_status').html('<div class="text-danger">'+error+'</div>');
-}
-
 function changePage(){
 
 	//sign up
@@ -1011,23 +946,165 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 /*======================================
 			Write Question Page
 =======================================*/
-function loadWriteQuestion()
-{
+function loadWriteQuestion(){
 
 	$('#post_question').on('click', function()
 	{
 		var title = $('#questionTitle').val().trim();
-		var description = $('#questionDescription').text().trim();
-		alert($('#image_file').val());
-		if(verifyQuestion(title, description))
-		{
+		var description = $('#questionDiscription').val().trim();
+		if(verifyQuestion(title, description)){
 			postQuestion(title, description);
 		}
+	});
+
+	$('.image_file').change(function(){
+		readURL(this);
 	});
 
 	$('#pick_image').on('click', function(){
 		$('.image_file').click();
 	});
+
+	var autocomplete = new SelectPure(".select-categories", {
+	        options: [
+	          	{
+	            	label: "Auditing",
+	            	value: "Auditing",
+	          	},
+	          	{
+	            	label: "Business",
+	            	value: "Business",
+	          	},
+	          	{
+	            	label: "Taxation",
+	            	value: "Taxation",
+	          	},
+	          	{
+	            	label: "Financial Mathematics",
+	            	value: "Financial Mathematics",
+	          	},
+	          	{
+	            	label: "Law",
+	            	value: "Law",
+	          	},
+	          	{
+	            	label: "Statistic",
+	            	value: "Statistic",
+	          	},
+	          	{
+	            	label: "Management Accounting",
+	            	value: "Management Accounting",
+	          	},
+				{
+					label: "Economics",
+					value: "Economics",
+				},
+				{
+					label: "Financial Accounting",
+					value: "Financial Accounting",
+				},
+				{
+					label: "Finance",
+					value: "Finance",
+				},
+	        ],
+	        value: false,
+	        placeholder: ["Click to select categories"],
+	        multiple: true,
+	        autocomplete: true,
+	        icon: "fa fa-times",
+	        onChange: value => { setCategory(value); },
+	        classNames: {
+				select: "select-pure__select",
+				dropdownShown: "select-pure__select--opened",
+				multiselect: "select-pure__select--multiple",
+				label: "select-pure__label",
+				placeholder: "select-pure__placeholder",
+				dropdown: "select-pure__options",
+				option: "select-pure__option",
+				autocompleteInput: "select-pure__autocomplete",
+				selectedLabel: "select-pure__selected-label",
+				selectedOption: "select-pure__option--selected",
+				placeholderHidden: "select-pure__placeholder--hidden",
+				optionHidden: "select-pure__option--hidden",
+	        }
+	    });
+}
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#qImage').attr('src', e.target.result);
+        	file = input.files[0];
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function uploadPostImage(file, id, type){
+	var uploadTask = storage.ref('Questions/'+id+'.jpg').put(file);
+	uploadTask.on('state_changed', function(snapshot){
+		var progress = ((snapshot.bytesTransferred) / (snapshot.totalBytes)) * 100;
+  		console.log('Upload is ' + progress + '% done');
+  		switch (snapshot.state) {
+    		case firebase.storage.TaskState.PAUSED: // or 'paused'
+      			console.log('Upload is paused');
+     			break;
+    		case firebase.storage.TaskState.RUNNING: // or 'running'
+      			console.log('Upload is running');
+      			break;
+  		}
+	}, function(error) {
+  		console.log(error);
+	}, function() {
+  		uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+  			QuestionsCollection.doc(id).update({imageUrl: downloadURL});
+    		console.log('File available at', downloadURL);
+  		});
+	});
+}
+
+function setCategory(newArray){
+	if (newArray.length < 4) {
+		questionCategories = newArray;
+	}else{
+		newArray.pop();
+		$(".select-pure__selected-label").last().remove();
+		alert("You can only select a maximum of three!");
+	}
+}
+
+function verifyQuestion(title, description){
+	var error = "";
+
+	var title_ = title.toLowerCase();
+
+	if(title.length < 6){
+		error = "Your question should be at least 6 words long";
+	}else if(description.length < 15){
+		error = "Your description should be at least 15 words long";
+	}else  if(!title_.includes("what") && !title_.includes("how") && !title_.includes("when") &&  !title_.includes("who")){
+		error = "Your question should contain What or How or When or Who";
+ 	}else if (questionCategories.length == 0) {
+ 		error = "Please select at least one category";
+ 	}else{
+ 		error = "";
+ 	}
+
+	questionStatus(error);
+	if(error == "")
+	{
+		return true;
+	}else
+	{
+		return false;
+	}
+}
+
+function questionStatus(error){
+	$('.question_status').html('<div class="text-danger">'+error+'</div>');
 }
 
 function postQuestion(title, description){
@@ -1044,34 +1121,59 @@ function postQuestion(title, description){
 		numComments: 0,
 		numLikes: 0,
 		type: "Question",
-		category: ["Accounting"],
+		category: questionCategories,
 		author: myEmail,
 		accepted: false,
 		attType: null
 
-	}).then(function()
-	{
-		window.location.href = "home.html";
+	}).then(function(){
+		if (file != null) {
+			uploadPostImage(file, id, "Question");
+		}else{
+			window.location.href = "home.html";
+		}
+		
 	});
 }
 
 /*======================================
 			Write Reply Page
 =======================================*/
-function loadPostReply()
-{
-
+function loadPostReply(){
 	$('.post-btn').on('click', function(){
 		var button = $(this).text().trim();
 		var description = $('#questionDiscription').val();
-		if(verify_reply(description))
-		{
+		if(verify_reply(description)){
 			postReply(button, description);
 		}
-
-
 	});
 }
+
+function verify_reply(description){
+
+	var error = "";
+
+	if(description.length < 3){
+		error = "Your reply should be at least 3 letters long";
+	}else{
+	 	error = "";
+	}
+
+	replyStatus(error);
+	if(error == "")
+	{
+		return true;
+	}else
+	{
+		return false;
+	}
+
+}
+
+function replyStatus(error){
+	$('.reply_status').html('<div class="text-danger">'+error+'</div>');
+}
+
 
 function postReply(type, description){
 
