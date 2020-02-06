@@ -1044,35 +1044,35 @@ function loadWriteQuestion(){
 	});
 
 	var autocomplete = new SelectPure(".select-categories", {
-	        options: [
-	          	{
-	            	label: "Auditing",
-	            	value: "Auditing",
-	          	},
-	          	{
-	            	label: "Business",
-	            	value: "Business",
-	          	},
-	          	{
-	            	label: "Taxation",
-	            	value: "Taxation",
-	          	},
-	          	{
-	            	label: "Financial Mathematics",
-	            	value: "Financial Mathematics",
-	          	},
-	          	{
-	            	label: "Law",
-	            	value: "Law",
-	          	},
-	          	{
-	            	label: "Statistic",
-	            	value: "Statistic",
-	          	},
-	          	{
-	            	label: "Management Accounting",
-	            	value: "Management Accounting",
-	          	},
+    options: [
+      	{
+        	label: "Auditing",
+        	value: "Auditing",
+      	},
+      	{
+        	label: "Business",
+        	value: "Business",
+      	},
+      	{
+        	label: "Taxation",
+        	value: "Taxation",
+      	},
+      	{
+        	label: "Financial Mathematics",
+        	value: "Financial Mathematics",
+      	},
+      	{
+        	label: "Law",
+        	value: "Law",
+      	},
+      	{
+        	label: "Statistic",
+        	value: "Statistic",
+      	},
+      	{
+        	label: "Management Accounting",
+        	value: "Management Accounting",
+      	},
 				{
 					label: "Economics",
 					value: "Economics",
@@ -1085,14 +1085,14 @@ function loadWriteQuestion(){
 					label: "Finance",
 					value: "Finance",
 				},
-	        ],
-	        value: false,
-	        placeholder: ["Click to select categories"],
-	        multiple: true,
-	        autocomplete: true,
-	        icon: "fa fa-times",
-	        onChange: value => { setCategory(value); },
-	        classNames: {
+        ],
+        value: false,
+        placeholder: ["Click to select categories"],
+        multiple: true,
+        autocomplete: true,
+        icon: "fa fa-times",
+        onChange: value => { setCategory(value); },
+        classNames: {
 				select: "select-pure__select",
 				dropdownShown: "select-pure__select--opened",
 				multiselect: "select-pure__select--multiple",
