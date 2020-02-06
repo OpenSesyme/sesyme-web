@@ -129,6 +129,15 @@
 		$(document).ready(function(){
 		    $('#q_and_a').height($(window).height());
 		});
+
+		function questionDrop() {
+		  	var x = document.getElementById("dropOptions");
+		  	if (x.className.indexOf("w3-show") == -1) {
+		    	x.className += " w3-show";
+		  	} else { 
+		    	x.className = x.className.replace(" w3-show", "");
+		  	}
+		}
 	</script>
 </body>
 </html>t>
