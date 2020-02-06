@@ -9,6 +9,7 @@ var myNextPage = 1;
 var arrayInterest = [];
 var myEmail = null;
 var selectedQuestion = null;
+var selectedCategory = [];
 
 /*======================================
 		Firebase initialisation
@@ -568,71 +569,10 @@ function replyStatus(error)
 	$('.reply_status').html('<div class="text-danger">'+error+'</div>');
 }
 
-//select categories
-var autocomplete = new SelectPure(".select-categories", {
-options: [
-  	{
-    	label: "Auditing",
-    	value: "Auditing",
-  	},
-  	{
-    	label: "Business",
-    	value: "Business",
-  	},
-  	{
-    	label: "Taxation",
-    	value: "Taxation",
-  	},
-  	{
-    	label: "Financial Mathematics",
-    	value: "Financial Mathematics",
-  	},
-  	{
-    	label: "Law",
-    	value: "Law",
-  	},
-  	{
-    	label: "Statistic",
-    	value: "Statistic",
-  	},
-  	{
-    	label: "Management Accounting",
-    	value: "Management Accounting",
-  	},
-		{
-			label: "Economics",
-			value: "Economics",
-		},
-		{
-			label: "Financial Accounting",
-			value: "Financial Accounting",
-		},
-		{
-			label: "Finance",
-			value: "Finance",
-		},
-      ],
-      value: false,
-      placeholder: ["Click to select categories"],
-      multiple: true,
-      autocomplete: true,
-      icon: "fa fa-times",
-      onChange: value => { console.log(value); },
-      classNames: {
-		select: "select-pure__select",
-		dropdownShown: "select-pure__select--opened",
-		multiselect: "select-pure__select--multiple",
-		label: "select-pure__label",
-		placeholder: "select-pure__placeholder",
-		dropdown: "select-pure__options",
-		option: "select-pure__option",
-		autocompleteInput: "select-pure__autocomplete",
-		selectedLabel: "select-pure__selected-label",
-		selectedOption: "select-pure__option--selected",
-		placeholderHidden: "select-pure__placeholder--hidden",
-		optionHidden: "select-pure__option--hidden",
-      }
-  });
+function addCategory(value)
+{
+		console.log(value);
+}
 
 function changePage(){
 
@@ -890,8 +830,12 @@ function populateQuestions(question){
 				            <div class="name">'+name+'</div><br/>\
 				            <div class="time"><i class="fa fa-clock-o"></i>'+timeToShow+'</div>\
 				            <div class="dropdown">\
-				            	<button type="button" class="btn quest-options-btn"><i class="fa fa-chevron-down"></i></button>\
-				            </div>\
+				            	<button type="button" class="btn quest-options-btn dropdown" id="questionDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-chevron-down"></i></button>\
+											  <div class="dropdown-menu" aria-labelledby="questionDropDown">\
+    											<a class="dropdown-item" href="#">Delete</a>\
+    											<a class="dropdown-item" href="#">edit</a>\
+  											</div>\
+										</div>\
 				        </div>\
 					</div>\
 				</div>\
@@ -934,6 +878,7 @@ function loadReplies(){
 		console.log("Nop");
 		return;
 	}
+
 	QuestionsCollection.doc(selectedQuestion).get().then((doc) =>{
 		var title = doc.get("title");
 		var category = doc.get("category");
@@ -962,7 +907,7 @@ function loadReplies(){
 					</div>\
 				</div>\
 				<div class="quest-header">\
-					<h2>How to make textbooks affordable?</h2>\
+					<h2>'+title+'</h2>\
 					<ul class="categoryTags">\
 						<li><a>'+categories+'</a></li>\
 					</ul>\
@@ -1080,18 +1025,17 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 function loadWriteQuestion()
 {
 
-	$('#post_question').on('click', function()
+	$('#post_question').on('click', function(e)
 	{
 		var title = $('#questionTitle').val().trim();
 		var description = $('#questionDescription').text().trim();
-		alert($('#image_file').val());
 		if(verifyQuestion(title, description))
 		{
 			postQuestion(title, description);
 		}
 	});
 
-	$('#pick_image').on('click', function(){
+	$('#pick_image').on('click', function(e){
 		$('.image_file').click();
 	});
 }
