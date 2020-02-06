@@ -35,7 +35,7 @@
 	</nav>
 
 	<section id="write_question">
-		<div class="content mx-auto">
+		<div class="content mx-auto scroll">
 			<div class="question_status"></div>
 			<form action="#" method="POST">
 				<div class="select-wrapper">
@@ -49,16 +49,18 @@
 				<div class="field">
 				    <textarea name="questionDiscription" id="questionDiscription" placeholder="e.g. I heard its a textbook subscription platform, so how is it going to work? Can you explain it further for me."></textarea>
 				    <label for="questionDiscription">Provide more details</label>
+					<img id="qImage" src="#" alt="" />
 				    <div style="width: 200px;">
-				    	<a class="w3-right" id="pick_image" style="position: absolute; right: 28%; margin-top: 20px; font-size: 20px; color: #6400ae; cursor: pointer;">
-
-							<div class="fileinputs">
-								<input type="file" class="image_file" onclick="event.stopPropagation();"/>
-								<div class="fakefile">
-									<input />
-									<i class="fa fa-image"></i>
+				    	<a class="w3-right" id="pick_image" style="position: absolute; right: 10%; margin-top: 10px; font-size: 20px; color: #6400ae; cursor: pointer;">
+				    		<form id="imageForm">
+				    			<div class="fileinputs">
+									<input type="file" class="image_file" onclick="event.stopPropagation();"/>
+									<div class="fakefile">
+										<input />
+										<i class="fa fa-image"></i>
+									</div>
 								</div>
-							</div>
+				    		</form>
 					    </a>
 				    </div>
 				</div>
@@ -76,5 +78,7 @@
 	<script type="text/javascript" src="../js/main.js"></script>
 	<script type="text/javascript" src="../js/functions.js"></script>
 	<script src="../js/bundle.min.js"></script>
+	<script src="../js/RadialBar.js"></script>
+
 </body>
 </html>
