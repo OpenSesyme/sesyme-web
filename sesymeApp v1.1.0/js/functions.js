@@ -833,10 +833,15 @@ function populateQuestions(question){
 				    <div class="caption">\
 				        <div class="author-details">\
 				            <img src='+userImage+' alt="Names profile picture" class="avatar" style="width: 40px; height: 40px;">\
-				            <div class="name">'+name+'</div><br/>\
+				            <div class="name">'+name+'</div> <span class="edited">edited</span><br/>\
 				            <div class="time"><i class="fa fa-clock-o"></i>'+timeToShow+'</div>\
-				            <div class="dropdown">\
-				            	<button type="button" class="btn quest-options-btn"><i class="fa fa-chevron-down"></i></button>\
+				            <div class="w3-dropdown-click quest-options-btn">\
+				            	<button type="button" class="btn" onclick="questionDrop()"><i class="fa fa-chevron-down"></i></button>\
+				            	<div id="dropOptions" class="w3-dropdown-content w3-bar-block w3-border">\
+									<a class="w3-bar-item w3-button" href="#">Link 1</a>\
+									<a class="w3-bar-item w3-button" href="#">Link 2</a>\
+									<a class="w3-bar-item w3-button" href="#">Text Link</a>\
+								</div>\
 				            </div>\
 				        </div>\
 					</div>\

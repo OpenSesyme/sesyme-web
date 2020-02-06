@@ -772,6 +772,22 @@ a {
     color: #6400ae;
 }
 
+#q_and_a .content .questions .quest1 .author-details .edited {
+    position: absolute;
+    right: 40px;
+    font-style: italic;
+    color: #e2e2e2;
+    font-size: 1rem;
+}
+
+#q_and_a .content .questions .quest1 .author-details .quest-options-btn:hover {
+    background-color: transparent;
+}
+
+#q_and_a .content .questions .quest1 .author-details .quest-options-btn:fucus {
+    outline: none !important;
+}
+
 #q_and_a .content .questions .quest1 .quest-header {
     line-height: 20px;
     padding: .5em;
