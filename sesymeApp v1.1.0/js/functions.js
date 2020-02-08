@@ -127,11 +127,10 @@ window.onload = function(){
 	});
 }
 
-$('#userProfile').on('click', '.content', function(e){
-
-	firebase.auth().signOut().then(function(){
-		sessionStorage.clear();
-	});
+$('#userProfile').on('click', '.logout', function(e){
+		firebase.auth().signOut().then(function(){
+			sessionStorage.clear();
+		});
 })
 
 /*======================================
@@ -1375,11 +1374,11 @@ function loadProfile()
 					    </div>
 
 					    <div class="manage-account">
-					    	<div class="row"><a href="#" class="bdr-btm bdr-top">Manage Interests</a></div>
-					    	<div class="row"><a href="#" class="bdr-btm">Invite Friends</a></div>
+					    	<div class="row"><a class="bdr-btm bdr-top">Manage Interests</a></div>
+					    	<div class="row"><a class="bdr-btm">Invite Friends</a></div>
 					    	<div class="row"><a href="feedback.html" class="bdr-btm">Feedback</a></div>
-					    	<div class="row"><a href="#" class="bdr-btm">Settings</a></div>
-					    	<div class="row"><a class="bdr-btm">Logout</a></div>
+					    	<div class="row"><a class="bdr-btm settings">Settings</a></div>
+					    	<div class="row"><a class="bdr-btm logout">Logout</a></div>
 					    </div>
 				</div>
 
