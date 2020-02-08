@@ -43,28 +43,69 @@ window.onload = function(){
 	if (sessionStorage.getItem("selectedQuestion") != null) {
 		selectedQuestion = sessionStorage.getItem("selectedQuestion");
 	}
-    var url = window.location.href.split("/");
-    page = url[url.length - 1].trim();
-    switch(page){
-      case "signup.html":
-          loadSignUp();
-        break;
-      case "home.html":
-          loadQuestionsPage();
-        break;
-      case "replies.html":
-          loadReplies();
-        break;
-      case "write_question.html":
-          loadWriteQuestion();
-        break;
-      case "write_reply.html":
-          loadPostReply();
-        break;
-      default:
-          loadLogIn();
-        break;
-    }
+			var url = window.location.href.split("/");
+	    page = url[url.length - 1].trim();
+	    switch(page){
+
+	      case "signup.html":
+	          loadSignUp();
+	      break;
+
+	      case "home.html":
+					if(sessionStorage.getItem("user_id") != null)
+					{
+	          loadQuestionsPage();
+					}else
+					{
+						loadLogIn();
+					}
+				break;
+
+	      case "replies.html":
+					if(sessionStorage.getItem("user_id") != null)
+					{
+	          loadReplies();
+					}else
+					{
+						loadLogIn();
+					}
+				break;
+
+	      case "write_question.html":
+					if(sessionStorage.getItem("user_id") != null)
+					{
+	          loadWriteQuestion();
+					}else
+					{
+						loadLogIn();
+					}
+				break;
+
+	      case "write_reply.html":
+						if(sessionStorage.getItem("user_id") != null)
+						{
+			          loadPostReply();
+							}else
+							{
+								loadLogIn();
+							}
+					break;
+
+					case "profile.html":
+							if(sessionStorage.getItem("user_id") != null)
+							{
+				          loadProfile();
+
+							}else
+							{
+								loadLogIn();
+							}
+					break;
+	      default:
+	          loadLogIn();
+	        break;
+	    }
+
 
     firebase.auth().onAuthStateChanged(function(user) {
   		if (user) {
@@ -86,9 +127,10 @@ window.onload = function(){
 	});
 }
 
-$('.nav-link').on('click', 'img', function(){
+$('#userProfile').on('click', '.content', function(e){
+
 	firebase.auth().signOut().then(function(){
-		window.location.href= "../index.html";
+		sessionStorage.clear();
 	});
 })
 
@@ -186,13 +228,6 @@ function loadSignUp(){
 		tickedInterest(id);
 	});
 
-	// $('.row').on('click', '.col-md-3', function(e){
-	// 	e.stopPropagation();
-	// 	var interest = $(this).find('p')[0].innerHTML;
-	// 	interests.push(interest);
-	// 	signUpInfo.interests = interests;
-	// 	console.log(signUpInfo);
-	// });
 
 	$('.continue-btn').on('click', function(){
 
@@ -1289,6 +1324,103 @@ function postReply(type, description){
 	});
 }
 
+
+/*=====================================
+          PROFILE PAGE
+=====================================*/
+
+function loadProfile()
+{
+	var html = "";
+	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(user)
+	{
+		console.log(user);
+		var data = user.data();
+		var profile_pic = null;
+		var cover_pic = null;
+
+		if(data.coverUrl == null)
+		{
+			cover_pic = "../img/profilePic.jpg";
+		}else
+		{
+			cover_pic = data.coverUrl;
+		}
+
+		if(data.profileUrl == null)
+		{
+			profile_pic = "../img/cover.jpg";
+		}else
+		{
+			profile_pic = data.profileUrl;
+		}
+		html = `<div class="content mx-auto">
+					    <div class="fb-profile">
+					        <img align="left" class="fb-image-lg" src=${cover_pic} alt="Cover image"/>
+					        <img align="left" class="fb-image-profile thumbnail" src=${profile_pic} alt="Profile image"/>
+					        <div class="fb-profile-text">
+					            <h1>${data.fullName}</h1>
+					            <h4>${data.course}</h4>
+					            <h4>${data.university}</h4>
+					        </div>
+
+					        <a href="editProfile.html" class="edit-profile-btn">Edit Profile</a>
+					    </div>
+
+
+					    <div class="profile-btn row">
+					    	<a href="#" class="col mr-2">Questions</a>
+					    	<a href="#" class="col mr-2">Answers</a>
+					    	<a href="#reading_stats" class="col open-popup">Reading Stats</a>
+					    </div>
+
+					    <div class="manage-account">
+					    	<div class="row"><a href="#" class="bdr-btm bdr-top">Manage Interests</a></div>
+					    	<div class="row"><a href="#" class="bdr-btm">Invite Friends</a></div>
+					    	<div class="row"><a href="feedback.html" class="bdr-btm">Feedback</a></div>
+					    	<div class="row"><a href="#" class="bdr-btm">Settings</a></div>
+					    	<div class="row"><a class="bdr-btm">Logout</a></div>
+					    </div>
+				</div>
+
+				<div id="reading_stats" class="popup">
+					<div class="content">
+						<div class="header">
+							<div class="row">
+								<div class="col">
+									<h3>Average Rating</h3>
+									<p class="rating">2.5</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="pages-read mx-auto">
+									<h2>892</h2>
+									<p>pages you read so far.</p>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="books-read mx-auto">
+									<p>from</p>
+									<h2>3</h2>
+									<p>Books</p>
+								</div>
+							</div>
+						</div>
+						<a href="#" class="popup-close">close</a>
+					</div>
+				</div>`;
+		$('#userProfile').append(html);
+	}).catch(function(error)
+	{
+		console.log(error);
+	});
+
+
+}
+
 /*======================================
 			Login
 =======================================*/
@@ -1313,6 +1445,7 @@ function loadLogIn(){
 		var password = $('#m_password_sign_in').val().trim();
 		firebase.auth().signInWithEmailAndPassword(email, password)
 		.then(function(){
+			sessionStorage.setItem("user_id", email);
 			window.location.href = "q_and_a/home.html";
 		})
 		.catch(function(error) {

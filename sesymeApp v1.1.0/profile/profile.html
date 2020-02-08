@@ -28,7 +28,7 @@
 		<div class="collapse navbar-collapse" id="collapsibleNavbar">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item w3-center">
-					<a class="nav-link" href="../q_and_a/index.html" style="margin-right: 30px; margin-top: 5px;">
+					<a class="nav-link" href="../q_and_a/home.html" style="margin-right: 30px; margin-top: 5px;">
 						<i class="fa fa-home" style="font-size: 31px"></i>
 						<h3>Home</h3>
 					</a>
@@ -56,64 +56,20 @@
 	</nav>
 
 	<section id="userProfile" class="scroll">
-		<div class="content mx-auto">
-		    <div class="fb-profile">
-		        <img align="left" class="fb-image-lg" src="../img/cover.jpg" alt="Profile image example"/>
-		        <img align="left" class="fb-image-profile thumbnail" src="../img/profilePic.jpg" alt="Profile image example"/>
-		        <div class="fb-profile-text">
-		            <h1>Simamkele Ndabeni</h1>
-		            <h4>Student (BSc Computer Science)</h4>
-		            <h4>Walter Sisulu University</h4>
-		        </div>
 
-		        <a href="editProfile.html" class="edit-profile-btn">Edit Profile</a>
-		    </div>
-
-
-		    <div class="profile-btn row">
-		    	<a href="#" class="col mr-2">Questions</a>
-		    	<a href="#" class="col mr-2">Answers</a>
-		    	<a href="#reading_stats" class="col open-popup">Reading Stats</a>
-		    </div>
-
-		    <div class="manage-account">
-		    	<div class="row"><a href="#" class="bdr-btm bdr-top">Manage Interests</a></div>
-		    	<div class="row"><a href="#" class="bdr-btm">Invite Friends</a></div>
-		    	<div class="row"><a href="feedback.html" class="bdr-btm">Feedback</a></div>
-		    	<div class="row"><a href="#" class="bdr-btm">Settings</a></div>
-		    	<div class="row"><a href="../index.html" class="bdr-btm">Logout</a></div>
-		    </div>
-		</div>
-
-		<div id="reading_stats" class="popup">
-			<div class="content">
-				<div class="header">
-					<div class="row">
-						<div class="col">
-							<h3>Average Rating</h3>
-							<p class="rating">2.5</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-sm-6">
-						<div class="pages-read mx-auto">
-							<h2>892</h2>
-							<p>pages you read so far.</p>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<div class="books-read mx-auto">
-							<p>from</p>
-							<h2>3</h2>
-							<p>Books</p>
-						</div>
-					</div>
-				</div>
-				<a href="#" class="popup-close">close</a>
-			</div>
-		</div>
 	</section>
+
+	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-messaging.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../js/main.js"></script>
+	<script type="text/javascript" src="../js/moments.js"></script>
+	<script type="text/javascript" src="../js/functions.js"></script>
 </body>
 </html>
