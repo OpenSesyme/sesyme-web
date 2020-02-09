@@ -110,6 +110,7 @@ window.onload = function(){
     firebase.auth().onAuthStateChanged(function(user) {
   		if (user) {
     		myEmail = user.email;
+				checkSession();
     		var emailVerified = user.emailVerified;
     		var isAnonymous = user.isAnonymous;
     		var uid = user.uid;
@@ -132,6 +133,16 @@ $('#userProfile').on('click', '.logout', function(e){
 			sessionStorage.clear();
 		});
 })
+
+function checkSession()
+{
+	if(sessionStorage.getItem("user_id") == null)
+	{
+		firebase.auth().signOut().then(function(){
+			sessionStorage.clear();
+		});
+	}
+}
 
 /*======================================
 			Sign Up process
@@ -1418,6 +1429,105 @@ function loadProfile()
 	});
 
 
+}
+
+/*======================================
+						FEEDBACK
+======================================*/
+
+$('#report').on('keyup focusout', function()
+{
+	var report = $(this).val();
+	if(report.length < 6)
+	{
+		show_feedback_status("Your report should be at least 6 letters long");
+	}else
+	{
+		show_feedback_status(null);
+	}
+});
+
+$('#report_description').on('keyup focusout', function()
+{
+	var report_description = $(this).val();
+	if(report_description.length < 6)
+	{
+		show_feedback_status("Your report report description should be at least 10 letters long");
+	}else
+	{
+		show_feedback_status(null);
+	}
+});
+
+$('.feedback-submit').on('click', function(e)
+{
+	var report = $('#report').val().trim();
+	var description = $('#report_description').val().trim();
+
+	if(validate_feedBack(report, description))
+	{
+		if(send_email(report, description))
+		{
+			send_email(report, description);
+		}
+	}else
+	{
+			validate_feedBack(report, description);
+	}
+
+});
+
+function validate_feedBack(report, description)
+{
+	var error = null;
+	if(report.length < 5)
+	{
+		error = "Report should be at least 6 letters";
+	}else if(description.length < 8)
+	{
+		error = "Report should be at least 9 letters";
+	}else
+	{
+		error = null;
+	}
+
+	show_feedback_status(error);
+	if(error != null)
+	{
+		return false;
+	}else
+	{
+			return true;
+	}
+
+
+}
+
+function show_feedback_status(error)
+{
+		if(error != null)
+		{
+			$('.feedback_status').html(`<div class="text-danger">${error}</div>`);
+		}else
+		{
+			$('.feedback_status').html("");
+		}
+}
+
+function send_email(report, description)
+{
+	Email.send({
+	    Host : "smtp.gmail.com",
+	    Username : "uhtomeek.music@gmail.com",
+	    Password : "MMMaaa232",
+			UseDefaultCredentials : true,
+	    To : "masibulelemgoqi@gmail.com",
+	    From : "uhtomeek.music@gmail.com",
+	    Subject : "Feedback",
+	    Body : "Report: "+report+"\n\nDescription: "+description
+	}).then(
+	  message => alert(message)
+	);
 }
 
 /*======================================
