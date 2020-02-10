@@ -109,8 +109,10 @@ window.onload = function(){
 
     firebase.auth().onAuthStateChanged(function(user) {
   		if (user) {
-    		myEmail = user.email;
 				checkSession();
+    		myEmail = user.email;
+				console.log(user.email);
+
     		var emailVerified = user.emailVerified;
     		var isAnonymous = user.isAnonymous;
     		var uid = user.uid;
