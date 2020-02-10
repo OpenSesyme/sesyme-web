@@ -1011,7 +1011,7 @@ function populateQuestions(question){
 =======================================*/
 function loadReplies(){
 	if (selectedQuestion == null) {
-		console.log("Nop");
+		console.log("Question not selected");
 		return;
 	}
 	QuestionsCollection.doc(selectedQuestion).get().then((doc) =>{
@@ -1023,7 +1023,7 @@ function loadReplies(){
 		var likes = doc.get("numLikes");
 		var replies = doc.get("numComments");
 		var time = doc.get("dateTime").toDate().toLocaleString("en-CA");
-		var tmoment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
+		var timeToShow = moment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
 		UsersRef.doc(author).get().then((userDoc) =>{
 			var name = userDoc.get("fullName");
 			var userImage = userDoc.get("profileUrl");
