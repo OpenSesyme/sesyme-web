@@ -725,6 +725,7 @@ function pagination(){
 			Questions Home Page
 =======================================*/
 function loadQuestionsPage(){
+	showLoader();
 	QuestionsCollection.orderBy("dateTime", "desc").limit(50)
     .onSnapshot(function(querySnapshot) {
         questions = [];
@@ -749,7 +750,8 @@ function loadQuestionsPage(){
         }, 1500);
     });
 
-    $('.questions').on('click', '#like_button_home', function(){
+    $('.questions').on('click', '#like_button_home', function(e){
+    	e.stopPropagation();
     	var isLiked = $(this).find('i')[0].classList.contains("fa-heart");
     	var id = $(this).closest('.quest1').find('#doc_id')[0].innerHTML;
 		var likeId = myEmail + "Like" + id;
@@ -776,16 +778,57 @@ function loadQuestionsPage(){
 		}
     });
 
-    $('.questions').on('click', '#reply_button_home', function(){
+    $('.questions').on('click', '#options_btn', function(e){
+    	e.stopPropagation();
+    	var x = $(this).closest('.quest-options-btn').find('#dropOptions')[0];
+    	if (x.className.indexOf("w3-show") == -1) {
+	    	x.className += " w3-show";
+	  	} else { 
+	    	x.className = x.className.replace(" w3-show", "");
+	  	}
+    });
+
+    $('.questions').on('focusout', '#options_btn', function(){
+        var x = $(this).closest('.quest-options-btn').find('#dropOptions')[0];
+    	setTimeout(function(){
+        	var focus=$(document.activeElement);
+        	if (focus.is(this) || $(this).has(focus).length) {
+        	    console.log("still focused");
+        	} else {
+	    		x.className = x.className.replace(" w3-show", "");
+        	}
+    	},200);
+    	
+    });
+
+    $('.questions').on('click', '#optionItem', function(e){
+    	e.stopPropagation();
+    	var option = $(this).text().trim();
+    	var id = $(this).closest('.quest1').find('#doc_id')[0].innerHTML;
+    	switch(option){
+    		case "Report":
+    			ReportPost(id);
+    			break;
+    		case "Hide":
+    			HidePost(id);
+    			break;
+    		case "Edit":
+    			EditPost("Question", id);
+    			break;
+    		case "Delete":
+    			DeletePost(id);
+    			break;
+    	}
+    });
+
+    $('.questions').on('click', '.quest1', function(){
     	var id = $(this).closest('.quest1').find('#doc_id')[0].innerHTML;
     	sessionStorage.setItem("selectedQuestion", id);
     	window.location.href = "replies.html";
     });
 
-    $('.interests-nav-link').click( function()
-    {
+    $('.interests-nav-link').click( function(){
     	var id_for = $(this).text();
-
 		QuestionsCollection.where("category", "array-contains", id_for).limit(50)
 	    .onSnapshot(function(querySnapshot) {
 	        questions = [];
@@ -804,11 +847,15 @@ function loadQuestionsPage(){
 	        });
 	        setTimeout(function(){
 	        	questions.forEach(function(question){
-	        		var author = question.author;
 	        		populateQuestions(question);
 	        	});
 	        }, 1500);
 	    });
+    });
+
+    $('.write-questionBtn').on('click', function(){
+    	sessionStorage.removeItem("EditQuestion");
+    	window.location.href = "write_question.html";
     });
 }
 
@@ -839,6 +886,29 @@ function getUserDetails(arr, email){
 	}
 }
 
+function ReportPost(id){
+	sessionStorage.setItem("ReportQuestion", id);
+    window.location.href = "../profile/feedback.html";
+}
+
+function HidePost(id){
+	console.log("Hide: " + id);
+}
+
+function EditPost(type, id){
+	if (type == "Question") {
+		sessionStorage.setItem("EditQuestion", id);
+    	window.location.href = "write_question.html";
+	}else{
+		sessionStorage.setItem("EditReply", id);
+    	window.location.href = "write_reply.html";
+	}
+}
+
+function DeletePost(id){
+	QuestionsCollection.doc(id).delete();
+}
+
 function populateQuestions(question){
 	var authorDetails = getUserDetails(users, question.author);
 	var id = question.id;
@@ -855,7 +925,7 @@ function populateQuestions(question){
 	var attType = question.attType;
 	var category = question.category;
 	var categories = "#" + category.join(" #");
-	var edited = question.edited;
+	var isEdited = question.edited;
 	var image = question.imageUrl;
 	var style = "width: 100%; height: 300px; margin-bottom: 5px;";
 	var edit_status = "";
@@ -867,7 +937,14 @@ function populateQuestions(question){
 	if (image == null) {
 		style = "display: none;";
 	}
-	console.log(style);
+	var options = ["Report", "Hide"];
+	if (myEmail == author) {
+		options = ["Edit", "Delete"];
+	}
+	var edited = "";
+	if (isEdited) {
+		edited = "edited";
+	}	
 	var type = question.type;
 	var name = "Unknown";
 	var userImage = "../img/profilePic.jpg";
@@ -886,15 +963,14 @@ function populateQuestions(question){
 				    <div class="caption">\
 				        <div class="author-details">\
 				            <img src='+userImage+' alt="Names profile picture" class="avatar" style="width: 40px; height: 40px;">\
-				            <div class="name">'+name+'</div> <span class="edited">'+edit_status+'</span><br/>\
+				            <div class="name">'+name+'</div> <span class="edited">'+edited+'</span><br/>\
 				            <div class="time"><i class="fa fa-clock-o"></i>'+timeToShow+'</div>\
 				            <div class="w3-dropdown-click quest-options-btn">\
-				            	<button type="button" class="btn" onclick="questionDrop()"><i class="fa fa-chevron-down"></i></button>\
+				            	<button type="button" class="btn" id="options_btn"><i class="fa fa-chevron-down"></i></button>\
 				            	<div id="dropOptions" class="w3-dropdown-content w3-bar-block w3-border">\
-												<a class="w3-bar-item w3-button" href="#">Link 1</a>\
-												<a class="w3-bar-item w3-button" href="#">Link 2</a>\
-												<a class="w3-bar-item w3-button" href="#">Text Link</a>\
-											</div>\
+				            		<a class="w3-bar-item w3-button" id="optionItem">'+options[0]+'</a>\
+				   					<a class="w3-bar-item w3-button" id="optionItem">'+options[1]+'</a>\
+				            	</div>\
 				            </div>\
 				        </div>\
 					</div>\
@@ -929,6 +1005,7 @@ function populateQuestions(question){
 			</div>'
 		$('.questions').append(questionHtml);
 	});
+	hideLoader();
 }
 
 /*======================================
@@ -948,7 +1025,7 @@ function loadReplies(){
 		var likes = doc.get("numLikes");
 		var replies = doc.get("numComments");
 		var time = doc.get("dateTime").toDate().toLocaleString("en-CA");
-		var timeToShow = moment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
+		var tmoment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
 		UsersRef.doc(author).get().then((userDoc) =>{
 			var name = userDoc.get("fullName");
 			var userImage = userDoc.get("profileUrl");
@@ -1005,8 +1082,20 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 			var likes = doc.get("numLikes");
 			var replies = doc.get("numComments");
 			var type = doc.get("type");
+			var attachmentType = doc.get("attType");
+			var image = doc.get("imageUrl");
+			var style = "width: 100%; height: 300px; margin-bottom: 5px;";
+			if (image == null) {
+				style = "display: none;"
+			}else if (attachmentType == "PDF") {
+				image = "../img/notes.png";
+			}
 			var time = doc.get("dateTime").toDate().toLocaleString("en-CA");
 			var timeToShow = moment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
+			var options = ["Report", "Hide"];
+			if (myEmail == author) {
+				options = ["Edit", "Delete"];
+			}
 			UsersRef.doc(author).get().then((userDoc) =>{
 				var name = userDoc.get("fullName");
 				LikesCollection.doc(likeId).get().then((docSnapshot) =>{
@@ -1020,14 +1109,21 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 						        	<div class="author-details"> \
 						    	        <div class="name">'+name+'</div><br/>\
 							            <div class="time"><i class="fa fa-clock-o"></i>'+timeToShow+'</div>\
-							            <button type="button" class="btn quest-options-btn"><i class="fa fa-chevron-down"></i></button> <br>\
-						            	<div class="reply-type">'+type+'</div>\
+				            			<div class="w3-dropdown-click quest-options-btn">\
+				            				<button type="button" class="btn" id="options_btn"><i class="fa fa-chevron-down"></i></button>\
+				            				<div id="dropOptions" class="w3-dropdown-content w3-bar-block w3-border">\
+				            					<a class="w3-bar-item w3-button" id="optionItem">'+options[0]+'</a>\
+				   								<a class="w3-bar-item w3-button" id="optionItem">'+options[1]+'</a>\
+				            				</div>\
+				            			</div>\
+							            <div class="reply-type">'+type+'</div>\
 						        	</div>\
 								</div>\
 							</div>\
 							<div class="reply-content">\
 								<p>'+description+'</p>\
 							</div>\
+							<img class="postImage" src="'+image+'" alt="This is pdf" style="'+style+'"></image>\
 							<div class="reply-footer">\
 								<div class="likes-and-replays pb-2">\
 									<span><i class="fa fa-heart"></i>'+likes+'</span>\
@@ -1077,15 +1173,75 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 			});
 		}
 	});
+
+    $('.replies').on('click', '#options_btn', function(){
+    	var x = $(this).closest('.quest-options-btn').find('#dropOptions')[0];
+    	if (x.className.indexOf("w3-show") == -1) {
+	    	x.className += " w3-show";
+	  	} else { 
+	    	x.className = x.className.replace(" w3-show", "");
+	  	}
+    });
+
+    $('.replies').on('focusout', '#options_btn', function(){
+        var x = $(this).closest('.quest-options-btn').find('#dropOptions')[0];
+    	setTimeout(function(){
+        	var focus=$(document.activeElement);
+        	if (focus.is(this) || $(this).has(focus).length) {
+        	    console.log("still focused");
+        	} else {
+	    		x.className = x.className.replace(" w3-show", "");
+        	}
+    	},200);
+    	
+    });
+
+    $('.replies').on('click', '#optionItem', function(){
+    	var option = $(this).text().trim();
+    	var id = $(this).closest('.reply1').find('#doc_id')[0].innerHTML;
+    	var ref = selectedQuestion + "/Replies/" + id;
+    	switch(option){
+    		case "Report":
+    			ReportPost(ref);
+    			break;
+    		case "Hide":
+    			HidePost(ref);
+    			break;
+    		case "Edit":
+    			EditPost("Reply", ref);
+    			break;
+    		case "Delete":
+    			DeletePost(ref);
+    			break;
+    	}
+    });
+
+	$('.write-reply').on('click', function(){
+		sessionStorage.removeItem("EditReply");
+		window.location.href = "write_reply.html";
+	});
 }
 
 /*======================================
 			Write Question Page
 =======================================*/
 function loadWriteQuestion(){
-
-	$('#post_question').on('click', function()
-	{
+	var EditQuestion = null;
+	if (sessionStorage.getItem("EditQuestion") != null) {
+		EditQuestion = sessionStorage.getItem("EditQuestion");
+		QuestionsCollection.doc(EditQuestion).get().then((doc) =>{
+			var title = doc.get("title");
+			var description = doc.get("description");
+			var category = doc.get("category");
+			questionCategories = category;
+			var image = doc.get("imageUrl");
+			$('#qImage').attr('src', image);
+			$('#questionTitle').val(title);
+			$('#questionDiscription').val(description);
+			$('.select-categories').click();
+		});
+	}
+	$('#post_question').on('click', function(){
 		var title = $('#questionTitle').val().trim();
 		var description = $('#questionDiscription').val().trim();
 		if(verifyQuestion(title, description)){
@@ -1151,20 +1307,20 @@ function loadWriteQuestion(){
         icon: "fa fa-times",
         onChange: value => { setCategory(value); },
         classNames: {
-				select: "select-pure__select",
-				dropdownShown: "select-pure__select--opened",
-				multiselect: "select-pure__select--multiple",
-				label: "select-pure__label",
-				placeholder: "select-pure__placeholder",
-				dropdown: "select-pure__options",
-				option: "select-pure__option",
-				autocompleteInput: "select-pure__autocomplete",
-				selectedLabel: "select-pure__selected-label",
-				selectedOption: "select-pure__option--selected",
-				placeholderHidden: "select-pure__placeholder--hidden",
-				optionHidden: "select-pure__option--hidden",
-	        }
-	    });
+			select: "select-pure__select",
+			dropdownShown: "select-pure__select--opened",
+			multiselect: "select-pure__select--multiple",
+			label: "select-pure__label",
+			placeholder: "select-pure__placeholder",
+			dropdown: "select-pure__options",
+			option: "select-pure__option",
+			autocompleteInput: "select-pure__autocomplete",
+			selectedLabel: "select-pure__selected-label",
+			selectedOption: "select-pure__option--selected",
+			placeholderHidden: "select-pure__placeholder--hidden",
+			optionHidden: "select-pure__option--hidden",
+    	}
+	});
 }
 
 function readURL(input) {
@@ -1179,10 +1335,11 @@ function readURL(input) {
     }
 }
 
-function uploadPostImage(file, id, type){
+function uploadPostImage(file, id, type, attType){
 	var uploadTask = storage.ref('Questions/'+id+'.jpg').put(file);
 	uploadTask.on('state_changed', function(snapshot){
-		var progress = ((snapshot.bytesTransferred) / (snapshot.totalBytes)) * 100;
+		var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
+		$('#progress').text((progress).toFixed(2) + " %");
   		console.log('Upload is ' + progress + '% done');
   		switch (snapshot.state) {
     		case firebase.storage.TaskState.PAUSED: // or 'paused'
@@ -1196,8 +1353,13 @@ function uploadPostImage(file, id, type){
   		console.log(error);
 	}, function() {
   		uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-  			QuestionsCollection.doc(id).update({imageUrl: downloadURL});
-    		console.log('File available at', downloadURL);
+  			QuestionsCollection.doc(id).update({imageUrl: downloadURL, attType: attType});
+  			hideLoader();
+  			if (type == "Question") {
+  				window.location.href = "home.html";
+  			}else{
+  				window.location.href = "replies.html";
+  			}
   		});
 	});
 }
@@ -1208,7 +1370,7 @@ function setCategory(newArray){
 	}else{
 		newArray.pop();
 		$(".select-pure__selected-label").last().remove();
-		alert("You can only select a maximum of three!");
+		showSnackbar("You can only select a maximum of three!");
 	}
 }
 
@@ -1244,44 +1406,119 @@ function questionStatus(error){
 }
 
 function postQuestion(title, description){
-  var d = new Date();
+	var d = new Date();
 	var id = d.getTime().toString();
-	QuestionsCollection.doc(id)
-	.set({
-		title:title,
-		description: description,
-		edited: false,
-		id: id,
-		dateTime: firebase.firestore.FieldValue.serverTimestamp(),
-		imageUrl: null,
-		numComments: 0,
-		numLikes: 0,
-		type: "Question",
-		category: questionCategories,
-		author: myEmail,
-		accepted: false,
-		attType: null
-
-	}).then(function(){
-		if (file != null) {
-			uploadPostImage(file, id, "Question");
-		}else{
-			window.location.href = "home.html";
-		}
-
-	});
+	var isEdited = false;
+	showLoader();
+	if (EditQuestion != null) {
+		id = EditQuestion;
+		isEdited = true;
+		QuestionsCollection.doc(id)
+		.set({
+			title:title,
+			description: description,
+			edited: isEdited,
+			category: questionCategories,
+		}).then(function(){
+			if (file != null) {
+				uploadPostImage(file, id, "Question");
+			}else{
+				hideLoader();
+				window.location.href = "home.html";
+			}
+		});
+	}else{
+		QuestionsCollection.doc(id)
+		.set({
+			title:title,
+			description: description,
+			edited: isEdited,
+			id: id,
+			dateTime: firebase.firestore.FieldValue.serverTimestamp(),
+			imageUrl: null,
+			numComments: 0,
+			numLikes: 0,
+			type: "Question",
+			category: questionCategories,
+			author: myEmail,
+			accepted: false,
+			attType: null
+		}).then(function(){
+			if (file != null) {
+				uploadPostImage(file, id, "Question", "IMAGE");
+			}else{
+				hideLoader();
+				window.location.href = "home.html";
+			}
+		});
+	}
 }
 
 /*======================================
 			Write Reply Page
 =======================================*/
 function loadPostReply(){
+	var EditReply = null;
+	var attType = null;
+	if (sessionStorage.getItem("EditReply") != null) {
+		EditReply = sessionStorage.getItem("EditReply");
+		QuestionsCollection.doc(EditReply).get().then((doc) =>{
+			var description = doc.get("description");
+			var image = doc.get("imageUrl");
+			// $('#qImage').attr('src', image);
+			$('#questionDiscription').val(description);
+		});
+	}
+	
 	$('.post-btn').on('click', function(){
 		var button = $(this).text().trim();
 		var description = $('#questionDiscription').val();
 		if(verify_reply(description)){
-			postReply(button, description);
+			var d = new Date();
+			var id = d.getTime();
+			if (EditReply != null) {
+				var segments = EditReply.split("/");
+				id = segments[segments.length - 1];
+			}
+			postReply(button, description, id, attType);
 		}
+	});
+
+	$('#pick_pdf').on('click', function(){
+		$('#pdf_input').click();
+	});
+
+	$('#pick_img').on('click', function(){
+		$('#img_input').click();
+	});
+
+	$('#pdf_input').change(function(e){
+		var selectedPdf = e.target.files[0];
+		var PdfName = selectedPdf.name;
+		var type = selectedPdf.type;
+		if (type != "application/pdf") {
+			showSnackbar("Please select a pdf or press the image button to select an image");
+			return;
+		}
+		file = selectedPdf;
+		attType = "PDF";
+		$('#file_name').text(PdfName);
+		$('#qImage').attr('src', "../img/notes.png");
+
+	});
+
+	$('#img_input').change(function(e){
+		var selectedImg = e.target.files[0];
+		var ImgName = selectedImg.name;
+		var fileType = selectedImg.type;
+		var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+		if ($.inArray(fileType, validImageTypes) < 0) {
+		    showSnackbar("Selected file is not an Image");
+		    return;
+		}
+		readURL(this);
+		attType = "IMAGE";
+		$('#file_name').text(ImgName);
 	});
 }
 
@@ -1311,13 +1548,10 @@ function replyStatus(error){
 }
 
 
-function postReply(type, description){
-
-  	var d = new Date();
-	var id = d.getTime();
-
-	QuestionsCollection.doc(selectedQuestion).collection("Replies").doc(id.toString()).set(
-	{
+function postReply(type, description, id, attType){
+	showLoader();
+	var ref = selectedQuestion + "/Replies/" + id;
+	QuestionsCollection.doc(selectedQuestion).collection("Replies").doc(id.toString()).set({
 		accepted: null,
 		attType: null,
 		author: myEmail,
@@ -1331,8 +1565,14 @@ function postReply(type, description){
 		title: null,
 		type: type
 	}).then(function(){
-		QuestionsCollection.doc(selectedQuestion).update({numComments: firebase.firestore.FieldValue.increment(1)});
-		   window.location.href = "home.html";
+		QuestionsCollection.doc(selectedQuestion)
+		.update({numComments: firebase.firestore.FieldValue.increment(1)});
+		if (file != null) {
+				uploadPostImage(file, ref, type, attType);
+			}else{
+				hideLoader();
+				window.location.href = "replies.html";
+			}
 	});
 }
 
@@ -1581,4 +1821,33 @@ function loadLogIn(){
   			$('#sign_in_error').show();
 		});
 	});
+}
+
+
+/*==========================================
+				Multi Page
+==========================================*/
+function showLoader(){
+	var loaderHtml = '<div id="loader"><div></div><h4 id="progress"></h4></div>';
+	if ($('body').find('#loader').length == 0) {
+		$('body').append(loaderHtml);
+	}
+	$("#loader").addClass("loader");
+}
+
+function hideLoader(){
+	$("#loader").removeClass("loader");
+}
+
+function showSnackbar(text){
+	var snackbarHtml = '<div id="snackbar">'+text+'</div>';
+	if ($('body').find('#snackbar').length == 0) {
+		$('body').append(snackbarHtml);
+	}
+
+	var x = document.getElementById("snackbar");
+
+	x.className = "show";
+
+	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
