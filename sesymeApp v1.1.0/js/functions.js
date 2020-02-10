@@ -1034,7 +1034,7 @@ function populateQuestions(question){
 =======================================*/
 function loadReplies(){
 	if (selectedQuestion == null) {
-		console.log("Nop");
+		console.log("Question not selected");
 		return;
 	}
 	QuestionsCollection.doc(selectedQuestion).get().then((doc) =>{
