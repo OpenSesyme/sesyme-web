@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+	<title>Sesyme | Settings</title>
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  	<link rel="stylesheet" href="../css/w3.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  	<link rel="stylesheet" href="../css/font-awesome/css/font-awesome.css">
+  	<link rel="stylesheet" type="text/css" href="../css/animation.css">
+  	<link rel="stylesheet" type="text/css" href="../css/animate.css">
+  	<link rel="stylesheet" type="text/css" href="../css/main.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  	<script type="text/javascript" src="../js/main.js"></script>
+    <style type="text/css">
+        #settingsNav .active-setting {
+            background: #f7f7f7 !important;
+            color: #222 !important;
+            border-right: 4px solid #6400ae !important;
+            transition: 0s;
+        }
+
+        #settingsNav .navigation {
+            background: #fff;
+            border-top: 1px solid #e5e5e5;
+            border-right: 1px solid #e5e5e5;
+            position: fixed;
+            top: 65px;
+            bottom:0;
+            left:0;
+            width:300px;
+            overflow:hidden;
+            -webkit-transition:width .05s linear;
+            transition:width .05s linear;
+            -webkit-transform:translateZ(0) scale(1,1);
+            z-index:1000;
+        }
+
+        #settingsNav .navigation > ul {
+            margin: 0;
+        }
+
+        #settingsNav .navigation > ul > li {
+            position: relative;
+            display: block;
+            width: 300px;
+            list-style: none;
+            margin-left: -40px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        #settingsNav .navigation > ul > li:last-child {
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        #settingsNav .navigation > ul > li > button {
+            width: 100%;
+            margin-left: 0;
+            text-align: left;
+            position: relative;
+            border: none;
+            background-color: #fff;
+            color: #333333;
+            font-size: 1.5rem;
+            border-right: 5px solid #fff;
+            padding: 0.7em 0.5em;
+            font-family: "Roboto", sans-serif;
+        }
+
+        #settingsNav .navigation > ul > li > button:hover {
+            background-color: transparent;
+            color: #222;
+        }
+
+        #settingsNav .navigation > ul > li > button:focus {
+            border: none;
+            outline: none;
+        }
+
+        #settingsNav .navigation > ul > li > button > span.active-arrow {
+            font-size: 1rem;
+            float: right;
+            color: #222;
+            margin-top: 8px;
+            font-weight: 100 !important;  
+        }
+
+        #settings-content {
+            margin-left: 300px;
+            margin-top: 65px;
+            right: 0;
+            position: relative;
+            width: 100% - 300px;
+        }
+
+        #settings-content .all-divs {
+        }
+
+        #settings-content .all-divs #notification_settings,
+        #settings-content .all-divs #privacy_settings,
+        #settings-content .all-divs #terms_settings,
+        #settings-content .all-divs #about_settings {
+            height: 100vh;
+        }
+
+        #settings-content .all-divs #notification_settings::-webkit-scrollbar,
+        #settings-content .all-divs #privacy_settings::-webkit-scrollbar,
+        #settings-content .all-divs #terms_settings::-webkit-scrollbar,
+        #settings-content .all-divs #about_settings::-webkit-scrollbar {
+          width: 10px;
+        }
+
+        /* Track */
+        #settings-content .all-divs #notification_settings::-webkit-scrollbar-track,
+        #settings-content .all-divs #privacy_settings::-webkit-scrollbar-track,
+        #settings-content .all-divs #terms_settings::-webkit-scrollbar-track,
+        #settings-content .all-divs #about_settings::-webkit-scrollbar-track {
+          background: #e6e6e6;
+        }
+
+        /* Handle */
+        #settings-content .all-divs #notification_settings::-webkit-scrollbar-thumb,
+        #settings-content .all-divs #privacy_settings::-webkit-scrollbar-thumb,
+        #settings-content .all-divs #terms_settings::-webkit-scrollbar-thumb,
+        #settings-content .all-divs #about_settings::-webkit-scrollbar-thumb {
+          background: #999;
+        }
+
+        /* Handle on hover */
+        #settings-content .all-divs #notification_settings::-webkit-scrollbar-thumb:hover,
+        #settings-content .all-divs #privacy_settings::-webkit-scrollbar-thumb:hover,
+        #settings-content .all-divs #terms_settings::-webkit-scrollbar-thumb:hover,
+        #settings-content .all-divs #about_settings::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
+
+        #settings-content .all-divs #account_settings {
+            padding: 0.5em;
+        }
+
+        #settings-content .all-divs #notification_settings,
+        #settings-content .all-divs #privacy_settings,
+        #settings-content .all-divs #terms_settings,
+        #settings-content .all-divs #about_settings {
+            display: none;
+            padding: 0.5em;
+        }
+
+        #settings-content .all-divs #account_settings h1,
+        #settings-content .all-divs #notification_settings h1,
+        #settings-content .all-divs #privacy_settings h1,
+        #settings-content .all-divs #terms_settings h1,
+        #settings-content .all-divs #about_settings h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            font-family: "Roboto", sans-serif;
+            letter-spacing: 1px;
+            color: #222;
+        }
+
+        #settings-content .all-divs #terms_settings,
+        #settings-content .all-divs #privacy_settings {
+            font-family: 'Roboto', sans-serif;
+            font-size: 15px;
+            padding-bottom: 70px;
+        }
+
+        #settings-content .all-divs #terms_settings h4,
+        #settings-content .all-divs #privacy_settings h4 {
+            font-weight: bold;
+            color: #222;
+        }
+
+        #settings-content .all-divs #terms_settings a,
+        #settings-content .all-divs #privacy_settings a {
+            color: #6400ae;
+        }
+
+        #settings-content .all-divs #terms_settings .update {
+            font-style: italic;
+        }
+
+        #settings-content .all-divs #terms_settings .welcome {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body style="background-color: #fff;">
+	<nav class="navbar navbar-expand-sm fixed-top write-quest-nav" style="box-shadow: none;">
+		<ul class="nav navbar-nav">
+            <li class="nav-item">
+                <button type="button" class="nav-link" onclick="history.back(-1)"><i class="fa fa-arrow-left"></i> Back</button>
+            </li>
+        </ul>
+
+		<a class="mx-auto" href="../index.html">
+    		<img src="../img/sesyme_logo.png" alt="Logo" style="width:130px;">
+  		</a>
+	</nav>
+
+    <div id="settingsNav">
+        <nav class="navigation">
+            <ul>
+                <li><button type="button" id="account" class="active-setting">Account <span class="active-arrow"><i class="fa fa-chevron-right"></i></span></button></li>
+                <li><button type="button" id="notifications">Notifications <span class="active-arrow"><i class="fa fa-chevron-right"></i></span></button></li>
+                <li><button type="button" id="privacy">Privacy Prolicy <span class="active-arrow"><i class="fa fa-chevron-right"></i></span></button></li>
+                <li><button type="button" id="terms">Terms <span class="active-arrow"><i class="fa fa-chevron-right"></i></span></button></li>
+                <li><button type="button" id="about_sesyme">About Sesyme <span class="active-arrow"><i class="fa fa-chevron-right"></i></span></button></li>
+            </ul>
+        </nav>
+    </div>
+
+    <section id="settings-content">
+        <div class="all-divs">
+            <div id="account_settings">
+                <h1>Account Settings</h1>
+            </div>
+            <div id="notification_settings">
+                <h1>Notifications Settings</h1>
+            </div>
+            <div id="privacy_settings" class="scroll">
+                <h1>Privacy Policy</h1>
+                <div class="container">
+                    <p>
+                        Open Sesyme recognizes that your privacy is very important and we take it seriously. This Privacy Policy describes our policies and procedures on the collection, use, disclosure, and sharing of your personal information or personal data when you use the Sesyme Application. This Privacy Policy applies to activities by Open Sesyme (Pty) Ltd and its affiliates and subsidiaries (collectively “Sesyme,” “we” or “us”). Capitalized terms that are not defined in this Privacy Policy have the meaning given to them in our Terms of Service.
+                    </p>
+
+                    <h4>Create Profile Information</h4>
+                    <p>
+                        When you create an account and profile on Sesyme Application, we collect your full name, academic details and other information you provide, such as interests. Your name, photo, affiliation, university and course and any other information that you choose to add to your public-facing profile will be available for viewing to users of the Sesyme Application. Once you create a profile, other users will be able to see in your profile certain information about your activity on the Sesyme Application, such as the questions and answers you post, categories of interest to you, the information you list as credentials, and your edits to your posts.
+                    </p>
+
+                    <h4>Data Collection</h4>
+                    <p>
+                        We collect and store the information and content that you post to the Sesyme Application, including your questions, answers, photos, and comments. Your Content, date and time stamps, and all associated comments are publicly viewable on the Sesyme Application, along with your full name.
+                    </p>
+
+                    <h4>Feedback Records</h4>
+                    <p>
+                        When you communicate with us (via email, through the Sesyme Application, or otherwise), we may maintain a record of your communication.
+                    </p>
+
+                    <h4>Integrated Service Provider and Linked Networks</h4>
+                    <p>
+                        You can elect to sign in or sign up to the Sesyme Application through a linked network (i.e. Google). If you elect to sign up through or connect a Linked Network, we receive certain profile and account information about you from the linked network. The specific information provided to us by linked networks is determined by these third parties and may vary by network. In all cases, the permissions page for the linked network will describe the information being shared. You should consult their respective privacy policies for information about their practices.
+                    </p>
+
+                    <h4>Automatically Collected Information About Your Activity</h4>
+                    <p>
+                        We use tracking technologies to automatically collect information about your activities, such as your searches, date and time of your visit, and other information about your use of the Sesyme Application. We also collect and may store information that your mobile device provides to us in connection with your use of the Sesyme Application such as your mobile device, unique device identifier. We also receive information when you view content on or otherwise interact with the Sesyme Application.
+                    </p>
+
+                    <h4>How We Use Your information</h4>
+                    <p>
+                        We do not sell your personal data – such as your name and contact information – to third parties to use for their own marketing purposes. Open Sesyme uses the information we collect for the following purposes:
+                    </p>
+                    <ol>
+                        <li><strong>Provide our Services:</strong> To provide you the services we offer on the Sesyme Application, communicate with you about your use of the Sesyme Application, respond to your inquiries, provide troubleshooting, and for other customer service purposes.</li>
+                        <li><strong>Personalization:</strong> To tailor the content and information that we may send or display to you in the Sesyme Application, to suggest followers and content, to offer location customization, and personalized help and instructions, and to otherwise personalize your experiences while using the Sesyme Application.</li>
+                        <li><strong>Marketing and Promotions:</strong> For marketing and promotional purposes, such as to send you news and newsletters, special offers, and promotions, or to otherwise contact you about products or information we think may interest you, including information about third party products and services.</li>
+                        <li><strong>Analytics:</strong> To gather metrics to better understand how users’ access and use the Sesyme Application; to evaluate and improve the Sesyme Application, including the Ad Services that we may have in the future and personalization, and to develop new products and services.</li>
+                        <li><strong>Comply with Law:</strong> To comply with legal obligations, as part of our general business operations, and for other business administration purposes.</li>
+                        <li><strong>Prevent Misuse:</strong> Where we believe necessary to investigate, prevent or take action regarding illegal activities, suspected fraud, situations involving potential threats to the safety of any person or violations of our Terms of Ser89yvice or this Privacy Policy.</li>
+                    </ol>
+
+                    <h4>Contact Us</h4>
+                    <p>
+                        If you have any questions about our practices or this Privacy Policy, please contact us at support@opensesyme.com.
+                    </p>
+
+                    <h4>Changes to Our Privacy Policy</h4>
+                    <p>
+                        If we change our privacy policies and procedures, we will post those changes on this page. If we make any changes to this Privacy Policy that materially change how we treat your personal information, we will endeavor to provide you with reasonable notice of such changes, such as via prominent notice in the Sesyme Application or to your email address of record, and where required by law, we will obtain your consent or give you the opportunity to opt out of such changes.
+                    </p>
+                </div>
+            </div>
+            <div id="terms_settings" class="scroll">
+                <h1>Terms of service</h1> 
+                <div class="container">
+                    <p class="welcome">Welcome to Sesyme! Here is an introduction to Sesyme’s Terms of Service:</p>
+                    <ol>
+                        <li>Sesyme is a Question and Answer mobile application for University Students. For the purpose to boost student's knowledge and for students to share that knowledge amongst one another in the platform.</li>
+                        <li>Our mission is to create an environment where students from different universities can co-learn, collaborate and share knowledge with one another.</li>
+                        <li>You own the content that you post; you also grant us and other users of the Sesyme application certain rights and license to use it.</li>
+                        <li>You are responsible for the content that you post. This includes ensuring that you have the rights needed for you to post that content and that your content does not violate the legal rights of another party (for example, defamation) or any applicable laws.</li>
+                        <li>We do not endorse or verify content posted by users. Our content and materials are provided to you “as is,” without any guarantees. You are solely responsible for your own use of the Sesyme application. Posts from lawyers, doctors, and other professionals should not be treated as a substitute for professional advice for your specific situation.</li>
+                        <li>We offer tools for you to give feedback and report complaints. If you think someone has violated your intellectual property rights, other laws, or Sesyme's terms or policies, you can initiate a report at the report  portal</li>
+                    </ol>
+
+                    <p class="update">Last Updated: October 12,09,2018</p>
+
+                    <p>These terms of service (“Terms of Service”) sets forth the agreement (“Agreement”) between you and Open Sesyme (Pty) Ltd (“Open Sesyme” “we” or “us”). It governs your use of the products and services we offer through our application (namely the “Sesyme Application”).</p>
+
+                    <p>Please make sure to read it, because, by using the Sesyme Application, you consent to these terms.</p>
+                    <ol>
+                        <li><h4>Using the Sesyme Application</h4>
+                            <ol type="a">
+                                <li>Who Can Use It. Use of the Sesyme Application by anyone under 13 years of age is prohibited. You represent that you are at least the age of majority in the jurisdiction where you live or, if you are not, your parent or legal guardian must consent to this Terms of Service and affirm that they accept this Agreement on your behalf and bear responsibility for your use.</li>
+                                <li>Registration. When you set up a profile on the Sesyme Application, you will be asked to provide certain information about yourself. You agree to provide us accurate information, including your real name, when you create your account on the Sesyme Application. We will treat information you provide as part of registration in accordance with our Privacy Policy (Engage with Others in a Constructive Way. Assume everyone on Sesyme is here to make the application a great resource with diverse backgrounds, beliefs, and opinions. It is OK to disagree, but please be civil, respectful, and considerate to other users of the Sesyme Application).</li>
+                                <li>No Hate Speech. Sesyme is a place for civil discourse and does not tolerate content that attacks or disparages an individual or group based on race, gender, religion, nationality, ethnicity, political group, sexual orientation or another similar characteristic. Any generalizations about these topics should be phrased as neutrally as possible.</li>
+                                <li>No Harassment and Bullying. Abusive behavior directed towards private individuals is not allowed. Repeated and unwanted contact constitutes a form of harassment. Content should not make threats against others or advocate violence, including self-harm.</li>
+                            </ol>
+                        </li>
+                        <li><h4>Respect the Rights of Others</h4>
+                            <ol type="a">
+                                <li><i>Identity and Deceptive Activity</i>. Your Sesyme profile should use your real name and use accurate and truthful credentials. Do not use Sesyme to impersonate another person, act as another entity without authorization.</li>
+                                <li><i>Intellectual Property and Personal Rights</i>. Do not post content that infringes any intellectual property or personal right of another party. Writing taken from another source should be properly attributed and block quoted.</li>
+                            </ol>
+                        </li>
+                        <li><h4>Respect the Sesyme Application</h4>
+                            <ol type="a">
+                                <li><i>No Spam.</i> Do not use Sesyme to post or attract spam.</li>
+                                <li><i>No Malicious or Illegal Activity.</i> Do not contribute viruses, malware, and other malicious programs or engage in activity that harms or interferes with the operation of Sesyme or seeks to circumvent security or authentication measures. Do not use Sesyme to engage in unlawful or fraudulent activity, or to promote illegal acts.</li>
+                                <li><i>Reporting Problems.</i> If you see something on Sesyme that you believe violates our terms or policies, please report it to us using the in-product reporting tool, or via our contact form.</li>
+                            </ol>
+                        </li>
+                        <li><h4>Privacy Policy</h4>
+                            <p>Our privacy practices are set forth in our Privacy Policy. By use of the Sesyme Application, you agree to accept our Privacy Policy, by Engaging with Others in a civil and constructive manner.</p>
+                            <p>Assume everyone on Sesyme is here to make the application a great resource with diverse backgrounds, beliefs, and opinions. It is OK to disagree, but please be civil, respectful, and considerate to other posters.</p>
+                        </li>
+                        <li>
+                            Changes to the Sesyme Platform. We are always trying to improve your experience on the Sesyme Platform. We may need to add or change features and may do so without notice to you.
+                        </li>
+                        <li><h4>Termination.</h4>
+                            We may terminate or suspend your Sesyme account if you violate any Sesyme policy or for any other reason.
+                        </li>
+                        <li><h4>Your Content</h4>
+                            <ol type="a">
+                                <li>Definition of Your Content. The Sesyme Application enables you to add texts, photos, links, and files to share with others. All material that you upload, publish or display to others via the Sesyme Application will be referred to collectively as “Your Content.” You acknowledge and agree that, as part of using the Sesyme Application, Your Content may be viewed by the general public.</li>
+                                <li>Ownership. You, or your licensors, as applicable, retain ownership of the copyright and other intellectual property in Your Content, subject to the non-exclusive rights granted to us below.</li>
+                                <li>License and Permission to Use Your Content. By submitting, posting, or displaying Your Content on the Sesyme Application, you grant Open Sesyme and its affiliated companies a nonexclusive, worldwide, royalty free, fully paid up, transferable, sub licensable (through multiple tiers), license to use, copy, reproduce, process, adapt, modify, create derivative works from, publish, transmit, store, display and distribute, translate, communicate and make available to the public, and otherwise use Your Content in connection with the operation or use of the Sesyme Application or the promotion, advertising or marketing of the Sesyme Application or our business partners, in any and all media or distribution methods (now known or later developed). You agree that this license includes the right for Sesyme to make Your Content available to other companies, organizations, business partners, or individuals who collaborate with Sesyme for the syndication, broadcast, communication and making available to the public, distribution or publication of Your Content on the Sesyme Application or through other media or distribution methods. This license also includes the right for other users of the Sesyme Application to use, copy, reproduce, adapt, modify, create derivative works from, publish, transmit, display, and distribute, translate, communicate and make available to the public Your Content, subject to our Terms of Service.</li>
+                                <li>Once you post an answer to a question, you may edit or delete your answer at any time from public display on the Sesyme Application. However, we may not be able to control removal of the answer from display on syndicated channels or other previously distributed methods outside of the Sesyme Application. Sesyme may remove suspected spam from your answers. Once you post a question, it may be edited or deleted by you or by Sesyme at any time. Any edits and changes made by you may be visible to other users.</li>
+                                <li>You acknowledge and agree that Sesyme may preserve Your Content and may also disclose Your Content and related information if required to do so by law or in the good faith belief that such preservation or disclosure is reasonably necessary to: (a) comply with legal process, applicable laws or government requests; (b) enforce these Terms of Service; (c) respond to claims that any of Your Content violates the rights of third parties; (d) detect, prevent, or otherwise address fraud, security or technical issues; or (e) protect the rights, property, or personal safety of Sesyme, its users, or the public.</li>
+                                <li>You understand that we may modify, adapt, or create derivative works from Your Content in order to transmit, display or distribute it over computer networks, devices, service providers, and in various media. We also may remove or refuse to publish Your Content, in whole or part, at any time.</li>
+                                <li>You further give us the permission and authority to act as your nonexclusive agent to take enforcement action against any unauthorized use by third-parties of any of Your Content outside of the Sesyme Application or in violation of our Terms of Service.</li>
+                                <li>Your Responsibilities for Your Content. By posting Your Content on the Sesyme Application, you represent and warrant to us that: i) you have the ownership rights, or you have obtained all needed licenses or permissions from any necessary parties, to use Your Content and grant us the rights to use Your Content as provided for under this Agreement, and ii) that posting Your Content violates no intellectual property or personal right of others or any applicable law or regulation. You accept full responsibility for avoiding infringement of the intellectual property or personal rights of others or violation of laws and regulations in connection with Your Content. You are responsible for ensuring that Your Content does not violate Sesyme’s Terms of service and Privacy policy.</li>
+                            </ol>
+                        </li>
+                        <li><h4>Our Content and Materials</h4>
+                            <ol type="a">
+                                <li><i>Definition of Our Content and Materials.</i> All intellectual property in or related to the Sesyme Application (specifically including, but not limited to our software, the Sesyme marks, the Sesyme logo, but excluding Your Content) is the property of Open Sesyme, or its subsidiaries and affiliates, or content posted by other Sesyme users licensed to us (collectively “Our Content and Materials”).</li>
+                                <li><i>Data.</i> All data Sesyme collects (“Data”) about use of the Sesyme Application by you or others is the property of Open Sesyme, its subsidiaries, and affiliates. For clarity, Data does not include Your Content and is separate from Our Content and Materials.</li>
+                                <li><i>Our License to You.</i> We grant you a limited, non-exclusive license to use and access Our Content and Materials and Data as made available to you on the Sesyme Application in connection with your use of the Sesyme Application, subject to the terms and conditions of this Agreement.</li>
+                                <li><i>We may terminate our license to you at any time for any reason.</i> We have the right but not the obligation to refuse to distribute any content on the Sesyme Application or to remove content. Except for the rights and license granted in these terms, we reserve all other rights and grant no other rights or licenses, implied or otherwise.</li>
+                                <li><i>No Endorsement or Verification.</i> Please note that the Sesyme Application contains access to third-party content, products and services, and it offers interactions with third parties. Participation or availability on the Sesyme Application does not amount to endorsement or verification by us. We make no warranties or representations about the accuracy, completeness, or timeliness of any content posted on the Sesyme Application by anyone.</li>
+                            </ol>
+                        </li>
+                        <li><h4>More About Certain Offerings on the Sesyme Application</h4>
+                            <p>
+                                Buttons, Links and Widgets. You have permission to use Sesyme's buttons, links, and widgets, subject to these Terms of Service (including the disclaimers and limitations of liability) and provided that: (a) your use of such buttons, links and widgets link only to the Sesyme Application; (b) you will not modify such buttons, links, or widgets or associated code in any manner; (c) you will not use any such buttons, links, or widgets in any manner which implies or suggests that Sesyme endorses, sponsors, or recommends the website on which such buttons, links and widgets are used; and (d) the use of such buttons, links and widgets, and the website on which such buttons, links and widgets are used do not violate Sesyme’s Acceptable Use Policy.
+                            </p>
+                            <p>
+                                Web resources and third-party services. The Sesyme Application may also offer you the opportunity to visit links to other websites or to engage with third-party products or services. You assume all risk arising out of your use of such websites or resources.
+                            </p>
+                        </li>
+                        <li><h4>DISCLAIMERS AND LIMITATION OF LIABILITY</h4>
+                            <p>PLEASE READ THIS SECTION CAREFULLY SINCE IT LIMITS THE LIABILITY OF OPEN SESYME ENTITIES TO YOU.</p>
+                            <p>OPEN SESYME ENTITIES” MEANS OPEN SESYME (PTY) LTD, AND ANY SUBSIDIARIES, AFFILIATES, RELATED COMPANIES, SUPPLIERS, LICENSORS AND PARTNERS, AND THE OFFICERS, DIRECTORS, EMPLOYEES, AGENTS AND REPRESENTATIVES OF EACH OF THEM. EACH PROVISION BELOW APPLIES TO THE MAXIMUM EXTENT PERMITTED UNDER APPLICABLE LAW.</p>
+                            <p>WE ARE PROVIDING YOU THE SESYME APPLICATION, ALONG WITH OUR CONTENT AND MATERIALS AND THE OPPORTUNITY TO CONNECT WITH OTHERS, ON AN “AS IS” AND “AS AVAILABLE” BASIS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. WITHOUT LIMITING THE FOREGOING, OPEN SESYME ENTITIES EXPRESSLY DISCLAIM ANY AND ALL WARRANTIES AND CONDITIONS OF MERCHANTABILITY, TITLE, ACCURACY AND COMPLETENESS, UNINTERRUPTED OR ERROR-FREE SERVICE, FITNESS FOR A PARTICULAR PURPOSE, QUIET ENJOYMENT, NON-INFRINGEMENT, AND ANY WARRANTIES ARISING OUT OF COURSE OF DEALING OR TRADE USEAGE.</p>
+                            <p>SESYME MAKES NO PROMISES WITH RESPECT TO, AND EXPRESSLY DISCLAIMS ALL LIABILITY FOR: (i) CONTENT POSTED BY ANY USER OR THIRD PARTY; (ii) ANY THIRD-PARTY WEBSITE, THIRD-PARTY PRODUCT, OR THIRD-PARTY SERVICE LISTED ON OR ACCESSIBLE TO YOU THROUGH THE SESYME APPLICATION, INCLUDING AN INTEGRATED SERVICE PROVIDER OR PROFESSIONAL CONTRIBUTOR; (iii) THE QUALITY OR CONDUCT OF ANY THIRD PARTY YOU ENCOUNTER IN CONNECTION WITH YOUR USE OF THE SESYME APPLICATION; OR (iv) UNAUTHORIZED ACCESS, USE OR ALTERATION OF YOUR CONTENT. SESYME MAKES NO WARRANTY THAT: (a) THE SESYME APPLICATION WILL MEET YOUR REQUIREMENTS; (b) THE SESYME APPLICATION WILL BE UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE; (c) THE RESULTS OR INFORMATION THAT YOU MAY OBTAIN FROM THE USE OF THE SESYME APPLICATION, A PROFESSIONAL CONTRIBUTOR, OR ANY OTHER USER WILL BE ACCURATE OR RELIABLE; OR (d) THE QUALITY OF ANY PRODUCTS, SERVICES, INFORMATION, OR OTHER MATERIAL OBTAINED OR PURCHASED BY YOU THROUGH THE SESYME APPLICATION WILL BE SATISFACTORY.</p>
+                            <p>YOU AGREE THAT TO THE MAXIMUM EXTENT PERMITTED BY LAW, SESYME ENTITIES WILL NOT BE LIABLE TO YOU UNDER ANY THEORY OF LIABILITY. WITHOUT LIMITING THE FOREGOING, YOU AGREE THAT, TO THE MAXIMUM EXTENT PERMITTED BY LAW, OPEN SESYME ENTITIES SPECIFICALLY WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, OR EXEMPLARY DAMAGES, LOSS OF PROFITS, BUSINESS INTERRUPTION, REPUTATIONAL HARM, OR LOSS OF DATA (EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES OR SUCH DAMAGES ARE FORESEEABLE) ARISING OUT OF OR IN ANY WAY CONNECTED WITH YOUR USE OF, OR INABILITY TO USE, THE SESYME APPLICATION.</p>
+                            <p>YOUR SOLE REMEDY FOR DISSATISFACTION WITH THE SESYME APPLICATION IS TO STOP USING THE SESYME APPLICATION.</p>
+                        </li>
+                        <li><h4>General Terms</h4>
+                            <ol type="a">
+                                <li>Changes to these Terms. We may amend this Agreement (including any policies, such as the Privacy Policy, Acceptable Use Policy, Copyright Policy, and Trademark Policy that are incorporated into this Agreement) at any time, in our sole discretion. If we amend material terms to this Agreement, such amendment will be effective after we send you notice of the amended agreement. Such notice will be in our sole discretion, and the manner of notification could include, for example, via email, posted notice on the Sesyme Application, or other manner. You can view the Agreement and our main policies at any time here. Your failure to cancel your account, or cease use of the Sesyme Application.</li>
+                                <li>Electronic Communications. You consent to receive communications from us by email in accordance with this Agreement and applicable law. You acknowledge and agree that all agreements, notices, disclosures and other communications that we provide to you electronically will satisfy any legal requirement that such communications be in writing.</li>
+                                <li>Entire Agreement/ Severability. This Agreement supersedes all prior terms, agreements, discussions and writings regarding the Sesyme Application and constitutes the entire agreement between you and us regarding the Sesyme Application (except as to services that require separate written agreement with us, in addition to this Agreement). If any provision in this Agreement is found to be unenforceable, then that provision will not affect the enforceability of the remaining provisions of the Agreement, which will remain in full force and effect.</li>
+                                <li>Interpretation. In construing or interpreting the terms of this Agreement: (i) the headings in this Agreement are for convenience only, and are not to be considered, and (ii) no presumption is to operate in either party’s favor as a result of its counsel’s role in drafting this Agreement.</li>
+                                <li>Notices. All notices permitted or required under this Agreement, unless specified otherwise in this Agreement, must be sent in writing as follows in order to be valid: (i) if to you, by us via email to the address associated with your account, and (ii) if to us, by you via <a href="mailto:support@sesyme.com">support@sesyme.com</a>. Notices will be deemed given (a) if to you, when emailed, and (b) if to us, on receipt by us.</li>
+                                <li>Relationship. This Agreement does not create a joint venture, agency, partnership, or other form of joint enterprise between you and us. Except as expressly provided herein, neither party has the right, power, or authority to create any obligation or duty, express or implied, on behalf of the other.</li>
+                                <li>Waiver. No waiver of any terms will be deemed a further or continuing waiver of such term or any other term. Our failure to assert a right or provision under this Agreement will not constitute a waiver of such right or provision.</li>
+                                <li>Further Assurances. You agree to execute a hard copy of this Agreement and any other documents, and to take any actions at our expense that we may request to confirm and effect the intent of this Agreement and any of your rights or obligations under this Agreement.</li>
+                                <li>Contact. Feel free to contact us by email at <a href="mailto:info@opensesyme.com">info@opensesyme.com</a>. Open Sesyme is a technology company based in South Africa, located at 09 Prestwich Street Avenue, Mthatha 5100.</li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="about_settings">
+                <h1>About Sesyme</h1>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/main.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#account").click(function(){
+                $('#account_settings').show();
+                $('#notification_settings').hide();
+                $('#privacy_settings').hide();
+                $('#terms_settings').hide();
+                $('#about_settings').hide();
+
+                $('#account').addClass("active-setting")
+                $('#notifications').removeClass("active-setting");
+                $('#privacy').removeClass("active-setting");
+                $('#terms').removeClass("active-setting");
+                $('#about_sesyme').removeClass("active-setting");
+            });
+
+            $("#notifications").click(function(){
+                $('#notification_settings').show();
+                $('#account_settings').hide();
+                $('#privacy_settings').hide();
+                $('#terms_settings').hide();
+                $('#about_settings').hide();
+
+                $('#notifications').addClass("active-setting");
+                $('#account').removeClass("active-setting");
+                $('#privacy').removeClass("active-setting");
+                $('#terms').removeClass("active-setting");
+                $('#about_sesyme').removeClass("active-setting");
+            });
+
+            $("#privacy").click(function(){
+                $('#privacy_settings').show();
+                $('#notification_settings').hide();
+                $('#account_settings').hide(); 
+                $('#terms_settings').hide();
+                $('#about_settings').hide();
+
+                $('#privacy').addClass("active-setting");
+                $('#notifications').removeClass("active-setting");
+                $('#account').removeClass("active-setting");
+                $('#terms').removeClass("active-setting");
+                $('#about_sesyme').removeClass("active-setting");
+            });
+
+            $("#terms").click(function(){
+                $('#terms_settings').show();
+                $('#privacy_settings').hide();
+                $('#notification_settings').hide();
+                $('#account_settings').hide(); 
+                $('#about_settings').hide();
+
+                $('#terms').addClass("active-setting");
+                $('#privacy').removeClass("active-setting");
+                $('#notifications').removeClass("active-setting");
+                $('#account').removeClass("active-setting");
+                $('#about_sesyme').removeClass("active-setting");
+            });
+
+            $("#about_sesyme").click(function(){ 
+                $('#about_settings').show();
+                $('#terms_settings').hide();
+                $('#privacy_settings').hide();
+                $('#notification_settings').hide();
+                $('#account_settings').hide();
+
+                $('#about_sesyme').addClass("active-setting");
+                $('#terms').removeClass("active-setting");
+                $('#privacy').removeClass("active-setting");
+                $('#notifications').removeClass("active-setting");
+                $('#account').removeClass("active-setting");
+            });
+        });
+    </script>
+</body>
+</html>
