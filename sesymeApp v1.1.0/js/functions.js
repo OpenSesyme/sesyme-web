@@ -726,6 +726,21 @@ function pagination(){
 =======================================*/
 function loadQuestionsPage(){
 	showLoader();
+	UsersRef.doc(sessionStorage.getItem("user_id")).onSnapshot(function(user)
+	{
+		var html = '<a class="interests-nav-link" aria-selected="true">All</a>';
+		$('#interestsNavContents').append(html);
+		var interests = [];
+		var count = 0;
+
+		interests = user.data().interests;
+		interests.forEach(function(interest)
+		{
+			 html = '<a class="interests-nav-link">'+interest+'</a>';
+			 $('#interestsNavContents').append(html);
+		});
+
+	});
 	QuestionsCollection.orderBy("dateTime", "desc").limit(50)
     .onSnapshot(function(querySnapshot) {
         questions = [];
@@ -783,7 +798,7 @@ function loadQuestionsPage(){
     	var x = $(this).closest('.quest-options-btn').find('#dropOptions')[0];
     	if (x.className.indexOf("w3-show") == -1) {
 	    	x.className += " w3-show";
-	  	} else { 
+	  	} else {
 	    	x.className = x.className.replace(" w3-show", "");
 	  	}
     });
@@ -798,7 +813,7 @@ function loadQuestionsPage(){
 	    		x.className = x.className.replace(" w3-show", "");
         	}
     	},200);
-    	
+
     });
 
     $('.questions').on('click', '#optionItem', function(e){
@@ -827,8 +842,13 @@ function loadQuestionsPage(){
     	window.location.href = "replies.html";
     });
 
-    $('.interests-nav-link').click( function(){
+    $('#interestsNav').on('click', '.interests-nav-link', function(){
     	var id_for = $(this).text();
+			console.log(id_for);
+			if(id_for === "All")
+			{
+				window.location.href = 'home.html';
+			}
 		QuestionsCollection.where("category", "array-contains", id_for).limit(50)
 	    .onSnapshot(function(querySnapshot) {
 	        questions = [];
@@ -944,7 +964,7 @@ function populateQuestions(question){
 	var edited = "";
 	if (isEdited) {
 		edited = "edited";
-	}	
+	}
 	var type = question.type;
 	var name = "Unknown";
 	var userImage = "../img/profilePic.jpg";
@@ -952,6 +972,7 @@ function populateQuestions(question){
 		var name = authorDetails.fullName;
 		var userImage = authorDetails.profileUrl;
 	}
+
 
 	LikesCollection.doc(likeId).get().then((docSnapshot) =>{
 		if (docSnapshot.exists) {
@@ -1025,7 +1046,7 @@ function loadReplies(){
 		var likes = doc.get("numLikes");
 		var replies = doc.get("numComments");
 		var time = doc.get("dateTime").toDate().toLocaleString("en-CA");
-		var tmoment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
+		var timeToShow = moment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
 		UsersRef.doc(author).get().then((userDoc) =>{
 			var name = userDoc.get("fullName");
 			var userImage = userDoc.get("profileUrl");
@@ -1178,7 +1199,7 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
     	var x = $(this).closest('.quest-options-btn').find('#dropOptions')[0];
     	if (x.className.indexOf("w3-show") == -1) {
 	    	x.className += " w3-show";
-	  	} else { 
+	  	} else {
 	    	x.className = x.className.replace(" w3-show", "");
 	  	}
     });
@@ -1193,7 +1214,7 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 	    		x.className = x.className.replace(" w3-show", "");
         	}
     	},200);
-    	
+
     });
 
     $('.replies').on('click', '#optionItem', function(){
@@ -1234,6 +1255,8 @@ function loadWriteQuestion(){
 			var description = doc.get("description");
 			var category = doc.get("category");
 			questionCategories = category;
+			console.log(category);
+			read_this();
 			var image = doc.get("imageUrl");
 			$('#qImage').attr('src', image);
 			$('#questionTitle').val(title);
@@ -1307,18 +1330,18 @@ function loadWriteQuestion(){
         icon: "fa fa-times",
         onChange: value => { setCategory(value); },
         classNames: {
-			select: "select-pure__select",
-			dropdownShown: "select-pure__select--opened",
-			multiselect: "select-pure__select--multiple",
-			label: "select-pure__label",
-			placeholder: "select-pure__placeholder",
-			dropdown: "select-pure__options",
-			option: "select-pure__option",
-			autocompleteInput: "select-pure__autocomplete",
-			selectedLabel: "select-pure__selected-label",
-			selectedOption: "select-pure__option--selected",
-			placeholderHidden: "select-pure__placeholder--hidden",
-			optionHidden: "select-pure__option--hidden",
+				select: "select-pure__select",
+				dropdownShown: "select-pure__select--opened",
+				multiselect: "select-pure__select--multiple",
+				label: "select-pure__label",
+				placeholder: "select-pure__placeholder",
+				dropdown: "select-pure__options",
+				option: "select-pure__option",
+				autocompleteInput: "select-pure__autocomplete",
+				selectedLabel: "select-pure__selected-label",
+				selectedOption: "select-pure__option--selected",
+				placeholderHidden: "select-pure__placeholder--hidden",
+				optionHidden: "select-pure__option--hidden",
     	}
 	});
 }
@@ -1333,6 +1356,11 @@ function readURL(input) {
         }
         reader.readAsDataURL(input.files[0]);
     }
+}
+
+function read_this()
+{
+	$('.select-pure__option--selected').text("Hello");
 }
 
 function uploadPostImage(file, id, type, attType){
@@ -1469,7 +1497,7 @@ function loadPostReply(){
 			$('#questionDiscription').val(description);
 		});
 	}
-	
+
 	$('.post-btn').on('click', function(){
 		var button = $(this).text().trim();
 		var description = $('#questionDiscription').val();
