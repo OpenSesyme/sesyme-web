@@ -925,7 +925,7 @@ function populateQuestions(question){
 	var categories = "#" + category.join(" #");
 	var isEdited = question.edited;
 	var image = question.imageUrl;
-	var style = "width: 100%; height: 300px; margin-bottom: 5px;";
+	var style = "width: 100%; height: 300px; margin-bottom: 5px; object-fit: cover;";
 	var edit_status = "";
 
 	if(edited)
@@ -960,9 +960,9 @@ function populateQuestions(question){
 				<div class="author">\
 				    <div class="caption">\
 				        <div class="author-details">\
-				            <img src='+userImage+' alt="Names profile picture" class="avatar" style="width: 40px; height: 40px;">\
+				            <img src='+userImage+' alt="Names profile picture" class="avatar">\
 				            <div class="name">'+name+'</div> <span class="edited">'+edited+'</span><br/>\
-				            <div class="time"><i class="fa fa-clock-o"></i>'+timeToShow+'</div>\
+				            <div class="time"><i class="fa fa-clock-o" style="color: #6400ae;"></i> '+timeToShow+'</div>\
 				            <div class="w3-dropdown-click quest-options-btn">\
 				            	<button type="button" class="btn" id="options_btn"><i class="fa fa-chevron-down"></i></button>\
 				            	<div id="dropOptions" class="w3-dropdown-content w3-bar-block w3-border">\
@@ -982,20 +982,20 @@ function populateQuestions(question){
 				<div class="quest-discription">\
 					<p>'+description+'</p>\
 				</div>\
-				<img class="postImage" src="'+image+'" alt="../img/cover.jpg" style="'+style+'"></image>\
+				<img class="postImage" src="'+image+'" alt="../img/cover.jpg" style="'+style+'">\
 				<div class="quest-footer">\
 					<div class="likes-and-replays pb-2">\
 						<span><i class="fa fa-heart"></i> '+likes+'</span>\
 						<span class="w3-right">'+comments+' Replies</span>\
 					</div>\
 					<div class="user-action pt-3 pb-3 w3-center">\
-						<a id="like_button_home" class="w3-left">\
+						<a id="like_button_home" class="w3-left" style="cursor: pointer;">\
 							<i class="fa '+likeClass+'"></i>&nbsp;&nbsp;&nbsp;Like\
 						</a>\
-						<a id="reply_button_home">\
+						<a id="reply_button_home" style="cursor: pointer;">\
 							<i class="fa fa-comment"></i>&nbsp;&nbsp;&nbsp;Replies\
 						</a>\
-						<a class="w3-right">\
+						<a class="w3-right" style="cursor: pointer;">\
 							<i class="fa fa-share"></i>&nbsp;&nbsp;&nbsp;Share\
 						</a>\
 					</div>\
@@ -1023,7 +1023,7 @@ function loadReplies(){
 		var likes = doc.get("numLikes");
 		var replies = doc.get("numComments");
 		var time = doc.get("dateTime").toDate().toLocaleString("en-CA");
-		var tmoment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
+		var timeToShow = moment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
 		UsersRef.doc(author).get().then((userDoc) =>{
 			var name = userDoc.get("fullName");
 			var userImage = userDoc.get("profileUrl");
@@ -1605,32 +1605,32 @@ function loadProfile()
 			profile_pic = data.profileUrl;
 		}
 		html = `<div class="content mx-auto">
-					    <div class="fb-profile">
-					        <img align="left" class="fb-image-lg" src=${cover_pic} alt="Cover image"/>
-					        <img align="left" class="fb-image-profile thumbnail" src=${profile_pic} alt="Profile image"/>
-					        <div class="fb-profile-text">
-					            <h1>${data.fullName}</h1>
-					            <h4>${data.course}</h4>
-					            <h4>${data.university}</h4>
-					        </div>
+				    <div class="fb-profile">
+				        <img align="left" class="fb-image-lg" src=${cover_pic} alt="Cover image"/>
+				        <img align="left" class="fb-image-profile thumbnail" src=${profile_pic} alt="Profile image"/>
+				        <div class="fb-profile-text">
+				            <h1>${data.fullName}</h1>
+				            <h4>${data.course}</h4>
+				            <h4>${data.university}</h4>
+				        </div>
 
-					        <a href="editProfile.html" class="edit-profile-btn">Edit Profile</a>
-					    </div>
+				        <a href="editProfile.html" class="edit-profile-btn">Edit Profile</a>
+				    </div>
 
 
-					    <div class="profile-btn row">
-					    	<a href="#" class="col mr-2">Questions</a>
-					    	<a href="#" class="col mr-2">Answers</a>
-					    	<a href="#reading_stats" class="col open-popup">Reading Stats</a>
-					    </div>
+				    <div class="profile-btn row">
+				    	<a href="#" class="col mr-2">Questions</a>
+				    	<a href="#" class="col mr-2">Answers</a>
+				    	<a href="#reading_stats" class="col open-popup">Reading Stats</a>
+				    </div>
 
-					    <div class="manage-account">
-					    	<div class="row"><a class="bdr-btm bdr-top">Manage Interests</a></div>
-					    	<div class="row"><a class="bdr-btm">Invite Friends</a></div>
-					    	<div class="row"><a href="feedback.html" class="bdr-btm">Feedback</a></div>
-					    	<div class="row"><a class="bdr-btm settings">Settings</a></div>
-					    	<div class="row"><a class="bdr-btm logout">Logout</a></div>
-					    </div>
+				    <div class="manage-account">
+				    	<div class="row"><a class="bdr-btm bdr-top">Manage Interests</a></div>
+				    	<div class="row"><a class="bdr-btm">Invite Friends</a></div>
+				    	<div class="row"><a href="./feedback.html" class="bdr-btm">Feedback</a></div>
+				    	<div class="row"><a href="./settings.html" class="bdr-btm settings">Settings</a></div>
+				    	<div class="row"><a class="bdr-btm logout">Logout</a></div>
+				    </div>
 				</div>
 
 				<div id="reading_stats" class="popup">

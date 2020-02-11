@@ -15,178 +15,6 @@
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   	<script type="text/javascript" src="../js/main.js"></script>
-    <style type="text/css">
-        #settingsNav .active-setting {
-            background: #f7f7f7 !important;
-            color: #222 !important;
-            border-right: 4px solid #6400ae !important;
-            transition: 0s;
-        }
-
-        #settingsNav .navigation {
-            background: #fff;
-            border-top: 1px solid #e5e5e5;
-            border-right: 1px solid #e5e5e5;
-            position: fixed;
-            top: 65px;
-            bottom:0;
-            left:0;
-            width:300px;
-            overflow:hidden;
-            -webkit-transition:width .05s linear;
-            transition:width .05s linear;
-            -webkit-transform:translateZ(0) scale(1,1);
-            z-index:1000;
-        }
-
-        #settingsNav .navigation > ul {
-            margin: 0;
-        }
-
-        #settingsNav .navigation > ul > li {
-            position: relative;
-            display: block;
-            width: 300px;
-            list-style: none;
-            margin-left: -40px;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        #settingsNav .navigation > ul > li:last-child {
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        #settingsNav .navigation > ul > li > button {
-            width: 100%;
-            margin-left: 0;
-            text-align: left;
-            position: relative;
-            border: none;
-            background-color: #fff;
-            color: #333333;
-            font-size: 1.5rem;
-            border-right: 5px solid #fff;
-            padding: 0.7em 0.5em;
-            font-family: "Roboto", sans-serif;
-        }
-
-        #settingsNav .navigation > ul > li > button:hover {
-            background-color: transparent;
-            color: #222;
-        }
-
-        #settingsNav .navigation > ul > li > button:focus {
-            border: none;
-            outline: none;
-        }
-
-        #settingsNav .navigation > ul > li > button > span.active-arrow {
-            font-size: 1rem;
-            float: right;
-            color: #222;
-            margin-top: 8px;
-            font-weight: 100 !important;  
-        }
-
-        #settings-content {
-            margin-left: 300px;
-            margin-top: 65px;
-            right: 0;
-            position: relative;
-            width: 100% - 300px;
-        }
-
-        #settings-content .all-divs {
-        }
-
-        #settings-content .all-divs #notification_settings,
-        #settings-content .all-divs #privacy_settings,
-        #settings-content .all-divs #terms_settings,
-        #settings-content .all-divs #about_settings {
-            height: 100vh;
-        }
-
-        #settings-content .all-divs #notification_settings::-webkit-scrollbar,
-        #settings-content .all-divs #privacy_settings::-webkit-scrollbar,
-        #settings-content .all-divs #terms_settings::-webkit-scrollbar,
-        #settings-content .all-divs #about_settings::-webkit-scrollbar {
-          width: 10px;
-        }
-
-        /* Track */
-        #settings-content .all-divs #notification_settings::-webkit-scrollbar-track,
-        #settings-content .all-divs #privacy_settings::-webkit-scrollbar-track,
-        #settings-content .all-divs #terms_settings::-webkit-scrollbar-track,
-        #settings-content .all-divs #about_settings::-webkit-scrollbar-track {
-          background: #e6e6e6;
-        }
-
-        /* Handle */
-        #settings-content .all-divs #notification_settings::-webkit-scrollbar-thumb,
-        #settings-content .all-divs #privacy_settings::-webkit-scrollbar-thumb,
-        #settings-content .all-divs #terms_settings::-webkit-scrollbar-thumb,
-        #settings-content .all-divs #about_settings::-webkit-scrollbar-thumb {
-          background: #999;
-        }
-
-        /* Handle on hover */
-        #settings-content .all-divs #notification_settings::-webkit-scrollbar-thumb:hover,
-        #settings-content .all-divs #privacy_settings::-webkit-scrollbar-thumb:hover,
-        #settings-content .all-divs #terms_settings::-webkit-scrollbar-thumb:hover,
-        #settings-content .all-divs #about_settings::-webkit-scrollbar-thumb:hover {
-          background: #555;
-        }
-
-        #settings-content .all-divs #account_settings {
-            padding: 0.5em;
-        }
-
-        #settings-content .all-divs #notification_settings,
-        #settings-content .all-divs #privacy_settings,
-        #settings-content .all-divs #terms_settings,
-        #settings-content .all-divs #about_settings {
-            display: none;
-            padding: 0.5em;
-        }
-
-        #settings-content .all-divs #account_settings h1,
-        #settings-content .all-divs #notification_settings h1,
-        #settings-content .all-divs #privacy_settings h1,
-        #settings-content .all-divs #terms_settings h1,
-        #settings-content .all-divs #about_settings h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            font-family: "Roboto", sans-serif;
-            letter-spacing: 1px;
-            color: #222;
-        }
-
-        #settings-content .all-divs #terms_settings,
-        #settings-content .all-divs #privacy_settings {
-            font-family: 'Roboto', sans-serif;
-            font-size: 15px;
-            padding-bottom: 70px;
-        }
-
-        #settings-content .all-divs #terms_settings h4,
-        #settings-content .all-divs #privacy_settings h4 {
-            font-weight: bold;
-            color: #222;
-        }
-
-        #settings-content .all-divs #terms_settings a,
-        #settings-content .all-divs #privacy_settings a {
-            color: #6400ae;
-        }
-
-        #settings-content .all-divs #terms_settings .update {
-            font-style: italic;
-        }
-
-        #settings-content .all-divs #terms_settings .welcome {
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body style="background-color: #fff;">
 	<nav class="navbar navbar-expand-sm fixed-top write-quest-nav" style="box-shadow: none;">
@@ -205,7 +33,7 @@
         <nav class="navigation">
             <ul>
                 <li><button type="button" id="account" class="active-setting">Account <span class="active-arrow"><i class="fa fa-chevron-right"></i></span></button></li>
-                <li><button type="button" id="notifications">Notifications <span class="active-arrow"><i class="fa fa-chevron-right"></i></span></button></li>
+                <li><button type="button" id="notif">Notifications <span class="active-arrow"><i class="fa fa-chevron-right"></i></span></button></li>
                 <li><button type="button" id="privacy">Privacy Prolicy <span class="active-arrow"><i class="fa fa-chevron-right"></i></span></button></li>
                 <li><button type="button" id="terms">Terms <span class="active-arrow"><i class="fa fa-chevron-right"></i></span></button></li>
                 <li><button type="button" id="about_sesyme">About Sesyme <span class="active-arrow"><i class="fa fa-chevron-right"></i></span></button></li>
@@ -400,20 +228,20 @@
                 $('#about_settings').hide();
 
                 $('#account').addClass("active-setting")
-                $('#notifications').removeClass("active-setting");
+                $('#notif').removeClass("active-setting");
                 $('#privacy').removeClass("active-setting");
                 $('#terms').removeClass("active-setting");
                 $('#about_sesyme').removeClass("active-setting");
             });
 
-            $("#notifications").click(function(){
+            $("#notif").click(function(){
                 $('#notification_settings').show();
                 $('#account_settings').hide();
                 $('#privacy_settings').hide();
                 $('#terms_settings').hide();
                 $('#about_settings').hide();
 
-                $('#notifications').addClass("active-setting");
+                $('#notif').addClass("active-setting");
                 $('#account').removeClass("active-setting");
                 $('#privacy').removeClass("active-setting");
                 $('#terms').removeClass("active-setting");
@@ -428,7 +256,7 @@
                 $('#about_settings').hide();
 
                 $('#privacy').addClass("active-setting");
-                $('#notifications').removeClass("active-setting");
+                $('#notif').removeClass("active-setting");
                 $('#account').removeClass("active-setting");
                 $('#terms').removeClass("active-setting");
                 $('#about_sesyme').removeClass("active-setting");
@@ -443,7 +271,7 @@
 
                 $('#terms').addClass("active-setting");
                 $('#privacy').removeClass("active-setting");
-                $('#notifications').removeClass("active-setting");
+                $('#notif').removeClass("active-setting");
                 $('#account').removeClass("active-setting");
                 $('#about_sesyme').removeClass("active-setting");
             });
@@ -458,7 +286,7 @@
                 $('#about_sesyme').addClass("active-setting");
                 $('#terms').removeClass("active-setting");
                 $('#privacy').removeClass("active-setting");
-                $('#notifications').removeClass("active-setting");
+                $('#notif').removeClass("active-setting");
                 $('#account').removeClass("active-setting");
             });
         });

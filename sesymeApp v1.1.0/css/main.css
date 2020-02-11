@@ -639,8 +639,8 @@ a {
 }
 
 .scroll {
-    margin:4px, 4px;
-    padding:4px;
+    margin: 0;
+    padding: 4px;
     overflow-x: hidden;
     overflow-x: auto;
     text-align:justify;
@@ -649,6 +649,7 @@ a {
 /* width */
 #q_and_a::-webkit-scrollbar {
   width: 10px;
+  top: 70px;
 }
 
 /* Track */
@@ -733,6 +734,7 @@ a {
   width: 100%;
   height: auto;
   border: 2px solid #e6e6e6;
+
 }
 
 #q_and_a .content .questions .quest1 .author .caption .author-details {
@@ -745,6 +747,9 @@ a {
   float: left;
   width: 3rem;
   border-radius: 50%;
+  width: 45px; 
+  height: 45px;
+  object-fit: cover;
 }
 
 #q_and_a .content .questions .quest1 .author .caption .author-details .name {
@@ -762,6 +767,14 @@ a {
   padding-left: 1rem;
   size: .6rem;
   color: grey;
+  font-family: Arial, sans-serif;
+}
+
+#q_and_a .content .questions .quest1 .postImage {
+    width: 100%; 
+    height: 300px; 
+    margin-bottom: 5px; 
+    object-fit: cover;
 }
 
 #q_and_a .content .questions .quest1 .author .caption .author-details .quest-options-btn {
@@ -1449,7 +1462,7 @@ a {
 }
 
 .interests-nav-link[aria-selected="true"] {
-    color: #fff;
+    color: #fff !important;
     background-color: #6400ae;
 }
 
@@ -2157,13 +2170,17 @@ a {
 #userProfile .content .fb-profile img.fb-image-lg {
     z-index: 0;
     width: 100%;
+    height: 250px;
+    object-fit: cover;
     margin-bottom: 10px;
 }
 
 #userProfile .content .fb-image-profile {
     margin: -90px 10px 0px 30px;
     z-index: 9;
-    width: 25%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
     border: 4px solid #fff;
     border-radius: 50%;
 }
@@ -2468,7 +2485,8 @@ a {
     margin: 0;
     text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
     color: #753d70;
-===========================================*/
+}
+/*===========================================*/
 
 #write_feedback {
     padding-top: 10%;
@@ -2593,6 +2611,7 @@ a {
     background-color: #fff;
     color: #6400ae;
     transition: 0.6s ease;
+    text-decoration: none;
 }
 
 #write_feedback .content .feedback-form .input:focus + .shadow-input1 {
@@ -2615,6 +2634,179 @@ a {
     }
 }
 
+/*===========================================*/
+
+#settingsNav .active-setting {
+    background: #f7f7f7 !important;
+    color: #222 !important;
+    border-right: 4px solid #6400ae !important;
+    transition: 0s;
+}
+
+#settingsNav .navigation {
+    background: #fff;
+    border-top: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    position: fixed;
+    top: 65px;
+    bottom:0;
+    left:0;
+    width:300px;
+    overflow:hidden;
+    -webkit-transition:width .05s linear;
+    transition:width .05s linear;
+    -webkit-transform:translateZ(0) scale(1,1);
+    z-index:1000;
+}
+
+#settingsNav .navigation > ul {
+    margin: 0;
+}
+
+#settingsNav .navigation > ul > li {
+    position: relative;
+    display: block;
+    width: 300px;
+    list-style: none;
+    margin-left: -40px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+#settingsNav .navigation > ul > li:last-child {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+#settingsNav .navigation > ul > li > button {
+    width: 100%;
+    margin-left: 0;
+    text-align: left;
+    position: relative;
+    border: none;
+    background-color: #fff;
+    color: #333333;
+    font-size: 1.5rem;
+    border-right: 5px solid #fff;
+    padding: 0.7em 0.5em;
+    font-family: "Roboto", sans-serif;
+}
+
+#settingsNav .navigation > ul > li > button:hover {
+    background-color: transparent;
+    color: #222;
+}
+
+#settingsNav .navigation > ul > li > button:focus {
+    border: none;
+    outline: none;
+}
+
+#settingsNav .navigation > ul > li > button > span.active-arrow {
+    font-size: 1rem;
+    float: right;
+    color: #222;
+    margin-top: 8px;
+    font-weight: 100 !important;  
+}
+
+#settings-content {
+    margin-left: 300px;
+    margin-top: 65px;
+    right: 0;
+    position: relative;
+    width: 100% - 300px;
+}
+
+#settings-content .all-divs {
+}
+
+#settings-content .all-divs #notification_settings,
+#settings-content .all-divs #privacy_settings,
+#settings-content .all-divs #terms_settings,
+#settings-content .all-divs #about_settings {
+    height: 100vh;
+}
+
+#settings-content .all-divs #notification_settings::-webkit-scrollbar,
+#settings-content .all-divs #privacy_settings::-webkit-scrollbar,
+#settings-content .all-divs #terms_settings::-webkit-scrollbar,
+#settings-content .all-divs #about_settings::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+#settings-content .all-divs #notification_settings::-webkit-scrollbar-track,
+#settings-content .all-divs #privacy_settings::-webkit-scrollbar-track,
+#settings-content .all-divs #terms_settings::-webkit-scrollbar-track,
+#settings-content .all-divs #about_settings::-webkit-scrollbar-track {
+  background: #e6e6e6;
+}
+
+/* Handle */
+#settings-content .all-divs #notification_settings::-webkit-scrollbar-thumb,
+#settings-content .all-divs #privacy_settings::-webkit-scrollbar-thumb,
+#settings-content .all-divs #terms_settings::-webkit-scrollbar-thumb,
+#settings-content .all-divs #about_settings::-webkit-scrollbar-thumb {
+  background: #999;
+}
+
+/* Handle on hover */
+#settings-content .all-divs #notification_settings::-webkit-scrollbar-thumb:hover,
+#settings-content .all-divs #privacy_settings::-webkit-scrollbar-thumb:hover,
+#settings-content .all-divs #terms_settings::-webkit-scrollbar-thumb:hover,
+#settings-content .all-divs #about_settings::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+#settings-content .all-divs #account_settings {
+    padding: 0.5em;
+}
+
+#settings-content .all-divs #notification_settings,
+#settings-content .all-divs #privacy_settings,
+#settings-content .all-divs #terms_settings,
+#settings-content .all-divs #about_settings {
+    display: none;
+    padding: 0.5em;
+}
+
+#settings-content .all-divs #account_settings h1,
+#settings-content .all-divs #notification_settings h1,
+#settings-content .all-divs #privacy_settings h1,
+#settings-content .all-divs #terms_settings h1,
+#settings-content .all-divs #about_settings h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    font-family: "Roboto", sans-serif;
+    letter-spacing: 1px;
+    color: #222;
+}
+
+#settings-content .all-divs #terms_settings,
+#settings-content .all-divs #privacy_settings {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    padding-bottom: 70px;
+}
+
+#settings-content .all-divs #terms_settings h4,
+#settings-content .all-divs #privacy_settings h4 {
+    font-weight: bold;
+    color: #222;
+}
+
+#settings-content .all-divs #terms_settings a,
+#settings-content .all-divs #privacy_settings a {
+    color: #6400ae;
+}
+
+#settings-content .all-divs #terms_settings .update {
+    font-style: italic;
+}
+
+#settings-content .all-divs #terms_settings .welcome {
+    font-weight: bold;
+}
+
 /*================================================
                   Settings
 =================================================*/
@@ -2625,8 +2817,8 @@ a {
             Edit User Profile
 ===========================================*/
 
-#editProfilele {
-    margin-top: 70px;
+#editProfile {
+    margin-top: 50px;
     height: 100vh;
 }
 
@@ -2650,31 +2842,166 @@ a {
 }
 
 #editProfile .content {
-    height: 100vh;
-    padding: 1em;
+    width: 650px;
+    padding: 0;
+    padding-bottom: 20px;
+    background-color: #fff;
 }
 
-#editProfile .content .fb-profile img.fb-image-lg {
+#editProfile .content .display-images .cover-image {
+    width: 100%;
+    height: 250px;
+}
+
+#editProfile .content .display-images .cover-image img {
     z-index: 0;
     width: 100%;
-    margin-bottom: 10px;
-    margin-top: 40px;
+    height: 250px;
+    object-fit: cover;
 }
 
-#editProfile .content .fb-image-profile {
-    margin: -90px 10px 0px 250px;
+#editProfile .content .display-images .cover-image [type="file"] {
+    height: 0;
+    overflow: hidden;
+    width: 0;
+}
+
+#editProfile .content .display-images .cover-image [type="file"] + label {
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    -webkit-transition: all 0.6s;
+    transition: all 0.6s;
+    right: 10px;
+}
+
+#editProfile .content .display-images .cover-image [type="file"] + label:hover {
+    color: #6400ae;
+}
+
+#editProfile .content .display-images .profile-pic {
+    margin: -75px 10px 0px 30px;
     z-index: 9;
-    width: 23%;
-    border: 4px solid #fff;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
 }
 
+#editProfile .content .display-images .profile-pic img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    object-fit: cover;
+}
+
+#editProfile .content .display-images .profile-pic [type="file"] {
+    height: 0;
+    overflow: hidden;
+    width: 0;
+}
+
+#editProfile .content .display-images .profile-pic [type="file"] + label {
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+#editProfile .content .display-images .profile-pic [type="file"] + label:hover {
+    color: #6400ae;
+}
+
+#editProfile .content .fb-profile-text {
+    margin-left: 190px;
+    margin-top: -70px;
+}
+
+#editProfile .content .fb-profile-text span {
+    /*border-bottom: 1px solid #e6e6e6;*/
+    padding-bottom: 0.5em;
+}
+
+#editProfile .content .fb-profile-text span:last-child {
+    border-bottom: none;
+}
+
+#editProfile .content .fb-profile-text input {
+    background-color: transparent;
+    border: none;
+    min-width: 40%;
+    max-width: 90%;
+}
+
+#editProfile .content .fb-profile-text input:focus {
+    outline: none;
+}
+
+#editProfile .content .fb-profile-text button {
+    background-color: transparent;
+    border: none;
+    color: #6400ae
+}
+
+#editProfile .content .fb-profile-text button:focus {
+    outline: transparent;
+}
+
+#editProfile .content .fb-profile-text .h1 {
+    font-family: "Francois One", sans-serif;
+    font-size: 25px;
+    margin: 0;
+}
+
+#editProfile .content .fb-profile-text .h4 {
+    font-style: italic;
+    margin: 0;
+    font-size: 18px;
+}
+
 @media (max-width:768px) {
+    #editProfilee .content .fb-profile-text .h1 {
+        font-weight: 700;
+        font-size: 16px;
+    }
+
     #editProfile .content .fb-image-profile {
         margin: -45px 10px 0px 25px;
         z-index: 9;
         width: 20%;
     }
+}
+
+#editProfile .content .profile-edit {
+    padding: 1em;
+}
+
+#editProfile .content .profile-edit [type="month"] {
+    background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+    border:none;
+    margin-bottom: 10px;
+    font-family: "Roboto", sans-serif;
+}
+
+#editProfile .content .profile-edit [type="month"]:focus {
+    outline: none;
+}
+
+#editProfile .content .profile-edit [type="month"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+#editProfile .content .profile-edit [type="month"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}   
+
+#editProfile .content .profile-edit select option {
+    background-color: #fff;
 }
 
 /*===========================================

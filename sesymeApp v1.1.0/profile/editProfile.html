@@ -24,20 +24,110 @@
         </ul>
 	</nav>
 
-	<section id="editProfile">
-		<div class="content">
-		    <div class="row">
-		    	<div class="col">
-		    		<div class="fb-profile">
-				        <img align="left" class="fb-image-lg" src="../img/cover.jpg" alt="Profile image example"/>
-				        <img align="left" class="fb-image-profile thumbnail" src="../img/profilePic.jpg" alt="Profile image example"/>
-				    </div>
+	<section id="editProfile" class="scroll">
+		<div class="content mx-auto">
+		    <div class="profile-header">
+	    		<div class="display-images">
+					<div class="cover-image w3-display-container">
+						<img src="../img/cover.jpg" alt="Cover">
+						<div class="w3-display-bottomright">
+							<input type="file" id="coverPic" />
+							<label for="coverPic"><i class="fa fa-photo fa-2x"></i></label>
+						</div>
+					</div>
+					<div class="profile-pic w3-display-container">
+						<img src="../img/profilePic.jpg" alt="Profile Picture">
+						<div class="w3-display-middle">
+							<input type="file" id="profilePic" />
+							<label for="profilePic"><i class="fa fa-photo fa-2x"></i></label>
+						</div>
+					</div>
+				</div>
+
+			    <div class="fb-profile-text">
+		            <span>
+		            	<input type="" id="edit_fullname" class="h1" value="Name middleName Surname"/>
+		            	<button class="edit-fullname"><i class="fa fa-pencil"></i></button>
+		            </span><br>
+		            <span>
+		            	<input type="" id="courseName" class="h4" value="BSc Computer Science"/>
+		            	<button class="edit-course"><i class="fa fa-pencil"></i></button>
+		            </span>
+		        </div>  
+		    </div>
+
+		    <div class="profile-edit">
+		    	<div class="form-group w3-right">
+		    		<label for="datepicker_sign_up" style="margin: 0; font-family: 'Roboto', sans-serif; color: grey">Birthday <i class="fa fa-birthday-cake"></i></label><br>
+		    		<input type="month" class="" id="datepicker_sign_up" name="datePicker" value="1995-06" />
 		    	</div>
-		    	<div class="col">
-		    		other ones
-		    	</div>
+
+		    	<select id="gender_sign_up">
+					<option selected disabled>- Select Gender -</option>
+					<option>Male</option>
+					<option>Female</option>
+					<option>Unspecified</option>
+				</select>
+
+		    	<select id="university_selector">
+					<option disabled selected>- Select University -</option>
+					<option>University of Cape Town</option>
+					<option>Cape Peninsula University of Technology</option>
+					<option>Central University of Technology</option>
+					<option>Durban University of Technology</option>
+					<option>University of Fort Hare</option>
+					<option>University of the Free State</option>
+					<option>University of KwaZulu-Natal</option>
+					<option>University of Limpopo</option>
+					<option>Mangosuthu University of Technology</option>
+					<option>University of Mpumalanga</option>
+					<option>North-West University</option>
+					<option>University of Pretoria</option>
+					<option>Rhodes University</option>
+					<option>Sefako Makgatho Health Sciences University</option>
+					<option>Sol Plaatje University</option>
+					<option>University of Stellenbosch</option>
+					<option>University of the Western Cape</option>
+					<option>University of the Witwatersrand</option>
+					<option>University of Johannesburg</option>
+					<option>Nelson Mandela University</option>
+					<option>University of South Africa</option>
+					<option>Tshwane University of Technology</option>
+					<option>University of Venda</option>
+					<option>Vaal University of Technology</option>
+					<option>Walter Sisulu University</option>
+					<option>University of Zululand</option>
+				</select>
+
+				<select id="Affiliation_selector">
+					<option selected disabled>- Select Affiliation -</option>
+					<option>Student</option>
+					<option>Lecturer</option>
+					<option>Alumnus</option>
+				</select>
+
+				<p>
+					Other primary information will be edited in the settings.
+				</p>
 		    </div>
 		</div>
+
 	</section>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  	<script type="text/javascript" src="../js/main.js"></script>
+  	<script>
+  		$('.edit-fullname').click(function(){
+		    $('#edit_fullname').focus();
+		    $('#edit_fullname').select();
+		});
+
+		$('.edit-course').click(function(){
+		    $('#courseName').focus();
+		    $('#courseName').select();
+		});
+  	</script>
 </body>
 </html>
