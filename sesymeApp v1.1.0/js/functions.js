@@ -34,6 +34,7 @@ var storage = firebase.storage();
 var UsersRef = db.collection("UserDetails");
 var QuestionsCollection = db.collection("Questions");
 var LikesCollection = db.collection("liked");
+var Notifications = db.collection("Notifications");
 
 
 /*=====================================
@@ -43,67 +44,86 @@ window.onload = function(){
 	if (sessionStorage.getItem("selectedQuestion") != null) {
 		selectedQuestion = sessionStorage.getItem("selectedQuestion");
 	}
-			var url = window.location.href.split("/");
-	    page = url[url.length - 1].trim();
-	    switch(page){
+		var url = window.location.href.split("/");
+		page = url[url.length - 1].trim();
+		switch(page){
 
-	      case "signup.html":
-	          loadSignUp();
-	      break;
+		case "signup.html":
+			loadSignUp();
+		break;
 
-	      case "home.html":
-					if(sessionStorage.getItem("user_id") != null)
-					{
-	          loadQuestionsPage();
-					}else
-					{
-						loadLogIn();
-					}
-				break;
+		case "home.html":
+				if(sessionStorage.getItem("user_id") != null)
+				{
+					loadQuestionsPage();
+				}else
+				{
+					loadLogIn();
+				}
+		break;
 
-	      case "replies.html":
-					if(sessionStorage.getItem("user_id") != null)
-					{
-	          loadReplies();
-					}else
-					{
-						loadLogIn();
-					}
-				break;
+		case "replies.html":
+			if(sessionStorage.getItem("user_id") != null)
+			{
+				loadReplies();
+			}else
+			{
+				loadLogIn();
+			}
+		break;
 
-	      case "write_question.html":
-					if(sessionStorage.getItem("user_id") != null)
-					{
-	          loadWriteQuestion();
-					}else
-					{
-						loadLogIn();
-					}
-				break;
+		case "write_question.html":
+			if(sessionStorage.getItem("user_id") != null)
+			{
+				loadWriteQuestion();
+			}else
+			{
+				loadLogIn();
+			}
+		break;
 
-	      case "write_reply.html":
-						if(sessionStorage.getItem("user_id") != null)
-						{
-			          loadPostReply();
-							}else
-							{
-								loadLogIn();
-							}
-					break;
+		case "write_reply.html":
+			if(sessionStorage.getItem("user_id") != null)
+			{
+				loadPostReply();
+			}else
+			{
+				loadLogIn();
+			}
+		break;
 
-					case "profile.html":
-							if(sessionStorage.getItem("user_id") != null)
-							{
-				          loadProfile();
+		case "profile.html":
+			if(sessionStorage.getItem("user_id") != null)
+			{
+				loadProfile();
+			}else
+			{
+				loadLogIn();
+			}
+		break;
+		case "editProfile.html":
+			if(sessionStorage.getItem("user_id") != null)
+			{
+				loadEditProfile();
 
-							}else
-							{
-								loadLogIn();
-							}
-					break;
-	      default:
-	          loadLogIn();
-	        break;
+			}else
+			{
+				loadLogIn();
+			}
+		break;
+		case "notifications.html":
+			if(sessionStorage.getItem("user_id") != null)
+			{
+				load_notifications();
+
+			}else
+			{
+				loadLogIn();
+			}
+		break;
+		default:
+			loadLogIn();
+		break;
 	    }
 
 
@@ -111,7 +131,6 @@ window.onload = function(){
   		if (user) {
 				checkSession();
     		myEmail = user.email;
-				console.log(user.email);
 
     		var emailVerified = user.emailVerified;
     		var isAnonymous = user.isAnonymous;
@@ -128,7 +147,13 @@ window.onload = function(){
   			}
   		}
 	});
+	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(data)
+	{
+			var user = data.data();
+			$('#nav-profile-pic img').attr('src', user.profileUrl);
+	});
 }
+
 
 $('#userProfile').on('click', '.logout', function(e){
 		firebase.auth().signOut().then(function(){
@@ -636,7 +661,7 @@ function changePage(){
 	var gender = $('#gender_sign_up').val();
 	var course = $('#course_sign_up').val().trim();
 	var university = $('#university_selector').val();
-	var affiliation = $('#Affiliation_selector').val();
+	var affiliation = $('#affiliation_selector').val();
 
 	switch(myNextPage){
 		case 1:
@@ -728,16 +753,24 @@ function loadQuestionsPage(){
 	showLoader();
 	UsersRef.doc(sessionStorage.getItem("user_id")).onSnapshot(function(user)
 	{
-		var html = '<a class="interests-nav-link" aria-selected="true">All</a>';
-		$('#interestsNavContents').append(html);
+		var html = '';
 		var interests = [];
 		var count = 0;
 
 		interests = user.data().interests;
 		interests.forEach(function(interest)
 		{
+			if(count == 0)
+			{
+				html = '<a class="interests-nav-link" aria-selected="true" href="home.html">All</a>\
+				<a class="interests-nav-link">'+interest+'</a>';
+				$('#interestsNavContents').append(html);
+				count++;
+				
+			}
 			 html = '<a class="interests-nav-link">'+interest+'</a>';
 			 $('#interestsNavContents').append(html);
+			 count++;
 		});
 
 	});
@@ -1358,10 +1391,6 @@ function readURL(input) {
     }
 }
 
-function read_this()
-{
-	$('.select-pure__option--selected').text("Hello");
-}
 
 function uploadPostImage(file, id, type, attType){
 	var uploadTask = storage.ref('Questions/'+id+'.jpg').put(file);
@@ -1608,13 +1637,14 @@ function postReply(type, description, id, attType){
 /*=====================================
           PROFILE PAGE
 =====================================*/
-
+/*+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--
+										PROFILE VIEW
++-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--*/
 function loadProfile()
 {
 	var html = "";
 	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(user)
 	{
-		console.log(user);
 		var data = user.data();
 		var profile_pic = null;
 		var cover_pic = null;
@@ -1701,9 +1731,414 @@ function loadProfile()
 
 }
 
-/*======================================
-						FEEDBACK
-======================================*/
+/*+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--
+										PROFILE EDIT VIEW
++-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--*/
+
+function loadEditProfile()
+{
+	showLoader();
+	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(user)
+	{
+		var data = user.data();
+		var profile_pic = null;
+		var cover_pic = null;
+		var gender = data.gender;
+		var dob = moment(data.dateOfBirth).format("YYYY-MM");
+
+		if(data.coverUrl == null)
+		{
+			cover_pic = "../img/profilePic.jpg";
+		}else
+		{
+			cover_pic = data.coverUrl;
+		}
+
+		if(data.profileUrl == null)
+		{
+			profile_pic = "../img/cover.jpg";
+		}else
+		{
+			profile_pic = data.profileUrl;
+		}
+
+
+		$('#editProfile').find(".cover-image").children().first().attr('src', cover_pic);
+		$('#editProfile').find(".profile-pic").children().first().attr('src', profile_pic);
+		$('#editProfile').find(".fb-profile-text").children().first().children().first().attr('value', data.fullName);
+		$('#editProfile').find(".fb-profile-text").children().last().children().first().attr('value', data.course);
+		$('#editProfile').find(".profile-edit").children('.form-group').find('input').attr('value', dob);
+		//gender
+		var gen = [];
+		gen = $('#editProfile').find(".profile-edit").children('#gender_sign_up').find('option');
+
+		for(var i = 0; i < gen.length; i++)
+		{
+
+			if(gender === gen.get(i).text)
+			{
+				gen.get(i).setAttribute("selected", "");
+				gen.get(i).setAttribute("disabled", "");
+			}
+		}
+		//university
+		var university = [];
+		university = $('#editProfile').find(".profile-edit").children('#university_selector').find('option');
+
+		for(var i = 0; i < university.length; i++)
+		{
+
+			if(data.university === university.get(i).text)
+			{
+				university.get(i).setAttribute("selected", "");
+				university.get(i).setAttribute("disabled", "");
+			}
+		}
+
+		//affiliation
+		var affiliate = [];
+		var affiliate  = $('#editProfile').find(".profile-edit").children('#affiliation_selector').find('option');
+
+		for(var i = 0; i < affiliate.length; i++)
+		{
+
+			if(data.affiliation === affiliate.get(i).text)
+			{
+				affiliate.get(i).setAttribute("selected", "");
+				affiliate.get(i).setAttribute("disabled", "");
+			}
+		}
+
+
+
+		hideLoader();
+	}).catch(function(error)
+	{
+		console.log(error);
+	});
+
+
+}
+
+var cover_img = null;
+function readCover_pic(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#editProfile').find(".cover-image").children().first().attr('src', e.target.result);
+			cover_img = input.files[0];
+		}
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+var profile_img = null;
+function readProfile_pic(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#editProfile').find(".profile-pic").children().first().attr('src', e.target.result);
+			profile_img = input.files[0];
+
+		}
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$('#coverPic').on('change', function(e)
+{
+	var selectedImg = e.target.files[0];
+	var ImgName = selectedImg.name;
+	var fileType = selectedImg.type;
+	var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+	if ($.inArray(fileType, validImageTypes) < 0) {
+		showSnackbar("Selected file is not an Image");
+		return;
+	}else
+	{
+		readCover_pic(this);
+	}
+
+
+});
+
+$('#profilePic').on('change', function(e)
+{
+	var selectedImg = e.target.files[0];
+	var ImgName = selectedImg.name;
+	var fileType = selectedImg.type;
+	var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+	if ($.inArray(fileType, validImageTypes) < 0) {
+		showSnackbar("Selected file is not an Image");
+		return;
+	}else
+	{
+	readProfile_pic(this);
+	}
+});
+
+
+
+
+$('.profile-edit #university_selector').on('change', function(e)
+{
+	e.stopPropagation();
+	var university = $('#university_selector').val();
+	UsersRef.doc(sessionStorage.getItem("user_id")).update(
+	{
+		university: university,
+	}).then(function()
+	{
+		console.log("edited");
+		
+	})
+	.catch(function(error)
+	{
+		console.log(error);
+	});
+	
+});
+
+$('.profile-edit #datepicker_sign_up').on('change', function(e)
+{
+	e.stopPropagation();
+	var dob = $('#datepicker_sign_up').val();
+	UsersRef.doc(sessionStorage.getItem("user_id")).update({dateOfBirth: dob})
+	.then(function()
+	{
+		console.log("edited");
+	})
+	.catch(function(error)
+	{
+		console.log(error);
+	});
+	
+});
+
+$('.profile-edit #gender_sign_up').on('change', function(e)
+{
+	e.stopPropagation();
+	var gender = $('#gender_sign_up').val();
+	UsersRef.doc(sessionStorage.getItem("user_id")).update({gender: gender})
+	.then(function()
+	{
+		console.log("edited");
+	})
+	.catch(function(error)
+	{
+		console.log(error);
+	});
+	
+});
+
+$('.profile-edit #affiliation_selector').on('change', function(e)
+{
+	e.stopPropagation();
+	var affiliation = $('#affiliation_selector').val();
+	UsersRef.doc(sessionStorage.getItem("user_id")).update({affiliation: affiliation})
+	.then(function()
+	{
+		console.log("edited");
+	})
+	.catch(function(error)
+	{
+		console.log(error);
+	});
+	
+});
+
+
+$("#save_edit_changes").on('click', function(e)
+{
+	var fullname = $('#edit_fullname').val();
+	var course_name = $('#courseName').val();
+	var dob = $('#datepicker_sign_up').val();
+	var gender = $('#gender_sign_up').val();
+	var university = $('#university_selector').val();
+	
+	var affiliation = $('#affiliation_selector').val();
+	var p_img = profile_img;
+	var c_img = cover_img;
+	var id = sessionStorage.getItem("user_id");
+
+	if(fullname != "" && course_name != "" && dob != "" && gender != "" && university != "" && affiliation != "")
+	{
+		showLoader();
+		UsersRef.doc(id).update(
+		{
+			fullName: fullname,
+			course: course_name,
+		}).then(function()
+		{
+			if(p_img == null && c_img == null)
+			{
+				setTimeout(function(){hideLoader();window.location.href="profile.html"},5000);
+			}
+		})
+		.catch(function(error)
+		{
+			console.log(error);
+
+		});
+		if(p_img != null)
+		{
+			updateImage(id, p_img, "profile_pic");
+		}
+
+		if(c_img != null)
+		{
+			updateImage(id, c_img, "cover_pic");
+		}
+
+
+	}
+
+});
+
+function updateImage(id, file, upload_type)
+{
+	if(upload_type === "profile_pic")
+	{
+		showLoader();
+		//delete old pic
+		var pic = storage.ref("profilePics/"+id+" Profile pic.jpg");
+		pic.delete().then(function() {
+			// File deleted successfully
+		//upload new pic
+		var uploadTask = storage.ref("profilePics/"+id+" Profile pic.jpg").put(file);
+		uploadTask.on('state_changed', function(snapshot){
+			var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
+			$('#progress').text((progress).toFixed(2) + " %");
+			  console.log('Upload is ' + progress + '% done');
+			  switch (snapshot.state) {
+				case firebase.storage.TaskState.PAUSED: // or 'paused'
+					  console.log('Upload is paused');
+					 break;
+				case firebase.storage.TaskState.RUNNING: // or 'running'
+					  console.log('Upload is running');
+					  break;
+			  }
+		}, function(error) {
+			  console.log(error);
+		}, function() {
+			  uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+				  UsersRef.doc(id).update({profileUrl: downloadURL});
+				  hideLoader();
+			  });
+		});
+		  }).catch(function(error) {
+			  console.log("error while deleting");
+
+			// Uh-oh, an error occurred!
+		  });
+
+
+	}
+
+	if(upload_type === "cover_pic")
+	{
+		//pic to be deleted
+		showLoader();
+		var pic = storage.ref("Cover Pics/"+id+" Cover.jpg");
+		pic.delete().then(function() {
+			// File deleted successfully
+
+			//upload new pic
+			var uploadTask = storage.ref("Cover Pics/"+id+" Cover.jpg").put(file);
+			uploadTask.on('state_changed', function(snapshot){
+				var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
+				$('#progress').text((progress).toFixed(2) + " %");
+				console.log('Upload is ' + progress + '% done');
+				switch (snapshot.state) {
+					case firebase.storage.TaskState.PAUSED: // or 'paused'
+						console.log('Upload is paused');
+						break;
+					case firebase.storage.TaskState.RUNNING: // or 'running'
+						console.log('Upload is running');
+						break;
+				}
+			}, function(error) {
+				console.log(error);
+			}, function() {
+				uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+					UsersRef.doc(id).update({coverUrl: downloadURL});
+					hideLoader();
+				});
+			});
+
+		  }).catch(function(error) {
+			// Uh-oh, an error occurred!
+			console.log("error happened while deleting");
+
+		  });
+
+	}
+
+}
+
+/*=====================================
+          NOTIFICATION PAGE
+=====================================*/
+/*+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--
+											NOTIFICATIONS VIEW
++-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--*/
+function load_notifications()
+{
+
+	Notifications.where("receiver", "==", sessionStorage.getItem("user_id"))
+	.onSnapshot(function(doc)
+	{
+
+
+		doc.forEach(function(notification)
+		{
+			UsersRef.doc(notification.get("sender")).get().
+			then(function(user)
+			{
+
+				var profile_img = user.get("profileUrl");
+				var img_show = "";
+				if(profile_img === null)
+				{
+					img_show = "../img/profilePic.jpg";
+				}else
+				{
+					img_show = profile_img;
+				}
+				var n_date = moment().format("YYYY-MM-DD, hh:mm:ss a");
+				
+				var html = `<div class="notification row">
+								<div class="col-1 profile-pic">
+									<img src="${img_show}" alt="User Profile Picture">
+								</div>
+								<div class="col-9 notif-message">
+									<p><span class="name">${user.get("fullName")}</span> ${notification.get("notificationText")}</p>
+								</div>
+								<div class="col-2 notif-options">
+									<a><i class="fa fa-chevron-down"></i></a><br>
+									<small>${moment(n_date, "YYYY-MM-DD, h:mm:ss a").fromNow()}</small>
+								</div>
+							</div>`;
+				$('#notifications .content').append(html);
+
+			});
+		});
+	});
+}
+
+$('#notifications .content').on('click', '.notification', function(e)
+{
+	e.stopPropagation();
+	alert($(this).text());
+});
+
+
+
+/*===============================================================================================
+										FEEDBACK
+===============================================================================================*/
 
 $('#report').on('keyup focusout', function()
 {

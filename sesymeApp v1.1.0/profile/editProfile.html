@@ -28,15 +28,19 @@
 
         <ul class="nav navbar-nav">
             <li class="nav-item">
-                <a class="post-btn" href="#" id="save_edit_chages">Save Changes</a>
+                <a class="post-btn" id="save_edit_changes">Save Changes</a>
             </li>
         </ul>
 	</nav>
-
+	<div id="loader">
+		<div>
+			<!-- Loading wheel for when something is happening or page is loading -->
+		</div>
+	</div>
 	<section id="editProfile" class="scroll">
 		<div class="content mx-auto">
-		    <div class="profile-header">
-	    		<div class="display-images">
+			<div class="profile-header">
+				<div class="display-images">
 					<div class="cover-image w3-display-container">
 						<img src="../img/cover.jpg" alt="Cover">
 						<div class="w3-display-bottomright">
@@ -53,33 +57,33 @@
 					</div>
 				</div>
 
-			    <div class="fb-profile-text">
-		            <span>
-		            	<input type="" id="edit_fullname" class="h1" value="Name middleName Surname"/>
-		            	<button class="edit-fullname"><i class="fa fa-pencil"></i></button>
-		            </span><br>
-		            <span>
-		            	<input type="" id="courseName" class="h4" value="BSc Computer Science"/>
-		            	<button class="edit-course"><i class="fa fa-pencil"></i></button>
-		            </span>
-		        </div>  
-		    </div>
+				<div class="fb-profile-text">
+					<span>
+						<input type="" id="edit_fullname" class="h1" value=""/>
+						<button class="edit-fullname"><i class="fa fa-pencil"></i></button>
+					</span><br>
+					<span>
+						<input type="" id="courseName" class="h4" value=""/>
+						<button class="edit-course"><i class="fa fa-pencil"></i></button>
+					</span>
+				</div>  
+			</div>
 
-		    <div class="profile-edit">
-		    	<div class="form-group w3-right">
-		    		<label for="datepicker_sign_up" style="margin: 0; font-family: 'Roboto', sans-serif; color: grey">Birthday <i class="fa fa-birthday-cake"></i></label><br>
-		    		<input type="month" class="" id="datepicker_sign_up" name="datePicker" value="1995-06" />
-		    	</div>
+			<div class="profile-edit">
+				<div class="form-group w3-right">
+					<label for="datepicker_sign_up" style="margin: 0; font-family: 'Roboto', sans-serif; color: grey">Birthday <i class="fa fa-birthday-cake"></i></label><br>
+					<input type="month" class="" id="datepicker_sign_up" name="datePicker" value=""/>
+				</div>
 
-		    	<select id="gender_sign_up">
-					<option selected disabled>- Select Gender -</option>
+				<select id="gender_sign_up">
+					<option disabled>- Select Gender -</option>
 					<option>Male</option>
 					<option>Female</option>
 					<option>Unspecified</option>
 				</select>
 
-		    	<select id="university_selector">
-					<option disabled selected>- Select University -</option>
+				<select id="university_selector">
+					<option disabled>- Select University -</option>
 					<option>University of Cape Town</option>
 					<option>Cape Peninsula University of Technology</option>
 					<option>Central University of Technology</option>
@@ -108,8 +112,8 @@
 					<option>University of Zululand</option>
 				</select>
 
-				<select id="Affiliation_selector">
-					<option selected disabled>- Select Affiliation -</option>
+				<select id="affiliation_selector">
+					<option disabled>- Select Affiliation -</option>
 					<option>Student</option>
 					<option>Lecturer</option>
 					<option>Alumnus</option>
@@ -118,16 +122,23 @@
 				<p>
 					Other primary information will be edited in the settings.
 				</p>
-		    </div>
+			</div>
 		</div>
-
 	</section>
 
+	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-messaging.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  	<script type="text/javascript" src="../js/main.js"></script>
-  	<script>
+	<script type="text/javascript" src="../js/main.js"></script>
+	<script type="text/javascript" src="../js/moments.js"></script>
+	<script type="text/javascript" src="../js/functions.js"></script>
+	<script>
   		$('.edit-fullname').click(function(){
 		    $('#edit_fullname').focus();
 		    $('#edit_fullname').select();
