@@ -1288,8 +1288,7 @@ function loadWriteQuestion(){
 			var description = doc.get("description");
 			var category = doc.get("category");
 			questionCategories = category;
-			console.log(category);
-			read_this();
+			// read_this();
 			var image = doc.get("imageUrl");
 			$('#qImage').attr('src', image);
 			$('#questionTitle').val(title);
@@ -1642,6 +1641,7 @@ function postReply(type, description, id, attType){
 +-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--*/
 function loadProfile()
 {
+	showLoader();
 	var html = "";
 	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(user)
 	{
@@ -1723,6 +1723,10 @@ function loadProfile()
 					</div>
 				</div>`;
 		$('#userProfile').append(html);
+		$('#userProfile').ready(function()
+		{
+			hideLoader();
+		});
 	}).catch(function(error)
 	{
 		console.log(error);
@@ -2084,9 +2088,10 @@ function updateImage(id, file, upload_type)
 /*+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--
 											NOTIFICATIONS VIEW
 +-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--*/
+var notification_id = null;
 function load_notifications()
 {
-
+	showLoader();
 	Notifications.where("receiver", "==", sessionStorage.getItem("user_id"))
 	.onSnapshot(function(doc)
 	{
@@ -2094,12 +2099,14 @@ function load_notifications()
 
 		doc.forEach(function(notification)
 		{
+			notification_id = notification.id;
 			UsersRef.doc(notification.get("sender")).get().
 			then(function(user)
 			{
 
 				var profile_img = user.get("profileUrl");
 				var img_show = "";
+				
 				if(profile_img === null)
 				{
 					img_show = "../img/profilePic.jpg";
@@ -2107,12 +2114,14 @@ function load_notifications()
 				{
 					img_show = profile_img;
 				}
-				var n_date = moment().format("YYYY-MM-DD, hh:mm:ss a");
+				var n_date = notification.get("time").toDate().toLocaleString("en-CA");
 				
 				var html = `<div class="notification row">
+								<p hidden>${notification.get("elementRef")}</p>
 								<div class="col-1 profile-pic">
 									<img src="${img_show}" alt="User Profile Picture">
 								</div>
+								
 								<div class="col-9 notif-message">
 									<p><span class="name">${user.get("fullName")}</span> ${notification.get("notificationText")}</p>
 								</div>
@@ -2122,6 +2131,10 @@ function load_notifications()
 								</div>
 							</div>`;
 				$('#notifications .content').append(html);
+				$('#notifications .content').ready(function()
+				{
+					hideLoader();
+				});
 
 			});
 		});
@@ -2131,7 +2144,24 @@ function load_notifications()
 $('#notifications .content').on('click', '.notification', function(e)
 {
 	e.stopPropagation();
-	alert($(this).text());
+	var a = $(this).children().first().text();
+	
+	if(a.includes('/'))
+	{
+		var array = a.split('/');
+		selectedQuestion = array[1];
+	}else
+	{
+		selectedQuestion = a;
+	}
+
+	Notifications.doc(notification_id).set({seen: 1}).then(function()
+	{
+		sessionStorage.setItem("selectedQuestion", selectedQuestion);
+		window.location.href = "../q_and_a/replies.html";
+	});
+
+	
 });
 
 
