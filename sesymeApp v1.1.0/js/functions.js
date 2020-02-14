@@ -775,28 +775,15 @@ function loadQuestionsPage(){
 		});
 
 	});
-	QuestionsCollection.orderBy("dateTime", "desc").limit(50)
-    .onSnapshot(function(querySnapshot) {
-        questions = [];
-        users = [];
-		$('.questions').empty();
-        querySnapshot.forEach(function(doc) {
-        	var question = doc.data();
-        	question.id = doc.id;
-        	var author = question.author;
-            addQuestionToArray(questions, question);
-            UsersRef.doc(author).get().then(function(userDoc){
-        		var user = userDoc.data();
-	    		user.uID = userDoc.id;
-    			addUserToArray(users, user);
-    		});
-        });
-        setTimeout(function(){
-        	questions.forEach(function(question){
-        		var author = question.author;
-        		populateQuestions(question);
-        	});
-        }, 1500);
+    users = [];
+	$('.questions').empty();
+    UsersRef.get().then(function(usersDocs){
+    	usersDocs.forEach((userDoc) =>{
+    		var user = userDoc.data();
+			user.uID = userDoc.id;
+			addUserToArray(users, user);
+    	});
+    	fetchQuestions();
     });
 
     $('.questions').on('click', '#like_button_home', function(e){
@@ -911,6 +898,35 @@ function loadQuestionsPage(){
     	sessionStorage.removeItem("EditQuestion");
     	window.location.href = "write_question.html";
     });
+
+    $('#search_home').on('keyup', function(e){
+    	var searchText = $(this).val().trim().toLowerCase();
+    	var questions = $('.questions').children();
+    	for (var i = questions.length - 1; i >= 0; i--) {
+    		var question = questions[i];
+    		var title = $(question).find('.quest-header h2').text();
+    		var description = $(question).find('.quest-discription p').text();
+    		var fullText = (title + description).toLowerCase();
+    		if (!fullText.includes(searchText)) {
+    			$(question).hide();
+    		}else{
+    			$(question).show();
+    		}
+    	}
+    });
+}
+
+function fetchQuestions(){
+	QuestionsCollection.orderBy("dateTime", "desc").limit(50)
+    .onSnapshot(function(querySnapshot) {
+        var changes = querySnapshot.docChanges();
+        for (var i = changes.length - 1; i >= 0; i--) {
+        	var change = changes[i];
+        	var question = change.doc.data();
+        	question.id = change.doc.id;
+			populateQuestions(question);
+        }
+    });
 }
 
 function addQuestionToArray(arr, obj){
@@ -934,12 +950,7 @@ function addUserToArray(arr, obj){
 function getUserDetails(arr, email){
 	const index = arr.findIndex((e) => e.uID === email);
 	if (index == -1) {
-		UsersRef.doc(email).get().then((doc) =>{
-			var user = doc.data();
-			user.uID = doc.id;
-			arr.push(user);
-			return user;
-		})
+		return null;
 	}else{
 		return arr[index];
 	}
@@ -990,8 +1001,6 @@ function populateQuestions(question){
 	var edit_status = "";
 	const interested = category.some(r=> myInterests.includes(r));
 	if (!interested && (!category.includes("General") && !category.includes("Student Life"))) {
-		console.log("Not interested");
-		console.log(category);
 		return;
 	}
 
@@ -1022,7 +1031,7 @@ function populateQuestions(question){
 		if (docSnapshot.exists) {
 			likeClass = "fa-heart";
 		}
-		var questionHtml = '<div class="quest1">\
+		var questionHtml = '<div class="quest1" id="'+id+'">\
 				<p hidden id="doc_id">'+id+'</p>\
 				<div class="author">\
 				    <div class="caption">\
@@ -1068,7 +1077,13 @@ function populateQuestions(question){
 					</div>\
 				</div>\
 			</div>'
-		$('.questions').append(questionHtml);
+		var index = $('.questions').find('#' + id).index();
+		if (index == -1) {
+			$('.questions').prepend(questionHtml);
+		}else{
+			$('.questions > div').eq(index).replaceWith(questionHtml);
+		}
+		
 	});
 	hideLoader();
 }
@@ -1741,6 +1756,13 @@ function loadProfile()
 	}).catch(function(error)
 	{
 		console.log(error);
+		$('#userProfile').ready(function()
+		{
+			hideLoader();
+		});
+		firebase.auth().signOut().then(function(){
+			sessionStorage.clear();
+		});
 	});
 
 
