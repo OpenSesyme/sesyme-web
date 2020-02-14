@@ -10,6 +10,7 @@ var arrayInterest = [];
 var myEmail = null;
 var selectedQuestion = null;
 var questionCategories = [];
+var myInterests = [];
 var file = null;
 
 /*======================================
@@ -754,11 +755,11 @@ function loadQuestionsPage(){
 	UsersRef.doc(sessionStorage.getItem("user_id")).onSnapshot(function(user)
 	{
 		var html = '';
-		var interests = [];
+		myInterests = [];
 		var count = 0;
 
-		interests = user.data().interests;
-		interests.forEach(function(interest)
+		myInterests = user.data().interests;
+		myInterests.forEach(function(interest)
 		{
 			if(count == 0)
 			{
@@ -987,6 +988,12 @@ function populateQuestions(question){
 	var image = question.imageUrl;
 	var style = "width: 100%; height: 300px; margin-bottom: 5px; object-fit: cover;";
 	var edit_status = "";
+	const interested = category.some(r=> myInterests.includes(r));
+	if (!interested && (!category.includes("General") && !category.includes("Student Life"))) {
+		console.log("Not interested");
+		console.log(category);
+		return;
+	}
 
 	if(edited)
 	{
@@ -1010,7 +1017,6 @@ function populateQuestions(question){
 		var name = authorDetails.fullName;
 		var userImage = authorDetails.profileUrl;
 	}
-
 
 	LikesCollection.doc(likeId).get().then((docSnapshot) =>{
 		if (docSnapshot.exists) {
