@@ -933,7 +933,12 @@ function addUserToArray(arr, obj){
 function getUserDetails(arr, email){
 	const index = arr.findIndex((e) => e.uID === email);
 	if (index == -1) {
-		return null;
+		UsersRef.doc(email).get().then((doc) =>{
+			var user = doc.data();
+			user.uID = doc.id;
+			arr.push(user);
+			return user;
+		})
 	}else{
 		return arr[index];
 	}
