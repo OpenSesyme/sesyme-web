@@ -2071,7 +2071,7 @@ var notification_id = null;
 function load_notifications()
 {
 	showLoader();
-	Notifications.where("receiver", "==", sessionStorage.getItem("user_id"))
+	Notifications.where("receiver", "==", sessionStorage.getItem("user_id")).orderBy("time", "desc")
 	.onSnapshot(function(doc)
 	{
 
