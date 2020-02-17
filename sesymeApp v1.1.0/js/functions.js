@@ -1670,7 +1670,6 @@ function postReply(type, description, id, attType){
 function loadProfile()
 {
 	showLoader();
-	var html = "";
 	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(user)
 	{
 		var data = user.data();
@@ -1692,85 +1691,22 @@ function loadProfile()
 		{
 			profile_pic = data.profileUrl;
 		}
-		html = `<div class="content mx-auto">
-				    <div class="fb-profile">
-				        <img align="left" class="fb-image-lg" src=${cover_pic} alt="Cover image"/>
-				        <img align="left" class="fb-image-profile thumbnail" src=${profile_pic} alt="Profile image"/>
-				        <div class="fb-profile-text">
-				            <h1>${data.fullName}</h1>
-				            <h4>${data.course}</h4>
-				            <h4>${data.university}</h4>
-				        </div>
-
-				        <a href="editProfile.html" class="edit-profile-btn">Edit Profile</a>
-				    </div>
-
-
-				    <div class="profile-btn row">
-				    	<a href="#" class="col mr-2">Questions</a>
-				    	<a href="#" class="col mr-2">Answers</a>
-				    	<a href="#reading_stats" class="col open-popup">Reading Stats</a>
-				    </div>
-
-				    <div class="manage-account">
-				    	<div class="row"><a class="bdr-btm bdr-top">Manage Interests</a></div>
-				    	<div class="row"><a class="bdr-btm">Invite Friends</a></div>
-				    	<div class="row"><a href="./feedback.html" class="bdr-btm">Feedback</a></div>
-				    	<div class="row"><a href="./settings.html" class="bdr-btm settings">Settings</a></div>
-				    	<div class="row"><a class="bdr-btm logout">Logout</a></div>
-				    </div>
-				</div>
-
-				<div id="reading_stats" class="popup">
-					<div class="content">
-						<div class="header">
-							<div class="row">
-								<div class="col">
-									<h3>Average Rating</h3>
-									<p class="rating">2.5</p>
-								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-sm-6">
-								<div class="pages-read mx-auto">
-									<h2>892</h2>
-									<p>pages you read so far.</p>
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<div class="books-read mx-auto">
-									<p>from</p>
-									<h2>3</h2>
-									<p>Books</p>
-								</div>
-							</div>
-						</div>
-						<a href="#" class="popup-close">close</a>
-					</div>
-				</div>`;
-		$('#userProfile').append(html);
 		$('#userProfile').ready(function(){
-		
-		$('#userProfile').find('#fullname')[0].innerHTML = data.fullName;
-		$('#fb-image-cover').attr("src", cover_pic);
-		$('#userProfile').find('.fb-image-profile').attr("src", profile_pic);
-		$('#userProfile').find('#course')[0].innerHTML = data.course;
-		$('#userProfile').find('#university')[0].innerHTML = data.university;
-		$('#userProfile').ready(function()
-		{
-			hideLoader();
-		});
-	}).catch(function(error)
-	{
-		console.log(error);
-		$('#userProfile').ready(function(){
-			hideLoader();
+			$('#userProfile').find('#fullname')[0].innerHTML = data.fullName;
+			$('#fb-image-cover').attr("src", cover_pic);
+			$('#userProfile').find('.fb-image-profile').attr("src", profile_pic);
+			$('#userProfile').find('#course')[0].innerHTML = data.course;
+			$('#userProfile').find('#university')[0].innerHTML = data.university;
+			$('#userProfile').ready(function(){
+				hideLoader();
+			});
+		}).catch(function(error){
+			console.log(error);
+			$('#userProfile').ready(function(){
+				hideLoader();
+			});
 		});
 	});
-
-
 }
 
 /*+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+-
