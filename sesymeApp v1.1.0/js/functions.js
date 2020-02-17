@@ -51,7 +51,10 @@ window.onload = function(){
 
 		case "signup.html":
 			loadSignUp();
-		break;
+			break;
+		case "library.html":
+			loadLibrary();
+			break;
 
 		case "home.html":
 				if(sessionStorage.getItem("user_id") != null)
@@ -1749,26 +1752,21 @@ function loadProfile()
 					</div>
 				</div>`;
 		$('#userProfile').append(html);
-		$('#userProfile').ready(function()
-		{
+		$('#userProfile').ready(function(){
 			hideLoader();
 		});
 	}).catch(function(error)
 	{
 		console.log(error);
-		$('#userProfile').ready(function()
-		{
+		$('#userProfile').ready(function(){
 			hideLoader();
-		});
-		firebase.auth().signOut().then(function(){
-			sessionStorage.clear();
 		});
 	});
 
 
 }
 
-/*+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--
+/*+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+-
 										PROFILE EDIT VIEW
 +-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--*/
 
@@ -1897,8 +1895,6 @@ $('#coverPic').on('change', function(e)
 	{
 		readCover_pic(this);
 	}
-
-
 });
 
 $('#profilePic').on('change', function(e)
@@ -1935,7 +1931,6 @@ $('.profile-edit #university_selector').on('change', function(e)
 	{
 		console.log(error);
 	});
-	
 });
 
 $('.profile-edit #datepicker_sign_up').on('change', function(e)
@@ -1951,7 +1946,6 @@ $('.profile-edit #datepicker_sign_up').on('change', function(e)
 	{
 		console.log(error);
 	});
-	
 });
 
 $('.profile-edit #gender_sign_up').on('change', function(e)
@@ -1967,7 +1961,6 @@ $('.profile-edit #gender_sign_up').on('change', function(e)
 	{
 		console.log(error);
 	});
-	
 });
 
 $('.profile-edit #affiliation_selector').on('change', function(e)
@@ -1983,7 +1976,6 @@ $('.profile-edit #affiliation_selector').on('change', function(e)
 	{
 		console.log(error);
 	});
-	
 });
 
 
@@ -2028,10 +2020,7 @@ $("#save_edit_changes").on('click', function(e)
 		{
 			updateImage(id, c_img, "cover_pic");
 		}
-
-
 	}
-
 });
 
 function updateImage(id, file, upload_type)
@@ -2070,8 +2059,6 @@ function updateImage(id, file, upload_type)
 
 			// Uh-oh, an error occurred!
 		  });
-
-
 	}
 
 	if(upload_type === "cover_pic")
@@ -2108,11 +2095,8 @@ function updateImage(id, file, upload_type)
 		  }).catch(function(error) {
 			// Uh-oh, an error occurred!
 			console.log("error happened while deleting");
-
 		  });
-
 	}
-
 }
 
 /*=====================================
@@ -2346,6 +2330,18 @@ function loadLogIn(){
   			$('#sign_in_error').text(showError);
   			$('#sign_in_error').show();
 		});
+	});
+}
+
+
+function loadLibrary(){
+	$('#reading_area').hide();
+	$('.book').on('click', function(){
+		$('#books_home').hide();
+		$('#reading_area').show();
+		var book = ePub("../ebooks/IFRS1.epub");
+  		var rendition = book.renderTo("area", {width: 600, height: 400});
+  		var displayed = rendition.display();
 	});
 }
 
