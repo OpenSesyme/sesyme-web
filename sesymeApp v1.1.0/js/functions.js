@@ -1625,7 +1625,6 @@ function verify_reply(description){
 	{
 		return false;
 	}
-
 }
 
 function replyStatus(error){
@@ -1678,7 +1677,7 @@ function loadProfile()
 		var profile_pic = null;
 		var cover_pic = null;
 
-		if(data.coverUrl == null)
+		if(data.coverUrl === null)
 		{
 			cover_pic = "../img/profilePic.jpg";
 		}else
@@ -1686,7 +1685,7 @@ function loadProfile()
 			cover_pic = data.coverUrl;
 		}
 
-		if(data.profileUrl == null)
+		if(data.profileUrl === null)
 		{
 			profile_pic = "../img/cover.jpg";
 		}else
@@ -1753,6 +1752,14 @@ function loadProfile()
 				</div>`;
 		$('#userProfile').append(html);
 		$('#userProfile').ready(function(){
+		
+		$('#userProfile').find('#fullname')[0].innerHTML = data.fullName;
+		$('#fb-image-cover').attr("src", cover_pic);
+		$('#userProfile').find('.fb-image-profile').attr("src", profile_pic);
+		$('#userProfile').find('#course')[0].innerHTML = data.course;
+		$('#userProfile').find('#university')[0].innerHTML = data.university;
+		$('#userProfile').ready(function()
+		{
 			hideLoader();
 		});
 	}).catch(function(error)
@@ -2109,7 +2116,7 @@ var notification_id = null;
 function load_notifications()
 {
 	showLoader();
-	Notifications.where("receiver", "==", sessionStorage.getItem("user_id"))
+	Notifications.where("receiver", "==", sessionStorage.getItem("user_id")).orderBy("time", "desc")
 	.onSnapshot(function(doc)
 	{
 
@@ -2132,15 +2139,31 @@ function load_notifications()
 					img_show = profile_img;
 				}
 				var n_date = notification.get("time").toDate().toLocaleString("en-CA");
+
+				var str = null;
+				var text_notif = notification.get("notificationText");
+				
+				if(text_notif.length > 40)
+				{
+					 str = text_notif.slice(0, 100) +"...";
+				}else
+				{
+					str = text_notif;
+				}
+
+				if(notification.get("seen") == 1)
+				{
+					$('.notification').addClass('bg-white');
+				}
 				
 				var html = `<div class="notification row">
 								<p hidden>${notification.get("elementRef")}</p>
 								<div class="col-1 profile-pic">
-									<img src="${img_show}" alt="User Profile Picture">
+									<img src="${img_show}" alt="User Profile Picture" width="35" height="40">
 								</div>
 								
 								<div class="col-9 notif-message">
-									<p><span class="name">${user.get("fullName")}</span> ${notification.get("notificationText")}</p>
+									<p><span class="name">${user.get("fullName")}</span> ${str}</p>
 								</div>
 								<div class="col-2 notif-options">
 									<a><i class="fa fa-chevron-down"></i></a><br>

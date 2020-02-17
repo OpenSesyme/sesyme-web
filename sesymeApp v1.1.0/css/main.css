@@ -3008,7 +3008,7 @@ a {
             User Notifications
 ===========================================*/
 
-#notifications {
+#notifications{
     padding-top: 70px;
     height: 100vh;
 }
@@ -3171,4 +3171,11 @@ a {
 @keyframes fadeout {
   from {bottom: 30px; opacity: 1;}
   to {bottom: 0; opacity: 0;}
+}
+
+#nav-profile-pic img
+{
+    width: 37px; 
+    height: 37px;
+    border-radius: 50px;
 }
