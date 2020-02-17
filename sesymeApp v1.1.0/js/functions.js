@@ -2396,3 +2396,24 @@ function showSnackbar(text){
 
 	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
+
+function saveNotification(receiver, type, elementRef, text){
+	var parts = elementRef.split("/");
+	const id = myEmail + type + parts[parts.length - 1];
+	const ref = db.collection("Notifications").doc(id);
+	ref.get().then((docSnapshot) =>{
+		if (docSnapshot.exists) {
+			console.log(id + " Already exists");
+		}else{
+			ref.set({
+				elementRef: elementRef,
+				notificationText: text,
+				receiver: receiver,
+				seen: 0,
+				sender: myEmail,
+				time: firebase.firestore.FieldValue.serverTimestamp(),
+				type: type
+			});
+		}
+	});
+}
