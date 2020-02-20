@@ -812,6 +812,16 @@ function loadQuestionsPage(){
 				postId: id
 			}).then(function(){
 				QuestionsCollection.doc(id).update({numLikes: firebase.firestore.FieldValue.increment(1)});
+				QuestionsCollection.doc(id).get()
+				.then(function(_document)
+				{
+					if(sessionStorage.getItem("user_id") !== _document.get("author"))
+					{
+						var text = "liked your question: "+_document.get("author");
+						var type = "Question";
+						saveNotification(_document.get("author"), type, likeId, text);
+					}
+				});
 				console.log("Liked");
 			});
 		}
@@ -1252,6 +1262,22 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 			}).then(function(){
 				QuestionsCollection.doc(selectedQuestion).collection("Replies")
 				.doc(id).update({numLikes: firebase.firestore.FieldValue.increment(1)});
+	
+				QuestionsCollection.doc(selectedQuestion).get()
+				.then(function(_document)
+				{
+					collection("Replies").doc(id).get().then(function(reply)
+					{
+						if(myEmail !== reply.get("author"))
+						{
+							var text = "Liked your reply: "+reply.get("reply");
+							var ref = selectedQuestion;
+							saveNotification(reply.get("author"), "Like", ref, text);
+						}
+					});
+
+				});
+
 				console.log("Liked");
 			});
 		}
@@ -1371,18 +1397,18 @@ function loadWriteQuestion(){
         	label: "Management Accounting",
         	value: "Management Accounting",
       	},
-				{
-					label: "Economics",
-					value: "Economics",
-				},
-				{
-					label: "Financial Accounting",
-					value: "Financial Accounting",
-				},
-				{
-					label: "Finance",
-					value: "Finance",
-				},
+		{
+			label: "Economics",
+			value: "Economics",
+		},
+		{
+			label: "Financial Accounting",
+			value: "Financial Accounting",
+		},
+		{
+			label: "Finance",
+			value: "Finance",
+		},
         ],
         value: false,
         placeholder: ["Click to select categories"],
@@ -1639,7 +1665,7 @@ function postReply(type, description, id, attType){
 		accepted: null,
 		attType: null,
 		author: myEmail,
-		category: ["Accounting"],
+		category: null,
 		dateTime: firebase.firestore.FieldValue.serverTimestamp(),
 		description: description,
 		edited: false,
@@ -1651,6 +1677,23 @@ function postReply(type, description, id, attType){
 	}).then(function(){
 		QuestionsCollection.doc(selectedQuestion)
 		.update({numComments: firebase.firestore.FieldValue.increment(1)});
+		QuestionsCollection.doc(selectedQuestion).get()
+		.then(function(_document)
+		{
+			if(sessionStorage.getItem("user_id") !== _document.get("author"))
+			{
+				var text = "";
+				if(type == "Answer")
+				{
+					text = "Answered your question: "+_document.get("title");
+				}else if(type == "Comment")
+				{
+					text = "Commented on your question: "+_document.get("title");
+				}
+				saveNotification(_document.get("author"), type, ref, text);
+			}
+		});
+		
 		if (file != null) {
 				uploadPostImage(file, ref, type, attType);
 			}else{
@@ -2177,13 +2220,10 @@ $('.feedback-submit').on('click', function(e)
 
 	if(validate_feedBack(report, description))
 	{
-		if(send_email(report, description))
-		{
-			send_email(report, description);
-		}
+		sendEmail();
 	}else
 	{
-			validate_feedBack(report, description);
+		validate_feedBack(report, description);
 	}
 
 });
@@ -2225,20 +2265,53 @@ function show_feedback_status(error)
 		}
 }
 
-function send_email(report, description)
+
+var accessToken = "ya29.Il-9B6MS3tc5gPO7d7E49ojFOoCTtkEqHzkOtHPrXTmZK0d73TvmqV4e-eTmuC7KfV6D5a50_FKiO4w5l685L6FiMiXDaR9_Ipts-PDYQIUvyVVbyG_cxHDGkey6r8mk-g";
+
+
+
+function sendEmail()
 {
-	Email.send({
-	    Host : "smtp.gmail.com",
-	    Username : "uhtomeek.music@gmail.com",
-	    Password : "MMMaaa232",
-			UseDefaultCredentials : true,
-	    To : "masibulelemgoqi@gmail.com",
-	    From : "uhtomeek.music@gmail.com",
-	    Subject : "Feedback",
-	    Body : "Report: "+report+"\n\nDescription: "+description
-	}).then(
-	  message => alert(message)
-	);
+	var report = $('#report').val().trim();
+	var description = $('#report_description').val().trim();
+	$('.feedback-submit').addClass('disabled');
+	var html = "<h1>"+description+"</h1>";
+	var encodedMail = btoa([
+		'From: '+sessionStorage.getItem("user_id")+'\r\n',
+		'To: sefnet.app@gmail.com\r\n',
+		'Subject: '+report+'\r\n\r\n',
+	  
+		html
+	  ].join('')).replace(/\+/g, '-').replace(/\//g, '_');
+	  
+	  $.ajax({
+		method: 'POST',
+		url: 'https://www.googleapis.com/gmail/v1/users/me/messages/send',
+		headers: {
+		  'Authorization': 'Bearer ' + accessToken,
+		  'Content-Type': 'application/json'
+		},
+		data: JSON.stringify({
+		  'raw': encodedMail
+		})
+	  }).then(function(data)
+	  {
+		  console.log(data);
+		  composeTidy(); 
+	  }).catch(function(error)
+	  {
+		  console.log(error); 
+	  });
+}  
+
+
+function composeTidy()
+{
+
+  $('#report').val('');
+  $('#report_description').val('');
+  $('.feedback_status').html("<div>Email sent</div>");
+  $('.feedback-submit').removeClass('disabled');
 }
 
 /*======================================
