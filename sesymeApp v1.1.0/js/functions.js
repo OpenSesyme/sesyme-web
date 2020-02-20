@@ -2266,53 +2266,42 @@ function show_feedback_status(error)
 }
 
 
-var accessToken = "ya29.Il-9B6MS3tc5gPO7d7E49ojFOoCTtkEqHzkOtHPrXTmZK0d73TvmqV4e-eTmuC7KfV6D5a50_FKiO4w5l685L6FiMiXDaR9_Ipts-PDYQIUvyVVbyG_cxHDGkey6r8mk-g";
-
-
-
 function sendEmail()
 {
 	var report = $('#report').val().trim();
 	var description = $('#report_description').val().trim();
-	$('.feedback-submit').addClass('disabled');
-	var html = "<h1>"+description+"</h1>";
-	var encodedMail = btoa([
-		'From: '+sessionStorage.getItem("user_id")+'\r\n',
-		'To: sefnet.app@gmail.com\r\n',
-		'Subject: '+report+'\r\n\r\n',
-	  
-		html
-	  ].join('')).replace(/\+/g, '-').replace(/\//g, '_');
-	  
-	  $.ajax({
-		method: 'POST',
-		url: 'https://www.googleapis.com/gmail/v1/users/me/messages/send',
-		headers: {
-		  'Authorization': 'Bearer ' + accessToken,
-		  'Content-Type': 'application/json'
-		},
-		data: JSON.stringify({
-		  'raw': encodedMail
-		})
-	  }).then(function(data)
-	  {
-		  console.log(data);
-		  composeTidy(); 
-	  }).catch(function(error)
-	  {
-		  console.log(error); 
-	  });
+	var fullname = "";
+	UsersRef.doc(sessionStorage.getItem("user_id")).get()
+	.then(function(data)
+	{
+		$('.feedback-submit').addClass('disabled');
+		$.ajax(
+		{
+			url: '../includes/email.php',
+			method: 'POST',
+			data: {report: report, description: description, fullname:data.get("fullName"),  email: sessionStorage.getItem("user_id")}
+		}).then(function(data)
+		{
+			var report = $('#report').val("");
+			var description = $('#report_description').val("");
+			$('.feedback-submit').addClass('disabled');
+			
+		}).catch(function(error)
+		{
+			console.log(error);
+		});
+	});
 }  
 
 
-function composeTidy()
-{
+	function composeTidy()
+	{
 
-  $('#report').val('');
-  $('#report_description').val('');
-  $('.feedback_status').html("<div>Email sent</div>");
-  $('.feedback-submit').removeClass('disabled');
-}
+	$('#report').val('');
+	$('#report_description').val('');
+	$('.feedback_status').html("<div>Email sent</div>");
+	$('.feedback-submit').removeClass('disabled');
+	}
 
 /*======================================
 			Login
