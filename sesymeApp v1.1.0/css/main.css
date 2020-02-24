@@ -46,6 +46,271 @@ a {
     color: #fff !important;
 }
 
+/*--------------------------------------------------------------------------------------------------
+****************************************************************************************************
+                                General Style and classes in the App
+****************************************************************************************************
+--------------------------------------------------------------------------------------------------*/
+
+/*===========================================
+            Questions In the site
+===========================================*/
+
+.questions .quest1 {
+    background-color: #fff;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0px 1px 4px -2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 4px -2px rgba(0,0,0,0.75);
+    box-shadow: 0px 1px 4px -2px rgba(0,0,0,0.75);
+}
+
+.questions .quest1 .author {
+  position: relative;
+  margin: auto;
+  background-color: #fff;
+  color: #000;
+  border-radius: 5px;
+}
+
+.questions .quest1 .author .caption {
+  position: relative;
+  height: inherit;
+  background-color: inherit;
+  padding: 10px;
+}
+
+.questions .quest1 .author .caption {
+  position: relative;
+  height: inherit;
+  padding: 10px;
+}
+
+.questions .quest1 .author .caption img {
+  width: 100%;
+  height: auto;
+  border: 2px solid #e6e6e6;
+
+}
+
+.questions .quest1 .author .caption .author-details {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.questions .quest1 .author .caption .author-details .avatar {
+  position: relative;
+  float: left;
+  width: 3rem;
+  border-radius: 50%;
+  width: 45px; 
+  height: 45px;
+  object-fit: cover;
+}
+
+.questions .quest1 .author .caption .author-details .name {
+  position: relative;
+  float: left;
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+  padding-left: 1rem;
+  letter-spacing: 1px;
+}
+
+.questions .quest1 .author .caption .author-details .time {
+  float: left;
+  padding-left: 1rem;
+  size: .6rem;
+  color: grey;
+  font-family: Arial, sans-serif;
+}
+
+.questions .quest1 .postImage {
+    width: 100%; 
+    height: 300px; 
+    margin-bottom: 5px; 
+    object-fit: cover;
+}
+
+.questions .quest1 .author .caption .author-details .quest-options-btn {
+    float: right;
+    margin-top: -30px;
+    right: 0;
+    padding: 0 !important;
+    color: #6400ae;
+}
+
+.questions .quest1 .author-details .edited {
+    position: absolute;
+    right: 40px;
+    font-style: italic;
+    color: #e2e2e2;
+    font-size: 1rem;
+}
+
+.questions .quest1 .author-details .quest-options-btn:hover {
+    background-color: transparent;
+}
+
+.questions .quest1 .author-details .quest-options-btn:fucus {
+    outline: none !important;
+}
+
+.questions .quest1 .quest-header {
+    line-height: 20px;
+    padding: .5em;
+}
+
+.questions .quest1 .quest-header h2 {
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    font-size: 22px;
+    margin: 0;
+}
+
+.questions .quest1 .quest-header .categoryTags {
+    list-style: none;
+    display: flex;
+    margin-left: -37px;
+    font-size: 12px;
+    color: #6400ae;
+}
+
+.questions .quest1 .quest-header .categoryTags li {
+    margin-right: 10px;
+}
+
+.questions .quest1 .quest-discription {
+    letter-spacing: 0 !important;
+    color: #555;
+    padding: .5em;
+}
+
+.questions .quest1 .quest-footer .likes-and-replays {
+    padding-left: 3%;
+    padding-right: 3%;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.questions .quest1 .quest-footer .likes-and-replays span i {
+    color: #6400ae;
+}
+
+.questions .quest1 .quest-footer .user-action {
+    padding-left: 7%;
+    padding-right: 7%;
+}
+
+.questions .quest1 .quest-footer .user-action a:hover {
+    text-decoration: none;
+    color: #222;
+    cursor: pointer;
+}
+
+.questions .quest1 .quest-footer .user-action a i {
+    color: #6400ae;
+}
+
+/*===========================================
+            Replies of all the site
+===========================================*/
+
+.replies {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.replies .reply1 {
+    margin-top: 10px;
+    background-color: #fff;
+    padding: .5rem;
+}
+
+.replies .reply1 .author {
+  position: relative;
+  margin: auto;
+  background-color: #fff;
+  color: #000;
+  border-radius: 5px;
+}
+
+.replies .reply1 .author .caption {
+  position: relative;
+  height: inherit;
+  background-color: inherit;
+  padding: 10px;
+}
+
+.replies .reply1 .author .caption {
+  position: relative;
+  height: inherit;
+  padding: 10px;
+}
+
+.replies .reply1 .author .caption .author-details {
+  position: relative;
+  margin-bottom: .2rem;
+}
+
+
+.replies .reply1 .author .caption .author-details .name {
+  position: relative;
+  float: left;
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+  padding-left: .5rem;
+  letter-spacing: 1px;
+}
+
+.replies .reply1 .author .caption .author-details .time {
+  float: left;
+  padding-left: .5rem;
+  size: .6rem;
+  color: grey;
+}
+
+.replies .reply1 .author .caption .author-details .quest-options-btn {
+    float: right;
+    margin-top: -30px;
+    right: 0;
+    padding: 0 !important;
+    color: #6400ae;
+}
+
+.replies .reply1 .author .caption .author-details .reply-type {
+    color: #6400ae;
+    font-family: "Roboto", sans-serif;
+    margin-top: .5em;
+    margin-left: .5em;
+}
+
+.replies .reply1 .reply-footer .likes-and-replays {
+    padding-left: 3%;
+    padding-right: 3%;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.replies .reply1 .reply-footer .likes-and-replays span i {
+    color: #6400ae;
+}
+
+.replies .reply1 .reply-footer .user-action {
+    padding-left: 7%;
+    padding-right: 7%;
+}
+
+.replies .reply1 .reply-footer .user-action a:hover {
+    text-decoration: none;
+    color: #222;
+    cursor: pointer;
+}
+
+.replies .reply1 .quest-footer .user-action a i {
+    color: #6400ae;
+}
+
 /*===========================================
 			Sesyme Nav
 ===========================================*/
@@ -710,162 +975,6 @@ a {
     width: 70%;
 }
 
-#q_and_a .content .questions .quest1 {
-    background-color: #fff;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    -webkit-box-shadow: 0px 1px 4px -2px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 1px 4px -2px rgba(0,0,0,0.75);
-    box-shadow: 0px 1px 4px -2px rgba(0,0,0,0.75);
-}
-
-#q_and_a .content .questions .quest1 .author {
-  position: relative;
-  margin: auto;
-  background-color: #fff;
-  color: #000;
-  border-radius: 5px;
-}
-
-#q_and_a .content .questions .quest1 .author .caption {
-  position: relative;
-  height: inherit;
-  background-color: inherit;
-  padding: 10px;
-}
-
-#q_and_a .content .questions .quest1 .author .caption {
-  position: relative;
-  height: inherit;
-  padding: 10px;
-}
-
-#q_and_a .content .questions .quest1 .author .caption img {
-  width: 100%;
-  height: auto;
-  border: 2px solid #e6e6e6;
-
-}
-
-#q_and_a .content .questions .quest1 .author .caption .author-details {
-  position: relative;
-  margin-bottom: 1.5rem;
-}
-
-#q_and_a .content .questions .quest1 .author .caption .author-details .avatar {
-  position: relative;
-  float: left;
-  width: 3rem;
-  border-radius: 50%;
-  width: 45px; 
-  height: 45px;
-  object-fit: cover;
-}
-
-#q_and_a .content .questions .quest1 .author .caption .author-details .name {
-  position: relative;
-  float: left;
-  font-weight: bold;
-  font-size: 1rem;
-  font-family: "Roboto", sans-serif;
-  padding-left: 1rem;
-  letter-spacing: 1px;
-}
-
-#q_and_a .content .questions .quest1 .author .caption .author-details .time {
-  float: left;
-  padding-left: 1rem;
-  size: .6rem;
-  color: grey;
-  font-family: Arial, sans-serif;
-}
-
-#q_and_a .content .questions .quest1 .postImage {
-    width: 100%; 
-    height: 300px; 
-    margin-bottom: 5px; 
-    object-fit: cover;
-}
-
-#q_and_a .content .questions .quest1 .author .caption .author-details .quest-options-btn {
-    float: right;
-    margin-top: -30px;
-    right: 0;
-    padding: 0 !important;
-    color: #6400ae;
-}
-
-#q_and_a .content .questions .quest1 .author-details .edited {
-    position: absolute;
-    right: 40px;
-    font-style: italic;
-    color: #e2e2e2;
-    font-size: 1rem;
-}
-
-#q_and_a .content .questions .quest1 .author-details .quest-options-btn:hover {
-    background-color: transparent;
-}
-
-#q_and_a .content .questions .quest1 .author-details .quest-options-btn:fucus {
-    outline: none !important;
-}
-
-#q_and_a .content .questions .quest1 .quest-header {
-    line-height: 20px;
-    padding: .5em;
-}
-
-#q_and_a .content .questions .quest1 .quest-header h2 {
-    font-family: "Roboto", sans-serif;
-    font-weight: bold;
-    font-size: 22px;
-    margin: 0;
-}
-
-#q_and_a .content .questions .quest1 .quest-header .categoryTags {
-    list-style: none;
-    display: flex;
-    margin-left: -37px;
-    font-size: 12px;
-    color: #6400ae;
-}
-
-#q_and_a .content .questions .quest1 .quest-header .categoryTags li {
-    margin-right: 10px;
-}
-
-#q_and_a .content .questions .quest1 .quest-discription {
-    letter-spacing: 0 !important;
-    color: #555;
-    padding: .5em;
-}
-
-#q_and_a .content .questions .quest1 .quest-footer .likes-and-replays {
-    padding-left: 3%;
-    padding-right: 3%;
-    border-bottom: 1px solid #e6e6e6;
-}
-
-#q_and_a .content .questions .quest1 .quest-footer .likes-and-replays span i {
-    color: #6400ae;
-}
-
-#q_and_a .content .questions .quest1 .quest-footer .user-action {
-    padding-left: 7%;
-    padding-right: 7%;
-}
-
-#q_and_a .content .questions .quest1 .quest-footer .user-action a:hover {
-    text-decoration: none;
-    color: #222;
-    cursor: pointer;
-}
-
-#q_and_a .content .questions .quest1 .quest-footer .user-action a i {
-    color: #6400ae;
-}
-
 #q_and_a .write-questionBtn a {
     position: absolute;
     position: fixed;
@@ -1296,76 +1405,6 @@ a {
     color: #6400ae;
 }
 
-#read_replies .content .replies {
-    margin-right: 20px;
-    margin-left: 20px;
-}
-
-#read_replies .content .replies .reply1 {
-    margin-top: 10px;
-    background-color: #fff;
-    padding: .5rem;
-}
-
-#read_replies .content .replies .reply1 .author {
-  position: relative;
-  margin: auto;
-  background-color: #fff;
-  color: #000;
-  border-radius: 5px;
-}
-
-#read_replies .content .replies .reply1 .author .caption {
-  position: relative;
-  height: inherit;
-  background-color: inherit;
-  padding: 10px;
-}
-
-#read_replies .content .replies .reply1 .author .caption {
-  position: relative;
-  height: inherit;
-  padding: 10px;
-}
-
-#read_replies .content .replies .reply1 .author .caption .author-details {
-  position: relative;
-  margin-bottom: .2rem;
-}
-
-
-#read_replies .content .replies .reply1 .author .caption .author-details .name {
-  position: relative;
-  float: left;
-  font-weight: bold;
-  font-size: 1rem;
-  font-family: "Roboto", sans-serif;
-  padding-left: .5rem;
-  letter-spacing: 1px;
-}
-
-#read_replies .content .replies .reply1 .author .caption .author-details .time {
-  float: left;
-  padding-left: .5rem;
-  size: .6rem;
-  color: grey;
-}
-
-#read_replies .content .replies .reply1 .author .caption .author-details .quest-options-btn {
-    float: right;
-    margin-top: -30px;
-    right: 0;
-    padding: 0 !important;
-    color: #6400ae;
-}
-
-#read_replies .content .replies .reply1 .author .caption .author-details .reply-type {
-    color: #6400ae;
-    font-family: "Roboto", sans-serif;
-    margin-top: .5em;
-    margin-left: .5em;
-}
-
 #read_replies .write-reply a {
     position: absolute;
     position: fixed;
@@ -1385,31 +1424,6 @@ a {
 #read_replies .write-reply a:hover {
     background-color: #222;
     transition: .5s;
-}
-
-#read_replies .content .replies .reply1 .reply-footer .likes-and-replays {
-    padding-left: 3%;
-    padding-right: 3%;
-    border-bottom: 1px solid #e6e6e6;
-}
-
-#read_replies .content .replies .reply1 .reply-footer .likes-and-replays span i {
-    color: #6400ae;
-}
-
-#read_replies .content .replies .reply1 .reply-footer .user-action {
-    padding-left: 7%;
-    padding-right: 7%;
-}
-
-#read_replies .content .replies .reply1 .reply-footer .user-action a:hover {
-    text-decoration: none;
-    color: #222;
-    cursor: pointer;
-}
-
-#read_replies .content .replies .reply1 .quest-footer .user-action a i {
-    color: #6400ae;
 }
 
 /*-----------------------------------------------------------------------------*/
@@ -3133,162 +3147,6 @@ a {
     padding-bottom: 10px;
 }
 
-#user_questions .content .questions .quest1 {
-    background-color: #fff;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    -webkit-box-shadow: 0px 1px 4px -2px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 1px 4px -2px rgba(0,0,0,0.75);
-    box-shadow: 0px 1px 4px -2px rgba(0,0,0,0.75);
-}
-
-#user_questions .content .questions .quest1 .author {
-  position: relative;
-  margin: auto;
-  background-color: #fff;
-  color: #000;
-  border-radius: 5px;
-}
-
-#user_questions .content .questions .quest1 .author .caption {
-  position: relative;
-  height: inherit;
-  background-color: inherit;
-  padding: 10px;
-}
-
-#user_questions .content .questions .quest1 .author .caption {
-  position: relative;
-  height: inherit;
-  padding: 10px;
-}
-
-#user_questions .content .questions .quest1 .author .caption img {
-  width: 100%;
-  height: auto;
-  border: 2px solid #e6e6e6;
-
-}
-
-#user_questions .content .questions .quest1 .author .caption .author-details {
-  position: relative;
-  margin-bottom: 1.5rem;
-}
-
-#user_questions .content .questions .quest1 .author .caption .author-details .avatar {
-  position: relative;
-  float: left;
-  width: 3rem;
-  border-radius: 50%;
-  width: 45px; 
-  height: 45px;
-  object-fit: cover;
-}
-
-#user_questions .content .questions .quest1 .author .caption .author-details .name {
-  position: relative;
-  float: left;
-  font-weight: bold;
-  font-size: 1rem;
-  font-family: "Roboto", sans-serif;
-  padding-left: 1rem;
-  letter-spacing: 1px;
-}
-
-#user_questions .content .questions .quest1 .author .caption .author-details .time {
-  float: left;
-  padding-left: 1rem;
-  size: .6rem;
-  color: grey;
-  font-family: Arial, sans-serif;
-}
-
-#user_questions .content .questions .quest1 .postImage {
-    width: 100%; 
-    height: 300px; 
-    margin-bottom: 5px; 
-    object-fit: cover;
-}
-
-#user_questions .content .questions .quest1 .author .caption .author-details .quest-options-btn {
-    float: right;
-    margin-top: -30px;
-    right: 0;
-    padding: 0 !important;
-    color: #6400ae;
-}
-
-#user_questions .content .questions .quest1 .author-details .edited {
-    position: absolute;
-    right: 40px;
-    font-style: italic;
-    color: #e2e2e2;
-    font-size: 1rem;
-}
-
-#user_questions .content .questions .quest1 .author-details .quest-options-btn:hover {
-    background-color: transparent;
-}
-
-#user_questions .content .questions .quest1 .author-details .quest-options-btn:fucus {
-    outline: none !important;
-}
-
-#user_questions .content .questions .quest1 .quest-header {
-    line-height: 20px;
-    padding: .5em;
-}
-
-#user_questions .content .questions .quest1 .quest-header h2 {
-    font-family: "Roboto", sans-serif;
-    font-weight: bold;
-    font-size: 22px;
-    margin: 0;
-}
-
-#user_questions .content .questions .quest1 .quest-header .categoryTags {
-    list-style: none;
-    display: flex;
-    margin-left: -37px;
-    font-size: 12px;
-    color: #6400ae;
-}
-
-#user_questions .content .questions .quest1 .quest-header .categoryTags li {
-    margin-right: 10px;
-}
-
-#user_questions .content .questions .quest1 .quest-discription {
-    letter-spacing: 0 !important;
-    color: #555;
-    padding: .5em;
-}
-
-#user_questions .content .questions .quest1 .quest-footer .likes-and-replays {
-    padding-left: 3%;
-    padding-right: 3%;
-    border-bottom: 1px solid #e6e6e6;
-}
-
-#user_questions .content .questions .quest1 .quest-footer .likes-and-replays span i {
-    color: #6400ae;
-}
-
-#user_questions .content .questions .quest1 .quest-footer .user-action {
-    padding-left: 7%;
-    padding-right: 7%;
-}
-
-#user_questions .content .questions .quest1 .quest-footer .user-action a:hover {
-    text-decoration: none;
-    color: #222;
-    cursor: pointer;
-}
-
-#user_questions .content .questions .quest1 .quest-footer .user-action a i {
-    color: #6400ae;
-}
-
 /*===========================================
             User Replies
 ===========================================*/
@@ -3323,101 +3181,6 @@ a {
     padding: 1em;
 }
 
-#user_replies .content .replies {
-    margin-right: 20px;
-    margin-left: 20px;
-}
-
-#user_replies .content .replies .reply1 {
-    margin-top: 10px;
-    background-color: #fff;
-    padding: .5rem;
-}
-
-#user_replies .content .replies .reply1 .author {
-  position: relative;
-  margin: auto;
-  background-color: #fff;
-  color: #000;
-  border-radius: 5px;
-}
-
-#user_replies .content .replies .reply1 .author .caption {
-  position: relative;
-  height: inherit;
-  background-color: inherit;
-  padding: 10px;
-}
-
-#user_replies .content .replies .reply1 .author .caption {
-  position: relative;
-  height: inherit;
-  padding: 10px;
-}
-
-#user_replies .content .replies .reply1 .author .caption .author-details {
-  position: relative;
-  margin-bottom: .2rem;
-}
-
-
-#user_replies .content .replies .reply1 .author .caption .author-details .name {
-  position: relative;
-  float: left;
-  font-weight: bold;
-  font-size: 1rem;
-  font-family: "Roboto", sans-serif;
-  padding-left: .5rem;
-  letter-spacing: 1px;
-}
-
-#user_replies .content .replies .reply1 .author .caption .author-details .time {
-  float: left;
-  padding-left: .5rem;
-  size: .6rem;
-  color: grey;
-}
-
-#user_replies .content .replies .reply1 .author .caption .author-details .quest-options-btn {
-    float: right;
-    margin-top: -30px;
-    right: 0;
-    padding: 0 !important;
-    color: #6400ae;
-}
-
-#user_replies .content .replies .reply1 .author .caption .author-details .reply-type {
-    color: #6400ae;
-    font-family: "Roboto", sans-serif;
-    margin-top: .5em;
-    margin-left: .5em;
-}
-
-#user_replies .content .replies .reply1 .reply-footer .likes-and-replays {
-    padding-left: 3%;
-    padding-right: 3%;
-    border-bottom: 1px solid #e6e6e6;
-}
-
-#user_replies .content .replies .reply1 .reply-footer .likes-and-replays span i {
-    color: #6400ae;
-}
-
-#user_replies .content .replies .reply1 .reply-footer .user-action {
-    padding-left: 7%;
-    padding-right: 7%;
-}
-
-#user_replies .content .replies .reply1 .reply-footer .user-action a:hover {
-    text-decoration: none;
-    color: #222;
-    cursor: pointer;
-}
-
-#user_replies .content .replies .reply1 .quest-footer .user-action a i {
-    color: #6400ae;
-}
-
 /*===========================================
             Other User
 ===========================================*/
@@ -3429,7 +3192,7 @@ a {
 
 #other_user .content {
     width: 650px;
-    height: 100vh;
+    height: 65vh;
     padding: 0;
     background-color: #fff;
     margin-top: 15px;
@@ -3500,6 +3263,32 @@ a {
         z-index: 9;
         width: 20%;
     }
+}
+
+#other_user .content .profile-btn {
+    margin-top: 30px;
+    text-align: center;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+#other_user .content .profile-btn a {
+    background-color: #f8f8f8;
+    padding: .3em;
+    box-shadow:0 2px 2px 0 rgba(0,0,0,0.16),0 1px 4px 0 rgba(0,0,0,0.12);
+    font-family: "Roboto", sans-serif;
+}
+
+#other_user .content .profile-btn a:hover {
+    background-color: #6400ae;
+    text-decoration: none;
+    color: #fff;
+    transition: .6s;
+}
+
+#other_user .content .replies {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
 }
 
 /*===========================================
