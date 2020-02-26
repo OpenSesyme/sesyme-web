@@ -155,6 +155,16 @@ window.onload = function(){
 				loadLogIn();
 			}
 		break;
+		case "manage_interests.html":
+			if(sessionStorage.getItem("user_id") != null)
+			{
+				load_user_interests();
+
+			}else
+			{
+				loadLogIn();
+			}
+		break;
 		default:
 			loadLogIn();
 		break;
@@ -163,7 +173,6 @@ window.onload = function(){
 
     firebase.auth().onAuthStateChanged(function(user) {
   		if (user) {
-				checkSession();
     		myEmail = user.email;
 
     		var emailVerified = user.emailVerified;
@@ -172,19 +181,19 @@ window.onload = function(){
     		if (page == "index.html" || page == "") {
   				window.location.href= "q_and_a/home.html";
   			}else if (page == "signup.html"){
-  				window.location.href= "../q_and_a/home.html";
-  			}
+  				console.log("Signed Up");
+			}
+			UsersRef.doc(myEmail).get().then(function(data)
+			{
+				var user = data.data();
+				$('#nav-profile-pic img').attr('src', user.profileUrl);
+			});
   		} else {
   			console.log("User is signed out");
   			if (page != "index.html" && page != "" && page != "signup.html") {
   				window.location.href= "../index.html";
   			}
   		}
-	});
-	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(data)
-	{
-			var user = data.data();
-			$('#nav-profile-pic img').attr('src', user.profileUrl);
 	});
 }
 
@@ -298,21 +307,81 @@ function loadSignUp(){
 		var id = $(this).closest('.col-md-3').find('input').attr("id");
 		tickedInterest(id);
 	});
-
-
-	$('.continue-btn').on('click', function(){
-
+	
+	$('.page .display-images').on('change', '#coverPic', function(e)
+	{
+		var selectedImg = e.target.files[0];
+		var ImgName = selectedImg.name;
+		var fileType = selectedImg.type;
+		var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+		if ($.inArray(fileType, validImageTypes) < 0) {
+			showSnackbar("Selected file is not an Image");
+			return;
+		}else
+		{
+			viewCover_pic(this);
+		}
 	});
+	
+	$('.page .display-images').on('change', '#profilePic', function(e)
+	{
+		var selectedImg = e.target.files[0];
+		var ImgName = selectedImg.name;
+		var fileType = selectedImg.type;
+		var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+		if ($.inArray(fileType, validImageTypes) < 0) {
+			showSnackbar("Selected file is not an Image");
+			return;
+		}else
+		{
+		viewProfile_pic(this);
+		}
+	});
+
+	$('.continue-btn').on('click', '.subscribe-btn', function(e)
+	{
+		e.preventDefault();
+		e.stopPropagation();
+		signUpMethod();
+	});
+}
+
+function viewCover_pic(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('.display-images').find(".cover-image").children().first().attr('src', e.target.result);
+			signUpInfo.cover_img = input.files[0];
+		}
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function viewProfile_pic(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('.display-images').find(".profile-pic").children().first().attr('src', e.target.result);
+			signUpInfo.profile_img = input.files[0];
+
+		}
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 
 function signUpMethod(){
 	var email = signUpInfo.email;
+	console.log(email);
+	
 	var password = signUpInfo.password;
 	console.log(password);
 	firebase.auth().createUserWithEmailAndPassword(email, password)
 	.then(function(){
+		showLoader();
 		UsersRef.doc(email).set({
-			fullname: signUpInfo.fullname,
+			fullName: signUpInfo.fullname,
 			dateOfBirth: signUpInfo.birthDate,
 			course: signUpInfo.course,
 			affiliation: signUpInfo.affiliation,
@@ -322,9 +391,73 @@ function signUpMethod(){
 			uID: email,
 		})
 		.then(function(){
-			window.location.href = "../q_and_a/home.html";
+			var id = email;
+			var pic = "profilePics/"+id+" Profile pic.jpg";
+			var file = signUpInfo.profile_img;
+			//upload new pic
+			var uploadTask = storage.ref(pic).put(signUpInfo.profile_img);
+			uploadTask.on('state_changed', function(snapshot){
+			var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
+			$('#progress').text((progress).toFixed(2) + " %");
+			console.log('Upload is ' + progress + '% done');
+			switch (snapshot.state) {
+			case firebase.storage.TaskState.PAUSED: // or 'paused'
+					console.log('Upload is paused');
+					break;
+			case firebase.storage.TaskState.RUNNING: // or 'running'
+					console.log('Upload is running');
+					break;
+			}
+			}, function(error) {
+				console.log(error);
+				return false;
+			}, function() {
+			uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+				var id = email;
+				UsersRef.doc(id).update({profileUrl: downloadURL});
+				var pic = "Cover Pics/"+id+" Cover.jpg";
+
+				var file = signUpInfo.cover_img;
+				//upload new pic
+				var uploadTask = storage.ref(pic).put(file);
+				uploadTask.on('state_changed', function(snapshot){
+					var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
+					$('#progress').text((progress).toFixed(2) + " %");
+					console.log('Upload is ' + progress + '% done');
+					switch (snapshot.state) {
+						case firebase.storage.TaskState.PAUSED: // or 'paused'
+							console.log('Upload is paused');
+							break;
+						case firebase.storage.TaskState.RUNNING: // or 'running'
+							console.log('Upload is running');
+							break;
+					}
+				}, function(error) {
+					console.log(error);
+					return false;
+				}, function() {
+					uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+						UsersRef.doc(email).update({coverUrl: downloadURL});
+						sessionStorage.setItem("user_id", email);
+						hideLoader();
+						window.location.href = "../q_and_a/home.html";
+
+					});
+		
+		
+				}).catch(function(error) {
+					// Uh-oh, an error occurred!
+					console.log("Error while uploading image");
+				});				
+			});
+	
+			}).catch(function(error) {
+				console.log("Error while uploading image");
+	
+			// Uh-oh, an error occurred!
+			});
 		}).catch(function(error){
-			console.log(error.code + ": " + error.mssage);
+			console.log(error);
 		});
 	})
 	.catch(function(error) {
@@ -332,11 +465,6 @@ function signUpMethod(){
   		var errorMessage = error.message;
   		alert("Error Code: " + errorCode + "\n" + "Message: " + errorMessage);
 	});
-}
-
-function test(){
-	console.log("Don't move to next page!");
-	return false;
 }
 
 function signInWithGoogle(){
@@ -1785,7 +1913,7 @@ function loadProfile()
 		var profile_pic = null;
 		var cover_pic = null;
 
-		if(data.coverUrl === null)
+		if(data.coverUrl == null)
 		{
 			cover_pic = "../img/profilePic.jpg";
 		}else
@@ -1793,7 +1921,7 @@ function loadProfile()
 			cover_pic = data.coverUrl;
 		}
 
-		if(data.profileUrl === null)
+		if(data.profileUrl == null)
 		{
 			profile_pic = "../img/cover.jpg";
 		}else
@@ -2604,6 +2732,68 @@ function updateImage(id, file, upload_type)
 			console.log("error happened while deleting");
 		  });
 	}
+}
+
+
+//========================================= MANAGE INTERESTS ===========================================
+
+function load_user_interests()
+{
+	showLoader();
+	var arr = [];
+	var kids = $('#select_interests .row').children();
+	var id = sessionStorage.getItem('user_id');
+	UsersRef.doc(id).get()
+	.then(function(user)
+	{
+		var interests = user.data().interests;
+		arr = interests;
+
+		for(var i = 0; i < kids.length; i++)
+		{
+			if(interests.includes($(kids[i]).find('p').text()))
+			{
+				$(kids[i]).find('input')[0].setAttribute("checked", "");
+				hideLoader();
+			}
+			
+		}
+		$('#select_interests').on('click', '.img-fluid', function(e)
+		{
+			e.stopPropagation();
+			var interest = $(this).closest('.custom-control').find('p').text();
+			if(arr.includes(interest))
+			{
+				arr.splice(arr.indexOf(interest), 1);
+				
+			}else
+			{
+				arr.push(interest);
+				
+			}
+			
+		});
+
+		$('#save_interests').on('click', function(e)
+		{
+			e.preventDefault();
+			if(arr.length >= 3)
+			{
+				UsersRef.doc(id).update({interests: arr})
+				.then(function()
+				{
+					showSnackbar("Interests updated");
+					var delay = setTimeout(function(){history.back(-1);},2000);
+				});
+			}else
+			{
+				showSnackbar("Interests should be at least 3");
+			}
+		})
+	});
+
+	
+	
 }
 
 /*=========================================================================================================

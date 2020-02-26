@@ -600,6 +600,13 @@ a {
   cursor: pointer;
 }
 
+#manageInterests .content .row .col-lg-8 #select_interests .row :nth-child(n+5)
+{
+    margin-top: 5%;;
+}
+
+  
+
 #signup .content .sign-up-form-3 .custom-control.image-checkbox label:before {
   border-color: #000;
   background-color: rgb(8, 8, 8, 0.5);
