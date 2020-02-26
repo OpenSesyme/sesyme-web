@@ -125,6 +125,36 @@ window.onload = function(){
 				loadLogIn();
 			}
 		break;
+		case "user_questions.html":
+			if(sessionStorage.getItem("user_id") != null)
+			{
+				load_user_questions();
+
+			}else
+			{
+				loadLogIn();
+			}
+		break;
+		case "user_replies.html":
+			if(sessionStorage.getItem("user_id") != null)
+			{
+				load_user_replies();
+
+			}else
+			{
+				loadLogIn();
+			}
+		break;
+		case "user_profile.html":
+			if(sessionStorage.getItem("user_id") != null)
+			{
+				load_user_profile();
+
+			}else
+			{
+				loadLogIn();
+			}
+		break;
 		default:
 			loadLogIn();
 		break;
@@ -812,13 +842,25 @@ function loadQuestionsPage(){
 				postId: id
 			}).then(function(){
 				QuestionsCollection.doc(id).update({numLikes: firebase.firestore.FieldValue.increment(1)});
+				QuestionsCollection.doc(id).get()
+				.then(function(_document)
+				{
+					if(sessionStorage.getItem("user_id") !== _document.get("author"))
+					{
+						var text = "liked your question: "+_document.get("author");
+						var type = "Question";
+						saveNotification(_document.get("author"), type, likeId, text);
+					}
+				});
 				console.log("Liked");
 			});
 		}
     });
 
     $('.questions').on('click', '#options_btn', function(e){
-    	e.stopPropagation();
+		e.stopPropagation();
+		console.log("check");
+		
     	var x = $(this).closest('.quest-options-btn').find('#dropOptions')[0];
     	if (x.className.indexOf("w3-show") == -1) {
 	    	x.className += " w3-show";
@@ -916,7 +958,36 @@ function loadQuestionsPage(){
     			$(question).show();
     		}
     	}
-    });
+	});
+
+	$('#q_and_a .questions').on('click', '.avatar', function(e)
+	{
+		e.stopPropagation();
+		var id = $(this).closest('.author-details').find('.this-id')[0].innerHTML;
+		if(myEmail !== id)
+		{
+			sessionStorage.setItem("other_user", id);
+			window.location.href = "../profile/user_profile.html";
+		}else
+		{
+			window.location.href = "../profile/profile.html";
+		}
+		
+	});
+	
+	$('#q_and_a .questions').on('click', '.name', function(e)
+	{
+		e.stopPropagation();
+		var id = $(this).closest('.author-details').find('.this-id')[0].innerHTML;
+		if(myEmail !== id)
+		{
+			sessionStorage.setItem("other_user", id);
+			window.location.href = "../profile/user_profile.html";
+		}else
+		{
+			window.location.href = "../profile/profile.html";
+		}
+	});
 }
 
 function fetchQuestions(){
@@ -1038,7 +1109,8 @@ function populateQuestions(question){
 				<p hidden id="doc_id">'+id+'</p>\
 				<div class="author">\
 				    <div class="caption">\
-				        <div class="author-details">\
+						<div class="author-details">\
+							<p class="this-id" hidden>'+author+'</p>\
 				            <img src='+userImage+' alt="Names profile picture" class="avatar">\
 				            <div class="name">'+name+'</div> <span class="edited">'+edited+'</span><br/>\
 				            <div class="time"><i class="fa fa-clock-o" style="color: #6400ae;"></i> '+timeToShow+'</div>\
@@ -1099,8 +1171,10 @@ function loadReplies(){
 		console.log("Question not selected");
 		return;
 	}
+	showLoader();
 	QuestionsCollection.doc(selectedQuestion).get().then((doc) =>{
 		var title = doc.get("title");
+		document.title = title;
 		var category = doc.get("category");
 		var categories = "#" + category.join(" #");
 		var author = doc.get("author");
@@ -1150,6 +1224,7 @@ function loadReplies(){
 				</div>\
 			</div>';
 			$('.content').prepend(html);
+			hideLoader();
 		});
 	});
 
@@ -1191,7 +1266,7 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 							    <div class="caption">\
 						        	<div class="author-details"> \
 						    	        <div class="name">'+name+'</div><br/>\
-							            <div class="time"><i class="fa fa-clock-o"></i>'+timeToShow+'</div>\
+							            <div class="time"><i class="fa fa-clock-o"></i> '+timeToShow+'</div>\
 				            			<div class="w3-dropdown-click quest-options-btn">\
 				            				<button type="button" class="btn" id="options_btn"><i class="fa fa-chevron-down"></i></button>\
 				            				<div id="dropOptions" class="w3-dropdown-content w3-bar-block w3-border">\
@@ -1199,7 +1274,7 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 				   								<a class="w3-bar-item w3-button" id="optionItem">'+options[1]+'</a>\
 				            				</div>\
 				            			</div>\
-							            <div class="reply-type">'+type+'</div>\
+							            <span class="reply-type">'+type+'</span>\
 						        	</div>\
 								</div>\
 							</div>\
@@ -1209,8 +1284,8 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 							<img class="postImage" src="'+image+'" alt="This is pdf" style="'+style+'"></image>\
 							<div class="reply-footer">\
 								<div class="likes-and-replays pb-2">\
-									<span><i class="fa fa-heart"></i>'+likes+'</span>\
-									<span class="w3-right">'+replies+' Replies</span>\
+									<span><i class="fa fa-heart"></i> '+likes+'</span>\
+									<span class="w3-right"> '+replies+' Replies</span>\
 								</div>\
 								<div class="user-action pt-3 pb-4 w3-center">\
 									<a id="like_button_replies" class="w3-left">\
@@ -1252,6 +1327,22 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 			}).then(function(){
 				QuestionsCollection.doc(selectedQuestion).collection("Replies")
 				.doc(id).update({numLikes: firebase.firestore.FieldValue.increment(1)});
+	
+				QuestionsCollection.doc(selectedQuestion).get()
+				.then(function(_document)
+				{
+					collection("Replies").doc(id).get().then(function(reply)
+					{
+						if(myEmail !== reply.get("author"))
+						{
+							var text = "Liked your reply: "+reply.get("reply");
+							var ref = selectedQuestion;
+							saveNotification(reply.get("author"), "Like", ref, text);
+						}
+					});
+
+				});
+
 				console.log("Liked");
 			});
 		}
@@ -1314,10 +1405,10 @@ function loadWriteQuestion(){
 		EditQuestion = sessionStorage.getItem("EditQuestion");
 		QuestionsCollection.doc(EditQuestion).get().then((doc) =>{
 			var title = doc.get("title");
+			document.title = "Edit : "+title;
 			var description = doc.get("description");
 			var category = doc.get("category");
 			questionCategories = category;
-			// read_this();
 			var image = doc.get("imageUrl");
 			$('#qImage').attr('src', image);
 			$('#questionTitle').val(title);
@@ -1371,18 +1462,18 @@ function loadWriteQuestion(){
         	label: "Management Accounting",
         	value: "Management Accounting",
       	},
-				{
-					label: "Economics",
-					value: "Economics",
-				},
-				{
-					label: "Financial Accounting",
-					value: "Financial Accounting",
-				},
-				{
-					label: "Finance",
-					value: "Finance",
-				},
+		{
+			label: "Economics",
+			value: "Economics",
+		},
+		{
+			label: "Financial Accounting",
+			value: "Financial Accounting",
+		},
+		{
+			label: "Finance",
+			value: "Finance",
+		},
         ],
         value: false,
         placeholder: ["Click to select categories"],
@@ -1639,7 +1730,7 @@ function postReply(type, description, id, attType){
 		accepted: null,
 		attType: null,
 		author: myEmail,
-		category: ["Accounting"],
+		category: null,
 		dateTime: firebase.firestore.FieldValue.serverTimestamp(),
 		description: description,
 		edited: false,
@@ -1651,6 +1742,23 @@ function postReply(type, description, id, attType){
 	}).then(function(){
 		QuestionsCollection.doc(selectedQuestion)
 		.update({numComments: firebase.firestore.FieldValue.increment(1)});
+		QuestionsCollection.doc(selectedQuestion).get()
+		.then(function(_document)
+		{
+			if(sessionStorage.getItem("user_id") !== _document.get("author"))
+			{
+				var text = "";
+				if(type == "Answer")
+				{
+					text = "Answered your question: "+_document.get("title");
+				}else if(type == "Comment")
+				{
+					text = "Commented on your question: "+_document.get("title");
+				}
+				saveNotification(_document.get("author"), type, ref, text);
+			}
+		});
+		
 		if (file != null) {
 				uploadPostImage(file, ref, type, attType);
 			}else{
@@ -1670,6 +1778,7 @@ function postReply(type, description, id, attType){
 function loadProfile()
 {
 	showLoader();
+	document.title = "My profile";
 	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(user)
 	{
 		var data = user.data();
@@ -1708,6 +1817,461 @@ function loadProfile()
 		});
 	});
 }
+
+function load_user_questions()
+{
+
+	showLoader();
+	document.title = "My questions";
+	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(user)
+	{
+		var data = user.data();
+		var profile_pic = null;
+		if(data.profileUrl === null)
+		{
+			profile_pic = "../img/cover.jpg";
+		}else
+		{
+			profile_pic = data.profileUrl;
+		}
+
+		var fullname = data.fullName;
+
+		QuestionsCollection.where("author", "==", sessionStorage.getItem("user_id"))
+		.orderBy("dateTime", "desc").get().then(function(questions)
+		{
+			
+			questions.forEach(function(question)
+			{
+				var time = question.get("dateTime").toDate().toLocaleString("en-CA");
+				var timeToShow = moment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
+				var isEdited = "";
+
+				if(question.get("edited") == true)
+				{
+					isEdited = "Edited";
+				}
+
+				var cate = "";
+				var category = question.get("category");
+
+				for(var i = 0; i < category.length; i++)
+				{
+					cate +="<li><a>#"+category[i]+"</a></li>";
+				}
+
+				var html = `<div class="quest1">
+				<div class="author">
+					<div class="caption">
+						<div class="author-details">
+						<p hidden id="doc_id">${question.id}</p>
+							<img src="${profile_pic}" alt="Name's profile picture" class="avatar">  
+							<div class="name">${fullname}</div> <span class="edited">${isEdited}</span><br/>
+							<div class="time"><i class="fa fa-clock-o"></i> ${timeToShow}</div>
+				            <div class="w3-dropdown-click quest-options-btn">
+				            	<button type="button" class="btn" id="options_btn"><i class="fa fa-chevron-down"></i></button>
+				            	<div id="dropOptions" class="w3-dropdown-content w3-bar-block w3-border">
+				            		<a class="w3-bar-item w3-button" id="optionItem">Edit</a>
+				   					<a class="w3-bar-item w3-button" id="optionItem"> Delete </a>
+				            	</div>
+				            </div>
+						</div>   
+					</div>
+				</div>
+
+				<div class="quest-header">
+					<h2>${question.get("title")}</h2>
+					<ul class="categoryTags">
+						${cate}
+					</ul>
+				</div>
+
+				<div class="quest-discription">
+					<p>
+						${question.get("description")}
+					</p>
+				</div>
+
+				<div class="quest-footer">
+					<div class="likes-and-replays pb-2">
+						<span><i class="fa fa-heart"></i> ${question.get("numLikes")}</span>
+						<span class="w3-right">${question.get("numComments")} Replies</span>
+					</div>
+					<div class="user-action pt-3 pb-3 w3-center">
+						<a href="#" class="w3-left">
+							<i class="fa fa-heart-o"></i>&nbsp;&nbsp;&nbsp;Like
+						</a>
+						<a href="../q_and_a/replies.html" >
+							<i class="fa fa-comment"></i>&nbsp;&nbsp;&nbsp;Replies
+						</a>
+						<a href="#" class="w3-right">
+							<i class="fa fa-share"></i>&nbsp;&nbsp;&nbsp;Share
+						</a>
+					</div>
+				</div>
+			</div>
+			`;
+				$('#user_questions .questions').append(html);
+				hideLoader();
+			});
+		});
+
+	});
+
+	$('.questions').on('click', '#options_btn', function(e){
+		e.stopPropagation();
+		
+    	var x = $(this).closest('.quest-options-btn').find('#dropOptions')[0];
+    	if (x.className.indexOf("w3-show") == -1) {
+	    	x.className += " w3-show";
+	  	} else {
+	    	x.className = x.className.replace(" w3-show", "");
+	  	}
+	});
+
+	$('.questions').on('focusout', '#options_btn', function(){
+        var x = $(this).closest('.quest-options-btn').find('#dropOptions')[0];
+    	setTimeout(function(){
+        	var focus=$(document.activeElement);
+        	if (focus.is(this) || $(this).has(focus).length) {
+        	    console.log("still focused");
+        	} else {
+	    		x.className = x.className.replace(" w3-show", "");
+        	}
+    	},200);
+
+    });
+
+    $('.questions').on('click', '#optionItem', function(e){
+    	e.stopPropagation();
+		var option = $(this).text().trim();
+		console.log(option);
+		
+    	var id = $(this).closest('.quest1').find('#doc_id')[0].innerHTML;
+		console.log(id);
+		
+		switch(option){
+    		case "Edit":
+    			EditOwnPost("Question", id);
+    			break;
+    		case "Delete":
+    			DeletePost(id);
+    			break;
+    	}
+    });
+	
+
+}
+
+function EditOwnPost(type, id){
+	if (type == "Question") {
+		sessionStorage.setItem("EditQuestion", id);
+    	window.location.href = "../q_and_a/write_question.html";
+	}else{
+		sessionStorage.setItem("EditReply", id);
+    	window.location.href = "../q_and_a/write_reply.html";
+	}
+}
+
+
+function load_user_replies()
+{
+
+	showLoader();
+	document.title = "My replies";
+	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(user)
+	{
+		var data = user.data();
+		var profile_pic = null;
+		if(data.profileUrl === null)
+		{
+			profile_pic = "../img/cover.jpg";
+		}else
+		{
+			profile_pic = data.profileUrl;
+		}
+
+		var fullname = data.fullName;
+
+		db.collectionGroup("Replies").where("author", "==", sessionStorage.getItem("user_id"))
+		.where("type", "==", "Answer").orderBy("dateTime", "desc").get().then(function(replies)
+		{
+			
+			replies.forEach(function(reply)
+			{
+				var time = reply.get("dateTime").toDate().toLocaleString("en-CA");
+				var timeToShow = moment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
+				var isEdited = "";
+
+				var html = `<div class="reply1">
+				<div class="author">
+					<div class="caption">
+						<div class="author-details"> 
+							<div class="name">${fullname}</div><br/>
+							<div class="time"><i class="fa fa-clock-o"></i> ${timeToShow}</div>
+							<div class="w3-dropdown-click quest-options-btn">
+								<button type="button" class="btn" id="options_btn"><i class="fa fa-chevron-down"></i></button>
+								<div id="dropOptions" class="w3-dropdown-content w3-bar-block w3-border">
+									<a class="w3-bar-item w3-button" id="optionItem">Edit</a>
+								  	<a class="w3-bar-item w3-button" id="optionItem"> Delete </a>
+								</div>
+							</div>
+							<span class="reply-type">${reply.get("type")}</span>
+						</div>   
+					</div>
+				</div>
+
+				<div class="reply-content mx-3">
+					<p>
+						${reply.get("description")}
+					</p>
+				</div>
+
+				<div class="reply-footer">
+					<div class="likes-and-replays pb-2">
+						<span><i class="fa fa-heart"></i> ${reply.get("numLikes")}</span>
+						<span class="w3-right">${reply.get("numComments")} Replies</span>
+					</div>
+					<div class="user-action pt-3 pb-4 w3-center">
+						<a class="w3-left">
+							<i class="fa fa-heart-o"></i>&nbsp;&nbsp;&nbsp;Like
+						</a>
+						
+						<a class="w3-right">
+							<i class="fa fa-share"></i>&nbsp;&nbsp;&nbsp;Share
+						</a>
+					</div>
+				</div>
+			</div>
+			`;
+				$('#user_replies .content .replies').append(html);
+				hideLoader();
+			});
+		});
+
+	});
+
+	$('.replies').on('click', '#options_btn', function(){
+    	var x = $(this).closest('.quest-options-btn').find('#dropOptions')[0];
+    	if (x.className.indexOf("w3-show") == -1) {
+	    	x.className += " w3-show";
+	  	} else {
+	    	x.className = x.className.replace(" w3-show", "");
+	  	}
+    });
+
+    $('.replies').on('focusout', '#options_btn', function(){
+        var x = $(this).closest('.quest-options-btn').find('#dropOptions')[0];
+    	setTimeout(function(){
+        	var focus=$(document.activeElement);
+        	if (focus.is(this) || $(this).has(focus).length) {
+        	    console.log("still focused");
+        	} else {
+	    		x.className = x.className.replace(" w3-show", "");
+        	}
+    	},200);
+
+    });
+
+    $('.replies').on('click', '#optionItem', function(){
+    	var option = $(this).text().trim();
+    	var id = $(this).closest('.reply1').find('#doc_id')[0].innerHTML;
+    	var ref = selectedQuestion + "/Replies/" + id;
+    	switch(option){
+    		case "Edit":
+    			EditPost("Reply", ref);
+    			break;
+    		case "Delete":
+    			DeletePost(ref);
+    			break;
+    	}
+    });
+
+}
+
+//Other users profile
+function load_user_profile()
+{
+	var id = sessionStorage.getItem("other_user");
+	showLoader();
+	UsersRef.doc(id).get().then(function(user)
+	{
+		var data = user.data();
+		var profile_pic = null;
+		var cover_pic = null;
+
+		if(data.coverUrl === null)
+		{
+			cover_pic = "../img/cover.jpg";
+		}else
+		{
+			cover_pic = data.coverUrl;
+		}
+
+		if(data.profileUrl === null)
+		{
+			profile_pic = "../img/profilePic.jpg";
+		}else
+		{
+			profile_pic = data.profileUrl;
+		}
+		$('#other_user').ready(function()
+		{
+			$('#other_user').find('#fullname')[0].innerHTML = data.fullName;
+			$('#other_user').find('.fb-image-lg').attr("src", cover_pic);
+			$('#other_user').find('.fb-image-profile').attr("src", profile_pic);
+			$('#other_user').find('#course')[0].innerHTML = data.course;
+			$('#other_user').find('#university')[0].innerHTML = data.university;
+			$('#other_user').ready(function()
+			{
+				hideLoader();
+			});
+
+			var fullname = data.fullName;
+			document.title = fullname+"'s Profile";
+			QuestionsCollection.where("author", "==", id)
+			.orderBy("dateTime", "desc").get().then(function(questions)
+			{
+				
+				questions.forEach(function(question)
+				{
+					var time = question.get("dateTime").toDate().toLocaleString("en-CA");
+					var timeToShow = moment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
+					var isEdited = "";
+	
+					if(question.get("edited") == true)
+					{
+						isEdited = "Edited";
+					}
+	
+					var cate = "";
+					var category = question.get("category");
+	
+					for(var i = 0; i < category.length; i++)
+					{
+						cate +="<li><a>#"+category[i]+"</a></li>";
+					}
+	
+					var html = `<div class="quest1">
+					<div class="author">
+						<div class="caption">
+							<div class="author-details">
+							<p hidden id="doc_id">${question.id}</p>
+								<img src="${profile_pic}" alt="Name's profile picture" class="avatar">  
+								<div class="name">${fullname}</div> <span class="edited">${isEdited}</span><br/>
+								<div class="time"><i class="fa fa-clock-o"></i> ${timeToShow}</div>
+								<div class="w3-dropdown-click quest-options-btn">
+									<button type="button" class="btn" id="options_btn"><i class="fa fa-chevron-down"></i></button>
+									<div id="dropOptions" class="w3-dropdown-content w3-bar-block w3-border">
+										<a class="w3-bar-item w3-button" id="optionItem">Hide</a>
+										   <a class="w3-bar-item w3-button" id="optionItem"> Report </a>
+									</div>
+								</div>
+							</div>   
+						</div>
+					</div>
+	
+					<div class="quest-header">
+						<h2>${question.get("title")}</h2>
+						<ul class="categoryTags">
+							${cate}
+						</ul>
+					</div>
+	
+					<div class="quest-discription">
+						<p>
+							${question.get("description")}
+						</p>
+					</div>
+	
+					<div class="quest-footer">
+						<div class="likes-and-replays pb-2">
+							<span><i class="fa fa-heart"></i> ${question.get("numLikes")}</span>
+							<span class="w3-right">${question.get("numComments")} Replies</span>
+						</div>
+						<div class="user-action pt-3 pb-3 w3-center">
+							<a href="#" class="w3-left">
+								<i class="fa fa-heart-o"></i>&nbsp;&nbsp;&nbsp;Like
+							</a>
+							<a href="../q_and_a/replies.html" >
+								<i class="fa fa-comment"></i>&nbsp;&nbsp;&nbsp;Replies
+							</a>
+							<a href="#" class="w3-right">
+								<i class="fa fa-share"></i>&nbsp;&nbsp;&nbsp;Share
+							</a>
+						</div>
+					</div>
+				</div>
+				`;
+					$('#other_user .content #other_user_questions').append(html);
+					hideLoader();
+				});
+			});
+
+
+			db.collectionGroup("Replies").where("author", "==", id)
+			.where("type", "==", "Answer").orderBy("dateTime", "desc").get().then(function(replies)
+			{
+				console.log(replies);
+				
+				
+				replies.forEach(function(reply)
+				{
+					var time = reply.get("dateTime").toDate().toLocaleString("en-CA");
+					var timeToShow = moment(time, "YYYY-MM-DD, h:mm:ss a").fromNow();
+					var isEdited = "";
+	
+					var html = `<div class="reply1">
+					<div class="author">
+						<div class="caption">
+							<div class="author-details"> 
+								<div class="name">${fullname}</div><br/>
+								<div class="time"><i class="fa fa-clock-o"></i> ${timeToShow}</div>
+								<div class="w3-dropdown-click quest-options-btn">
+									<button type="button" class="btn" id="options_btn"><i class="fa fa-chevron-down"></i></button>
+									<div id="dropOptions" class="w3-dropdown-content w3-bar-block w3-border">
+										<a class="w3-bar-item w3-button" id="optionItem">Edit</a>
+										  <a class="w3-bar-item w3-button" id="optionItem"> Delete </a>
+									</div>
+								</div>
+								<span class="reply-type">${reply.get("type")}</span>
+							</div>   
+						</div>
+					</div>
+	
+					<div class="reply-content mx-3">
+						<p>
+							${reply.get("description")}
+						</p>
+					</div>
+	
+					<div class="reply-footer">
+						<div class="likes-and-replays pb-2">
+							<span><i class="fa fa-heart"></i> ${reply.get("numLikes")}</span>
+							<span class="w3-right">${reply.get("numComments")} Replies</span>
+						</div>
+						<div class="user-action pt-3 pb-4 w3-center">
+							<a class="w3-left">
+								<i class="fa fa-heart-o"></i>&nbsp;&nbsp;&nbsp;Like
+							</a>
+							
+							<a class="w3-right">
+								<i class="fa fa-share"></i>&nbsp;&nbsp;&nbsp;Share
+							</a>
+						</div>
+					</div>
+				</div>
+				`;
+					$('#other_user .content #other_user_replies').append(html);
+					hideLoader();
+				});
+			});
+	
+		});
+	});
+}
+
+
 
 /*+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+-
 										PROFILE EDIT VIEW
@@ -2177,13 +2741,10 @@ $('.feedback-submit').on('click', function(e)
 
 	if(validate_feedBack(report, description))
 	{
-		if(send_email(report, description))
-		{
-			send_email(report, description);
-		}
+		sendEmail();
 	}else
 	{
-			validate_feedBack(report, description);
+		validate_feedBack(report, description);
 	}
 
 });
@@ -2225,21 +2786,43 @@ function show_feedback_status(error)
 		}
 }
 
-function send_email(report, description)
+
+function sendEmail()
 {
-	Email.send({
-	    Host : "smtp.gmail.com",
-	    Username : "uhtomeek.music@gmail.com",
-	    Password : "MMMaaa232",
-			UseDefaultCredentials : true,
-	    To : "masibulelemgoqi@gmail.com",
-	    From : "uhtomeek.music@gmail.com",
-	    Subject : "Feedback",
-	    Body : "Report: "+report+"\n\nDescription: "+description
-	}).then(
-	  message => alert(message)
-	);
-}
+	var report = $('#report').val().trim();
+	var description = $('#report_description').val().trim();
+	var fullname = "";
+	UsersRef.doc(sessionStorage.getItem("user_id")).get()
+	.then(function(data)
+	{
+		$('.feedback-submit').addClass('disabled');
+		$.ajax(
+		{
+			url: '../includes/email.php',
+			method: 'POST',
+			data: {report: report, description: description, fullname:data.get("fullName"),  email: sessionStorage.getItem("user_id")}
+		}).then(function(data)
+		{
+			var report = $('#report').val("");
+			var description = $('#report_description').val("");
+			$('.feedback-submit').addClass('disabled');
+			
+		}).catch(function(error)
+		{
+			console.log(error);
+		});
+	});
+}  
+
+
+	function composeTidy()
+	{
+
+	$('#report').val('');
+	$('#report_description').val('');
+	$('.feedback_status').html("<div>Email sent</div>");
+	$('.feedback-submit').removeClass('disabled');
+	}
 
 /*======================================
 			Login
