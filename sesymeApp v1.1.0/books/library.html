@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 	<title>Sesyme | Books</title>
 	<meta charset="utf-8">
@@ -28,7 +28,7 @@
 		<div class="collapse navbar-collapse" id="collapsibleNavbar">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item w3-center">
-					<a class="nav-link" href="../q_and_a/home.html" style="margin-right: 30px; margin-top: 5px;">
+					<a class="nav-link" href="../q_and_a/index.html" style="margin-right: 30px; margin-top: 5px;">
 						<i class="fa fa-home" style="font-size: 31px"></i>
 						<h3>Home</h3>
 					</a>
@@ -57,11 +57,11 @@
 
 	<section id="books_home">
 		<div class="content">
-			<div class="sidenav">
-				<button class="explore active-tab" id="explo"><i class="fa fa-compass"></i> Explore</button>
-				<button class="library" id="libry"><i class="fa fa-book"></i> Library</button>
-				<button class="sesyme-books" id="alls"><i class="fa fa-eye"></i> All Books</button>
-			</div>
+			<!--<div class="sidenav">-->
+			<!--	<button class="explore active-tab" id="explo"><i class="fa fa-compass"></i> Explore</button>-->
+			<!--	<button class="library" id="libry"><i class="fa fa-book"></i> Library</button>-->
+			<!--	<button class="sesyme-books" id="alls"><i class="fa fa-eye"></i> All Books</button>-->
+			<!--</div>-->
 
 			<div class="main scroll">
 				<div class="search-book container" id="explore">
@@ -79,6 +79,7 @@
 							<!-- Loading Books -->
 						</div>
 					</div>
+					<div id="no_books_found" style="text-align: center; display: none; margin-top: 50px;"><h2>No Books Found</h2></div>
 				</div>
 			</div>
 		</div>
