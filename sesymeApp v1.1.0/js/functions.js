@@ -3228,7 +3228,6 @@ function loadReading(){
                     var li = document.createElement('li');
                     var a = document.createElement('a');
                     var remove = document.createElement('a');
-                    var textNode;
                     var text;
                     saveHighlight(cfiRange);
                     
@@ -3236,9 +3235,8 @@ function loadReading(){
             
                     if (range) {
                       text = range.toString();
-                      textNode = document.createTextNode(text);
             
-                      a.textContent = cfiRange;
+                      a.textContent = text;
                       a.href = "#" + cfiRange;
                       a.onclick = function () {
                         rendition.display(cfiRange);
@@ -3253,7 +3251,6 @@ function loadReading(){
                       };
             
                       li.appendChild(a);
-                      li.appendChild(textNode);
                       li.appendChild(remove);
                       highlights.appendChild(li);
                     }
@@ -3415,7 +3412,6 @@ function loadReading(){
         var li = document.createElement('li');
         var a = document.createElement('a');
         var remove = document.createElement('a');
-        var textNode;
         var text;
         saveHighlight(cfiRange);
         rendition.annotations.add("highlight", cfiRange);
@@ -3424,9 +3420,8 @@ function loadReading(){
 
         if (range) {
           text = range.toString();
-          textNode = document.createTextNode(text);
 
-          a.textContent = cfiRange;
+          a.textContent = text;
           a.href = "#" + cfiRange;
           a.onclick = function () {
             rendition.display(cfiRange);
@@ -3441,7 +3436,6 @@ function loadReading(){
           };
 
           li.appendChild(a);
-          li.appendChild(textNode);
           li.appendChild(remove);
           highlights.appendChild(li);
         }
