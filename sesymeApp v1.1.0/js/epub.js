@@ -1,1 +1,16780 @@
-(function(e,t){'object'==typeof exports&&'object'==typeof module?module.exports=t(require('xmldom'),function(){try{return require('jszip')}catch(t){}}()):'function'==typeof define&&define.amd?define(['xmldom','jszip'],t):'object'==typeof exports?exports.ePub=t(require('xmldom'),function(){try{return require('jszip')}catch(t){}}()):e.ePub=t(e.xmldom,e.jszip)})('undefined'==typeof self?this:self,function(e,t){var n=String.prototype,a=Math.abs,i=Math.min,o=Math.ceil,r=Math.round,s=Math.max,l=Math.floor;return function(e){function t(a){if(n[a])return n[a].exports;var i=n[a]={i:a,l:!1,exports:{}};return e[a].call(i.exports,i,i.exports,t),i.l=!0,i.exports}var n={};return t.m=e,t.c=n,t.d=function(e,n,a){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:a})},t.n=function(e){var n=e&&e.__esModule?function(){return e['default']}:function(){return e};return t.d(n,'a',n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p='/dist/',t(t.s=25)}([function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}function i(){var e=new Date().getTime(),t='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(t){var n=0|(e+16*Math.random())%16;return e=l(e/16),('x'==t?n:8|7&n).toString(16)});return t}function o(e){return!isNaN(parseFloat(e))&&isFinite(e)}function r(e,t,n,a,i){var o=a||0,s=i||t.length,l=parseInt(o+(s-o)/2),d;return(n||(n=function(e,t){return e>t?1:e<t?-1:e==t?0:void 0}),0>=s-o)?l:(d=n(t[l],e),1==s-o?0<=d?l:l+1:0===d?l:-1===d?r(e,t,n,l,s):r(e,t,n,o,l))}function d(e,t,n,a,i){var o=a||0,r=i||t.length,s=parseInt(o+(r-o)/2),l;return(n||(n=function(e,t){return e>t?1:e<t?-1:e==t?0:void 0}),0>=r-o)?-1:(l=n(t[s],e),1==r-o?0===l?s:-1:0===l?s:-1===l?d(e,t,n,s,r):d(e,t,n,o,s))}function u(e,t){for(var n=e.parentNode,a=n.childNodes,o=-1,r=0,i;r<a.length&&(i=a[r],i.nodeType===t&&o++,i!=e);r++);return o}function c(e,t){return new Blob([e],{type:t})}function p(e,t){return'undefined'==typeof e.querySelector?e.getElementsByTagName(t):e.querySelectorAll(t)}function g(e,t,n){for(var a=document.createTreeWalker(e,n,null,!1),i;i=a.nextNode();)t(i)}function h(e,t){if(t(e))return!0;if(e=e.firstChild,e)do{var n=h(e,t);if(n)return!0;e=e.nextSibling}while(e)}function m(e){for(var t=[e];e;e=e.parentNode)t.unshift(e);return t}Object.defineProperty(t,'__esModule',{value:!0});var f=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}();t.uuid=i,t.documentHeight=function(){return s(document.documentElement.clientHeight,document.body.scrollHeight,document.documentElement.scrollHeight,document.body.offsetHeight,document.documentElement.offsetHeight)},t.isElement=function(e){return!!(e&&1==e.nodeType)},t.isNumber=o,t.isFloat=function(e){var t=parseFloat(e);return!1!==o(e)&&('string'==typeof e&&-1<e.indexOf('.')||l(t)!==t)},t.prefixed=function(e){var t=['-webkit-','-webkit-','-moz-','-o-','-ms-'],n=e.toLowerCase(),a=['Webkit','webkit','Moz','O','ms'].length;if('undefined'==typeof document||'undefined'!=typeof document.body.style[n])return e;for(var o=0;o<a;o++)if('undefined'!=typeof document.body.style[t[o]+n])return t[o]+n;return e},t.defaults=function(e){for(var t=1,n=arguments.length,a;t<n;t++)for(var i in a=arguments[t],a)void 0===e[i]&&(e[i]=a[i]);return e},t.extend=function(e){var t=[].slice.call(arguments,1);return t.forEach(function(t){t&&Object.getOwnPropertyNames(t).forEach(function(n){Object.defineProperty(e,n,Object.getOwnPropertyDescriptor(t,n))})}),e},t.insert=function(e,t,n){var a=r(e,t,n);return t.splice(a,0,e),a},t.locationOf=r,t.indexOfSorted=d,t.bounds=function(e){var t=window.getComputedStyle(e),n=0,a=0;return['width','paddingRight','paddingLeft','marginRight','marginLeft','borderRightWidth','borderLeftWidth'].forEach(function(e){n+=parseFloat(t[e])||0}),['height','paddingTop','paddingBottom','marginTop','marginBottom','borderTopWidth','borderBottomWidth'].forEach(function(e){a+=parseFloat(t[e])||0}),{height:a,width:n}},t.borders=function(e){var t=window.getComputedStyle(e),n=0,a=0;return['paddingRight','paddingLeft','marginRight','marginLeft','borderRightWidth','borderLeftWidth'].forEach(function(e){n+=parseFloat(t[e])||0}),['paddingTop','paddingBottom','marginTop','marginBottom','borderTopWidth','borderBottomWidth'].forEach(function(e){a+=parseFloat(t[e])||0}),{height:a,width:n}},t.nodeBounds=function(e){var t=e.ownerDocument,n;if(e.nodeType==Node.TEXT_NODE){var a=t.createRange();a.selectNodeContents(e),n=a.getBoundingClientRect()}else n=e.getBoundingClientRect();return n},t.windowBounds=function(){var e=window.innerWidth,t=window.innerHeight;return{top:0,left:0,right:e,bottom:t,width:e,height:t}},t.indexOfNode=u,t.indexOfTextNode=function(e){return u(e,b)},t.indexOfElementNode=function(e){return u(e,v)},t.isXml=function(e){return-1<['xml','opf','ncx'].indexOf(e)},t.createBlob=c,t.createBlobUrl=function(e,t){var n=c(e,t),a;return a=k.createObjectURL(n),a},t.revokeBlobUrl=function(e){return k.revokeObjectURL(e)},t.createBase64Url=function(e,t){var n,a;if('string'==typeof e)return n=btoa(encodeURIComponent(e)),a='data:'+t+';base64,'+n,a},t.type=function(e){return Object.prototype.toString.call(e).slice(8,-1)},t.parse=function(e,t,a){var i,o;return o='undefined'==typeof DOMParser||a?n(42).DOMParser:DOMParser,65279===e.charCodeAt(0)&&(e=e.slice(1)),i=new o().parseFromString(e,t),i},t.qs=function(e,t){var n;if(!e)throw new Error('No Element Provided');return'undefined'==typeof e.querySelector?(n=e.getElementsByTagName(t),n.length)?n[0]:void 0:e.querySelector(t)},t.qsa=p,t.qsp=function(e,t,n){var a,i;if('undefined'!=typeof e.querySelector){for(var o in t+='[',n)t+=o+'~=\''+n[o]+'\'';return t+=']',e.querySelector(t)}return(a=e.getElementsByTagName(t),i=Array.prototype.slice.call(a,0).filter(function(e){for(var t in n)if(e.getAttribute(t)===n[t])return!0;return!1}),i)?i[0]:void 0},t.sprint=function(e,t){var n=e.ownerDocument||e;'undefined'==typeof n.createTreeWalker?h(e,function(e){e&&3===e.nodeType&&t(e)},!0):g(e,t,NodeFilter.SHOW_TEXT)},t.treeWalker=g,t.walk=h,t.blob2base64=function(e){return new Promise(function(t){var n=new FileReader;n.readAsDataURL(e),n.onloadend=function(){t(n.result)}})},t.defer=function(){var e=this;this.resolve=null,this.reject=null,this.id=i(),this.promise=new Promise(function(t,n){e.resolve=t,e.reject=n}),Object.freeze(this)},t.querySelectorByType=function(e,t,n){var a;if('undefined'!=typeof e.querySelector&&(a=e.querySelector(t+'[*|type="'+n+'"]')),!a||0===a.length){a=p(e,t);for(var o=0;o<a.length;o++)if(a[o].getAttributeNS('http://www.idpf.org/2007/ops','type')===n||a[o].getAttribute('epub:type')===n)return a[o]}else return a},t.findChildren=function(e){for(var t=[],n=e.childNodes,a=0,i;a<n.length;a++)i=n[a],1===i.nodeType&&t.push(i);return t},t.parents=m,t.filterChildren=function(e,t,n){for(var a=[],o=e.childNodes,r=0,i;r<o.length;r++)if(i=o[r],1===i.nodeType&&i.nodeName.toLowerCase()===t){if(n)return i;a.push(i)}if(!n)return a},t.getParentByTagName=function(e,t){var n;if(null!==e&&''!==t)for(n=e.parentNode;1===n.nodeType;){if(n.tagName.toLowerCase()===t)return n;n=n.parentNode}};var y=t.requestAnimationFrame='undefined'!=typeof window&&(window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame),v=1,b=3,k='undefined'==typeof URL?'undefined'==typeof window?void 0:window.URL||window.webkitURL||window.mozURL:URL,x=t.RangeObject=function(){function e(){a(this,e),this.collapsed=!1,this.commonAncestorContainer=void 0,this.endContainer=void 0,this.endOffset=void 0,this.startContainer=void 0,this.startOffset=void 0}return f(e,[{key:'setStart',value:function(e,t){this.startContainer=e,this.startOffset=t,this.endContainer?this.commonAncestorContainer=this._commonAncestorContainer():this.collapse(!0),this._checkCollapsed()}},{key:'setEnd',value:function(e,t){this.endContainer=e,this.endOffset=t,this.startContainer?(this.collapsed=!1,this.commonAncestorContainer=this._commonAncestorContainer()):this.collapse(!1),this._checkCollapsed()}},{key:'collapse',value:function(e){this.collapsed=!0,e?(this.endContainer=this.startContainer,this.endOffset=this.startOffset,this.commonAncestorContainer=this.startContainer.parentNode):(this.startContainer=this.endContainer,this.startOffset=this.endOffset,this.commonAncestorContainer=this.endOffset.parentNode)}},{key:'selectNode',value:function(e){var t=e.parentNode,n=Array.prototype.indexOf.call(t.childNodes,e);this.setStart(t,n),this.setEnd(t,n+1)}},{key:'selectNodeContents',value:function(e){var t=e.childNodes[e.childNodes-1],n=3===e.nodeType?e.textContent.length:parent.childNodes.length;this.setStart(e,0),this.setEnd(e,n)}},{key:'_commonAncestorContainer',value:function(e,t){var n=m(e||this.startContainer),a=m(t||this.endContainer);if(n[0]==a[0])for(var o=0;o<n.length;o++)if(n[o]!=a[o])return n[o-1]}},{key:'_checkCollapsed',value:function(){this.collapsed=this.startContainer===this.endContainer&&this.startOffset===this.endOffset}},{key:'toString',value:function(){}}]),e}()},function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var o='function'==typeof Symbol&&'symbol'==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&'function'==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?'symbol':typeof e},i=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),r=n(0),s=1,l=3,d=function(){function e(t,n,i){a(this,e);var s;if(this.str='',this.base={},this.spinePos=0,this.range=!1,this.path={},this.start=null,this.end=null,!(this instanceof e))return new e(t,n,i);if('string'==typeof n?this.base=this.parseComponent(n):'object'===('undefined'==typeof n?'undefined':o(n))&&n.steps&&(this.base=n),s=this.checkType(t),'string'===s)return this.str=t,(0,r.extend)(this,this.parse(t));if('range'===s)return(0,r.extend)(this,this.fromRange(t,this.base,i));if('node'===s)return(0,r.extend)(this,this.fromNode(t,this.base,i));if('EpubCFI'===s&&t.path)return t;if(!t)return this;throw new TypeError('not a valid argument for EpubCFI')}return i(e,[{key:'checkType',value:function(t){return this.isCfiString(t)?'string':t&&'object'===('undefined'==typeof t?'undefined':o(t))&&('Range'===(0,r.type)(t)||'undefined'!=typeof t.startContainer)?'range':t&&'object'===('undefined'==typeof t?'undefined':o(t))&&'undefined'!=typeof t.nodeType?'node':t&&'object'===('undefined'==typeof t?'undefined':o(t))&&t instanceof e&&'EpubCFI'}},{key:'parse',value:function(e){var t={spinePos:-1,range:!1,base:{},path:{},start:null,end:null},n,a,i;return'string'==typeof e?(0===e.indexOf('epubcfi(')&&')'===e[e.length-1]&&(e=e.slice(8,e.length-1)),n=this.getChapterComponent(e),!n)?{spinePos:-1}:(t.base=this.parseComponent(n),a=this.getPathComponent(e),t.path=this.parseComponent(a),i=this.getRange(e),i&&(t.range=!0,t.start=this.parseComponent(i[0]),t.end=this.parseComponent(i[1])),t.spinePos=t.base.steps[1].index,t):{spinePos:-1}}},{key:'parseComponent',value:function(e){var t={steps:[],terminal:{offset:null,assertion:null}},n=e.split(':'),a=n[0].split('/'),i;return 1<n.length&&(i=n[1],t.terminal=this.parseTerminal(i)),''===a[0]&&a.shift(),t.steps=a.map(function(e){return this.parseStep(e)}.bind(this)),t}},{key:'parseStep',value:function(e){var t,n,a,i,o;if(i=e.match(/\[(.*)\]/),i&&i[1]&&(o=i[1]),n=parseInt(e),!isNaN(n))return 0==n%2?(t='element',a=n/2-1):(t='text',a=(n-1)/2),{type:t,index:a,id:o||null}}},{key:'parseTerminal',value:function(e){var t=e.match(/\[(.*)\]/),n,a;return t&&t[1]?(n=parseInt(e.split('[')[0]),a=t[1]):n=parseInt(e),(0,r.isNumber)(n)||(n=null),{offset:n,assertion:a}}},{key:'getChapterComponent',value:function(e){var t=e.split('!');return t[0]}},{key:'getPathComponent',value:function(e){var t=e.split('!');if(t[1]){var n=t[1].split(',');return n[0]}}},{key:'getRange',value:function(e){var t=e.split(',');return 3===t.length&&[t[1],t[2]]}},{key:'getCharecterOffsetComponent',value:function(e){var t=e.split(':');return t[1]||''}},{key:'joinSteps',value:function(e){return e?e.map(function(e){var t='';return'element'===e.type&&(t+=2*(e.index+1)),'text'===e.type&&(t+=1+2*e.index),e.id&&(t+='['+e.id+']'),t}).join('/'):''}},{key:'segmentString',value:function(e){var t='/';return t+=this.joinSteps(e.steps),e.terminal&&null!=e.terminal.offset&&(t+=':'+e.terminal.offset),e.terminal&&null!=e.terminal.assertion&&(t+='['+e.terminal.assertion+']'),t}},{key:'toString',value:function(){var e='epubcfi(';return e+=this.segmentString(this.base),e+='!',e+=this.segmentString(this.path),this.range&&this.start&&(e+=',',e+=this.segmentString(this.start)),this.range&&this.end&&(e+=',',e+=this.segmentString(this.end)),e+=')',e}},{key:'compare',value:function(t,n){var a,o,r,s,l,l;if('string'==typeof t&&(t=new e(t)),'string'==typeof n&&(n=new e(n)),t.spinePos>n.spinePos)return 1;if(t.spinePos<n.spinePos)return-1;t.range?(a=t.path.steps.concat(t.start.steps),r=t.start.terminal):(a=t.path.steps,r=t.path.terminal),n.range?(o=n.path.steps.concat(n.start.steps),s=n.start.terminal):(o=n.path.steps,s=n.path.terminal);for(var d=0;d<a.length;d++){if(!a[d])return-1;if(!o[d])return 1;if(a[d].index>o[d].index)return 1;if(a[d].index<o[d].index)return-1}return a.length<o.length?-1:r.offset>s.offset?1:r.offset<s.offset?-1:0}},{key:'step',value:function(e){var t=e.nodeType===l?'text':'element';return{id:e.id,tagName:e.tagName,type:t,index:this.position(e)}}},{key:'filteredStep',value:function(e,t){var n=this.filter(e,t),a;if(n)return a=n.nodeType===l?'text':'element',{id:n.id,tagName:n.tagName,type:a,index:this.filteredPosition(n,t)}}},{key:'pathTo',value:function(e,t,n){for(var a={steps:[],terminal:{offset:null,assertion:null}},i=e,o;i&&i.parentNode&&i.parentNode.nodeType!=9;)o=n?this.filteredStep(i,n):this.step(i),o&&a.steps.unshift(o),i=i.parentNode;return null!=t&&0<=t&&(a.terminal.offset=t,'text'!=a.steps[a.steps.length-1].type&&a.steps.push({type:'text',index:0})),a}},{key:'equalStep',value:function(e,t){return e&&t&&e.index===t.index&&e.id===t.id&&e.type===t.type}},{key:'fromRange',value:function(e,t,n){var a={range:!1,base:{},path:{},start:null,end:null},r=e.startContainer,s=e.endContainer,l=e.startOffset,d=e.endOffset,u=!1;if(n&&(u=null!=r.ownerDocument.querySelector('.'+n)),'string'==typeof t?(a.base=this.parseComponent(t),a.spinePos=a.base.steps[1].index):'object'===('undefined'==typeof t?'undefined':o(t))&&(a.base=t),e.collapsed)u&&(l=this.patchOffset(r,l,n)),a.path=this.pathTo(r,l,n);else{a.range=!0,u&&(l=this.patchOffset(r,l,n)),a.start=this.pathTo(r,l,n),u&&(d=this.patchOffset(s,d,n)),a.end=this.pathTo(s,d,n),a.path={steps:[],terminal:null};var c=a.start.steps.length,p;for(p=0;p<c&&this.equalStep(a.start.steps[p],a.end.steps[p]);p++)p===c-1?a.start.terminal===a.end.terminal&&(a.path.steps.push(a.start.steps[p]),a.range=!1):a.path.steps.push(a.start.steps[p]);a.start.steps=a.start.steps.slice(a.path.steps.length),a.end.steps=a.end.steps.slice(a.path.steps.length)}return a}},{key:'fromNode',value:function(e,t,n){var a={range:!1,base:{},path:{},start:null,end:null};return'string'==typeof t?(a.base=this.parseComponent(t),a.spinePos=a.base.steps[1].index):'object'===('undefined'==typeof t?'undefined':o(t))&&(a.base=t),a.path=this.pathTo(e,null,n),a}},{key:'filter',value:function(e,t){var n=!1,a,i,o,r,s;return e.nodeType===l?(n=!0,o=e.parentNode,a=e.parentNode.classList.contains(t)):(n=!1,a=e.classList.contains(t)),a&&n?(r=o.previousSibling,s=o.nextSibling,r&&r.nodeType===l?i=r:s&&s.nodeType===l&&(i=s),i?i:e):a&&!n?!1:e}},{key:'patchOffset',value:function(e,t,n){if(e.nodeType!=l)throw new Error('Anchor must be a text node');var a=e,i=t;for(e.parentNode.classList.contains(n)&&(a=e.parentNode);a.previousSibling;){if(a.previousSibling.nodeType!==s)i+=a.previousSibling.textContent.length;else if(a.previousSibling.classList.contains(n))i+=a.previousSibling.textContent.length;else break;a=a.previousSibling}return i}},{key:'normalizedMap',value:function(e,t,n){var a={},o=-1,r=e.length,d,i,u;for(d=0;d<r;d++)i=e[d].nodeType,i===s&&e[d].classList.contains(n)&&(i=l),0<d&&i===l&&u===l?a[d]=o:t===i&&(++o,a[d]=o),u=i;return a}},{key:'position',value:function(e){var t,n;return e.nodeType===s?(t=e.parentNode.children,!t&&(t=(0,r.findChildren)(e.parentNode)),n=Array.prototype.indexOf.call(t,e)):(t=this.textNodes(e.parentNode),n=t.indexOf(e)),n}},{key:'filteredPosition',value:function(e,t){var n,a,i;return e.nodeType===s?(n=e.parentNode.children,i=this.normalizedMap(n,s,t)):(n=e.parentNode.childNodes,e.parentNode.classList.contains(t)&&(e=e.parentNode,n=e.parentNode.childNodes),i=this.normalizedMap(n,l,t)),a=Array.prototype.indexOf.call(n,e),i[a]}},{key:'stepsToXpath',value:function(e){var t=['.','*'];return e.forEach(function(e){var n=e.index+1;e.id?t.push('*[position()='+n+' and @id=\''+e.id+'\']'):'text'===e.type?t.push('text()['+n+']'):t.push('*['+n+']')}),t.join('/')}},{key:'stepsToQuerySelector',value:function(e){var t=['html'];return e.forEach(function(e){var n=e.index+1;e.id?t.push('#'+e.id):'text'===e.type||t.push('*:nth-child('+n+')')}),t.join('>')}},{key:'textNodes',value:function(e,t){return Array.prototype.slice.call(e.childNodes).filter(function(e){return e.nodeType===l||t&&e.classList.contains(t)})}},{key:'walkToNode',value:function(e,t,n){var a=t||document,o=a.documentElement,s=e.length,l,d,u;for(u=0;u<s&&(d=e[u],'element'===d.type?d.id?o=a.getElementById(d.id):(l=o.children||(0,r.findChildren)(o),o=l[d.index]):'text'===d.type&&(o=this.textNodes(o,n)[d.index]),!!o);u++);return o}},{key:'findNode',value:function(e,t,n){var a=t||document,i,o;return n||'undefined'==typeof a.evaluate?n?i=this.walkToNode(e,a,n):i=this.walkToNode(e,a):(o=this.stepsToXpath(e),i=a.evaluate(o,a,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null).singleNodeValue),i}},{key:'fixMiss',value:function(e,t,n,a){var i=this.findNode(e.slice(0,-1),n,a),o=i.childNodes,r=this.normalizedMap(o,l,a),d=e[e.length-1].index,u,c;for(var p in r){if(!r.hasOwnProperty(p))return;if(r[p]===d)if(u=o[p],c=u.textContent.length,t>c)t-=c;else{i=u.nodeType===s?u.childNodes[0]:u;break}}return{container:i,offset:t}}},{key:'toRange',value:function(e,t){var n=e||document,a=this,i=!!t&&null!=n.querySelector('.'+t),o,s,l,d,u,c,p,g;if(o='undefined'==typeof n.createRange?new r.RangeObject:n.createRange(),a.range?(s=a.start,c=a.path.steps.concat(s.steps),d=this.findNode(c,n,i?t:null),l=a.end,p=a.path.steps.concat(l.steps),u=this.findNode(p,n,i?t:null)):(s=a.path,c=a.path.steps,d=this.findNode(a.path.steps,n,i?t:null)),d)try{null==s.terminal.offset?o.setStart(d,0):o.setStart(d,s.terminal.offset)}catch(a){g=this.fixMiss(c,s.terminal.offset,n,i?t:null),o.setStart(g.container,g.offset)}else return console.log('No startContainer found for',this.toString()),null;if(u)try{null==l.terminal.offset?o.setEnd(u,0):o.setEnd(u,l.terminal.offset)}catch(r){g=this.fixMiss(p,a.end.terminal.offset,n,i?t:null),o.setEnd(g.container,g.offset)}return o}},{key:'isCfiString',value:function(e){return'string'==typeof e&&0===e.indexOf('epubcfi(')&&')'===e[e.length-1]}},{key:'generateChapterComponent',value:function(e,t,n){var a=parseInt(t),i='/'+2*(e+1)+'/';return i+=2*(a+1),n&&(i+='['+n+']'),i}},{key:'collapse',value:function(e){this.range&&(this.range=!1,e?(this.path.steps=this.path.steps.concat(this.start.steps),this.path.terminal=this.start.terminal):(this.path.steps=this.path.steps.concat(this.end.steps),this.path.terminal=this.end.terminal))}}]),e}();t.default=d,e.exports=t['default']},function(e,t){'use strict';Object.defineProperty(t,'__esModule',{value:!0});var n=t.EPUBJS_VERSION='0.3',a=t.DOM_EVENTS=['keydown','keyup','keypressed','mouseup','mousedown','click','touchend','touchstart','touchmove'],i=t.EVENTS={BOOK:{OPEN_FAILED:'openFailed'},CONTENTS:{EXPAND:'expand',RESIZE:'resize',SELECTED:'selected',SELECTED_RANGE:'selectedRange',LINK_CLICKED:'linkClicked'},LOCATIONS:{CHANGED:'changed'},MANAGERS:{RESIZE:'resize',RESIZED:'resized',ORIENTATION_CHANGE:'orientationchange',ADDED:'added',SCROLL:'scroll',SCROLLED:'scrolled',REMOVED:'removed'},VIEWS:{AXIS:'axis',LOAD_ERROR:'loaderror',RENDERED:'rendered',RESIZED:'resized',DISPLAYED:'displayed',SHOWN:'shown',HIDDEN:'hidden',MARK_CLICKED:'markClicked'},RENDITION:{STARTED:'started',ATTACHED:'attached',DISPLAYED:'displayed',DISPLAY_ERROR:'displayerror',RENDERED:'rendered',REMOVED:'removed',RESIZED:'resized',ORIENTATION_CHANGE:'orientationchange',LOCATION_CHANGED:'locationChanged',RELOCATED:'relocated',MARK_CLICKED:'markClicked',SELECTED:'selected',LAYOUT:'layout'},LAYOUT:{UPDATED:'updated'},ANNOTATION:{ATTACH:'attach',DETACH:'detach'}}},function(e,t,n){'use strict';var a=n(27),o=n(41),r=Function.prototype.apply,s=Function.prototype.call,i=Object.create,l=Object.defineProperty,d=Object.defineProperties,u=Object.prototype.hasOwnProperty,c={configurable:!0,enumerable:!1,writable:!0},p,g,h,m,f,y,v;p=function(e,t){var n;return o(t),u.call(this,'__ee__')?n=this.__ee__:(n=c.value=i(null),l(this,'__ee__',c),c.value=null),n[e]?'object'==typeof n[e]?n[e].push(t):n[e]=[n[e],t]:n[e]=t,this},g=function(e,t){var n,a;return o(t),a=this,p.call(this,e,n=function(){h.call(a,e,n),r.call(t,this,arguments)}),n.__eeOnceListener__=t,this},h=function(e,t){var n,a,r,s;if(o(t),!u.call(this,'__ee__'))return this;if(n=this.__ee__,!n[e])return this;if(a=n[e],'object'==typeof a)for(s=0;r=a[s];++s)(r===t||r.__eeOnceListener__===t)&&(2===a.length?n[e]=a[s?0:1]:a.splice(s,1));else(a===t||a.__eeOnceListener__===t)&&delete n[e];return this},m=function(e){var t,n,a,i,o;if(u.call(this,'__ee__')&&(i=this.__ee__[e],!!i))if('object'==typeof i){for(n=arguments.length,o=Array(n-1),t=1;t<n;++t)o[t-1]=arguments[t];for(i=i.slice(),t=0;a=i[t];++t)r.call(a,this,o)}else switch(arguments.length){case 1:s.call(i,this);break;case 2:s.call(i,this,arguments[1]);break;case 3:s.call(i,this,arguments[1],arguments[2]);break;default:for(n=arguments.length,o=Array(n-1),t=1;t<n;++t)o[t-1]=arguments[t];r.call(i,this,o);}},f={on:p,once:g,off:h,emit:m},y={on:a(p),once:a(g),off:a(h),emit:a(m)},v=d({},y),e.exports=t=function(e){return null==e?i(v):d(Object(e),y)},t.methods=f},function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var i=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),o=n(7),r=function(e){return e&&e.__esModule?e:{default:e}}(o),s=function(){function e(t){a(this,e);var n,i;n=t.indexOf('://'),-1<n&&(t=new URL(t).pathname),i=this.parse(t),this.path=t,this.directory=this.isDirectory(t)?t:i.dir+'/',this.filename=i.base,this.extension=i.ext.slice(1)}return i(e,[{key:'parse',value:function(e){return r.default.parse(e)}},{key:'isAbsolute',value:function(e){return r.default.isAbsolute(e||this.path)}},{key:'isDirectory',value:function(e){return'/'===e.charAt(e.length-1)}},{key:'resolve',value:function(e){return r.default.resolve(this.directory,e)}},{key:'relative',value:function(e){var t=e&&-1<e.indexOf('://');return t?e:r.default.relative(this.directory,e)}},{key:'splitPath',value:function(e){return this.splitPathRe.exec(e).slice(1)}},{key:'toString',value:function(){return this.path}}]),e}();t.default=s,e.exports=t['default']},function(e){var t=function(){return this}();try{t=t||Function('return this')()||(1,eval)('this')}catch(n){'object'==typeof window&&(t=window)}e.exports=t},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var o=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),r=n(4),s=a(r),l=n(7),d=a(l),u=function(){function e(t,n){i(this,e);var a=-1<t.indexOf('://'),o=t,r;if(this.Url=void 0,this.href=t,this.protocol='',this.origin='',this.hash='',this.hash='',this.search='',this.base=n,!a&&!1!==n&&'string'!=typeof n&&window&&window.location&&(this.base=window.location.href),a||this.base)try{this.Url=this.base?new URL(t,this.base):new URL(t),this.href=this.Url.href,this.protocol=this.Url.protocol,this.origin=this.Url.origin,this.hash=this.Url.hash,this.search=this.Url.search,o=this.Url.pathname+(this.Url.search?this.Url.search:'')}catch(t){this.Url=void 0,this.base&&(r=new s.default(this.base),o=r.resolve(o))}this.Path=new s.default(o),this.directory=this.Path.directory,this.filename=this.Path.filename,this.extension=this.Path.extension}return o(e,[{key:'path',value:function(){return this.Path}},{key:'resolve',value:function(e){var t=-1<e.indexOf('://'),n;return t?e:(n=d.default.resolve(this.directory,e),this.origin+n)}},{key:'relative',value:function(e){return d.default.relative(e,this.directory)}},{key:'toString',value:function(){return this.href}}]),e}();t.default=u,e.exports=t['default']},function(e){'use strict';function t(e){if('string'!=typeof e)throw new TypeError('Path must be a string. Received '+e)}function n(e,t){for(var n='',a=-1,o=0,r=0,i;r<=e.length;++r){if(r<e.length)i=e.charCodeAt(r);else if(47===i)break;else i=47;if(47===i){if(a==r-1||1==o);else if(a!=r-1&&2==o){if(2>n.length||46!==n.charCodeAt(n.length-1)||46!==n.charCodeAt(n.length-2))if(2<n.length){for(var s=n.length-1,l=s;0<=l&&47!==n.charCodeAt(l);--l);if(l!=s){n=-1==l?'':n.slice(0,l),a=r,o=0;continue}}else if(2===n.length||1===n.length){n='',a=r,o=0;continue}t&&(0<n.length?n+='/..':n='..')}else 0<n.length?n+='/'+e.slice(a+1,r):n=e.slice(a+1,r);a=r,o=0}else 46===i&&-1!=o?++o:o=-1}return n}function a(e,t){var n=t.dir||t.root,a=t.base||(t.name||'')+(t.ext||'');return n?n===t.root?n+a:n+e+a:a}if(!o)var o={cwd:function(){return'/'}};var r={resolve:function(){for(var e='',a=!1,r=arguments.length-1,i;-1<=r&&!a;r--){var s;(0<=r?s=arguments[r]:(void 0==i&&(i=o.cwd()),s=i),t(s),0!==s.length)&&(e=s+'/'+e,a=47===s.charCodeAt(0))}return e=n(e,!a),a?0<e.length?'/'+e:'/':0<e.length?e:'.'},normalize:function(e){if(t(e),0===e.length)return'.';var a=47===e.charCodeAt(0),i=47===e.charCodeAt(e.length-1);return e=n(e,!a),0!==e.length||a||(e='.'),0<e.length&&i&&(e+='/'),a?'/'+e:e},isAbsolute:function(e){return t(e),0<e.length&&47===e.charCodeAt(0)},join:function(){if(0===arguments.length)return'.';for(var e=0,n,a;e<arguments.length;++e)a=arguments[e],t(a),0<a.length&&(void 0==n?n=a:n+='/'+a);return void 0===n?'.':r.normalize(n)},relative:function(e,n){if(t(e),t(n),e===n)return'';if(e=r.resolve(e),n=r.resolve(n),e===n)return'';for(var a=1;a<e.length&&47===e.charCodeAt(a);++a);for(var o=e.length,s=o-a,l=1;l<n.length&&47===n.charCodeAt(l);++l);for(var d=n.length,u=d-l,c=s<u?s:u,p=-1,g=0;g<=c;++g){if(g==c){if(u>c){if(47===n.charCodeAt(l+g))return n.slice(l+g+1);if(0==g)return n.slice(l+g)}else s>c&&(47===e.charCodeAt(a+g)?p=g:0==g&&(p=0));break}var i=e.charCodeAt(a+g),h=n.charCodeAt(l+g);if(i!==h)break;else 47===i&&(p=g)}var m='';for(g=a+p+1;g<=o;++g)(g===o||47===e.charCodeAt(g))&&(m+=0===m.length?'..':'/..');return 0<m.length?m+n.slice(l+p):(l+=p,47===n.charCodeAt(l)&&++l,n.slice(l))},_makeLong:function(e){return e},dirname:function(e){if(t(e),0===e.length)return'.';for(var n=e.charCodeAt(0),a=47===n,o=-1,r=!0,s=e.length-1;1<=s;--s)if(n=e.charCodeAt(s),47!==n)r=!1;else if(!r){o=s;break}return-1===o?a?'/':'.':a&&1===o?'//':e.slice(0,o)},basename:function(e,n){if(n!==void 0&&'string'!=typeof n)throw new TypeError('"ext" argument must be a string');t(e);var a=0,o=-1,r=!0,s;if(void 0!==n&&0<n.length&&n.length<=e.length){if(n.length===e.length&&n===e)return'';var i=n.length-1,l=-1;for(s=e.length-1;0<=s;--s){var d=e.charCodeAt(s);if(47!==d)-1==l&&(r=!1,l=s+1),0<=i&&(d===n.charCodeAt(i)?-1==--i&&(o=s):(i=-1,o=l));else if(!r){a=s+1;break}}return a===o?o=l:-1===o&&(o=e.length),e.slice(a,o)}for(s=e.length-1;0<=s;--s)if(47!==e.charCodeAt(s))-1==o&&(r=!1,o=s+1);else if(!r){a=s+1;break}return-1===o?'':e.slice(a,o)},extname:function(e){t(e);for(var n=-1,a=0,o=-1,r=!0,s=0,l=e.length-1,i;0<=l;--l){if(i=e.charCodeAt(l),47===i){if(!r){a=l+1;break}continue}-1==o&&(r=!1,o=l+1),46===i?-1==n?n=l:1!=s&&(s=1):-1!==n&&(s=-1)}return-1===n||-1===o||0==s||1==s&&n===o-1&&n===a+1?'':e.slice(n,o)},format:function(e){if(null===e||'object'!=typeof e)throw new TypeError('Parameter "pathObject" must be an object, not '+typeof e);return a('/',e)},parse:function(e){t(e);var n={root:'',dir:'',base:'',ext:'',name:''};if(0===e.length)return n;var a=e.charCodeAt(0),o=47===a,r;o?(n.root='/',r=1):r=0;for(var s=-1,l=0,d=-1,u=!0,c=e.length-1,i=0;c>=r;--c){if(a=e.charCodeAt(c),47===a){if(!u){l=c+1;break}continue}-1==d&&(u=!1,d=c+1),46===a?-1==s?s=c:1!=i&&(i=1):-1!=s&&(i=-1)}return-1==s||-1==d||0==i||1==i&&s==d-1&&s==l+1?-1!=d&&(0==l&&o?n.base=n.name=e.slice(1,d):n.base=n.name=e.slice(l,d)):(0==l&&o?(n.name=e.slice(1,s),n.base=e.slice(1,d)):(n.name=e.slice(l,s),n.base=e.slice(l,d)),n.ext=e.slice(s,d)),0<l?n.dir=e.slice(0,l-1):o&&(n.dir='/'),n},sep:'/',delimiter:':',posix:null};e.exports=r},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,'__esModule',{value:!0}),t.replaceBase=function(e,t){var n=t.url,a=-1<n.indexOf('://'),i,r;e&&(r=(0,o.qs)(e,'head'),i=(0,o.qs)(r,'base'),!i&&(i=e.createElement('base'),r.insertBefore(i,r.firstChild)),!a&&window&&window.location&&(n=window.location.origin+n),i.setAttribute('href',n))},t.replaceCanonical=function(e,t){var n=t.canonical,a,i;e&&(a=(0,o.qs)(e,'head'),i=(0,o.qs)(a,'link[rel=\'canonical\']'),i?i.setAttribute('href',n):(i=e.createElement('link'),i.setAttribute('rel','canonical'),i.setAttribute('href',n),a.appendChild(i)))},t.replaceMeta=function(e,t){var n=t.idref,a,i;e&&(a=(0,o.qs)(e,'head'),i=(0,o.qs)(a,'link[property=\'dc.identifier\']'),i?i.setAttribute('content',n):(i=e.createElement('meta'),i.setAttribute('name','dc.identifier'),i.setAttribute('content',n),a.appendChild(i)))},t.replaceLinks=function(e,t){var n=e.querySelectorAll('a[href]');if(n.length)for(var a=(0,o.qs)(e.ownerDocument,'base'),s=a?a.getAttribute('href'):void 0,l=function(e){var n=e.getAttribute('href');if(0!==n.indexOf('mailto:')){var a=-1<n.indexOf('://');if(a)e.setAttribute('target','_blank');else{var i;try{i=new r.default(n,s)}catch(e){}e.onclick=function(){return i&&i.hash?t(i.Path.path+i.hash):i?t(i.Path.path):t(n),!1}}}}.bind(this),d=0;d<n.length;d++)l(n[d])},t.substitute=function(e,t,n){return t.forEach(function(t,a){t&&n[a]&&(e=e.replace(new RegExp(t,'g'),n[a]))}),e};var o=n(0),i=n(6),r=a(i),s=n(4),l=a(s)},function(e,t,n){'use strict';Object.defineProperty(t,'__esModule',{value:!0});var a=n(0),i=n(4),o=function(e){return e&&e.__esModule?e:{default:e}}(i);t.default=function(e,t,n,i){function r(t){u.reject(t)}function s(){if(this.readyState===XMLHttpRequest.DONE){var e=!1;if((''===this.responseType||'document'===this.responseType)&&(e=this.responseXML),200===this.status||0===this.status||e){var n;if(!this.response&&!e)return u.reject({status:this.status,message:'Empty Response',stack:new Error().stack}),u.promise;if(403===this.status)return u.reject({status:this.status,response:this.response,message:'Forbidden',stack:new Error().stack}),u.promise;n=e?this.responseXML:(0,a.isXml)(t)?(0,a.parse)(this.response,'text/xml'):'xhtml'==t?(0,a.parse)(this.response,'application/xhtml+xml'):'html'==t||'htm'==t?(0,a.parse)(this.response,'text/html'):'json'==t?JSON.parse(this.response):'blob'==t?l?this.response:new Blob([this.response]):this.response,u.resolve(n)}else u.reject({status:this.status,message:this.response,stack:new Error().stack})}}var l='undefined'!=typeof window&&window.URL,d=l?'blob':'arraybuffer',u=new a.defer,c=new XMLHttpRequest,p=XMLHttpRequest.prototype,g;for(g in'overrideMimeType'in p||Object.defineProperty(p,'overrideMimeType',{value:function(){}}),n&&(c.withCredentials=!0),c.onreadystatechange=s,c.onerror=r,c.open('GET',e,!0),i)c.setRequestHeader(g,i[g]);return'json'==t&&c.setRequestHeader('Accept','application/json'),t||(t=new o.default(e).extension),'blob'==t&&(c.responseType=d),(0,a.isXml)(t)&&c.overrideMimeType('text/xml'),'xhtml'==t,'html'!=t&&'htm'!=t,'binary'==t&&(c.responseType='arraybuffer'),c.send(),u.promise},e.exports=t['default']},function(e,t,n){'use strict';var a=n(34)();e.exports=function(e){return e!==a&&null!==e}},function(e,t){'use strict';function n(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var a=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),i=function(){function e(t){n(this,e),this.context=t||this,this.hooks=[]}return a(e,[{key:'register',value:function(){for(var e=0;e<arguments.length;++e)if('function'==typeof arguments[e])this.hooks.push(arguments[e]);else for(var t=0;t<arguments[e].length;++t)this.hooks.push(arguments[e][t])}},{key:'deregister',value:function(e){for(var t=void 0,n=0;n<this.hooks.length;n++)if(t=this.hooks[n],t===e){this.hooks.splice(n,1);break}}},{key:'trigger',value:function(){var e=arguments,t=this.context,n=[];return this.hooks.forEach(function(a){var i=a.apply(t,e);i&&'function'==typeof i.then&&n.push(i)}),Promise.all(n)}},{key:'list',value:function(){return this.hooks}},{key:'clear',value:function(){return this.hooks=[]}}]),e}();t.default=i,e.exports=t['default']},function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0}),t.Task=void 0;var i=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),o=n(0),r=function(){function e(t){a(this,e),this._q=[],this.context=t,this.tick=o.requestAnimationFrame,this.running=!1,this.paused=!1}return i(e,[{key:'enqueue',value:function(){var e=[].shift.call(arguments),t=arguments,n,a,i;if(!e)throw new Error('No Task Provided');return'function'==typeof e?(n=new o.defer,a=n.promise,i={task:e,args:t,deferred:n,promise:a}):i={promise:e},this._q.push(i),!1!=this.paused||this.running||this.run(),i.promise}},{key:'dequeue',value:function(){var e,t,n;if(this._q.length&&!this.paused){if(e=this._q.shift(),t=e.task,t)return n=t.apply(this.context,e.args),n&&'function'==typeof n.then?n.then(function(){e.deferred.resolve.apply(this.context,arguments)}.bind(this),function(){e.deferred.reject.apply(this.context,arguments)}.bind(this)):(e.deferred.resolve.apply(this.context,n),e.promise);if(e.promise)return e.promise}else return e=new o.defer,e.deferred.resolve(),e.promise}},{key:'dump',value:function(){for(;this._q.length;)this.dequeue()}},{key:'run',value:function(){var e=this;return this.running||(this.running=!0,this.defered=new o.defer),this.tick.call(window,function(){e._q.length?e.dequeue().then(function(){this.run()}.bind(e)):(e.defered.resolve(),e.running=void 0)}),!0==this.paused&&(this.paused=!1),this.defered.promise}},{key:'flush',value:function(){return this.running?this.running:this._q.length?(this.running=this.dequeue().then(function(){return this.running=void 0,this.flush()}.bind(this)),this.running):void 0}},{key:'clear',value:function(){this._q=[]}},{key:'length',value:function(){return this._q.length}},{key:'pause',value:function(){this.paused=!0}},{key:'stop',value:function(){this._q=[],this.running=!1,this.paused=!0}}]),e}();t.default=r,t.Task=function e(t,n,i){return a(this,e),function(){var e=this,n=arguments||[];return new Promise(function(a,o){n.push(function(e,t){!e&&t?o(t):a(e)}),t.apply(i||e,n)})}}},function(e){'use strict';var t={application:{ecmascript:['es','ecma'],javascript:'js',ogg:'ogx',pdf:'pdf',postscript:['ps','ai','eps','epsi','epsf','eps2','eps3'],"rdf+xml":'rdf',smil:['smi','smil'],"xhtml+xml":['xhtml','xht'],xml:['xml','xsl','xsd','opf','ncx'],zip:'zip',"x-httpd-eruby":'rhtml',"x-latex":'latex',"x-maker":['frm','maker','frame','fm','fb','book','fbdoc'],"x-object":'o',"x-shockwave-flash":['swf','swfl'],"x-silverlight":'scr',"epub+zip":'epub',"font-tdpfr":'pfr',"inkml+xml":['ink','inkml'],json:'json',"jsonml+json":'jsonml',"mathml+xml":'mathml',"metalink+xml":'metalink',mp4:'mp4s',"omdoc+xml":'omdoc',oxps:'oxps',"vnd.amazon.ebook":'azw',widget:'wgt',"x-dtbook+xml":'dtb',"x-dtbresource+xml":'res',"x-font-bdf":'bdf',"x-font-ghostscript":'gsf',"x-font-linux-psf":'psf',"x-font-otf":'otf',"x-font-pcf":'pcf',"x-font-snf":'snf',"x-font-ttf":['ttf','ttc'],"x-font-type1":['pfa','pfb','pfm','afm'],"x-font-woff":'woff',"x-mobipocket-ebook":['prc','mobi'],"x-mspublisher":'pub',"x-nzb":'nzb',"x-tgif":'obj',"xaml+xml":'xaml',"xml-dtd":'dtd',"xproc+xml":'xpl',"xslt+xml":'xslt',"internet-property-stream":'acx',"x-compress":'z',"x-compressed":'tgz',"x-gzip":'gz'},audio:{flac:'flac',midi:['mid','midi','kar','rmi'],mpeg:['mpga','mpega','mp2','mp3','m4a','mp2a','m2a','m3a'],mpegurl:'m3u',ogg:['oga','ogg','spx'],"x-aiff":['aif','aiff','aifc'],"x-ms-wma":'wma',"x-wav":'wav',adpcm:'adp',mp4:'mp4a',webm:'weba',"x-aac":'aac',"x-caf":'caf',"x-matroska":'mka',"x-pn-realaudio-plugin":'rmp',xm:'xm',mid:['mid','rmi']},image:{gif:'gif',ief:'ief',jpeg:['jpeg','jpg','jpe'],pcx:'pcx',png:'png',"svg+xml":['svg','svgz'],tiff:['tiff','tif'],"x-icon":'ico',bmp:'bmp',webp:'webp',"x-pict":['pic','pct'],"x-tga":'tga',"cis-cod":'cod'},text:{"cache-manifest":['manifest','appcache'],css:'css',csv:'csv',html:['html','htm','shtml','stm'],mathml:'mml',plain:['txt','text','brf','conf','def','list','log','in','bas'],richtext:'rtx',"tab-separated-values":'tsv',"x-bibtex":'bib'},video:{mpeg:['mpeg','mpg','mpe','m1v','m2v','mp2','mpa','mpv2'],mp4:['mp4','mp4v','mpg4'],quicktime:['qt','mov'],ogg:'ogv',"vnd.mpegurl":['mxu','m4u'],"x-flv":'flv',"x-la-asf":['lsf','lsx'],"x-mng":'mng',"x-ms-asf":['asf','asx','asr'],"x-ms-wm":'wm',"x-ms-wmv":'wmv',"x-ms-wmx":'wmx',"x-ms-wvx":'wvx',"x-msvideo":'avi',"x-sgi-movie":'movie',"x-matroska":['mpv','mkv','mk3d','mks'],"3gpp2":'3g2',h261:'h261',h263:'h263',h264:'h264',jpeg:'jpgv',jpm:['jpm','jpgm'],mj2:['mj2','mjp2'],"vnd.ms-playready.media.pyv":'pyv',"vnd.uvvu.mp4":['uvu','uvvu'],"vnd.vivo":'viv',webm:'webm',"x-f4v":'f4v',"x-m4v":'m4v',"x-ms-vob":'vob',"x-smv":'smv'}},n=function(){var e={},n,a,i,o;for(n in t)if(t.hasOwnProperty(n))for(a in t[n])if(t[n].hasOwnProperty(a))if(i=t[n][a],'string'==typeof i)e[i]=n+'/'+a;else for(o=0;o<i.length;o++)e[i[o]]=n+'/'+a;return e}();e.exports={lookup:function(e){return e&&n[e.split('.').pop().toLowerCase()]||'text/plain'}}},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var o=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),s=n(3),l=a(s),d=n(0),u=n(1),c=a(u),p=n(19),g=a(p),h=n(8),m=n(2),f='undefined'!=typeof navigator,y=f&&/Chrome/.test(navigator.userAgent),v=f&&!y&&/AppleWebKit/.test(navigator.userAgent),b=function(){function e(t,n,a,o){i(this,e),this.epubcfi=new c.default,this.document=t,this.documentElement=this.document.documentElement,this.content=n||this.document.body,this.window=this.document.defaultView,this._size={width:0,height:0},this.sectionIndex=o||0,this.cfiBase=a||'',this.epubReadingSystem('epub.js',m.EPUBJS_VERSION),this.listeners()}return o(e,[{key:'width',value:function(e){var t=this.content;return e&&(0,d.isNumber)(e)&&(e+='px'),e&&(t.style.width=e),this.window.getComputedStyle(t).width}},{key:'height',value:function(e){var t=this.content;return e&&(0,d.isNumber)(e)&&(e+='px'),e&&(t.style.height=e),this.window.getComputedStyle(t).height}},{key:'contentWidth',value:function(e){var t=this.content||this.document.body;return e&&(0,d.isNumber)(e)&&(e+='px'),e&&(t.style.width=e),this.window.getComputedStyle(t).width}},{key:'contentHeight',value:function(e){var t=this.content||this.document.body;return e&&(0,d.isNumber)(e)&&(e+='px'),e&&(t.style.height=e),this.window.getComputedStyle(t).height}},{key:'textWidth',value:function(){var e=this.document.createRange(),t=this.content||this.document.body,n=(0,d.borders)(t),a,i;return e.selectNodeContents(t),a=e.getBoundingClientRect(),i=a.width,n&&n.width&&(i+=n.width),r(i)}},{key:'textHeight',value:function(){var e=this.document.createRange(),t=this.content||this.document.body,n=(0,d.borders)(t),a,i;return e.selectNodeContents(t),a=e.getBoundingClientRect(),i=a.height,i&&n.height&&(i+=n.height),i&&a.top&&(i+=a.top),r(i)}},{key:'scrollWidth',value:function(){var e=this.documentElement.scrollWidth;return e}},{key:'scrollHeight',value:function(){var e=this.documentElement.scrollHeight;return e}},{key:'overflow',value:function(e){return e&&(this.documentElement.style.overflow=e),this.window.getComputedStyle(this.documentElement).overflow}},{key:'overflowX',value:function(e){return e&&(this.documentElement.style.overflowX=e),this.window.getComputedStyle(this.documentElement).overflowX}},{key:'overflowY',value:function(e){return e&&(this.documentElement.style.overflowY=e),this.window.getComputedStyle(this.documentElement).overflowY}},{key:'css',value:function(e,t,n){var a=this.content||this.document.body;return t&&a.style.setProperty(e,t,n?'important':''),this.window.getComputedStyle(a)[e]}},{key:'viewport',value:function(e){var t=this.document.querySelector('meta[name=\'viewport\']'),n={width:void 0,height:void 0,scale:void 0,minimum:void 0,maximum:void 0,scalable:void 0},a=[],i={};if(t&&t.hasAttribute('content')){var o=t.getAttribute('content'),r=o.match(/width\s*=\s*([^,]*)/),s=o.match(/height\s*=\s*([^,]*)/),l=o.match(/initial-scale\s*=\s*([^,]*)/),u=o.match(/minimum-scale\s*=\s*([^,]*)/),c=o.match(/maximum-scale\s*=\s*([^,]*)/),p=o.match(/user-scalable\s*=\s*([^,]*)/);r&&r.length&&'undefined'!=typeof r[1]&&(n.width=r[1]),s&&s.length&&'undefined'!=typeof s[1]&&(n.height=s[1]),l&&l.length&&'undefined'!=typeof l[1]&&(n.scale=l[1]),u&&u.length&&'undefined'!=typeof u[1]&&(n.minimum=u[1]),c&&c.length&&'undefined'!=typeof c[1]&&(n.maximum=c[1]),p&&p.length&&'undefined'!=typeof p[1]&&(n.scalable=p[1])}return i=(0,d.defaults)(e||{},n),e&&(i.width&&a.push('width='+i.width),i.height&&a.push('height='+i.height),i.scale&&a.push('initial-scale='+i.scale),'no'===i.scalable?(a.push('minimum-scale='+i.scale),a.push('maximum-scale='+i.scale),a.push('user-scalable='+i.scalable)):(i.scalable&&a.push('user-scalable='+i.scalable),i.minimum&&a.push('minimum-scale='+i.minimum),i.maximum&&a.push('minimum-scale='+i.maximum)),!t&&(t=this.document.createElement('meta'),t.setAttribute('name','viewport'),this.document.querySelector('head').appendChild(t)),t.setAttribute('content',a.join(', ')),this.window.scrollTo(0,0)),i}},{key:'expand',value:function(){this.emit(m.EVENTS.CONTENTS.EXPAND)}},{key:'listeners',value:function(){this.imageLoadListeners(),this.mediaQueryListeners(),this.addEventListeners(),this.addSelectionListeners(),this.resizeListeners(),this.linksHandler()}},{key:'removeListeners',value:function(){this.removeEventListeners(),this.removeSelectionListeners(),clearTimeout(this.expanding)}},{key:'resizeCheck',value:function(){var e=this.textWidth(),t=this.textHeight();(e!=this._size.width||t!=this._size.height)&&(this._size={width:e,height:t},this.onResize&&this.onResize(this._size),this.emit(m.EVENTS.CONTENTS.RESIZE,this._size))}},{key:'resizeListeners',value:function(){clearTimeout(this.expanding),requestAnimationFrame(this.resizeCheck.bind(this)),this.expanding=setTimeout(this.resizeListeners.bind(this),350)}},{key:'transitionListeners',value:function(){var e=this.content;e.style.transitionProperty='font, font-size, font-size-adjust, font-stretch, font-variation-settings, font-weight, width, height',e.style.transitionDuration='0.001ms',e.style.transitionTimingFunction='linear',e.style.transitionDelay='0',this._resizeCheck=this.resizeCheck.bind(this),this.document.addEventListener('transitionend',this._resizeCheck)}},{key:'mediaQueryListeners',value:function(){for(var e=this.document.styleSheets,t=function(e){e.matches&&!this._expanding&&setTimeout(this.expand.bind(this),1)}.bind(this),n=0;n<e.length;n+=1){var a;try{a=e[n].cssRules}catch(t){return}if(!a)return;for(var i=0;i<a.length;i+=1)if(a[i].media){var o=this.window.matchMedia(a[i].media.mediaText);o.addListener(t)}}}},{key:'resizeObservers',value:function(){var e=this;this.observer=new MutationObserver(function(){e.resizeCheck()});this.observer.observe(this.document,{attributes:!0,childList:!0,characterData:!0,subtree:!0})}},{key:'imageLoadListeners',value:function(){for(var e=this.document.querySelectorAll('img'),t=0,n;t<e.length;t++)n=e[t],'undefined'!=typeof n.naturalWidth&&0===n.naturalWidth&&(n.onload=this.expand.bind(this))}},{key:'fontLoadListeners',value:function(){this.document&&this.document.fonts&&this.document.fonts.ready.then(function(){this.resizeCheck()}.bind(this))}},{key:'root',value:function(){return this.document?this.document.documentElement:null}},{key:'locationOf',value:function(e,t){var n={left:0,top:0},a;if(!this.document)return n;if(this.epubcfi.isCfiString(e)){var i=new c.default(e).toRange(this.document,t);if(i){try{if(!i.endContainer||i.startContainer==i.endContainer&&i.startOffset==i.endOffset){var o=i.startContainer.textContent.indexOf(' ',i.startOffset);-1==o&&(o=i.startContainer.textContent.length),i.setEnd(i.startContainer,o)}}catch(t){console.error('setting end offset to start container length failed',t)}if(i.startContainer.nodeType===Node.ELEMENT_NODE)a=i.startContainer.getBoundingClientRect(),n.left=a.left,n.top=a.top;else if(v){var r=i.startContainer,s=new Range;try{r.nodeType===1?a=r.getBoundingClientRect():i.startOffset+2<r.length?(s.setStart(r,i.startOffset),s.setEnd(r,i.startOffset+2),a=s.getBoundingClientRect()):0<i.startOffset-2?(s.setStart(r,i.startOffset-2),s.setEnd(r,i.startOffset),a=s.getBoundingClientRect()):a=r.parentNode.getBoundingClientRect()}catch(t){console.error(t,t.stack)}}else a=i.getBoundingClientRect()}}else if('string'==typeof e&&-1<e.indexOf('#')){var l=e.substring(e.indexOf('#')+1),d=this.document.getElementById(l);if(d)if(v){var u=new Range;u.selectNode(d),a=u.getBoundingClientRect()}else a=d.getBoundingClientRect()}return a&&(n.left=a.left,n.top=a.top),n}},{key:'addStylesheet',value:function(e){return new Promise(function(t){var n=!1,a;return this.document?(a=this.document.querySelector('link[href=\''+e+'\']'),a?void t(!0):void(a=this.document.createElement('link'),a.type='text/css',a.rel='stylesheet',a.href=e,a.onload=a.onreadystatechange=function(){n||this.readyState&&'complete'!=this.readyState||(n=!0,setTimeout(function(){t(!0)},1))},this.document.head.appendChild(a))):void t(!1)}.bind(this))}},{key:'addStylesheetRules',value:function(e){var t='epubjs-inserted-css',n,a;if(this.document&&e&&0!==e.length)if(n=this.document.getElementById('#'+t),n||(n=this.document.createElement('style'),n.id=t),this.document.head.appendChild(n),a=n.sheet,'[object Array]'===Object.prototype.toString.call(e))for(var o=0,i=e.length;o<i;o++){var r=1,s=e[o],l=e[o][0],d='';'[object Array]'===Object.prototype.toString.call(s[1][0])&&(s=s[1],r=0);for(var u=s.length,c;r<u;r++)c=s[r],d+=c[0]+':'+c[1]+(c[2]?' !important':'')+';\n';a.insertRule(l+'{'+d+'}',a.cssRules.length)}else{var p=Object.keys(e);p.forEach(function(t){var n=e[t];if(Array.isArray(n))n.forEach(function(e){var n=Object.keys(e),i=n.map(function(t){return t+':'+e[t]}).join(';');a.insertRule(t+'{'+i+'}',a.cssRules.length)});else{var i=Object.keys(n),o=i.map(function(e){return e+':'+n[e]}).join(';');a.insertRule(t+'{'+o+'}',a.cssRules.length)}})}}},{key:'addScript',value:function(e){return new Promise(function(t){var n=!1,a;return this.document?void(a=this.document.createElement('script'),a.type='text/javascript',a.async=!0,a.src=e,a.onload=a.onreadystatechange=function(){n||this.readyState&&'complete'!=this.readyState||(n=!0,setTimeout(function(){t(!0)},1))},this.document.head.appendChild(a)):void t(!1)}.bind(this))}},{key:'addClass',value:function(e){var t;this.document&&(t=this.content||this.document.body,t&&t.classList.add(e))}},{key:'removeClass',value:function(e){var t;this.document&&(t=this.content||this.document.body,t&&t.classList.remove(e))}},{key:'addEventListeners',value:function(){this.document&&(this._triggerEvent=this.triggerEvent.bind(this),m.DOM_EVENTS.forEach(function(e){this.document.addEventListener(e,this._triggerEvent,{passive:!0})},this))}},{key:'removeEventListeners',value:function(){this.document&&(m.DOM_EVENTS.forEach(function(e){this.document.removeEventListener(e,this._triggerEvent,{passive:!0})},this),this._triggerEvent=void 0)}},{key:'triggerEvent',value:function(t){this.emit(t.type,t)}},{key:'addSelectionListeners',value:function(){this.document&&(this._onSelectionChange=this.onSelectionChange.bind(this),this.document.addEventListener('selectionchange',this._onSelectionChange,{passive:!0}))}},{key:'removeSelectionListeners',value:function(){this.document&&(this.document.removeEventListener('selectionchange',this._onSelectionChange,{passive:!0}),this._onSelectionChange=void 0)}},{key:'onSelectionChange',value:function(){this.selectionEndTimeout&&clearTimeout(this.selectionEndTimeout),this.selectionEndTimeout=setTimeout(function(){var e=this.window.getSelection();this.triggerSelectedEvent(e)}.bind(this),250)}},{key:'triggerSelectedEvent',value:function(e){var t,n;e&&0<e.rangeCount&&(t=e.getRangeAt(0),!t.collapsed&&(n=new c.default(t,this.cfiBase).toString(),this.emit(m.EVENTS.CONTENTS.SELECTED,n),this.emit(m.EVENTS.CONTENTS.SELECTED_RANGE,t)))}},{key:'range',value:function(e,t){var n=new c.default(e);return n.toRange(this.document,t)}},{key:'cfiFromRange',value:function(e,t){return new c.default(e,this.cfiBase,t).toString()}},{key:'cfiFromNode',value:function(e,t){return new c.default(e,this.cfiBase,t).toString()}},{key:'map',value:function(e){var t=new g.default(e);return t.section()}},{key:'size',value:function(e,t){var n={scale:1,scalable:'no'};this.layoutStyle('scrolling'),0<=e&&(this.width(e),n.width=e,this.css('padding','0 '+e/12+'px')),0<=t&&(this.height(t),n.height=t),this.css('margin','0'),this.css('box-sizing','border-box'),this.viewport(n)}},{key:'columns',value:function(e,t,n,a){var i=(0,d.prefixed)('column-axis'),o=(0,d.prefixed)('column-gap'),r=(0,d.prefixed)('column-width'),s=(0,d.prefixed)('column-fill'),l=this.writingMode(),u=0===l.indexOf('vertical')?'vertical':'horizontal';this.layoutStyle('paginated'),'rtl'===this.content.dir&&this.direction('rtl'),this.width(e),this.height(t),this.viewport({width:e,height:t,scale:1,scalable:'no'}),this.css('overflow-y','hidden'),this.css('margin','0',!0),'vertical'==u?(this.css('padding-top',a/2+'px',!0),this.css('padding-bottom',a/2+'px',!0),this.css('padding-left','20px'),this.css('padding-right','20px')):(this.css('padding-top','20px'),this.css('padding-bottom','20px'),this.css('padding-left',a/2+'px',!0),this.css('padding-right',a/2+'px',!0)),this.css('box-sizing','border-box'),this.css('max-width','inherit'),this.css(i,'horizontal'),this.css(s,'auto'),this.css(o,a+'px'),this.css(r,n+'px')}},{key:'scaler',value:function(e,t,n){var a='';this.css('transform-origin','top left'),(0<=t||0<=n)&&(a=' translate('+(t||0)+'px, '+(n||0)+'px )'),this.css('transform','scale('+e+')'+a)}},{key:'fit',value:function(e,t){var n=this.viewport(),a=parseInt(n.width),i=parseInt(n.height),o=e/a,r=t/i,s=o<r?o:r;this.layoutStyle('paginated'),this.width(a),this.height(i),this.overflow('hidden'),this.scaler(s,0,0),this.css('background-size',a*s+'px '+i*s+'px'),this.css('background-color','transparent')}},{key:'direction',value:function(e){this.documentElement&&(this.documentElement.style.direction=e)}},{key:'mapPage',value:function(e,t,n,a,i){var o=new g.default(t,i);return o.page(this,e,n,a)}},{key:'linksHandler',value:function(){var e=this;(0,h.replaceLinks)(this.content,function(t){e.emit(m.EVENTS.CONTENTS.LINK_CLICKED,t)})}},{key:'writingMode',value:function(e){var t=(0,d.prefixed)('writing-mode');return e&&this.documentElement&&(this.documentElement.style[t]=e),this.window.getComputedStyle(this.documentElement)[t]||''}},{key:'layoutStyle',value:function(e){return e&&(this._layoutStyle=e,navigator.epubReadingSystem.layoutStyle=this._layoutStyle),this._layoutStyle||'paginated'}},{key:'epubReadingSystem',value:function(e,t){return navigator.epubReadingSystem={name:e,version:t,layoutStyle:this.layoutStyle(),hasFeature:function(e){return'dom-manipulation'===e||'layout-changes'===e||'touch-events'===e||'mouse-events'===e||'keyboard-events'===e||'spine-scripting'!==e&&!1}},navigator.epubReadingSystem}},{key:'destroy',value:function(){this.observer&&this.observer.disconnect(),this.document.removeEventListener('transitionend',this._resizeCheck),this.removeListeners()}}],[{key:'listenedEvents',get:function(){return m.DOM_EVENTS}}]),e}();(0,l.default)(b.prototype),t.default=b,e.exports=t['default']},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var r=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),s=n(3),d=a(s),u=n(0),c=n(19),p=a(c),g=n(12),h=a(g),m=n(59),f=a(m),y=n(69),v=a(y),b=n(2),k=function(){function e(t){i(this,e),this.name='default',this.optsSettings=t.settings,this.View=t.view,this.request=t.request,this.renditionQueue=t.queue,this.q=new h.default(this),this.settings=(0,u.extend)(this.settings||{},{infinite:!0,hidden:!1,width:void 0,height:void 0,axis:void 0,flow:'scrolled',ignoreClass:'',fullsize:void 0}),(0,u.extend)(this.settings,t.settings||{}),this.viewSettings={ignoreClass:this.settings.ignoreClass,axis:this.settings.axis,flow:this.settings.flow,layout:this.layout,method:this.settings.method,width:0,height:0,forceEvenPages:!0},this.rendered=!1}return r(e,[{key:'render',value:function(e,t){var n=e.tagName;'undefined'==typeof this.settings.fullsize&&n&&('body'==n.toLowerCase()||'html'==n.toLowerCase())&&(this.settings.fullsize=!0),this.settings.fullsize&&(this.settings.overflow='visible',this.overflow=this.settings.overflow),this.settings.size=t,this.stage=new f.default({width:t.width,height:t.height,overflow:this.overflow,hidden:this.settings.hidden,axis:this.settings.axis,fullsize:this.settings.fullsize,direction:this.settings.direction}),this.stage.attachTo(e),this.container=this.stage.getContainer(),this.views=new v.default(this.container),this._bounds=this.bounds(),this._stageSize=this.stage.size(),this.viewSettings.width=this._stageSize.width,this.viewSettings.height=this._stageSize.height,this.stage.onResize(this.onResized.bind(this)),this.stage.onOrientationChange(this.onOrientationChange.bind(this)),this.addEventListeners(),this.layout&&this.updateLayout(),this.rendered=!0}},{key:'addEventListeners',value:function(){var e;window.addEventListener('unload',function(){this.destroy()}.bind(this)),e=this.settings.fullsize?window:this.container,this._onScroll=this.onScroll.bind(this),e.addEventListener('scroll',this._onScroll)}},{key:'removeEventListeners',value:function(){var e;e=this.settings.fullsize?window:this.container,e.removeEventListener('scroll',this._onScroll),this._onScroll=void 0}},{key:'destroy',value:function(){clearTimeout(this.orientationTimeout),clearTimeout(this.resizeTimeout),clearTimeout(this.afterScrolled),this.clear(),this.removeEventListeners(),this.stage.destroy(),this.rendered=!1}},{key:'onOrientationChange',value:function(){var e=window,t=e.orientation;this.optsSettings.resizeOnOrientationChange&&this.resize(),clearTimeout(this.orientationTimeout),this.orientationTimeout=setTimeout(function(){this.orientationTimeout=void 0,this.optsSettings.resizeOnOrientationChange&&this.resize(),this.emit(b.EVENTS.MANAGERS.ORIENTATION_CHANGE,t)}.bind(this),500)}},{key:'onResized',value:function(){this.resize()}},{key:'resize',value:function(e,t,n){var a=this.stage.size(e,t);return this.winBounds=(0,u.windowBounds)(),this.orientationTimeout&&this.winBounds.width===this.winBounds.height?void(this._stageSize=void 0):void(this._stageSize&&this._stageSize.width===a.width&&this._stageSize.height===a.height||(this._stageSize=a,this._bounds=this.bounds(),this.clear(),this.viewSettings.width=this._stageSize.width,this.viewSettings.height=this._stageSize.height,this.updateLayout(),this.emit(b.EVENTS.MANAGERS.RESIZED,{width:this._stageSize.width,height:this._stageSize.height},n)))}},{key:'createView',value:function(e){return new this.View(e,this.viewSettings)}},{key:'display',value:function(e,t){var n=new u.defer,a=n.promise;(t===e.href||(0,u.isNumber)(t))&&(t=void 0);var i=this.views.find(e);if(i&&e){var o=i.offset();if('ltr'===this.settings.direction)this.scrollTo(o.left,o.top,!0);else{var r=i.width();this.scrollTo(o.left+r,o.top,!0)}if(t){var s=i.locationOf(t);this.moveTo(s)}return n.resolve(),a}return this.clear(),this.add(e).then(function(e){if(t){var n=e.locationOf(t);this.moveTo(n)}}.bind(this),function(e){n.reject(e)}).then(function(){var t;if('pre-paginated'===this.layout.name&&1<this.layout.divisor&&0<e.index&&(t=e.next(),t))return this.add(t)}.bind(this)).then(function(){this.views.show(),n.resolve()}.bind(this)),a}},{key:'afterDisplayed',value:function(e){this.emit(b.EVENTS.MANAGERS.ADDED,e)}},{key:'afterResized',value:function(e){this.emit(b.EVENTS.MANAGERS.RESIZE,e.section)}},{key:'moveTo',value:function(e){var t=0,n=0;this.isPaginated?(t=l(e.left/this.layout.delta)*this.layout.delta,t+this.layout.delta>this.container.scrollWidth&&(t=this.container.scrollWidth-this.layout.delta)):n=e.top,this.scrollTo(t,n,!0)}},{key:'add',value:function(e){var t=this,n=this.createView(e);return this.views.append(n),n.onDisplayed=this.afterDisplayed.bind(this),n.onResize=this.afterResized.bind(this),n.on(b.EVENTS.VIEWS.AXIS,function(e){t.updateAxis(e)}),n.display(this.request)}},{key:'append',value:function(e){var t=this,n=this.createView(e);return this.views.append(n),n.onDisplayed=this.afterDisplayed.bind(this),n.onResize=this.afterResized.bind(this),n.on(b.EVENTS.VIEWS.AXIS,function(e){t.updateAxis(e)}),n.display(this.request)}},{key:'prepend',value:function(e){var t=this,n=this.createView(e);return n.on(b.EVENTS.VIEWS.RESIZED,function(e){t.counter(e)}),this.views.prepend(n),n.onDisplayed=this.afterDisplayed.bind(this),n.onResize=this.afterResized.bind(this),n.on(b.EVENTS.VIEWS.AXIS,function(e){t.updateAxis(e)}),n.display(this.request)}},{key:'counter',value:function(e){'vertical'===this.settings.axis?this.scrollBy(0,e.heightDelta,!0):this.scrollBy(e.widthDelta,0,!0)}},{key:'next',value:function(){var e=this.settings.direction,t,n;if(this.views.length){if(this.isPaginated&&'horizontal'===this.settings.axis&&(!e||'ltr'===e))this.scrollLeft=this.container.scrollLeft,n=this.container.scrollLeft+this.container.offsetWidth+this.layout.delta,n<=this.container.scrollWidth?this.scrollBy(this.layout.delta,0,!0):t=this.views.last().section.next();else if(this.isPaginated&&'horizontal'===this.settings.axis&&'rtl'===e)this.scrollLeft=this.container.scrollLeft,n=this.container.scrollLeft,0<n?this.scrollBy(this.layout.delta,0,!0):t=this.views.last().section.next();else if(this.isPaginated&&'vertical'===this.settings.axis){this.scrollTop=this.container.scrollTop;var a=this.container.scrollTop+this.container.offsetHeight;a<this.container.scrollHeight?this.scrollBy(0,this.layout.height,!0):t=this.views.last().section.next()}else t=this.views.last().section.next();return t?(this.clear(),this.append(t).then(function(){var e;if('pre-paginated'===this.layout.name&&1<this.layout.divisor&&(e=t.next(),e))return this.append(e)}.bind(this),function(e){return e}).then(function(){this.views.show()}.bind(this))):void 0}}},{key:'prev',value:function(){var e=this.settings.direction,t,n;if(this.views.length){if(this.isPaginated&&'horizontal'===this.settings.axis&&(!e||'ltr'===e))this.scrollLeft=this.container.scrollLeft,n=this.container.scrollLeft,0<n?this.scrollBy(-this.layout.delta,0,!0):t=this.views.first().section.prev();else if(this.isPaginated&&'horizontal'===this.settings.axis&&'rtl'===e)this.scrollLeft=this.container.scrollLeft,n=this.container.scrollLeft+this.container.offsetWidth+this.layout.delta,n<=this.container.scrollWidth?this.scrollBy(-this.layout.delta,0,!0):t=this.views.first().section.prev();else if(this.isPaginated&&'vertical'===this.settings.axis){this.scrollTop=this.container.scrollTop;var a=this.container.scrollTop;0<a?this.scrollBy(0,-this.layout.height,!0):t=this.views.first().section.prev()}else t=this.views.first().section.prev();return t?(this.clear(),this.prepend(t).then(function(){var e;if('pre-paginated'===this.layout.name&&1<this.layout.divisor&&(e=t.prev(),e))return this.prepend(e)}.bind(this),function(e){return e}).then(function(){this.isPaginated&&'horizontal'===this.settings.axis&&('rtl'===this.settings.direction?this.scrollTo(0,0,!0):this.scrollTo(this.container.scrollWidth-this.layout.delta,0,!0)),this.views.show()}.bind(this))):void 0}}},{key:'current',value:function(){var e=this.visible();return e.length?e[e.length-1]:null}},{key:'clear',value:function(){this.views&&(this.views.hide(),this.scrollTo(0,0,!0),this.views.clear())}},{key:'currentLocation',value:function(){return this.location='vertical'===this.settings.axis?this.scrolledLocation():this.paginatedLocation(),this.location}},{key:'scrolledLocation',value:function(){var e=this,t=this.visible(),n=this.container.getBoundingClientRect(),a=n.height<window.innerHeight?n.height:window.innerHeight,r=0,s=0;this.settings.fullsize&&(r=window.scrollY);var i=t.map(function(t){var l=t.section,d=l.index,u=l.href,c=t.position(),p=t.height(),g=r+n.top-c.top+s,h=g+a-s;h>p&&(h=p,s=h-g);var m=e.layout.count(p,a).pages,f=o(g/a),y=[],v=o(h/a);y=[];for(var b=f,i;b<=v;b++)i=b+1,y.push(i);var k=e.mapping.page(t.contents,t.section.cfiBase,g,h);return{index:d,href:u,pages:y,totalPages:m,mapping:k}});return i}},{key:'paginatedLocation',value:function(){var e=this,t=this.visible(),n=this.container.getBoundingClientRect(),a=0,o=0;this.settings.fullsize&&(a=window.scrollX);var i=t.map(function(t){var r=t.section,s=r.index,d=r.href,u=t.offset().left,c=t.position().left,p=t.width(),g=a+n.left-c+o,h=g+e.layout.width-o,m=e.mapping.page(t.contents,t.section.cfiBase,g,h),f=e.layout.count(p).pages,y=l(g/e.layout.pageWidth),v=[],b=l(h/e.layout.pageWidth);if(0>y&&(y=0,++b),'rtl'===e.settings.direction){var k=y;y=f-b,b=f-k}for(var x=y+1,i;x<=b;x++)i=x,v.push(i);return{index:s,href:d,pages:v,totalPages:f,mapping:m}});return i}},{key:'isVisible',value:function(e,t,n,a){var i=e.position(),o=a||this.bounds();return'horizontal'===this.settings.axis&&i.right>o.left-t&&i.left<o.right+n||'vertical'===this.settings.axis&&i.bottom>o.top-t&&i.top<o.bottom+n}},{key:'visible',value:function(){for(var e=this.bounds(),t=this.views.displayed(),n=t.length,a=[],o=0,i,r;o<n;o++)r=t[o],i=this.isVisible(r,0,0,e),!0===i&&a.push(r);return a}},{key:'scrollBy',value:function(e,t,n){var a='rtl'===this.settings.direction?-1:1;n&&(this.ignore=!0),this.settings.fullsize?window.scrollBy(e*a,t*a):(e&&(this.container.scrollLeft+=e*a),t&&(this.container.scrollTop+=t)),this.scrolled=!0}},{key:'scrollTo',value:function(e,t,n){n&&(this.ignore=!0),this.settings.fullsize?window.scrollTo(e,t):(this.container.scrollLeft=e,this.container.scrollTop=t),this.scrolled=!0}},{key:'onScroll',value:function(){var e,t;this.settings.fullsize?(e=window.scrollY,t=window.scrollX):(e=this.container.scrollTop,t=this.container.scrollLeft),this.scrollTop=e,this.scrollLeft=t,this.ignore?this.ignore=!1:(this.emit(b.EVENTS.MANAGERS.SCROLL,{top:e,left:t}),clearTimeout(this.afterScrolled),this.afterScrolled=setTimeout(function(){this.emit(b.EVENTS.MANAGERS.SCROLLED,{top:this.scrollTop,left:this.scrollLeft})}.bind(this),20))}},{key:'bounds',value:function(){var e;return e=this.stage.bounds(),e}},{key:'applyLayout',value:function(e){this.layout=e,this.updateLayout()}},{key:'updateLayout',value:function(){this.stage&&(this._stageSize=this.stage.size(),this.isPaginated?(this.layout.calculate(this._stageSize.width,this._stageSize.height,this.settings.gap),this.settings.offset=this.layout.delta):this.layout.calculate(this._stageSize.width,this._stageSize.height),this.viewSettings.width=this.layout.width,this.viewSettings.height=this.layout.height,this.setLayout(this.layout))}},{key:'setLayout',value:function(e){this.viewSettings.layout=e,this.mapping=new p.default(e.props,this.settings.direction,this.settings.axis),this.views&&this.views.forEach(function(t){t&&t.setLayout(e)})}},{key:'updateAxis',value:function(e,t){this.isPaginated||(e='vertical'),(t||e!==this.settings.axis)&&(this.settings.axis=e,this.stage&&this.stage.axis(e),this.viewSettings.axis=e,this.mapping&&(this.mapping=new p.default(this.layout.props,this.settings.direction,this.settings.axis)),this.layout&&('vertical'===e?this.layout.spread('none'):this.layout.spread(this.layout.settings.spread)))}},{key:'updateFlow',value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:'auto',n='paginated'===e||'auto'===e;this.isPaginated=n,'scrolled-doc'===e||'scrolled-continuous'===e||'scrolled'===e?this.updateAxis('vertical'):this.updateAxis('horizontal'),this.viewSettings.flow=e,this.overflow=this.settings.overflow?this.settings.overflow:n?'hidden':t,this.stage&&this.stage.overflow(this.overflow),this.updateLayout()}},{key:'getContents',value:function(){var e=[];return this.views?(this.views.forEach(function(t){var n=t&&t.contents;n&&e.push(n)}),e):e}},{key:'direction',value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:'ltr';this.settings.direction=e,this.stage&&this.stage.direction(e),this.viewSettings.direction=e,this.updateLayout()}},{key:'isRendered',value:function(){return this.rendered}}]),e}();(0,d.default)(k.prototype),t.default=k,e.exports=t['default']},function(e){e.exports=function(e){var t=typeof e;return null!=e&&('object'==t||'function'==t)}},function(e,t){function n(e,t){for(var n in e)t[n]=e[n]}function a(e,a){var i=e.prototype;if(Object.create){var t=Object.create(a.prototype);i.__proto__=t}if(!(i instanceof a)){function o(){}o.prototype=a.prototype,o=new o,n(i,o),e.prototype=i=o}i.constructor!=e&&('function'!=typeof e&&console.error('unknow Class:'+e),i.constructor=e)}function o(e,t){if(t instanceof Error)var n=t;else n=this,Error.call(this,ae[e]),this.message=ae[e],Error.captureStackTrace&&Error.captureStackTrace(this,o);return n.code=e,t&&(this.message=this.message+': '+t),n}function r(){}function i(e,t){this._node=e,this._refresh=t,s(this)}function s(e){var t=e._node._inc||e._node.ownerDocument._inc;if(e._inc!=t){var a=e._refresh(e._node);U(e,'length',a.length),n(a,e),e._inc=t}}function l(){}function d(e,t){for(var n=e.length;n--;)if(e[n]===t)return n}function u(e,t,n,a){if(a?t[d(t,a)]=n:t[t.length++]=n,e){n.ownerElement=e;var i=e.ownerDocument;i&&(a&&v(i,e,a),y(i,e,n))}}function c(e,t,n){var a=d(t,n);if(0<=a){for(var i=t.length-1;a<i;)t[a]=t[++a];if(t.length=i,e){var r=e.ownerDocument;r&&(v(r,e,n),n.ownerElement=null)}}else throw o(ce,new Error(e.tagName+'@'+n))}function p(e){if(this._features={},e)for(var t in e)this._features=e[t]}function g(){}function h(e){return'<'==e&&'&lt;'||'>'==e&&'&gt;'||'&'==e&&'&amp;'||'"'==e&&'&quot;'||'&#'+e.charCodeAt()+';'}function m(e,t){if(t(e))return!0;if(e=e.firstChild)do if(m(e,t))return!0;while(e=e.nextSibling)}function f(){}function y(e,t,n){e&&e._inc++;var a=n.namespaceURI;'http://www.w3.org/2000/xmlns/'==a&&(t._nsMap[n.prefix?n.localName:'']=n.value)}function v(e,t,n){e&&e._inc++;var a=n.namespaceURI;'http://www.w3.org/2000/xmlns/'==a&&delete t._nsMap[n.prefix?n.localName:'']}function b(e,t,n){if(e&&e._inc){e._inc++;var a=t.childNodes;if(n)a[a.length++]=n;else{for(var o=t.firstChild,r=0;o;)a[r++]=o,o=o.nextSibling;a.length=r}}}function k(e,t){var n=t.previousSibling,a=t.nextSibling;return n?n.nextSibling=a:e.firstChild=a,a?a.previousSibling=n:e.lastChild=n,b(e.ownerDocument,e),t}function x(e,t,n){var a=t.parentNode;if(a&&a.removeChild(t),t.nodeType===ee){var i=t.firstChild;if(null==i)return t;var o=t.lastChild}else i=o=t;var r=n?n.previousSibling:e.lastChild;i.previousSibling=r,o.nextSibling=n,r?r.nextSibling=i:e.firstChild=i,null==n?e.lastChild=o:n.previousSibling=o;do i.parentNode=e;while(i!==o&&(i=i.nextSibling));return b(e.ownerDocument||e,e),t.nodeType==ee&&(t.firstChild=t.lastChild=null),t}function E(e,t){var n=t.parentNode;if(n){var a=e.lastChild;n.removeChild(t);var a=e.lastChild}var a=e.lastChild;return t.parentNode=e,t.previousSibling=a,t.nextSibling=null,a?a.nextSibling=t:e.firstChild=t,e.lastChild=t,b(e.ownerDocument,e,t),t}function _(){this._nsMap={}}function N(){}function S(){}function w(){}function T(){}function C(){}function R(){}function I(){}function L(){}function A(){}function O(){}function D(){}function P(){}function z(e,t){var n=[],a=9==this.nodeType?this.documentElement:this,i=a.prefix,o=a.namespaceURI;if(o&&null==i){var i=a.lookupPrefix(o);if(null==i)var r=[{namespace:o,prefix:null}]}return B(this,n,e,t,r),n.join('')}function M(e,t,n){var a=e.prefix||'',o=e.namespaceURI;if(!a&&!o)return!1;if('xml'===a&&'http://www.w3.org/XML/1998/namespace'===o||'http://www.w3.org/2000/xmlns/'==o)return!1;for(var r=n.length;r--;){var i=n[r];if(i.prefix==a)return i.namespace!=o}return!0}function B(e,t,n,a,o){if(a){if(e=a(e),!e)return;if('string'==typeof e)return void t.push(e)}switch(e.nodeType){case F:o||(o=[]);var r=o.length,s=e.attributes,l=s.length,d=e.firstChild,u=e.tagName;n=V===e.namespaceURI||n,t.push('<',u);for(var c=0,i;c<l;c++)i=s.item(c),'xmlns'==i.prefix?o.push({prefix:i.localName,namespace:i.value}):'xmlns'==i.nodeName&&o.push({prefix:'',namespace:i.value});for(var c=0,i;c<l;c++){if(i=s.item(c),M(i,n,o)){var p=i.prefix||'',g=i.namespaceURI,m=p?' xmlns:'+p:' xmlns';t.push(m,'="',g,'"'),o.push({prefix:p,namespace:g})}B(i,t,n,a,o)}if(M(e,n,o)){var p=e.prefix||'',g=e.namespaceURI,m=p?' xmlns:'+p:' xmlns';t.push(m,'="',g,'"'),o.push({prefix:p,namespace:g})}if(d||n&&!/^(?:meta|link|img|br|hr|input)$/i.test(u)){if(t.push('>'),n&&/^script$/i.test(u))for(;d;)d.data?t.push(d.data):B(d,t,n,a,o),d=d.nextSibling;else for(;d;)B(d,t,n,a,o),d=d.nextSibling;t.push('</',u,'>')}else t.push('/>');return;case J:case ee:for(var d=e.firstChild;d;)B(d,t,n,a,o),d=d.nextSibling;return;case H:return t.push(' ',e.name,'="',e.value.replace(/[<&"]/g,h),'"');case X:return t.push(e.data.replace(/[<&]/g,h));case Y:return t.push('<![CDATA[',e.data,']]>');case Q:return t.push('<!--',e.data,'-->');case $:var f=e.publicId,y=e.systemId;if(t.push('<!DOCTYPE ',e.name),f)t.push(' PUBLIC "',f),y&&'.'!=y&&t.push('" "',y),t.push('">');else if(y&&'.'!=y)t.push(' SYSTEM "',y,'">');else{var v=e.internalSubset;v&&t.push(' [',v,']'),t.push('>')}return;case Z:return t.push('<?',e.target,' ',e.data,'?>');case G:return t.push('&',e.nodeName,';');default:t.push('??',e.nodeName);}}function j(e,t,n){var a;switch(t.nodeType){case F:a=t.cloneNode(!1),a.ownerDocument=e;case ee:break;case H:n=!0;}if(a||(a=t.cloneNode(!1)),a.ownerDocument=e,a.parentNode=null,n)for(var i=t.firstChild;i;)a.appendChild(j(e,i,n)),i=i.nextSibling;return a}function q(e,t,a){var o=new t.constructor;for(var s in t){var n=t[s];'object'!=typeof n&&n!=o[s]&&(o[s]=n)}switch(t.childNodes&&(o.childNodes=new r),o.ownerDocument=e,o.nodeType){case F:var d=t.attributes,u=o.attributes=new l,c=d.length;u._ownerElement=o;for(var p=0;p<c;p++)o.setAttributeNode(q(e,d.item(p),!0));break;;case H:a=!0;}if(a)for(var i=t.firstChild;i;)o.appendChild(q(e,i,a)),i=i.nextSibling;return o}function U(e,t,n){e[t]=n}var V='http://www.w3.org/1999/xhtml',W={},F=W.ELEMENT_NODE=1,H=W.ATTRIBUTE_NODE=2,X=W.TEXT_NODE=3,Y=W.CDATA_SECTION_NODE=4,G=W.ENTITY_REFERENCE_NODE=5,K=W.ENTITY_NODE=6,Z=W.PROCESSING_INSTRUCTION_NODE=7,Q=W.COMMENT_NODE=8,J=W.DOCUMENT_NODE=9,$=W.DOCUMENT_TYPE_NODE=10,ee=W.DOCUMENT_FRAGMENT_NODE=11,te=W.NOTATION_NODE=12,ne={},ae={},ie=ne.INDEX_SIZE_ERR=(ae[1]='Index size error',1),oe=ne.DOMSTRING_SIZE_ERR=(ae[2]='DOMString size error',2),re=ne.HIERARCHY_REQUEST_ERR=(ae[3]='Hierarchy request error',3),se=ne.WRONG_DOCUMENT_ERR=(ae[4]='Wrong document',4),le=ne.INVALID_CHARACTER_ERR=(ae[5]='Invalid character',5),de=ne.NO_DATA_ALLOWED_ERR=(ae[6]='No data allowed',6),ue=ne.NO_MODIFICATION_ALLOWED_ERR=(ae[7]='No modification allowed',7),ce=ne.NOT_FOUND_ERR=(ae[8]='Not found',8),pe=ne.NOT_SUPPORTED_ERR=(ae[9]='Not supported',9),ge=ne.INUSE_ATTRIBUTE_ERR=(ae[10]='Attribute in use',10),he=ne.INVALID_STATE_ERR=(ae[11]='Invalid state',11),me=ne.SYNTAX_ERR=(ae[12]='Syntax error',12),fe=ne.INVALID_MODIFICATION_ERR=(ae[13]='Invalid modification',13),ye=ne.NAMESPACE_ERR=(ae[14]='Invalid namespace',14),ve=ne.INVALID_ACCESS_ERR=(ae[15]='Invalid access',15);o.prototype=Error.prototype,n(ne,o);r.prototype={length:0,item:function(e){return this[e]||null},toString:function(e,t){for(var n=[],a=0;a<this.length;a++)B(this[a],n,e,t);return n.join('')}},i.prototype.item=function(e){return s(this),this[e]},a(i,r);l.prototype={length:0,item:r.prototype.item,getNamedItem:function(e){for(var t=this.length;t--;){var n=this[t];if(n.nodeName==e)return n}},setNamedItem:function(e){var t=e.ownerElement;if(t&&t!=this._ownerElement)throw new o(ge);var n=this.getNamedItem(e.nodeName);return u(this._ownerElement,this,e,n),n},setNamedItemNS:function(e){var t=e.ownerElement,n;if(t&&t!=this._ownerElement)throw new o(ge);return n=this.getNamedItemNS(e.namespaceURI,e.localName),u(this._ownerElement,this,e,n),n},removeNamedItem:function(e){var t=this.getNamedItem(e);return c(this._ownerElement,this,t),t},removeNamedItemNS:function(e,t){var n=this.getNamedItemNS(e,t);return c(this._ownerElement,this,n),n},getNamedItemNS:function(e,t){for(var n=this.length;n--;){var a=this[n];if(a.localName==t&&a.namespaceURI==e)return a}return null}};p.prototype={hasFeature:function(e,t){var n=this._features[e.toLowerCase()];return n&&(!t||t in n)},createDocument:function(e,t,n){var a=new f;if(a.implementation=this,a.childNodes=new r,a.doctype=n,n&&a.appendChild(n),t){var i=a.createElementNS(e,t);a.appendChild(i)}return a},createDocumentType:function(e,t,n){var a=new R;return a.name=e,a.nodeName=e,a.publicId=t,a.systemId=n,a}};g.prototype={firstChild:null,lastChild:null,previousSibling:null,nextSibling:null,attributes:null,parentNode:null,childNodes:null,ownerDocument:null,nodeValue:null,namespaceURI:null,prefix:null,localName:null,insertBefore:function(e,t){return x(this,e,t)},replaceChild:function(e,t){this.insertBefore(e,t),t&&this.removeChild(t)},removeChild:function(e){return k(this,e)},appendChild:function(e){return this.insertBefore(e,null)},hasChildNodes:function(){return null!=this.firstChild},cloneNode:function(e){return q(this.ownerDocument||this,this,e)},normalize:function(){for(var e=this.firstChild;e;){var t=e.nextSibling;t&&t.nodeType==X&&e.nodeType==X?(this.removeChild(t),e.appendData(t.data)):(e.normalize(),e=t)}},isSupported:function(e,t){return this.ownerDocument.implementation.hasFeature(e,t)},hasAttributes:function(){return 0<this.attributes.length},lookupPrefix:function(e){for(var t=this;t;){var a=t._nsMap;if(a)for(var i in a)if(a[i]==e)return i;t=t.nodeType==H?t.ownerDocument:t.parentNode}return null},lookupNamespaceURI:function(e){for(var t=this;t;){var n=t._nsMap;if(n&&e in n)return n[e];t=t.nodeType==H?t.ownerDocument:t.parentNode}return null},isDefaultNamespace:function(e){var t=this.lookupPrefix(e);return null==t}},n(W,g),n(W,g.prototype),f.prototype={nodeName:'#document',nodeType:J,doctype:null,documentElement:null,_inc:1,insertBefore:function(e,t){if(e.nodeType==ee){for(var n=e.firstChild,a;n;)a=n.nextSibling,this.insertBefore(n,t),n=a;return e}return null==this.documentElement&&e.nodeType==F&&(this.documentElement=e),x(this,e,t),e.ownerDocument=this,e},removeChild:function(e){return this.documentElement==e&&(this.documentElement=null),k(this,e)},importNode:function(e,t){return j(this,e,t)},getElementById:function(e){var t=null;return m(this.documentElement,function(n){if(n.nodeType==F&&n.getAttribute('id')==e)return t=n,!0}),t},createElement:function(e){var t=new _;t.ownerDocument=this,t.nodeName=e,t.tagName=e,t.childNodes=new r;var n=t.attributes=new l;return n._ownerElement=t,t},createDocumentFragment:function(){var e=new O;return e.ownerDocument=this,e.childNodes=new r,e},createTextNode:function(e){var t=new w;return t.ownerDocument=this,t.appendData(e),t},createComment:function(e){var t=new T;return t.ownerDocument=this,t.appendData(e),t},createCDATASection:function(e){var t=new C;return t.ownerDocument=this,t.appendData(e),t},createProcessingInstruction:function(e,t){var n=new D;return n.ownerDocument=this,n.tagName=n.target=e,n.nodeValue=n.data=t,n},createAttribute:function(e){var t=new N;return t.ownerDocument=this,t.name=e,t.nodeName=e,t.localName=e,t.specified=!0,t},createEntityReference:function(e){var t=new A;return t.ownerDocument=this,t.nodeName=e,t},createElementNS:function(e,t){var n=new _,a=t.split(':'),i=n.attributes=new l;return n.childNodes=new r,n.ownerDocument=this,n.nodeName=t,n.tagName=t,n.namespaceURI=e,2==a.length?(n.prefix=a[0],n.localName=a[1]):n.localName=t,i._ownerElement=n,n},createAttributeNS:function(e,t){var n=new N,a=t.split(':');return n.ownerDocument=this,n.nodeName=t,n.name=t,n.namespaceURI=e,n.specified=!0,2==a.length?(n.prefix=a[0],n.localName=a[1]):n.localName=t,n}},a(f,g);_.prototype={nodeType:F,hasAttribute:function(e){return null!=this.getAttributeNode(e)},getAttribute:function(e){var t=this.getAttributeNode(e);return t&&t.value||''},getAttributeNode:function(e){return this.attributes.getNamedItem(e)},setAttribute:function(e,t){var n=this.ownerDocument.createAttribute(e);n.value=n.nodeValue=''+t,this.setAttributeNode(n)},removeAttribute:function(e){var t=this.getAttributeNode(e);t&&this.removeAttributeNode(t)},appendChild:function(e){return e.nodeType===ee?this.insertBefore(e,null):E(this,e)},setAttributeNode:function(e){return this.attributes.setNamedItem(e)},setAttributeNodeNS:function(e){return this.attributes.setNamedItemNS(e)},removeAttributeNode:function(e){return this.attributes.removeNamedItem(e.nodeName)},removeAttributeNS:function(e,t){var n=this.getAttributeNodeNS(e,t);n&&this.removeAttributeNode(n)},hasAttributeNS:function(e,t){return null!=this.getAttributeNodeNS(e,t)},getAttributeNS:function(e,t){var n=this.getAttributeNodeNS(e,t);return n&&n.value||''},setAttributeNS:function(e,t,n){var a=this.ownerDocument.createAttributeNS(e,t);a.value=a.nodeValue=''+n,this.setAttributeNode(a)},getAttributeNodeNS:function(e,t){return this.attributes.getNamedItemNS(e,t)},getElementsByTagName:function(e){return new i(this,function(t){var n=[];return m(t,function(a){a!==t&&a.nodeType==F&&('*'===e||a.tagName==e)&&n.push(a)}),n})},getElementsByTagNameNS:function(e,t){return new i(this,function(n){var a=[];return m(n,function(i){i!==n&&i.nodeType===F&&('*'===e||i.namespaceURI===e)&&('*'===t||i.localName==t)&&a.push(i)}),a})}},f.prototype.getElementsByTagName=_.prototype.getElementsByTagName,f.prototype.getElementsByTagNameNS=_.prototype.getElementsByTagNameNS,a(_,g);N.prototype.nodeType=H,a(N,g);S.prototype={data:'',substringData:function(e,t){return this.data.substring(e,e+t)},appendData:function(e){e=this.data+e,this.nodeValue=this.data=e,this.length=e.length},insertData:function(e,t){this.replaceData(e,0,t)},appendChild:function(){throw new Error(ae[re])},deleteData:function(e,t){this.replaceData(e,t,'')},replaceData:function(e,t,n){var a=this.data.substring(0,e),i=this.data.substring(e+t);n=a+n+i,this.nodeValue=this.data=n,this.length=n.length}},a(S,g);w.prototype={nodeName:'#text',nodeType:X,splitText:function(e){var t=this.data,n=t.substring(e);t=t.substring(0,e),this.data=this.nodeValue=t,this.length=t.length;var a=this.ownerDocument.createTextNode(n);return this.parentNode&&this.parentNode.insertBefore(a,this.nextSibling),a}},a(w,S);T.prototype={nodeName:'#comment',nodeType:Q},a(T,S);C.prototype={nodeName:'#cdata-section',nodeType:Y},a(C,S);R.prototype.nodeType=$,a(R,g);I.prototype.nodeType=te,a(I,g);L.prototype.nodeType=K,a(L,g);A.prototype.nodeType=G,a(A,g);O.prototype.nodeName='#document-fragment',O.prototype.nodeType=ee,a(O,g),D.prototype.nodeType=Z,a(D,g),P.prototype.serializeToString=function(e,t,n){return z.call(e,t,n)},g.prototype.toString=z;try{if(Object.defineProperty){function e(t){switch(t.nodeType){case F:case ee:var n=[];for(t=t.firstChild;t;)7!==t.nodeType&&8!==t.nodeType&&n.push(e(t)),t=t.nextSibling;return n.join('');default:return t.nodeValue;}}Object.defineProperty(i.prototype,'length',{get:function(){return s(this),this.$$length}}),Object.defineProperty(g.prototype,'textContent',{get:function(){return e(this)},set:function(e){switch(this.nodeType){case F:case ee:for(;this.firstChild;)this.removeChild(this.firstChild);(e||e+'')&&this.appendChild(this.ownerDocument.createTextNode(e));break;default:this.data=e,this.value=e,this.nodeValue=e;}}}),U=function(e,t,n){e['$$'+t]=n}}}catch(t){}t.DOMImplementation=p,t.XMLSerializer=P},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var o='function'==typeof Symbol&&'symbol'==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&'function'==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?'symbol':typeof e},r=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),s=n(3),l=a(s),d=n(0),u=n(11),c=a(u),p=n(1),g=a(p),h=n(12),m=a(h),f=n(53),y=a(f),v=n(54),b=a(v),k=n(14),x=a(k),E=n(55),_=a(E),N=n(2),S=n(20),w=a(S),T=n(15),C=a(T),R=n(24),I=a(R),L=function(){function e(t,n){i(this,e),this.settings=(0,d.extend)(this.settings||{},{width:null,height:null,ignoreClass:'',manager:'default',view:'iframe',flow:null,layout:null,spread:null,minSpreadWidth:800,stylesheet:null,resizeOnOrientationChange:!0,script:null,snap:!1}),(0,d.extend)(this.settings,n),'object'===o(this.settings.manager)&&(this.manager=this.settings.manager),this.book=t,this.hooks={},this.hooks.display=new c.default(this),this.hooks.serialize=new c.default(this),this.hooks.content=new c.default(this),this.hooks.unloaded=new c.default(this),this.hooks.layout=new c.default(this),this.hooks.render=new c.default(this),this.hooks.show=new c.default(this),this.hooks.content.register(this.handleLinks.bind(this)),this.hooks.content.register(this.passEvents.bind(this)),this.hooks.content.register(this.adjustImages.bind(this)),this.book.spine.hooks.content.register(this.injectIdentifier.bind(this)),this.settings.stylesheet&&this.book.spine.hooks.content.register(this.injectStylesheet.bind(this)),this.settings.script&&this.book.spine.hooks.content.register(this.injectScript.bind(this)),this.themes=new b.default(this),this.annotations=new _.default(this),this.epubcfi=new g.default,this.q=new m.default(this),this.location=void 0,this.q.enqueue(this.book.opened),this.starting=new d.defer,this.started=this.starting.promise,this.q.enqueue(this.start)}return r(e,[{key:'setManager',value:function(e){this.manager=e}},{key:'requireManager',value:function(e){var t;return t='string'==typeof e&&'default'===e?C.default:'string'==typeof e&&'continuous'===e?I.default:e,t}},{key:'requireView',value:function(e){var t;return t='string'==typeof e&&'iframe'===e?w.default:e,t}},{key:'start',value:function(){this.settings.layout||'pre-paginated'!==this.book.package.metadata.layout&&'true'!==this.book.displayOptions.fixedLayout||(this.settings.layout='pre-paginated'),this.manager||(this.ViewManager=this.requireManager(this.settings.manager),this.View=this.requireView(this.settings.view),this.manager=new this.ViewManager({view:this.View,queue:this.q,request:this.book.load.bind(this.book),settings:this.settings})),this.direction(this.book.package.metadata.direction),this.settings.globalLayoutProperties=this.determineLayoutProperties(this.book.package.metadata),this.flow(this.settings.globalLayoutProperties.flow),this.layout(this.settings.globalLayoutProperties),this.manager.on(N.EVENTS.MANAGERS.ADDED,this.afterDisplayed.bind(this)),this.manager.on(N.EVENTS.MANAGERS.REMOVED,this.afterRemoved.bind(this)),this.manager.on(N.EVENTS.MANAGERS.RESIZED,this.onResized.bind(this)),this.manager.on(N.EVENTS.MANAGERS.ORIENTATION_CHANGE,this.onOrientationChange.bind(this)),this.manager.on(N.EVENTS.MANAGERS.SCROLLED,this.reportLocation.bind(this)),this.emit(N.EVENTS.RENDITION.STARTED),this.starting.resolve()}},{key:'attachTo',value:function(e){return this.q.enqueue(function(){this.manager.render(e,{width:this.settings.width,height:this.settings.height}),this.emit(N.EVENTS.RENDITION.ATTACHED)}.bind(this))}},{key:'display',value:function(e){return this.displaying&&this.displaying.resolve(),this.q.enqueue(this._display,e)}},{key:'_display',value:function(e){var t=this;if(this.book){var n=this.epubcfi.isCfiString(e),a=new d.defer,i=a.promise,o;return(this.displaying=a,this.book.locations.length()&&(0,d.isFloat)(e)&&(e=this.book.locations.cfiFromPercentage(parseFloat(e))),o=this.book.spine.get(e),!o)?(a.reject(new Error('No Section Found')),i):(this.manager.display(o,e).then(function(){a.resolve(o),t.displaying=void 0,t.emit(N.EVENTS.RENDITION.DISPLAYED,o),t.reportLocation()},function(e){t.emit(N.EVENTS.RENDITION.DISPLAY_ERROR,e)}),i)}}},{key:'afterDisplayed',value:function(e){var t=this;e.on(N.EVENTS.VIEWS.MARK_CLICKED,function(n,a){return t.triggerMarkEvent(n,a,e.contents)}),this.hooks.render.trigger(e,this).then(function(){e.contents?t.hooks.content.trigger(e.contents,t).then(function(){t.emit(N.EVENTS.RENDITION.RENDERED,e.section,e)}):t.emit(N.EVENTS.RENDITION.RENDERED,e.section,e)})}},{key:'afterRemoved',value:function(e){var t=this;this.hooks.unloaded.trigger(e,this).then(function(){t.emit(N.EVENTS.RENDITION.REMOVED,e.section,e)})}},{key:'onResized',value:function(e,t){this.emit(N.EVENTS.RENDITION.RESIZED,{width:e.width,height:e.height},t),this.location&&this.location.start&&this.display(t||this.location.start.cfi)}},{key:'onOrientationChange',value:function(e){this.emit(N.EVENTS.RENDITION.ORIENTATION_CHANGE,e)}},{key:'moveTo',value:function(e){this.manager.moveTo(e)}},{key:'resize',value:function(e,t,n){e&&(this.settings.width=e),t&&(this.settings.height=t),this.manager.resize(e,t,n)}},{key:'clear',value:function(){this.manager.clear()}},{key:'next',value:function(){return this.q.enqueue(this.manager.next.bind(this.manager)).then(this.reportLocation.bind(this))}},{key:'prev',value:function(){return this.q.enqueue(this.manager.prev.bind(this.manager)).then(this.reportLocation.bind(this))}},{key:'determineLayoutProperties',value:function(e){var t=this.settings.layout||e.layout||'reflowable',n=this.settings.spread||e.spread||'auto',a=this.settings.orientation||e.orientation||'auto',i=this.settings.flow||e.flow||'auto',o=e.viewport||'',r=this.settings.minSpreadWidth||e.minSpreadWidth||800,s=this.settings.direction||e.direction||'ltr',l;return(0===this.settings.width||0<this.settings.width)&&(0===this.settings.height||0<this.settings.height),l={layout:t,spread:n,orientation:a,flow:i,viewport:o,minSpreadWidth:r,direction:s},l}},{key:'flow',value:function(e){var t=e;('scrolled'===e||'scrolled-doc'===e||'scrolled-continuous'===e)&&(t='scrolled'),('auto'===e||'paginated'===e)&&(t='paginated'),this.settings.flow=e,this._layout&&this._layout.flow(t),this.manager&&this._layout&&this.manager.applyLayout(this._layout),this.manager&&this.manager.updateFlow(t),this.manager&&this.manager.isRendered()&&this.location&&(this.manager.clear(),this.display(this.location.start.cfi))}},{key:'layout',value:function(e){var t=this;return e&&(this._layout=new y.default(e),this._layout.spread(e.spread,this.settings.minSpreadWidth),this._layout.on(N.EVENTS.LAYOUT.UPDATED,function(e,n){t.emit(N.EVENTS.RENDITION.LAYOUT,e,n)})),this.manager&&this._layout&&this.manager.applyLayout(this._layout),this._layout}},{key:'spread',value:function(e,t){this.settings.spread=e,t&&(this.settings.minSpreadWidth=t),this._layout&&this._layout.spread(e,t),this.manager&&this.manager.isRendered()&&this.manager.updateLayout()}},{key:'direction',value:function(e){this.settings.direction=e||'ltr',this.manager&&this.manager.direction(this.settings.direction),this.manager&&this.manager.isRendered()&&this.location&&(this.manager.clear(),this.display(this.location.start.cfi))}},{key:'reportLocation',value:function(){return this.q.enqueue(function(){requestAnimationFrame(function(){var e=this.manager.currentLocation();if(e&&e.then&&'function'==typeof e.then)e.then(function(e){var t=this.located(e);t&&t.start&&t.end&&(this.location=t,this.emit(N.EVENTS.RENDITION.LOCATION_CHANGED,{index:this.location.start.index,href:this.location.start.href,start:this.location.start.cfi,end:this.location.end.cfi,percentage:this.location.start.percentage}),this.emit(N.EVENTS.RENDITION.RELOCATED,this.location))}.bind(this));else if(e){var t=this.located(e);if(!t||!t.start||!t.end)return;this.location=t,this.emit(N.EVENTS.RENDITION.LOCATION_CHANGED,{index:this.location.start.index,href:this.location.start.href,start:this.location.start.cfi,end:this.location.end.cfi,percentage:this.location.start.percentage}),this.emit(N.EVENTS.RENDITION.RELOCATED,this.location)}}.bind(this))}.bind(this))}},{key:'currentLocation',value:function(){var e=this.manager.currentLocation();if(e&&e.then&&'function'==typeof e.then)e.then(function(e){var t=this.located(e);return t}.bind(this));else if(e){var t=this.located(e);return t}}},{key:'located',value:function(e){if(!e.length)return{};var t=e[0],n=e[e.length-1],a={start:{index:t.index,href:t.href,cfi:t.mapping.start,displayed:{page:t.pages[0]||1,total:t.totalPages}},end:{index:n.index,href:n.href,cfi:n.mapping.end,displayed:{page:n.pages[n.pages.length-1]||1,total:n.totalPages}}},i=this.book.locations.locationFromCfi(t.mapping.start),o=this.book.locations.locationFromCfi(n.mapping.end);null!=i&&(a.start.location=i,a.start.percentage=this.book.locations.percentageFromLocation(i)),null!=o&&(a.end.location=o,a.end.percentage=this.book.locations.percentageFromLocation(o));var r=this.book.pageList.pageFromCfi(t.mapping.start),s=this.book.pageList.pageFromCfi(n.mapping.end);return-1!=r&&(a.start.page=r),-1!=s&&(a.end.page=s),n.index===this.book.spine.last().index&&a.end.displayed.page>=a.end.displayed.total&&(a.atEnd=!0),t.index===this.book.spine.first().index&&1===a.start.displayed.page&&(a.atStart=!0),a}},{key:'destroy',value:function(){this.manager&&this.manager.destroy(),this.book=void 0}},{key:'passEvents',value:function(t){var n=this;N.DOM_EVENTS.forEach(function(a){t.on(a,function(e){return n.triggerViewEvent(e,t)})}),t.on(N.EVENTS.CONTENTS.SELECTED,function(a){return n.triggerSelectedEvent(a,t)})}},{key:'triggerViewEvent',value:function(t,e){this.emit(t.type,t,e)}},{key:'triggerSelectedEvent',value:function(e,t){this.emit(N.EVENTS.RENDITION.SELECTED,e,t)}},{key:'triggerMarkEvent',value:function(e,t,n){this.emit(N.EVENTS.RENDITION.MARK_CLICKED,e,t,n)}},{key:'getRange',value:function(e,t){var n=new g.default(e),a=this.manager.visible().filter(function(e){if(n.spinePos===e.index)return!0});if(a.length)return a[0].contents.range(n,t)}},{key:'adjustImages',value:function(e){if('pre-paginated'===this._layout.name)return new Promise(function(e){e()});var t=e.window.getComputedStyle(e.content,null),n=.95*(e.content.offsetHeight-(parseFloat(t.paddingTop)+parseFloat(t.paddingBottom))),a=parseFloat(t.paddingLeft)+parseFloat(t.paddingRight);return e.addStylesheetRules({img:{"max-width":(this._layout.columnWidth?this._layout.columnWidth-a+'px':'100%')+'!important',"max-height":n+'px!important',"object-fit":'contain',"page-break-inside":'avoid',"break-inside":'avoid',"box-sizing":'border-box'},svg:{"max-width":(this._layout.columnWidth?this._layout.columnWidth-a+'px':'100%')+'!important',"max-height":n+'px!important',"page-break-inside":'avoid',"break-inside":'avoid'}}),new Promise(function(e){setTimeout(function(){e()},1)})}},{key:'getContents',value:function(){return this.manager?this.manager.getContents():[]}},{key:'views',value:function(){var e=this.manager?this.manager.views:void 0;return e||[]}},{key:'handleLinks',value:function(e){var t=this;e&&e.on(N.EVENTS.CONTENTS.LINK_CLICKED,function(e){var n=t.book.path.relative(e);t.display(n)})}},{key:'injectStylesheet',value:function(e){var t=e.createElement('link');t.setAttribute('type','text/css'),t.setAttribute('rel','stylesheet'),t.setAttribute('href',this.settings.stylesheet),e.getElementsByTagName('head')[0].appendChild(t)}},{key:'injectScript',value:function(e){var t=e.createElement('script');t.setAttribute('type','text/javascript'),t.setAttribute('src',this.settings.script),t.textContent=' ',e.getElementsByTagName('head')[0].appendChild(t)}},{key:'injectIdentifier',value:function(e){var t=this.book.packaging.metadata.identifier,n=e.createElement('meta');n.setAttribute('name','dc.relation.ispartof'),t&&n.setAttribute('content',t),e.getElementsByTagName('head')[0].appendChild(n)}}]),e}();(0,l.default)(L.prototype),t.default=L,e.exports=t['default']},function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var i=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),s=n(1),l=function(e){return e&&e.__esModule?e:{default:e}}(s),d=n(0),u=function(){function e(t,n,i,o){a(this,e),this.layout=t,this.horizontal='horizontal'===i,this.direction=n||'ltr',this._dev=o}return i(e,[{key:'section',value:function(e){var t=this.findRanges(e),n=this.rangeListToCfiList(e.section.cfiBase,t);return n}},{key:'page',value:function(e,t,n,a){var i=e&&e.document&&e.document.body,o;if(i){if(o=this.rangePairToCfiPair(t,{start:this.findStart(i,n,a),end:this.findEnd(i,n,a)}),!0===this._dev){var s=e.document,d=new l.default(o.start).toRange(s),u=new l.default(o.end).toRange(s),c=s.defaultView.getSelection(),p=s.createRange();c.removeAllRanges(),p.setStart(d.startContainer,d.startOffset),p.setEnd(u.endContainer,u.endOffset),c.addRange(p)}return o}}},{key:'walk',value:function(e,t){if(!(e&&e.nodeType===Node.TEXT_NODE)){var n={acceptNode:function(e){return 0<e.data.trim().length?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}},a=n.acceptNode;a.acceptNode=n.acceptNode;for(var i=document.createTreeWalker(e,NodeFilter.SHOW_TEXT,a,!1),o,r;(o=i.nextNode())&&(r=t(o),!r););return r}}},{key:'findRanges',value:function(e){for(var t=[],n=e.contents.scrollWidth(),a=o(n/this.layout.spreadWidth),r=a*this.layout.divisor,s=this.layout.columnWidth,l=this.layout.gap,d=0,i,u;d<r.pages;d++)i=(s+l)*d,u=s*(d+1)+l*d,t.push({start:this.findStart(e.document.body,i,u),end:this.findEnd(e.document.body,i,u)});return t}},{key:'findStart',value:function(e,t,n){for(var a=this,i=[e],o=e,r,s;i.length;)if(r=i.shift(),s=this.walk(r,function(e){var r,s,l,u,c;if(c=(0,d.nodeBounds)(e),a.horizontal&&'ltr'===a.direction){if(r=a.horizontal?c.left:c.top,s=a.horizontal?c.right:c.bottom,r>=t&&r<=n)return e;if(s>t)return e;o=e,i.push(e)}else if(a.horizontal&&'rtl'===a.direction){if(r=c.left,s=c.right,s<=n&&s>=t)return e;if(r<n)return e;o=e,i.push(e)}else{if(l=c.top,u=c.bottom,l>=t&&l<=n)return e;if(u>t)return e;o=e,i.push(e)}}),s)return this.findTextStartRange(s,t,n);return this.findTextStartRange(o,t,n)}},{key:'findEnd',value:function(e,t,n){for(var a=this,i=[e],o=e,s,l;i.length;)if(s=i.shift(),l=this.walk(s,function(e){var s,l,u,c,p;if(p=(0,d.nodeBounds)(e),a.horizontal&&'ltr'===a.direction){if(s=r(p.left),l=r(p.right),s>n&&o)return o;if(l>n)return e;o=e,i.push(e)}else if(a.horizontal&&'rtl'===a.direction){if(s=r(a.horizontal?p.left:p.top),l=r(a.horizontal?p.right:p.bottom),l<t&&o)return o;if(s<t)return e;o=e,i.push(e)}else{if(u=r(p.top),c=r(p.bottom),u>n&&o)return o;if(c>n)return e;o=e,i.push(e)}}),l)return this.findTextEndRange(l,t,n);return this.findTextEndRange(o,t,n)}},{key:'findTextStartRange',value:function(e,t,n){for(var a=this.splitTextNodeIntoRanges(e),o=0,i,r,s,l,d;o<a.length;o++)if(i=a[o],r=i.getBoundingClientRect(),this.horizontal&&'ltr'===this.direction){if(s=r.left,s>=t)return i;}else if(this.horizontal&&'rtl'===this.direction){if(d=r.right,d<=n)return i;}else if(l=r.top,l>=t)return i;return a[0]}},{key:'findTextEndRange',value:function(e,t,n){for(var a=this.splitTextNodeIntoRanges(e),o=0,i,r,s,l,d,u,c;o<a.length;o++){if(r=a[o],s=r.getBoundingClientRect(),this.horizontal&&'ltr'===this.direction){if(l=s.left,d=s.right,l>n&&i)return i;if(d>n)return r}else if(this.horizontal&&'rtl'===this.direction){if(l=s.left,d=s.right,d<t&&i)return i;if(l<t)return r}else{if(u=s.top,c=s.bottom,u>n&&i)return i;if(c>n)return r}i=r}return a[a.length-1]}},{key:'splitTextNodeIntoRanges',value:function(e,t){var n=[],a=e.textContent||'',i=a.trim(),o=e.ownerDocument,r=t||' ',s=i.indexOf(r),l;if(-1===s||e.nodeType!=Node.TEXT_NODE)return l=o.createRange(),l.selectNodeContents(e),[l];for(l=o.createRange(),l.setStart(e,0),l.setEnd(e,s),n.push(l),l=!1;-1!=s;)s=i.indexOf(r,s+1),0<s&&(l&&(l.setEnd(e,s),n.push(l)),l=o.createRange(),l.setStart(e,s+1));return l&&(l.setEnd(e,i.length),n.push(l)),n}},{key:'rangePairToCfiPair',value:function(e,t){var n=t.start,a=t.end;n.collapse(!0),a.collapse(!1);var i=new l.default(n,e).toString(),o=new l.default(a,e).toString();return{start:i,end:o}}},{key:'rangeListToCfiList',value:function(e,t){for(var n=[],a=0,i;a<t.length;a++)i=this.rangePairToCfiPair(e,t[a]),n.push(i);return n}},{key:'axis',value:function(e){return e&&(this.horizontal='horizontal'===e),this.horizontal}}]),e}();t.default=u,e.exports=t['default']},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var r=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),s=n(3),l=a(s),d=n(0),u=n(1),c=a(u),p=n(14),g=a(p),h=n(2),f=n(56),m=function(){function e(t,n){i(this,e),this.settings=(0,d.extend)({ignoreClass:'',axis:n.layout&&'scrolled'===n.layout.props.flow?'vertical':'horizontal',direction:void 0,width:0,height:0,layout:void 0,globalLayoutProperties:{},method:void 0},n||{}),this.id='epubjs-view-'+(0,d.uuid)(),this.section=t,this.index=t.index,this.element=this.container(this.settings.axis),this.added=!1,this.displayed=!1,this.rendered=!1,this.fixedWidth=0,this.fixedHeight=0,this.epubcfi=new c.default,this.layout=this.settings.layout,this.pane=void 0,this.highlights={},this.underlines={},this.marks={}}return r(e,[{key:'container',value:function(e){var t=document.createElement('div');return t.classList.add('epub-view'),t.style.height='0px',t.style.width='0px',t.style.overflow='hidden',t.style.position='relative',t.style.display='block',t.style.flex=e&&'horizontal'==e?'none':'initial',t}},{key:'create',value:function(){return this.iframe?this.iframe:(this.element||(this.element=this.createContainer()),this.iframe=document.createElement('iframe'),this.iframe.id=this.id,this.iframe.scrolling='no',this.iframe.style.overflow='hidden',this.iframe.seamless='seamless',this.iframe.style.border='none',this.iframe.setAttribute('enable-annotation','true'),this.resizing=!0,this.element.style.visibility='hidden',this.iframe.style.visibility='hidden',this.iframe.style.width='0',this.iframe.style.height='0',this._width=0,this._height=0,this.element.setAttribute('ref',this.index),this.added=!0,this.elementBounds=(0,d.bounds)(this.element),this.supportsSrcdoc=!!('srcdoc'in this.iframe),this.settings.method||(this.settings.method=this.supportsSrcdoc?'srcdoc':'write'),this.iframe)}},{key:'render',value:function(e){return this.create(),this.size(),this.sectionRender||(this.sectionRender=this.section.render(e)),this.sectionRender.then(function(e){return this.load(e)}.bind(this)).then(function(){var e=this;this.layout.format(this.contents);var t=this.contents.writingMode(),n=0===t.indexOf('vertical')?'vertical':'horizontal';return this.setAxis(n),this.emit(h.EVENTS.VIEWS.AXIS,n),this.addListeners(),new Promise(function(t){e.expand(),t()})}.bind(this),function(t){return this.emit(h.EVENTS.VIEWS.LOAD_ERROR,t),new Promise(function(e,n){n(t)})}.bind(this)).then(function(){this.emit(h.EVENTS.VIEWS.RENDERED,this.section)}.bind(this))}},{key:'reset',value:function(){this.iframe&&(this.iframe.style.width='0',this.iframe.style.height='0',this._width=0,this._height=0,this._textWidth=void 0,this._contentWidth=void 0,this._textHeight=void 0,this._contentHeight=void 0),this._needsReframe=!0}},{key:'size',value:function(e,t){var n=e||this.settings.width,a=t||this.settings.height;'pre-paginated'===this.layout.name?this.lock('both',n,a):'horizontal'===this.settings.axis?this.lock('height',n,a):this.lock('width',n,a),this.settings.width=n,this.settings.height=a}},{key:'lock',value:function(e,t,n){var a=(0,d.borders)(this.element),i;i=this.iframe?(0,d.borders)(this.iframe):{width:0,height:0},'width'==e&&(0,d.isNumber)(t)&&(this.lockedWidth=t-a.width-i.width),'height'==e&&(0,d.isNumber)(n)&&(this.lockedHeight=n-a.height-i.height),'both'===e&&(0,d.isNumber)(t)&&(0,d.isNumber)(n)&&(this.lockedWidth=t-a.width-i.width,this.lockedHeight=n-a.height-i.height),this.displayed&&this.iframe&&this.expand()}},{key:'expand',value:function(){var e=this.lockedWidth,t=this.lockedHeight,n;!this.iframe||this._expanding||(this._expanding=!0,'pre-paginated'===this.layout.name?(e=this.layout.columnWidth,t=this.layout.height):'horizontal'===this.settings.axis?(e=this.contents.textWidth(),0<e%this.layout.pageWidth&&(e=o(e/this.layout.pageWidth)*this.layout.pageWidth),this.settings.forceEvenPages&&(n=e/this.layout.pageWidth,1<this.layout.divisor&&'reflowable'===this.layout.name&&0<n%2&&(e+=this.layout.pageWidth))):'vertical'===this.settings.axis&&(t=this.contents.textHeight()),(this._needsReframe||e!=this._width||t!=this._height)&&this.reframe(e,t),this._expanding=!1)}},{key:'reframe',value:function(e,t){var n=this,a;(0,d.isNumber)(e)&&(this.element.style.width=e+'px',this.iframe.style.width=e+'px',this._width=e),(0,d.isNumber)(t)&&(this.element.style.height=t+'px',this.iframe.style.height=t+'px',this._height=t);var i=this.prevBounds?e-this.prevBounds.width:e,o=this.prevBounds?t-this.prevBounds.height:t;a={width:e,height:t,widthDelta:i,heightDelta:o},this.pane&&this.pane.render(),requestAnimationFrame(function(){var e;for(var t in n.marks)n.marks.hasOwnProperty(t)&&(e=n.marks[t],n.placeMark(e.element,e.range))}),this.onResize(this,a),this.emit(h.EVENTS.VIEWS.RESIZED,a),this.prevBounds=a,this.elementBounds=(0,d.bounds)(this.element)}},{key:'load',value:function(e){var t=new d.defer,n=t.promise;if(!this.iframe)return t.reject(new Error('No Iframe Available')),n;if(this.iframe.onload=function(e){this.onLoad(e,t)}.bind(this),'blobUrl'===this.settings.method)this.blobUrl=(0,d.createBlobUrl)(e,'application/xhtml+xml'),this.iframe.src=this.blobUrl,this.element.appendChild(this.iframe);else if('srcdoc'===this.settings.method)this.iframe.srcdoc=e,this.element.appendChild(this.iframe);else{if(this.element.appendChild(this.iframe),this.document=this.iframe.contentDocument,!this.document)return t.reject(new Error('No Document Available')),n;this.iframe.contentDocument.open(),this.iframe.contentDocument.write(e),this.iframe.contentDocument.close()}return n}},{key:'onLoad',value:function(e,t){var n=this;this.window=this.iframe.contentWindow,this.document=this.iframe.contentDocument,this.contents=new g.default(this.document,this.document.body,this.section.cfiBase,this.section.index),this.rendering=!1;var a=this.document.querySelector('link[rel=\'canonical\']');a?a.setAttribute('href',this.section.canonical):(a=this.document.createElement('link'),a.setAttribute('rel','canonical'),a.setAttribute('href',this.section.canonical),this.document.querySelector('head').appendChild(a)),this.contents.on(h.EVENTS.CONTENTS.EXPAND,function(){n.displayed&&n.iframe&&(n.expand(),n.contents&&n.layout.format(n.contents))}),this.contents.on(h.EVENTS.CONTENTS.RESIZE,function(){n.displayed&&n.iframe&&(n.expand(),n.contents&&n.layout.format(n.contents))}),t.resolve(this.contents)}},{key:'setLayout',value:function(e){this.layout=e,this.contents&&(this.layout.format(this.contents),this.expand())}},{key:'setAxis',value:function(e){'scrolled'===this.layout.props.flow&&(e='vertical'),this.settings.axis=e,this.element.style.flex='horizontal'==e?'none':'initial',this.size()}},{key:'addListeners',value:function(){}},{key:'removeListeners',value:function(){}},{key:'display',value:function(e){var t=new d.defer;return this.displayed?t.resolve(this):this.render(e).then(function(){this.emit(h.EVENTS.VIEWS.DISPLAYED,this),this.onDisplayed(this),this.displayed=!0,t.resolve(this)}.bind(this),function(e){t.reject(e,this)}),t.promise}},{key:'show',value:function(){this.element.style.visibility='visible',this.iframe&&(this.iframe.style.visibility='visible',this.iframe.style.transform='translateZ(0)',this.iframe.offsetWidth,this.iframe.style.transform=null),this.emit(h.EVENTS.VIEWS.SHOWN,this)}},{key:'hide',value:function(){this.element.style.visibility='hidden',this.iframe.style.visibility='hidden',this.stopExpanding=!0,this.emit(h.EVENTS.VIEWS.HIDDEN,this)}},{key:'offset',value:function(){return{top:this.element.offsetTop,left:this.element.offsetLeft}}},{key:'width',value:function(){return this._width}},{key:'height',value:function(){return this._height}},{key:'position',value:function(){return this.element.getBoundingClientRect()}},{key:'locationOf',value:function(e){var t=this.iframe.getBoundingClientRect(),n=this.contents.locationOf(e,this.settings.ignoreClass);return{left:n.left,top:n.top}}},{key:'onDisplayed',value:function(){}},{key:'onResize',value:function(){}},{key:'bounds',value:function(e){return(e||!this.elementBounds)&&(this.elementBounds=(0,d.bounds)(this.element)),this.elementBounds}},{key:'highlight',value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:{},n=arguments[2],a=this,i=3<arguments.length&&void 0!==arguments[3]?arguments[3]:'epubjs-hl',o=4<arguments.length&&void 0!==arguments[4]?arguments[4]:{};if(this.contents){var r=Object.assign({fill:'yellow',"fill-opacity":'0.3',"mix-blend-mode":'multiply'},o),s=this.contents.range(e),l=function(){a.emit(h.EVENTS.VIEWS.MARK_CLICKED,e,t)};t.epubcfi=e,this.pane||(this.pane=new f.Pane(this.iframe,this.element));var d=new f.Highlight(s,i,t,r),u=this.pane.addMark(d);return this.highlights[e]={mark:u,element:u.element,listeners:[l,n]},u.element.setAttribute('ref',i),u.element.addEventListener('click',l),u.element.addEventListener('touchstart',l),n&&(u.element.addEventListener('click',n),u.element.addEventListener('touchstart',n)),u}}},{key:'underline',value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:{},n=arguments[2],a=this,i=3<arguments.length&&void 0!==arguments[3]?arguments[3]:'epubjs-ul',o=4<arguments.length&&void 0!==arguments[4]?arguments[4]:{};if(this.contents){var r=Object.assign({stroke:'black',"stroke-opacity":'0.3',"mix-blend-mode":'multiply'},o),s=this.contents.range(e),l=function(){a.emit(h.EVENTS.VIEWS.MARK_CLICKED,e,t)};t.epubcfi=e,this.pane||(this.pane=new f.Pane(this.iframe,this.element));var d=new f.Underline(s,i,t,r),u=this.pane.addMark(d);return this.underlines[e]={mark:u,element:u.element,listeners:[l,n]},u.element.setAttribute('ref',i),u.element.addEventListener('click',l),u.element.addEventListener('touchstart',l),n&&(u.element.addEventListener('click',n),u.element.addEventListener('touchstart',n)),u}}},{key:'mark',value:function(e){var t=this,n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:{},a=arguments[2];if(this.contents){if(e in this.marks){var i=this.marks[e];return i}var o=this.contents.range(e);if(o){var r=o.commonAncestorContainer,s=1===r.nodeType?r:r.parentNode,l=function(){t.emit(h.EVENTS.VIEWS.MARK_CLICKED,e,n)};o.collapsed&&1===r.nodeType?(o=new Range,o.selectNodeContents(r)):o.collapsed&&(o=new Range,o.selectNodeContents(s));var d=this.document.createElement('a');return d.setAttribute('ref','epubjs-mk'),d.style.position='absolute',d.dataset.epubcfi=e,n&&Object.keys(n).forEach(function(e){d.dataset[e]=n[e]}),a&&(d.addEventListener('click',a),d.addEventListener('touchstart',a)),d.addEventListener('click',l),d.addEventListener('touchstart',l),this.placeMark(d,o),this.element.appendChild(d),this.marks[e]={element:d,range:o,listeners:[l,a]},s}}}},{key:'placeMark',value:function(e,t){var n,a,r;if('pre-paginated'===this.layout.name||'horizontal'!==this.settings.axis){var s=t.getBoundingClientRect();n=s.top,a=s.right}else for(var l=t.getClientRects(),d=void 0,u=0;u!=l.length;u++)d=l[u],(!r||d.left<r)&&(r=d.left,a=o(r/this.layout.props.pageWidth)*this.layout.props.pageWidth-this.layout.gap/2,n=d.top);e.style.top=n+'px',e.style.left=a+'px'}},{key:'unhighlight',value:function(e){var t;e in this.highlights&&(t=this.highlights[e],this.pane.removeMark(t.mark),t.listeners.forEach(function(e){e&&(t.element.removeEventListener('click',e),t.element.removeEventListener('touchstart',e))}),delete this.highlights[e])}},{key:'ununderline',value:function(e){var t;e in this.underlines&&(t=this.underlines[e],this.pane.removeMark(t.mark),t.listeners.forEach(function(e){e&&(t.element.removeEventListener('click',e),t.element.removeEventListener('touchstart',e))}),delete this.underlines[e])}},{key:'unmark',value:function(e){var t;e in this.marks&&(t=this.marks[e],this.element.removeChild(t.element),t.listeners.forEach(function(e){e&&(t.element.removeEventListener('click',e),t.element.removeEventListener('touchstart',e))}),delete this.marks[e])}},{key:'destroy',value:function(){for(var e in this.highlights)this.unhighlight(e);for(var t in this.underlines)this.ununderline(t);for(var n in this.marks)this.unmark(n);this.blobUrl&&(0,d.revokeBlobUrl)(this.blobUrl),this.displayed&&(this.displayed=!1,this.removeListeners(),this.contents.destroy(),this.stopExpanding=!0,this.element.removeChild(this.iframe),this.iframe=void 0,this.contents=void 0,this._textWidth=null,this._textHeight=null,this._width=null,this._height=null)}}]),e}();(0,l.default)(m.prototype),t.default=m,e.exports=t['default']},function(e,t,n){var a=n(16),o=n(61),r=n(63);e.exports=function(e,t,n){function l(t){var n=b,a=k;return b=k=void 0,m=t,E=e.apply(a,n),E}function d(e){return m=e,_=setTimeout(p,t),f?l(e):E}function u(e){var n=e-N,a=e-m,o=t-n;return y?i(o,x-a):o}function c(e){var n=e-N,a=e-m;return void 0==N||n>=t||0>n||y&&a>=x}function p(){var e=o();return c(e)?g(e):void(_=setTimeout(p,u(e)))}function g(e){return(_=void 0,v&&b)?l(e):(b=k=void 0,E)}function h(){var e=o(),n=c(e);if(b=arguments,k=this,N=e,n){if(void 0===_)return d(N);if(y)return _=setTimeout(p,t),l(N)}return void 0===_&&(_=setTimeout(p,t)),E}var m=0,f=!1,y=!1,v=!0,b,k,x,E,_,N;if('function'!=typeof e)throw new TypeError('Expected a function');return t=r(t)||0,a(n)&&(f=!!n.leading,y='maxWait'in n,x=y?s(r(n.maxWait)||0,t):x,v='trailing'in n?!!n.trailing:v),h.cancel=function(){void 0!==_&&clearTimeout(_),m=0,b=N=k=_=void 0},h.flush=function(){return void 0===_?E:g(o())},h}},function(e,t,n){var a=n(62),i='object'==typeof self&&self&&self.Object===Object&&self,o=a||i||Function('return this')();e.exports=o},function(e,t,n){var a=n(22),i=a.Symbol;e.exports=i},function(e,t,n){'use strict';function i(e){return e&&e.__esModule?e:{default:e}}function o(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}function r(e,t){if(!e)throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called');return t&&('object'==typeof t||'function'==typeof t)?t:e}function s(e,t){if('function'!=typeof t&&null!==t)throw new TypeError('Super expression must either be null or a function, not '+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,'__esModule',{value:!0});var d='function'==typeof Symbol&&'symbol'==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&'function'==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?'symbol':typeof e},u=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),c=function e(t,n,a){null===t&&(t=Function.prototype);var i=Object.getOwnPropertyDescriptor(t,n);if(i===void 0){var o=Object.getPrototypeOf(t);return null===o?void 0:e(o,n,a)}if('value'in i)return i.value;var r=i.get;return void 0===r?void 0:r.call(a)},p=n(0),g=n(15),h=i(g),m=n(70),f=i(m),y=n(2),v=n(21),b=i(v),k=function(e){function t(e){o(this,t);var n=r(this,(t.__proto__||Object.getPrototypeOf(t)).call(this,e));return n.name='continuous',n.settings=(0,p.extend)(n.settings||{},{infinite:!0,overflow:void 0,axis:void 0,flow:'scrolled',offset:500,offsetDelta:250,width:void 0,height:void 0,snap:!1,afterScrolledTimeout:10}),(0,p.extend)(n.settings,e.settings||{}),'undefined'!=e.settings.gap&&0===e.settings.gap&&(n.settings.gap=e.settings.gap),n.viewSettings={ignoreClass:n.settings.ignoreClass,axis:n.settings.axis,flow:n.settings.flow,layout:n.layout,width:0,height:0,forceEvenPages:!1},n.scrollTop=0,n.scrollLeft=0,n}return s(t,e),u(t,[{key:'display',value:function(e,t){return h.default.prototype.display.call(this,e,t).then(function(){return this.fill()}.bind(this))}},{key:'fill',value:function(e){var t=this,n=e||new p.defer;return this.q.enqueue(function(){return t.check()}).then(function(e){e?t.fill(n):n.resolve()}),n.promise}},{key:'moveTo',value:function(e){var t=0,n=0,a=0,i=0;this.isPaginated?(t=l(e.left/this.layout.delta)*this.layout.delta,a=t+this.settings.offsetDelta):(n=e.top,i=e.top+this.settings.offsetDelta),(0<t||0<n)&&this.scrollBy(t,n,!0)}},{key:'afterResized',value:function(e){this.emit(y.EVENTS.MANAGERS.RESIZE,e.section)}},{key:'removeShownListeners',value:function(e){e.onDisplayed=function(){}}},{key:'add',value:function(e){var t=this,n=this.createView(e);return this.views.append(n),n.on(y.EVENTS.VIEWS.RESIZED,function(){n.expanded=!0}),n.on(y.EVENTS.VIEWS.AXIS,function(e){t.updateAxis(e)}),n.onDisplayed=this.afterDisplayed.bind(this),n.onResize=this.afterResized.bind(this),n.display(this.request)}},{key:'append',value:function(e){var t=this,n=this.createView(e);return n.on(y.EVENTS.VIEWS.RESIZED,function(){n.expanded=!0}),n.on(y.EVENTS.VIEWS.AXIS,function(e){t.updateAxis(e)}),this.views.append(n),n.onDisplayed=this.afterDisplayed.bind(this),n}},{key:'prepend',value:function(e){var t=this,n=this.createView(e);return n.on(y.EVENTS.VIEWS.RESIZED,function(e){t.counter(e),n.expanded=!0}),n.on(y.EVENTS.VIEWS.AXIS,function(e){t.updateAxis(e)}),this.views.prepend(n),n.onDisplayed=this.afterDisplayed.bind(this),n}},{key:'counter',value:function(e){'vertical'===this.settings.axis?this.scrollBy(0,e.heightDelta,!0):this.scrollBy(e.widthDelta,0,!0)}},{key:'update',value:function(e){for(var t=this.bounds(),n=this.views.all(),a=n.length,o=[],r='undefined'==typeof e?this.settings.offset||0:e,s=new p.defer,l=[],d=0,i,u;d<a;d++)if(u=n[d],i=this.isVisible(u,r,r,t),!0===i){if(!u.displayed){var c=u.display(this.request).then(function(e){e.show()},function(){u.hide()});l.push(c)}else u.show();o.push(u)}else this.q.enqueue(u.destroy.bind(u)),clearTimeout(this.trimTimeout),this.trimTimeout=setTimeout(function(){this.q.enqueue(this.trim.bind(this))}.bind(this),250);return l.length?Promise.all(l).catch(function(e){s.reject(e)}):(s.resolve(),s.promise)}},{key:'check',value:function(e,t){var n=this,a=new p.defer,i=[],o='horizontal'===this.settings.axis,r=this.settings.offset||0;e&&o&&(r=e),t&&!o&&(r=t);var s=this._bounds,d='rtl'===this.settings.direction,u=o&&d?-1:1,c=o?this.scrollLeft:this.scrollTop*u,g=o?l(s.width):s.height,h=o?this.container.scrollWidth:this.container.scrollHeight,m=function(){var e=n.views.first(),t=e&&e.section.prev();t&&i.push(n.prepend(t))},f=function(){var e=n.views.last(),t=e&&e.section.next();t&&i.push(n.append(t))};c+g+r>=h&&(o&&d?m():f()),0>c-r&&(o&&d?f():m());var y=i.map(function(e){return e.displayed});return i.length?Promise.all(y).then(function(){if('pre-paginated'===n.layout.name&&n.layout.props.spread)return n.check()}).then(function(){return n.update(r)},function(e){return e}):(this.q.enqueue(function(){this.update()}.bind(this)),a.resolve(!1),a.promise)}},{key:'trim',value:function(){for(var e=new p.defer,t=this.views.displayed(),n=t[0],a=t[t.length-1],o=this.views.indexOf(n),r=this.views.indexOf(a),s=this.views.slice(0,o),l=this.views.slice(r+1),d=0;d<s.length-1;d++)this.erase(s[d],s);for(var i=1;i<l.length;i++)this.erase(l[i]);return e.resolve(),e.promise}},{key:'erase',value:function(e,t){var n,a;this.settings.fullsize?(n=window.scrollY,a=window.scrollX):(n=this.container.scrollTop,a=this.container.scrollLeft);var i=e.bounds();this.views.remove(e),t&&('vertical'===this.settings.axis?this.scrollTo(0,n-i.height,!0):this.scrollTo(a-l(i.width),0,!0))}},{key:'addEventListeners',value:function(){window.addEventListener('unload',function(){this.ignore=!0,this.destroy()}.bind(this)),this.addScrollListeners(),this.isPaginated&&this.settings.snap&&(this.snapper=new f.default(this,this.settings.snap&&'object'===d(this.settings.snap)&&this.settings.snap))}},{key:'addScrollListeners',value:function(){var e;this.tick=p.requestAnimationFrame,this.settings.fullsize?(this.prevScrollTop=window.scrollY,this.prevScrollLeft=window.scrollX):(this.prevScrollTop=this.container.scrollTop,this.prevScrollLeft=this.container.scrollLeft),this.scrollDeltaVert=0,this.scrollDeltaHorz=0,this.settings.fullsize?(e=window,this.scrollTop=window.scrollY,this.scrollLeft=window.scrollX):(e=this.container,this.scrollTop=this.container.scrollTop,this.scrollLeft=this.container.scrollLeft),this._onScroll=this.onScroll.bind(this),e.addEventListener('scroll',this._onScroll),this._scrolled=(0,b.default)(this.scrolled.bind(this),30),this.didScroll=!1}},{key:'removeEventListeners',value:function(){var e;e=this.settings.fullsize?window:this.container,e.removeEventListener('scroll',this._onScroll),this._onScroll=void 0}},{key:'onScroll',value:function(){var e='rtl'===this.settings.direction?-1:1,t,n;this.settings.fullsize?(t=window.scrollY*e,n=window.scrollX*e):(t=this.container.scrollTop,n=this.container.scrollLeft),this.scrollTop=t,this.scrollLeft=n,this.ignore?this.ignore=!1:this._scrolled(),this.scrollDeltaVert+=a(t-this.prevScrollTop),this.scrollDeltaHorz+=a(n-this.prevScrollLeft),this.prevScrollTop=t,this.prevScrollLeft=n,clearTimeout(this.scrollTimeout),this.scrollTimeout=setTimeout(function(){this.scrollDeltaVert=0,this.scrollDeltaHorz=0}.bind(this),150),clearTimeout(this.afterScrolled),this.didScroll=!1}},{key:'scrolled',value:function(){this.q.enqueue(function(){this.check()}.bind(this)),this.emit(y.EVENTS.MANAGERS.SCROLL,{top:this.scrollTop,left:this.scrollLeft}),clearTimeout(this.afterScrolled),this.afterScrolled=setTimeout(function(){this.snapper&&this.snapper.supportsTouch&&this.snapper.needsSnap()||this.emit(y.EVENTS.MANAGERS.SCROLLED,{top:this.scrollTop,left:this.scrollLeft})}.bind(this),this.settings.afterScrolledTimeout)}},{key:'next',value:function(){var e=this.settings.direction,t='pre-paginated'===this.layout.props.name&&this.layout.props.spread?2*this.layout.props.delta:this.layout.props.delta;this.views.length&&(this.isPaginated&&'horizontal'===this.settings.axis?this.scrollBy(t,0,!0):this.scrollBy(0,this.layout.height,!0),this.q.enqueue(function(){this.check()}.bind(this)))}},{key:'prev',value:function(){var e=this.settings.direction,t='pre-paginated'===this.layout.props.name&&this.layout.props.spread?2*this.layout.props.delta:this.layout.props.delta;this.views.length&&(this.isPaginated&&'horizontal'===this.settings.axis?this.scrollBy(-t,0,!0):this.scrollBy(0,-this.layout.height,!0),this.q.enqueue(function(){this.check()}.bind(this)))}},{key:'updateFlow',value:function(e){this.rendered&&this.snapper&&(this.snapper.destroy(),this.snapper=void 0),c(t.prototype.__proto__||Object.getPrototypeOf(t.prototype),'updateFlow',this).call(this,e,'scroll'),this.rendered&&this.isPaginated&&this.settings.snap&&(this.snapper=new f.default(this,this.settings.snap&&'object'===d(this.settings.snap)&&this.settings.snap))}},{key:'destroy',value:function(){c(t.prototype.__proto__||Object.getPrototypeOf(t.prototype),'destroy',this).call(this),this.snapper&&this.snapper.destroy()}}]),t}(h.default);t.default=k,e.exports=t['default']},function(e,t,n){'use strict';(function(a){function i(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var n in e)Object.prototype.hasOwnProperty.call(e,n)&&(t[n]=e[n]);return t.default=e,t}function o(e){return e&&e.__esModule?e:{default:e}}function r(e,t){return new l.default(e,t)}Object.defineProperty(t,'__esModule',{value:!0});var s=n(26),l=o(s),d=n(18),u=o(d),c=n(1),p=o(c),g=n(14),h=o(g),m=n(0),f=i(m),y=n(2),v=n(76),b=i(v),k=n(20),x=o(k),E=n(15),_=o(E),N=n(24),S=o(N);r.VERSION=y.EPUBJS_VERSION,'undefined'!=typeof a&&(a.EPUBJS_VERSION=y.EPUBJS_VERSION),r.Book=l.default,r.Rendition=u.default,r.Contents=h.default,r.CFI=p.default,r.utils=f,t.default=r,e.exports=t['default']}).call(t,n(5))},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var o=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),r=n(3),s=a(r),l=n(0),d=n(6),u=a(d),c=n(4),p=a(c),g=n(43),h=a(g),m=n(47),f=a(m),y=n(48),v=a(y),b=n(49),k=a(b),x=n(50),E=a(x),_=n(51),N=a(_),S=n(52),w=a(S),T=n(18),C=a(T),R=n(71),I=a(R),L=n(9),A=a(L),O=n(1),D=a(O),P=n(73),z=a(P),M=n(75),B=a(M),j=n(2),q='META-INF/container.xml',U={BINARY:'binary',BASE64:'base64',EPUB:'epub',OPF:'opf',MANIFEST:'json',DIRECTORY:'directory'},V=function(){function e(t,n){var a=this;i(this,e),'undefined'==typeof n&&'string'!=typeof t&&!1==t instanceof Blob&&(n=t,t=void 0),this.settings=(0,l.extend)(this.settings||{},{requestMethod:void 0,requestCredentials:void 0,requestHeaders:void 0,encoding:void 0,replacements:void 0,canonical:void 0,openAs:void 0,store:void 0}),(0,l.extend)(this.settings,n),this.opening=new l.defer,this.opened=this.opening.promise,this.isOpen=!1,this.loading={manifest:new l.defer,spine:new l.defer,metadata:new l.defer,cover:new l.defer,navigation:new l.defer,pageList:new l.defer,resources:new l.defer,displayOptions:new l.defer},this.loaded={manifest:this.loading.manifest.promise,spine:this.loading.spine.promise,metadata:this.loading.metadata.promise,cover:this.loading.cover.promise,navigation:this.loading.navigation.promise,pageList:this.loading.pageList.promise,resources:this.loading.resources.promise,displayOptions:this.loading.displayOptions.promise},this.ready=Promise.all([this.loaded.manifest,this.loaded.spine,this.loaded.metadata,this.loaded.cover,this.loaded.navigation,this.loaded.resources,this.loaded.displayOptions]),this.isRendered=!1,this.request=this.settings.requestMethod||A.default,this.spine=new h.default,this.locations=new f.default(this.spine,this.load.bind(this)),this.navigation=void 0,this.pageList=void 0,this.url=void 0,this.path=void 0,this.archived=!1,this.archive=void 0,this.storage=void 0,this.resources=void 0,this.rendition=void 0,this.container=void 0,this.packaging=void 0,this.displayOptions=void 0,this.settings.store&&this.store(this.settings.store),t&&this.open(t,this.settings.openAs).catch(function(){var e=new Error('Cannot load book at '+t);a.emit(j.EVENTS.BOOK.OPEN_FAILED,e)})}return o(e,[{key:'open',value:function(e,t){var n=t||this.determineType(e),a;return n===U.BINARY?(this.archived=!0,this.url=new u.default('/',''),a=this.openEpub(e)):n===U.BASE64?(this.archived=!0,this.url=new u.default('/',''),a=this.openEpub(e,n)):n===U.EPUB?(this.archived=!0,this.url=new u.default('/',''),a=this.request(e,'binary',this.settings.requestCredentials).then(this.openEpub.bind(this))):n==U.OPF?(this.url=new u.default(e),a=this.openPackaging(this.url.Path.toString())):n==U.MANIFEST?(this.url=new u.default(e),a=this.openManifest(this.url.Path.toString())):(this.url=new u.default(e),a=this.openContainer(q).then(this.openPackaging.bind(this))),a}},{key:'openEpub',value:function(e,t){var n=this;return this.unarchive(e,t||this.settings.encoding).then(function(){return n.openContainer(q)}).then(function(e){return n.openPackaging(e)})}},{key:'openContainer',value:function(e){var t=this;return this.load(e).then(function(e){return t.container=new v.default(e),t.resolve(t.container.packagePath)})}},{key:'openPackaging',value:function(e){var t=this;return this.path=new p.default(e),this.load(e).then(function(e){return t.packaging=new k.default(e),t.unpack(t.packaging)})}},{key:'openManifest',value:function(e){var t=this;return this.path=new p.default(e),this.load(e).then(function(e){return t.packaging=new k.default,t.packaging.load(e),t.unpack(t.packaging)})}},{key:'load',value:function(e){var t=this.resolve(e);return this.archived?this.archive.request(t):this.request(t,null,this.settings.requestCredentials,this.settings.requestHeaders)}},{key:'resolve',value:function(e,t){if(e){var n=e,a=-1<e.indexOf('://');return a?e:(this.path&&(n=this.path.resolve(e)),!1!=t&&this.url&&(n=this.url.resolve(n)),n)}}},{key:'canonical',value:function(e){var t=e;return e?(t=this.settings.canonical?this.settings.canonical(e):this.resolve(e,!0),t):''}},{key:'determineType',value:function(e){var t,n,a;return'base64'===this.settings.encoding?U.BASE64:'string'==typeof e?(t=new u.default(e),n=t.path(),a=n.extension,a?'epub'===a?U.EPUB:'opf'===a?U.OPF:'json'===a?U.MANIFEST:void 0:U.DIRECTORY):U.BINARY}},{key:'unpack',value:function(e){var t=this;this.package=e,''===this.packaging.metadata.layout?this.load(this.url.resolve('META-INF/com.apple.ibooks.display-options.xml')).then(function(e){t.displayOptions=new B.default(e),t.loading.displayOptions.resolve(t.displayOptions)}).catch(function(){t.displayOptions=new B.default,t.loading.displayOptions.resolve(t.displayOptions)}):(this.displayOptions=new B.default,this.loading.displayOptions.resolve(this.displayOptions)),this.spine.unpack(this.packaging,this.resolve.bind(this),this.canonical.bind(this)),this.resources=new N.default(this.packaging.manifest,{archive:this.archive,resolver:this.resolve.bind(this),request:this.request.bind(this),replacements:this.settings.replacements||(this.archived?'blobUrl':'base64')}),this.loadNavigation(this.packaging).then(function(){t.loading.navigation.resolve(t.navigation)}),this.packaging.coverPath&&(this.cover=this.resolve(this.packaging.coverPath)),this.loading.manifest.resolve(this.packaging.manifest),this.loading.metadata.resolve(this.packaging.metadata),this.loading.spine.resolve(this.spine),this.loading.cover.resolve(this.cover),this.loading.resources.resolve(this.resources),this.loading.pageList.resolve(this.pageList),this.isOpen=!0,this.archived||this.settings.replacements&&'none'!=this.settings.replacements?this.replacements().then(function(){t.loaded.displayOptions.then(function(){t.opening.resolve(t)})}).catch(function(e){console.error(e)}):this.loaded.displayOptions.then(function(){t.opening.resolve(t)})}},{key:'loadNavigation',value:function(e){var t=this,n=e.navPath||e.ncxPath,a=e.toc;return a?new Promise(function(n){t.navigation=new E.default(a),e.pageList&&(t.pageList=new w.default(e.pageList)),n(t.navigation)}):n?this.load(n,'xml').then(function(e){return t.navigation=new E.default(e),t.pageList=new w.default(e),t.navigation}):new Promise(function(e){t.navigation=new E.default,t.pageList=new w.default,e(t.navigation)})}},{key:'section',value:function(e){return this.spine.get(e)}},{key:'renderTo',value:function(e,t){return this.rendition=new C.default(this,t),this.rendition.attachTo(e),this.rendition}},{key:'setRequestCredentials',value:function(e){this.settings.requestCredentials=e}},{key:'setRequestHeaders',value:function(e){this.settings.requestHeaders=e}},{key:'unarchive',value:function(e,t){return this.archive=new I.default,this.archive.open(e,t)}},{key:'store',value:function(e){var t=this,n=this.settings.replacements&&'none'!==this.settings.replacements,a=this.url,i=this.settings.requestMethod||A.default.bind(this);return this.storage=new z.default(e,i,this.resolve.bind(this)),this.request=this.storage.request.bind(this.storage),this.opened.then(function(){t.archived&&(t.storage.requester=t.archive.request.bind(t.archive));var e=function(e,n){n.output=t.resources.substitute(e,n.url)};t.resources.settings.replacements=n||'blobUrl',t.resources.replacements().then(function(){return t.resources.replaceCss()}),t.storage.on('offline',function(){t.url=new u.default('/',''),t.spine.hooks.serialize.register(e)}),t.storage.on('online',function(){t.url=a,t.spine.hooks.serialize.deregister(e)})}),this.storage}},{key:'coverUrl',value:function(){var e=this,t=this.loaded.cover.then(function(){return e.archived?e.archive.createUrl(e.cover):e.cover});return t}},{key:'replacements',value:function(){var e=this;return this.spine.hooks.serialize.register(function(t,n){n.output=e.resources.substitute(t,n.url)}),this.resources.replacements().then(function(){return e.resources.replaceCss()})}},{key:'getRange',value:function(e){var t=new D.default(e),n=this.spine.get(t.spinePos),a=this.load.bind(this);return n?n.load(a).then(function(){var e=t.toRange(n.document);return e}):new Promise(function(e,t){t('CFI could not be found')})}},{key:'key',value:function(e){var t=e||this.packaging.metadata.identifier||this.url.filename;return'epubjs:'+j.EPUBJS_VERSION+':'+t}},{key:'destroy',value:function(){this.opened=void 0,this.loading=void 0,this.loaded=void 0,this.ready=void 0,this.isOpen=!1,this.isRendered=!1,this.spine&&this.spine.destroy(),this.locations&&this.locations.destroy(),this.pageList&&this.pageList.destroy(),this.archive&&this.archive.destroy(),this.resources&&this.resources.destroy(),this.container&&this.container.destroy(),this.packaging&&this.packaging.destroy(),this.rendition&&this.rendition.destroy(),this.displayOptions&&this.displayOptions.destroy(),this.spine=void 0,this.locations=void 0,this.pageList=void 0,this.archive=void 0,this.resources=void 0,this.container=void 0,this.packaging=void 0,this.rendition=void 0,this.navigation=void 0,this.url=void 0,this.path=void 0,this.archived=!1}}]),e}();(0,s.default)(V.prototype),t.default=V,e.exports=t['default']},function(e,t,n){'use strict';var a=n(28),i=n(36),o=n(37),r=n(38),s;s=e.exports=function(t,n){var o,s,l,d,u;return 2>arguments.length||'string'!=typeof t?(d=n,n=t,t=null):d=arguments[2],null==t?(o=l=!0,s=!1):(o=r.call(t,'c'),s=r.call(t,'e'),l=r.call(t,'w')),u={value:n,configurable:o,enumerable:s,writable:l},d?a(i(d),u):u},s.gs=function(t,n,s){var l,d,u,p;return'string'==typeof t?u=arguments[3]:(u=s,s=n,n=t,t=null),null==n?n=void 0:o(n)?null==s?s=void 0:!o(s)&&(u=s,s=void 0):(u=n,n=s=void 0),null==t?(l=!0,d=!1):(l=r.call(t,'c'),d=r.call(t,'e')),p={get:n,set:s,configurable:l,enumerable:d},u?a(i(u),p):p}},function(e,t,n){'use strict';e.exports=n(29)()?Object.assign:n(30)},function(e){'use strict';e.exports=function(){var e=Object.assign,t;return!('function'!=typeof e)&&(t={foo:'raz'},e(t,{bar:'dwa'},{trzy:'trzy'}),'razdwatrzy'===t.foo+t.bar+t.trzy)}},function(e,t,n){'use strict';var a=n(31),o=n(35);e.exports=function(e,t){var n=s(arguments.length,2),r,l,i;for(e=Object(o(e)),i=function(n){try{e[n]=t[n]}catch(t){r||(r=t)}},l=1;l<n;++l)t=arguments[l],a(t).forEach(i);if(r!==void 0)throw r;return e}},function(e,t,n){'use strict';e.exports=n(32)()?Object.keys:n(33)},function(e){'use strict';e.exports=function(){try{return Object.keys('primitive'),!0}catch(t){return!1}}},function(e,t,n){'use strict';var a=n(10),i=Object.keys;e.exports=function(e){return i(a(e)?Object(e):e)}},function(e){'use strict';e.exports=function(){}},function(e,t,n){'use strict';var a=n(10);e.exports=function(e){if(!a(e))throw new TypeError('Cannot use null or undefined');return e}},function(e,t,n){'use strict';var a=n(10),i=Array.prototype.forEach,o=Object.create,r=function(e,t){for(var n in e)t[n]=e[n]};e.exports=function(){var e=o(null);return i.call(arguments,function(t){a(t)&&r(Object(t),e)}),e}},function(e){'use strict';e.exports=function(e){return'function'==typeof e}},function(e,t,a){'use strict';e.exports=a(39)()?n.contains:a(40)},function(e){'use strict';var t='razdwatrzy';e.exports=function(){return!('function'!=typeof t.contains)&&!0===t.contains('dwa')&&!1===t.contains('foo')}},function(e){'use strict';var t=n.indexOf;e.exports=function(e){return-1<t.call(this,e,arguments[1])}},function(e){'use strict';e.exports=function(e){if('function'!=typeof e)throw new TypeError(e+' is not a function');return e}},function(t){t.exports=e},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var o=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),r=n(1),s=a(r),l=n(11),d=a(l),u=n(44),c=a(u),p=n(8),g=function(){function e(){i(this,e),this.spineItems=[],this.spineByHref={},this.spineById={},this.hooks={},this.hooks.serialize=new d.default,this.hooks.content=new d.default,this.hooks.content.register(p.replaceBase),this.hooks.content.register(p.replaceCanonical),this.hooks.content.register(p.replaceMeta),this.epubcfi=new s.default,this.loaded=!1,this.items=void 0,this.manifest=void 0,this.spineNodeIndex=void 0,this.baseUrl=void 0,this.length=void 0}return o(e,[{key:'unpack',value:function(e,t,n){var a=this;this.items=e.spine,this.manifest=e.manifest,this.spineNodeIndex=e.spineNodeIndex,this.baseUrl=e.baseUrl||e.basePath||'',this.length=this.items.length,this.items.forEach(function(e,i){var o=a.manifest[e.idref],r;e.index=i,e.cfiBase=a.epubcfi.generateChapterComponent(a.spineNodeIndex,e.index,e.idref),e.href&&(e.url=t(e.href,!0),e.canonical=n(e.href)),o&&(e.href=o.href,e.url=t(e.href,!0),e.canonical=n(e.href),o.properties.length&&e.properties.push.apply(e.properties,o.properties)),'yes'===e.linear?(e.prev=function(){for(var t=e.index,n;0<t;){if(n=this.get(t-1),n&&n.linear)return n;t-=1}}.bind(a),e.next=function(){for(var t=e.index,n;t<this.spineItems.length-1;){if(n=this.get(t+1),n&&n.linear)return n;t+=1}}.bind(a)):(e.prev=function(){},e.next=function(){}),r=new c.default(e,a.hooks),a.append(r)}),this.loaded=!0}},{key:'get',value:function(e){var t=0;if('undefined'==typeof e)for(;t<this.spineItems.length;){var n=this.spineItems[t];if(n&&n.linear)break;t+=1}else if(this.epubcfi.isCfiString(e)){var a=new s.default(e);t=a.spinePos}else'number'==typeof e||!1===isNaN(e)?t=e:'string'==typeof e&&0===e.indexOf('#')?t=this.spineById[e.substring(1)]:'string'==typeof e&&(e=e.split('#')[0],t=this.spineByHref[e]||this.spineByHref[encodeURI(e)]);return this.spineItems[t]||null}},{key:'append',value:function(e){var t=this.spineItems.length;return e.index=t,this.spineItems.push(e),this.spineByHref[decodeURI(e.href)]=t,this.spineByHref[encodeURI(e.href)]=t,this.spineByHref[e.href]=t,this.spineById[e.idref]=t,t}},{key:'prepend',value:function(e){return this.spineByHref[e.href]=0,this.spineById[e.idref]=0,this.spineItems.forEach(function(e,t){e.index=t}),0}},{key:'remove',value:function(e){var t=this.spineItems.indexOf(e);if(-1<t)return delete this.spineByHref[e.href],delete this.spineById[e.idref],this.spineItems.splice(t,1)}},{key:'each',value:function(){return this.spineItems.forEach.apply(this.spineItems,arguments)}},{key:'first',value:function(){var e=0;do{var t=this.get(e);if(t&&t.linear)return t;e+=1}while(e<this.spineItems.length)}},{key:'last',value:function(){var e=this.spineItems.length-1;do{var t=this.get(e);if(t&&t.linear)return t;e-=1}while(0<=e)}},{key:'destroy',value:function(){this.each(function(e){return e.destroy()}),this.spineItems=void 0,this.spineByHref=void 0,this.spineById=void 0,this.hooks.serialize.clear(),this.hooks.content.clear(),this.hooks=void 0,this.epubcfi=void 0,this.loaded=!1,this.items=void 0,this.manifest=void 0,this.spineNodeIndex=void 0,this.baseUrl=void 0,this.length=void 0}}]),e}();t.default=g,e.exports=t['default']},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var o=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),r=n(0),s=n(1),l=a(s),d=n(11),u=a(d),c=n(8),p=function(){function e(t,n){i(this,e),this.idref=t.idref,this.linear='yes'===t.linear,this.properties=t.properties,this.index=t.index,this.href=t.href,this.url=t.url,this.canonical=t.canonical,this.next=t.next,this.prev=t.prev,this.cfiBase=t.cfiBase,n?this.hooks=n:(this.hooks={},this.hooks.serialize=new u.default(this),this.hooks.content=new u.default(this)),this.document=void 0,this.contents=void 0,this.output=void 0}return o(e,[{key:'load',value:function(e){var t=e||this.request||n(9),a=new r.defer,i=a.promise;return this.contents?a.resolve(this.contents):t(this.url).then(function(e){return this.document=e,this.contents=e.documentElement,this.hooks.content.trigger(this.document,this)}.bind(this)).then(function(){a.resolve(this.contents)}.bind(this)).catch(function(e){a.reject(e)}),i}},{key:'base',value:function(){return(0,c.replaceBase)(this.document,this)}},{key:'render',value:function(e){var t=new r.defer,a=t.promise;return this.output,this.load(e).then(function(e){var t='undefined'!=typeof navigator&&navigator.userAgent||'',a=0<=t.indexOf('Trident'),i;i='undefined'==typeof XMLSerializer||a?n(45).XMLSerializer:XMLSerializer;var o=new i;return this.output=o.serializeToString(e),this.output}.bind(this)).then(function(){return this.hooks.serialize.trigger(this.output,this)}.bind(this)).then(function(){t.resolve(this.output)}.bind(this)).catch(function(e){t.reject(e)}),a}},{key:'find',value:function(e){var t=this,n=[],a=e.toLowerCase(),i=function(e){for(var i=e.textContent.toLowerCase(),o=t.document.createRange(),r=-1,s=150,l,d,u;-1!=d;)d=i.indexOf(a,r+1),-1!=d&&(o=t.document.createRange(),o.setStart(e,d),o.setEnd(e,d+a.length),l=t.cfiFromRange(o),e.textContent.length<s?u=e.textContent:(u=e.textContent.substring(d-s/2,d+s/2),u='...'+u+'...'),n.push({cfi:l,excerpt:u})),r=d};return(0,r.sprint)(t.document,function(e){i(e)}),n}},{key:'reconcileLayoutSettings',value:function(e){var t={layout:e.layout,spread:e.spread,orientation:e.orientation};return this.properties.forEach(function(e){var n=e.replace('rendition:',''),a=n.indexOf('-'),i,o;-1!=a&&(i=n.slice(0,a),o=n.slice(a+1),t[i]=o)}),t}},{key:'cfiFromRange',value:function(e){return new l.default(e,this.cfiBase).toString()}},{key:'cfiFromElement',value:function(e){return new l.default(e,this.cfiBase).toString()}},{key:'unload',value:function(){this.document=void 0,this.contents=void 0,this.output=void 0}},{key:'destroy',value:function(){this.unload(),this.hooks.serialize.clear(),this.hooks.content.clear(),this.hooks=void 0,this.idref=void 0,this.linear=void 0,this.properties=void 0,this.index=void 0,this.href=void 0,this.url=void 0,this.next=void 0,this.prev=void 0,this.cfiBase=void 0}}]),e}();t.default=p,e.exports=t['default']},function(e,t,n){function a(e){this.options=e||{locator:{}}}function i(e,t,n){function a(t){var a=e[t];!a&&r&&(a=2==e.length?function(n){e(t,n)}:e),i[t]=a&&function(e){a('[xmldom '+t+']\t'+e+s(n))}||function(){}}if(!e){if(t instanceof o)return t;e=t}var i={},r=e instanceof Function;return n=n||{},a('warning'),a('error'),a('fatalError'),i}function o(){this.cdata=!1}function r(e,t){t.lineNumber=e.lineNumber,t.columnNumber=e.columnNumber}function s(e){if(e)return'\n@'+(e.systemId||'')+'#[line:'+e.lineNumber+',col:'+e.columnNumber+']'}function l(e,t,n){return'string'==typeof e?e.substr(t,n):e.length>=t+n||t?new java.lang.String(e,t,n)+'':e}function d(e,t){e.currentElement?e.currentElement.appendChild(t):e.doc.appendChild(t)}a.prototype.parseFromString=function(e,t){var n=this.options,a=new u,r=n.domBuilder||new o,s=n.errorHandler,l=n.locator,d=n.xmlns||{},c={lt:'<',gt:'>',amp:'&',quot:'"',apos:'\''};return l&&r.setDocumentLocator(l),a.errorHandler=i(s,r,l),a.domBuilder=n.domBuilder||r,/\/x?html?$/.test(t)&&(c.nbsp='\xA0',c.copy='\xA9',d['']='http://www.w3.org/1999/xhtml'),d.xml=d.xml||'http://www.w3.org/XML/1998/namespace',e?a.parse(e,d,c):a.errorHandler.error('invalid doc source'),r.doc},o.prototype={startDocument:function(){this.doc=new c().createDocument(null,null,null),this.locator&&(this.doc.documentURI=this.locator.systemId)},startElement:function(e,t,n,a){var o=this.doc,s=o.createElementNS(e,n||t),l=a.length;d(this,s),this.currentElement=s,this.locator&&r(this.locator,s);for(var u=0;u<l;u++){var e=a.getURI(u),i=a.getValue(u),n=a.getQName(u),c=o.createAttributeNS(e,n);this.locator&&r(a.getLocator(u),c),c.value=c.nodeValue=i,s.setAttributeNode(c)}},endElement:function(){var e=this.currentElement,t=e.tagName;this.currentElement=e.parentNode},startPrefixMapping:function(){},endPrefixMapping:function(){},processingInstruction:function(e,t){var n=this.doc.createProcessingInstruction(e,t);this.locator&&r(this.locator,n),d(this,n)},ignorableWhitespace:function(){},characters:function(e){if(e=l.apply(this,arguments),e){if(this.cdata)var t=this.doc.createCDATASection(e);else var t=this.doc.createTextNode(e);this.currentElement?this.currentElement.appendChild(t):/^\s*$/.test(e)&&this.doc.appendChild(t),this.locator&&r(this.locator,t)}},skippedEntity:function(){},endDocument:function(){this.doc.normalize()},setDocumentLocator:function(e){(this.locator=e)&&(e.lineNumber=0)},comment:function(e){e=l.apply(this,arguments);var t=this.doc.createComment(e);this.locator&&r(this.locator,t),d(this,t)},startCDATA:function(){this.cdata=!0},endCDATA:function(){this.cdata=!1},startDTD:function(e,t,n){var a=this.doc.implementation;if(a&&a.createDocumentType){var i=a.createDocumentType(e,t,n);this.locator&&r(this.locator,i),d(this,i)}},warning:function(e){console.warn('[xmldom warning]\t'+e,s(this.locator))},error:function(e){console.error('[xmldom error]\t'+e,s(this.locator))},fatalError:function(e){throw console.error('[xmldom fatalError]\t'+e,s(this.locator)),e}},'endDTD,startEntity,endEntity,attributeDecl,elementDecl,externalEntityDecl,internalEntityDecl,resolveEntity,getExternalSubset,notationDecl,unparsedEntityDecl'.replace(/\w+/g,function(e){o.prototype[e]=function(){return null}});var u=n(46).XMLReader,c=t.DOMImplementation=n(17).DOMImplementation;t.XMLSerializer=n(17).XMLSerializer,t.DOMParser=a},function(e,t){function n(){}function a(e,t,n,c,m){function f(e){var t=String.fromCharCode;if(65535<e){e-=65536;var n=55296+(e>>10),a=56320+(1023&e);return t(n,a)}return t(e)}function y(e){var t=e.slice(1,-1);return t in n?n[t]:'#'===t.charAt(0)?f(parseInt(t.substr(1).replace('x','0x'))):(m.error('entity not found:'+e),e)}function v(t){if(t>w){var n=e.substring(w,t).replace(/&#?\w+;/g,y);_&&b(w),c.characters(n,0,t-w),w=t}}function b(t,n){for(;t>=x&&(n=E.exec(e));)k=n.index,x=k+n[0].length,_.lineNumber++;_.columnNumber=t-k+1}for(var k=0,x=0,E=/.*(?:\r\n?|\n)|.*$/g,_=c.locator,N=[{currentNSMap:t}],S={},w=0;;){try{var T=e.indexOf('<',w);if(0>T){if(!e.substr(w).match(/^\s*$/)){var C=c.doc,R=C.createTextNode(e.substr(w));C.appendChild(R),c.currentElement=R}return}switch(T>w&&v(T),e.charAt(T+1)){case'/':var I=e.indexOf('>',T+3),L=e.substring(T+2,I),A=N.pop();0>I?(L=e.substring(T+2).replace(/[\s<].*/,''),m.error('end tag name: '+L+' is not complete:'+A.tagName),I=T+1+L.length):L.match(/\s</)&&(L=L.replace(/[\s<].*/,''),m.error('end tag name: '+L+' maybe not complete'),I=T+1+L.length);var O=A.localNSMap,D=A.tagName==L,P=D||A.tagName&&A.tagName.toLowerCase()==L.toLowerCase();if(P){if(c.endElement(A.uri,A.localName,L),O)for(var z in O)c.endPrefixMapping(z);D||m.fatalError('end tag name: '+L+' is not match the current start tagName:'+A.tagName)}else N.push(A);I++;break;case'?':_&&b(T),I=g(e,T,c);break;case'!':_&&b(T),I=p(e,T,c,m);break;default:_&&b(T);var M=new h,B=N[N.length-1].currentNSMap,I=r(e,T,M,B,y,m),j=M.length;if(!M.closed&&u(e,I,M.tagName,S)&&(M.closed=!0,!n.nbsp&&m.warning('unclosed xml attribute')),_&&j){for(var q=o(_,{}),U=0,i;U<j;U++)i=M[U],b(i.offset),i.locator=o(_,{});c.locator=q,l(M,c,B)&&N.push(M),c.locator=_}else l(M,c,B)&&N.push(M);'http://www.w3.org/1999/xhtml'!==M.uri||M.closed?I++:I=d(e,I,M.tagName,y,c);}}catch(t){m.error('element parse error: '+t),I=-1}I>w?w=I:v(s(T,w)+1)}}function o(e,n){return n.lineNumber=e.lineNumber,n.columnNumber=e.columnNumber,n}function r(e,t,n,a,i,o){for(var r=++t,l=b,s,d;;){var u=e.charAt(r);switch(u){case'=':if(l==k)s=e.slice(t,r),l=E;else if(l==x)l=E;else throw new Error('attribute equal must after attrName');break;case'\'':case'"':if(l==E||l==k){if(l==k&&(o.warning('attribute value must after "="'),s=e.slice(t,r)),t=r+1,r=e.indexOf(u,t),0<r)d=e.slice(t,r).replace(/&#?\w+;/g,i),n.add(s,d,t-1),l=N;else throw new Error('attribute value no end \''+u+'\' match');}else if(l==_)d=e.slice(t,r).replace(/&#?\w+;/g,i),n.add(s,d,t),o.warning('attribute "'+s+'" missed start quot('+u+')!!'),t=r+1,l=N;else throw new Error('attribute value must after "="');break;case'/':switch(l){case b:n.setTagName(e.slice(t,r));case N:case S:case w:l=w,n.closed=!0;case _:case k:case x:break;default:throw new Error('attribute invalid close char(\'/\')');}break;case'':return o.error('unexpected end of input'),l==b&&n.setTagName(e.slice(t,r)),r;case'>':switch(l){case b:n.setTagName(e.slice(t,r));case N:case S:case w:break;case _:case k:d=e.slice(t,r),'/'===d.slice(-1)&&(n.closed=!0,d=d.slice(0,-1));case x:l==x&&(d=s),l==_?(o.warning('attribute "'+d+'" missed quot(")!!'),n.add(s,d.replace(/&#?\w+;/g,i),t)):(('http://www.w3.org/1999/xhtml'!==a['']||!d.match(/^(?:disabled|checked|selected)$/i))&&o.warning('attribute "'+d+'" missed value!! "'+d+'" instead!!'),n.add(d,d,t));break;case E:throw new Error('attribute value missed!!');}return r;case'\x80':u=' ';default:if(' '>=u)switch(l){case b:n.setTagName(e.slice(t,r)),l=S;break;case k:s=e.slice(t,r),l=x;break;case _:var d=e.slice(t,r).replace(/&#?\w+;/g,i);o.warning('attribute "'+d+'" missed quot(")!!'),n.add(s,d,t);case N:l=S;}else switch(l){case x:n.tagName;'http://www.w3.org/1999/xhtml'===a['']&&s.match(/^(?:disabled|checked|selected)$/i)||o.warning('attribute "'+s+'" missed value!! "'+s+'" instead2!!'),n.add(s,s,t),t=r,l=k;break;case N:o.warning('attribute space is required"'+s+'"!!');case S:l=k,t=r;break;case E:l=_,t=r;break;case w:throw new Error('elements closed character \'/\' and \'>\' must be connected to');}}r++}}function l(e,t,n){for(var o=e.tagName,r=null,s=e.length;s--;){var i=e[s],a=i.qName,l=i.value,d=a.indexOf(':');if(0<d)var u=i.prefix=a.slice(0,d),p=a.slice(d+1),g='xmlns'===u&&p;else p=a,u=null,g='xmlns'===a&&'';i.localName=p,!1!==g&&(null==r&&(r={},c(n,n={})),n[g]=r[g]=l,i.uri='http://www.w3.org/2000/xmlns/',t.startPrefixMapping(g,l))}for(var s=e.length;s--;){i=e[s];var u=i.prefix;u&&('xml'===u&&(i.uri='http://www.w3.org/XML/1998/namespace'),'xmlns'!==u&&(i.uri=n[u||'']))}var d=o.indexOf(':');0<d?(u=e.prefix=o.slice(0,d),p=e.localName=o.slice(d+1)):(u=null,p=e.localName=o);var h=e.uri=n[u||''];if(t.startElement(h,p,o,e),!e.closed)return e.currentNSMap=n,e.localNSMap=r,!0;if(t.endElement(h,p,o),r)for(u in r)t.endPrefixMapping(u)}function d(e,t,n,a,i){if(/^(?:script|textarea)$/i.test(n)){var o=e.indexOf('</'+n+'>',t),r=e.substring(t+1,o);if(/[&<]/.test(r))return /^script$/i.test(n)?(i.characters(r,0,r.length),o):(r=r.replace(/&#?\w+;/g,a),i.characters(r,0,r.length),o)}return t+1}function u(e,t,n,a){var i=a[n];return null==i&&(i=e.lastIndexOf('</'+n+'>'),i<t&&(i=e.lastIndexOf('</'+n)),a[n]=i),i<t}function c(e,t){for(var a in e)t[a]=e[a]}function p(e,t,n,a){var i=e.charAt(t+2);switch(i){case'-':if('-'===e.charAt(t+3)){var o=e.indexOf('-->',t+4);return o>t?(n.comment(e,t+4,o-t-4),o+3):(a.error('Unclosed comment'),-1)}return-1;default:if('CDATA['==e.substr(t+3,6)){var o=e.indexOf(']]>',t+9);return n.startCDATA(),n.characters(e,t+9,o-t-9),n.endCDATA(),o+3}var r=m(e,t),s=r.length;if(1<s&&/!doctype/i.test(r[0][0])){var l=r[1][0],d=3<s&&/^public$/i.test(r[2][0])&&r[3][0],u=4<s&&r[4][0],c=r[s-1];return n.startDTD(l,d&&d.replace(/^(['"])(.*?)\1$/,'$2'),u&&u.replace(/^(['"])(.*?)\1$/,'$2')),n.endDTD(),c.index+c[0].length}}return-1}function g(e,t,n){var a=e.indexOf('?>',t);if(a){var i=e.substring(t,a).match(/^<\?(\S*)\s*([\s\S]*?)\s*$/);if(i){i[0].length;return n.processingInstruction(i[1],i[2]),a+2}return-1}return-1}function h(){}function i(e,t){return e.__proto__=t,e}function m(e,t){var n=[],a=/'[^']+'|"[^"]+"|[^\s<>\/=]+=?|(\/?\s*>|<)/g,i;for(a.lastIndex=t,a.exec(e);i=a.exec(e);)if(n.push(i),i[1])return n}var f=/[A-Z_a-z\xC0-\xD6\xD8-\xF6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/,y=new RegExp('[\\-\\.0-9'+f.source.slice(1,-1)+'\\u00B7\\u0300-\\u036F\\u203F-\\u2040]'),v=new RegExp('^'+f.source+y.source+'*(?::'+f.source+y.source+'*)?$'),b=0,k=1,x=2,E=3,_=4,N=5,S=6,w=7;n.prototype={parse:function(e,t,n){var i=this.domBuilder;i.startDocument(),c(t,t={}),a(e,t,n,i,this.errorHandler),i.endDocument()}},h.prototype={setTagName:function(e){if(!v.test(e))throw new Error('invalid tagName:'+e);this.tagName=e},add:function(e,t,n){if(!v.test(e))throw new Error('invalid attribute:'+e);this[this.length++]={qName:e,value:t,offset:n}},length:0,getLocalName:function(e){return this[e].localName},getLocator:function(e){return this[e].locator},getQName:function(e){return this[e].qName},getURI:function(e){return this[e].uri},getValue:function(e){return this[e].value}},i({},i.prototype)instanceof i||(i=function(e,t){function n(){}for(t in n.prototype=t,n=new n,e)n[t]=e[t];return n}),t.XMLReader=n},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var r=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),s=n(0),l=n(12),d=a(l),u=n(1),c=a(u),p=n(2),g=n(3),h=a(g),m=function(){function e(t,n,a){i(this,e),this.spine=t,this.request=n,this.pause=a||100,this.q=new d.default(this),this.epubcfi=new c.default,this._locations=[],this.total=0,this.break=150,this._current=0,this.currentLocation='',this._currentCfi='',this.processingTimeout=void 0}return r(e,[{key:'generate',value:function(e){return e&&(this.break=e),this.q.pause(),this.spine.each(function(e){e.linear&&this.q.enqueue(this.process.bind(this),e)}.bind(this)),this.q.run().then(function(){return this.total=this._locations.length-1,this._currentCfi&&(this.currentLocation=this._currentCfi),this._locations}.bind(this))}},{key:'createRange',value:function(){return{startContainer:void 0,startOffset:void 0,endContainer:void 0,endOffset:void 0}}},{key:'process',value:function(e){return e.load(this.request).then(function(t){var n=new s.defer,a=this.parse(t,e.cfiBase);return this._locations=this._locations.concat(a),e.unload(),this.processingTimeout=setTimeout(function(){return n.resolve(a)},this.pause),n.promise}.bind(this))}},{key:'parse',value:function(e,t,n){var a=[],i=e.ownerDocument,o=(0,s.qs)(i,'body'),r=0,l=n||this.break,d,u;if((0,s.sprint)(o,function(e){var n=e.length,i=0,o;if(0===e.textContent.trim().length)return!1;for(0==r&&(d=this.createRange(),d.startContainer=e,d.startOffset=0),o=l-r,o>n&&(r+=n,i=n);i<n;)if(o=l-r,0===r&&(i+=1,d=this.createRange(),d.startContainer=e,d.startOffset=i),i+o>=n)r+=n-i,i=n;else{i+=o,d.endContainer=e,d.endOffset=i;var s=new c.default(d,t).toString();a.push(s),r=0}u=e}.bind(this)),d&&d.startContainer&&u){d.endContainer=u,d.endOffset=u.length;var p=new c.default(d,t).toString();a.push(p),r=0}return a}},{key:'locationFromCfi',value:function(e){var t;return(c.default.prototype.isCfiString(e)&&(e=new c.default(e)),0===this._locations.length)?-1:(t=(0,s.locationOf)(e,this._locations,this.epubcfi.compare),t>this.total?this.total:t)}},{key:'percentageFromCfi',value:function(e){if(0===this._locations.length)return null;var t=this.locationFromCfi(e);return this.percentageFromLocation(t)}},{key:'percentageFromLocation',value:function(e){return e&&this.total?e/this.total:0}},{key:'cfiFromLocation',value:function(e){var t=-1;return'number'!=typeof e&&(e=parseInt(e)),0<=e&&e<this._locations.length&&(t=this._locations[e]),t}},{key:'cfiFromPercentage',value:function(e){var t;if(1<e&&console.warn('Normalize cfiFromPercentage value to between 0 - 1'),1<=e){var n=new c.default(this._locations[this.total]);return n.collapse(),n.toString()}return t=o(this.total*e),this.cfiFromLocation(t)}},{key:'load',value:function(e){return this._locations='string'==typeof e?JSON.parse(e):e,this.total=this._locations.length-1,this._locations}},{key:'save',value:function(){return JSON.stringify(this._locations)}},{key:'getCurrent',value:function(){return this._current}},{key:'setCurrent',value:function(e){var t;if('string'==typeof e)this._currentCfi=e;else if('number'==typeof e)this._current=e;else return;0===this._locations.length||('string'==typeof e?(t=this.locationFromCfi(e),this._current=t):t=e,this.emit(p.EVENTS.LOCATIONS.CHANGED,{percentage:this.percentageFromLocation(t)}))}},{key:'length',value:function(){return this._locations.length}},{key:'destroy',value:function(){this.spine=void 0,this.request=void 0,this.pause=void 0,this.q.stop(),this.q=void 0,this.epubcfi=void 0,this._locations=void 0,this.total=void 0,this.break=void 0,this._current=void 0,this.currentLocation=void 0,this._currentCfi=void 0,clearTimeout(this.processingTimeout)}},{key:'currentLocation',get:function(){return this._current},set:function(e){this.setCurrent(e)}}]),e}();(0,h.default)(m.prototype),t.default=m,e.exports=t['default']},function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var i=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),o=n(7),r=function(e){return e&&e.__esModule?e:{default:e}}(o),s=n(0),l=function(){function e(t){a(this,e),this.packagePath='',this.directory='',this.encoding='',t&&this.parse(t)}return i(e,[{key:'parse',value:function(e){var t;if(!e)throw new Error('Container File Not Found');if(t=(0,s.qs)(e,'rootfile'),!t)throw new Error('No RootFile Found');this.packagePath=t.getAttribute('full-path'),this.directory=r.default.dirname(this.packagePath),this.encoding=e.xmlEncoding}},{key:'destroy',value:function(){this.packagePath=void 0,this.directory=void 0,this.encoding=void 0}}]),e}();t.default=l,e.exports=t['default']},function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var i=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),o=n(0),r=function(){function e(t){a(this,e),this.manifest={},this.navPath='',this.ncxPath='',this.coverPath='',this.spineNodeIndex=0,this.spine=[],this.metadata={},t&&this.parse(t)}return i(e,[{key:'parse',value:function(e){var t,n,a;if(!e)throw new Error('Package File Not Found');if(t=(0,o.qs)(e,'metadata'),!t)throw new Error('No Metadata Found');if(n=(0,o.qs)(e,'manifest'),!n)throw new Error('No Manifest Found');if(a=(0,o.qs)(e,'spine'),!a)throw new Error('No Spine Found');return this.manifest=this.parseManifest(n),this.navPath=this.findNavPath(n),this.ncxPath=this.findNcxPath(n,a),this.coverPath=this.findCoverPath(e),this.spineNodeIndex=(0,o.indexOfElementNode)(a),this.spine=this.parseSpine(a,this.manifest),this.uniqueIdentifier=this.findUniqueIdentifier(e),this.metadata=this.parseMetadata(t),this.metadata.direction=a.getAttribute('page-progression-direction'),{metadata:this.metadata,spine:this.spine,manifest:this.manifest,navPath:this.navPath,ncxPath:this.ncxPath,coverPath:this.coverPath,spineNodeIndex:this.spineNodeIndex}}},{key:'parseMetadata',value:function(e){var t={title:this.getElementText(e,'title'),creator:this.getElementText(e,'creator'),description:this.getElementText(e,'description'),pubdate:this.getElementText(e,'date'),publisher:this.getElementText(e,'publisher'),identifier:this.getElementText(e,'identifier'),language:this.getElementText(e,'language'),rights:this.getElementText(e,'rights'),modified_date:this.getPropertyText(e,'dcterms:modified'),layout:this.getPropertyText(e,'rendition:layout'),orientation:this.getPropertyText(e,'rendition:orientation'),flow:this.getPropertyText(e,'rendition:flow'),viewport:this.getPropertyText(e,'rendition:viewport'),media_active_class:this.getPropertyText(e,'media:active-class')};return t}},{key:'parseManifest',value:function(e){var t={},n=(0,o.qsa)(e,'item'),a=Array.prototype.slice.call(n);return a.forEach(function(e){var n=e.getAttribute('id'),a=e.getAttribute('href')||'',i=e.getAttribute('media-type')||'',o=e.getAttribute('media-overlay')||'',r=e.getAttribute('properties')||'';t[n]={href:a,type:i,overlay:o,properties:r.length?r.split(' '):[]}}),t}},{key:'parseSpine',value:function(e){var t=[],n=(0,o.qsa)(e,'itemref'),a=Array.prototype.slice.call(n);return a.forEach(function(e,n){var a=e.getAttribute('idref'),i=e.getAttribute('properties')||'',o=i.length?i.split(' '):[],r={idref:a,linear:e.getAttribute('linear')||'yes',properties:o,index:n};t.push(r)}),t}},{key:'findUniqueIdentifier',value:function(e){var t=e.documentElement.getAttribute('unique-identifier');if(!t)return'';var n=e.getElementById(t);return n?'identifier'===n.localName&&'http://purl.org/dc/elements/1.1/'===n.namespaceURI?0<n.childNodes.length?n.childNodes[0].nodeValue.trim():'':'':''}},{key:'findNavPath',value:function(e){var t=(0,o.qsp)(e,'item',{properties:'nav'});return!!t&&t.getAttribute('href')}},{key:'findNcxPath',value:function(e,t){var n=(0,o.qsp)(e,'item',{"media-type":'application/x-dtbncx+xml'}),a;return n||(a=t.getAttribute('toc'),a&&(n=e.querySelector('#'+a))),!!n&&n.getAttribute('href')}},{key:'findCoverPath',value:function(e){var t=(0,o.qs)(e,'package'),n=t.getAttribute('version');if('2.0'===n){var a=(0,o.qsp)(e,'meta',{name:'cover'});if(a){var i=a.getAttribute('content'),r=e.getElementById(i);return r?r.getAttribute('href'):''}return!1}var s=(0,o.qsp)(e,'item',{properties:'cover-image'});return s?s.getAttribute('href'):''}},{key:'getElementText',value:function(e,t){var n=e.getElementsByTagNameNS('http://purl.org/dc/elements/1.1/',t),a;return n&&0!==n.length?(a=n[0],a.childNodes.length?a.childNodes[0].nodeValue:''):''}},{key:'getPropertyText',value:function(e,t){var n=(0,o.qsp)(e,'meta',{property:t});return n&&n.childNodes.length?n.childNodes[0].nodeValue:''}},{key:'load',value:function(e){var t=this;this.metadata=e.metadata;var n=e.readingOrder||e.spine;return this.spine=n.map(function(e,t){return e.index=t,e.linear=e.linear||'yes',e}),e.resources.forEach(function(e,n){t.manifest[n]=e,e.rel&&'cover'===e.rel[0]&&(t.coverPath=e.href)}),this.spineNodeIndex=0,this.toc=e.toc.map(function(e){return e.label=e.title,e}),{metadata:this.metadata,spine:this.spine,manifest:this.manifest,navPath:this.navPath,ncxPath:this.ncxPath,coverPath:this.coverPath,spineNodeIndex:this.spineNodeIndex,toc:this.toc}}},{key:'destroy',value:function(){this.manifest=void 0,this.navPath=void 0,this.ncxPath=void 0,this.coverPath=void 0,this.spineNodeIndex=void 0,this.spine=void 0,this.metadata=void 0}}]),e}();t.default=r,e.exports=t['default']},function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var i=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),o=n(0),r=function(){function e(t){a(this,e),this.toc=[],this.tocByHref={},this.tocById={},this.landmarks=[],this.landmarksByType={},this.length=0,t&&this.parse(t)}return i(e,[{key:'parse',value:function(e){var t=e.nodeType,n,a;t&&(n=(0,o.qs)(e,'html'),a=(0,o.qs)(e,'ncx')),t?n?(this.toc=this.parseNav(e),this.landmarks=this.parseLandmarks(e)):a&&(this.toc=this.parseNcx(e)):this.toc=this.load(e),this.length=0,this.unpack(this.toc)}},{key:'unpack',value:function(e){for(var t=0,n;t<e.length;t++)n=e[t],n.href&&(this.tocByHref[n.href]=t),n.id&&(this.tocById[n.id]=t),this.length++,n.subitems.length&&this.unpack(n.subitems)}},{key:'get',value:function(e){var t;return e?(0===e.indexOf('#')?t=this.tocById[e.substring(1)]:e in this.tocByHref&&(t=this.tocByHref[e]),this.toc[t]):this.toc}},{key:'landmark',value:function(e){var t;return e?(t=this.landmarksByType[e],this.landmarks[t]):this.landmarks}},{key:'parseNav',value:function(e){var t=(0,o.querySelectorByType)(e,'nav','toc'),n=t?(0,o.qsa)(t,'li'):[],a=n.length,r={},s=[],l,i,d;if(!n||0===a)return s;for(l=0;l<a;++l)i=this.navItem(n[l]),i&&(r[i.id]=i,i.parent?(d=r[i.parent],d.subitems.push(i)):s.push(i));return s}},{key:'navItem',value:function(e){var t=e.getAttribute('id')||void 0,n=(0,o.filterChildren)(e,'a',!0);if(n){var a=n.getAttribute('href')||'';t||(t=a);var i=n.textContent||'',r=(0,o.getParentByTagName)(e,'li'),s;if(r&&(s=r.getAttribute('id'),!s)){var l=(0,o.filterChildren)(r,'a',!0);s=l&&l.getAttribute('href')}for(;!s&&r;)if(r=(0,o.getParentByTagName)(r,'li'),r&&(s=r.getAttribute('id'),!s)){var d=(0,o.filterChildren)(r,'a',!0);s=d&&d.getAttribute('href')}return{id:t,href:a,label:i,subitems:[],parent:s}}}},{key:'parseLandmarks',value:function(e){var t=(0,o.querySelectorByType)(e,'nav','landmarks'),n=t?(0,o.qsa)(t,'li'):[],a=n.length,r=[],s,i;if(!n||0===a)return r;for(s=0;s<a;++s)i=this.landmarkItem(n[s]),i&&(r.push(i),this.landmarksByType[i.type]=s);return r}},{key:'landmarkItem',value:function(e){var t=(0,o.filterChildren)(e,'a',!0);if(t){var n=t.getAttributeNS('http://www.idpf.org/2007/ops','type')||void 0,a=t.getAttribute('href')||'',i=t.textContent||'';return{href:a,label:i,type:n}}}},{key:'parseNcx',value:function(e){var t=(0,o.qsa)(e,'navPoint'),n=t.length,a={},r=[],s,i,l;if(!t||0===n)return r;for(s=0;s<n;++s)i=this.ncxItem(t[s]),a[i.id]=i,i.parent?(l=a[i.parent],l.subitems.push(i)):r.push(i);return r}},{key:'ncxItem',value:function(e){var t=e.getAttribute('id')||!1,n=(0,o.qs)(e,'content'),a=n.getAttribute('src'),i=(0,o.qs)(e,'navLabel'),r=i.textContent?i.textContent:'',s=e.parentNode,l;return s&&('navPoint'===s.nodeName||'navPoint'===s.nodeName.split(':').slice(-1)[0])&&(l=s.getAttribute('id')),{id:t,href:a,label:r,subitems:[],parent:l}}},{key:'load',value:function(e){var t=this;return e.map(function(e){return e.label=e.title,e.subitems=e.children?t.load(e.children):[],e})}},{key:'forEach',value:function(e){return this.toc.forEach(e)}}]),e}();t.default=r,e.exports=t['default']},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var o=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),r=n(8),s=n(0),l=n(6),d=a(l),u=n(13),c=a(u),p=n(4),g=a(p),h=n(7),m=a(h),f=function(){function e(t,n){i(this,e),this.settings={replacements:n&&n.replacements||'base64',archive:n&&n.archive,resolver:n&&n.resolver,request:n&&n.request},this.process(t)}return o(e,[{key:'process',value:function(e){this.manifest=e,this.resources=Object.keys(e).map(function(t){return e[t]}),this.replacementUrls=[],this.html=[],this.assets=[],this.css=[],this.urls=[],this.cssUrls=[],this.split(),this.splitUrls()}},{key:'split',value:function(){this.html=this.resources.filter(function(e){if('application/xhtml+xml'===e.type||'text/html'===e.type)return!0}),this.assets=this.resources.filter(function(e){if('application/xhtml+xml'!==e.type&&'text/html'!==e.type)return!0}),this.css=this.resources.filter(function(e){if('text/css'===e.type)return!0})}},{key:'splitUrls',value:function(){this.urls=this.assets.map(function(e){return e.href}.bind(this)),this.cssUrls=this.css.map(function(e){return e.href})}},{key:'createUrl',value:function(e){var t=new d.default(e),n=c.default.lookup(t.filename);return this.settings.archive?this.settings.archive.createUrl(e,{base64:'base64'===this.settings.replacements}):'base64'===this.settings.replacements?this.settings.request(e,'blob').then(function(e){return(0,s.blob2base64)(e)}).then(function(e){return(0,s.createBase64Url)(e,n)}):this.settings.request(e,'blob').then(function(e){return(0,s.createBlobUrl)(e,n)})}},{key:'replacements',value:function(){var e=this;if('none'===this.settings.replacements)return new Promise(function(e){e(this.urls)}.bind(this));var t=this.urls.map(function(t){var n=e.settings.resolver(t);return e.createUrl(n).catch(function(e){return console.error(e),null})});return Promise.all(t).then(function(t){return e.replacementUrls=t.filter(function(e){return'string'==typeof e}),t})}},{key:'replaceCss',value:function(e,t){var n=[];return e=e||this.settings.archive,t=t||this.settings.resolver,this.cssUrls.forEach(function(a){var i=this.createCssFile(a,e,t).then(function(e){var t=this.urls.indexOf(a);-1<t&&(this.replacementUrls[t]=e)}.bind(this));n.push(i)}.bind(this)),Promise.all(n)}},{key:'createCssFile',value:function(e){var t=this,n;if(m.default.isAbsolute(e))return new Promise(function(e){e()});var a=this.settings.resolver(e),i;i=this.settings.archive?this.settings.archive.getText(a):this.settings.request(a,'text');var o=this.urls.map(function(e){var n=t.settings.resolver(e),i=new g.default(a).relative(n);return i});return i?i.then(function(e){return e=(0,r.substitute)(e,o,t.replacementUrls),n='base64'===t.settings.replacements?(0,s.createBase64Url)(e,'text/css'):(0,s.createBlobUrl)(e,'text/css'),n},function(){return new Promise(function(e){e()})}):new Promise(function(e){e()})}},{key:'relativeTo',value:function(e,t){return t=t||this.settings.resolver,this.urls.map(function(n){var a=t(n),i=new g.default(e).relative(a);return i}.bind(this))}},{key:'get',value:function(e){var t=this.urls.indexOf(e);return-1===t?void 0:this.replacementUrls.length?new Promise(function(e){e(this.replacementUrls[t])}.bind(this)):this.createUrl(e)}},{key:'substitute',value:function(e,t){var n;return n=t?this.relativeTo(t):this.urls,(0,r.substitute)(e,n,this.replacementUrls)}},{key:'destroy',value:function(){this.settings=void 0,this.manifest=void 0,this.resources=void 0,this.replacementUrls=void 0,this.html=void 0,this.assets=void 0,this.css=void 0,this.urls=void 0,this.cssUrls=void 0}}]),e}();t.default=f,e.exports=t['default']},function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var i=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),o=n(1),s=function(e){return e&&e.__esModule?e:{default:e}}(o),l=n(0),d=function(){function e(t){a(this,e),this.pages=[],this.locations=[],this.epubcfi=new s.default,this.firstPage=0,this.lastPage=0,this.totalPages=0,this.toc=void 0,this.ncx=void 0,t&&(this.pageList=this.parse(t)),this.pageList&&this.pageList.length&&this.process(this.pageList)}return i(e,[{key:'parse',value:function(e){var t=(0,l.qs)(e,'html'),n=(0,l.qs)(e,'ncx');return t?this.parseNav(e):n?this.parseNcx(e):void 0}},{key:'parseNav',value:function(e){var t=(0,l.querySelectorByType)(e,'nav','page-list'),n=t?(0,l.qsa)(t,'li'):[],a=n.length,o=[],r,i;if(!n||0===a)return o;for(r=0;r<a;++r)i=this.item(n[r]),o.push(i);return o}},{key:'parseNcx',value:function(e){var t=[],n=0,a=0,i,o,r;if(o=(0,l.qs)(e,'pageList'),!o)return t;if(r=(0,l.qsa)(o,'pageTarget'),a=r.length,!r||0===r.length)return t;for(n=0;n<a;++n)i=this.ncxItem(r[n]),t.push(i);return t}},{key:'ncxItem',value:function(e){var t=(0,l.qs)(e,'navLabel'),n=(0,l.qs)(t,'text'),a=n.textContent,i=(0,l.qs)(e,'content'),o=i.getAttribute('src'),r=parseInt(a,10);return{href:o,page:r}}},{key:'item',value:function(e){var t=(0,l.qs)(e,'a'),n=t.getAttribute('href')||'',a=t.textContent||'',i=parseInt(a),o=n.indexOf('epubcfi'),r,s,d;return-1==o?{href:n,page:i}:(r=n.split('#'),s=r[0],d=!!(1<r.length)&&r[1],{cfi:d,href:n,packageUrl:s,page:i})}},{key:'process',value:function(e){e.forEach(function(e){this.pages.push(e.page),e.cfi&&this.locations.push(e.cfi)},this),this.firstPage=parseInt(this.pages[0]),this.lastPage=parseInt(this.pages[this.pages.length-1]),this.totalPages=this.lastPage-this.firstPage}},{key:'pageFromCfi',value:function(e){var t=-1;if(0===this.locations.length)return-1;var n=(0,l.indexOfSorted)(e,this.locations,this.epubcfi.compare);return-1==n?(n=(0,l.locationOf)(e,this.locations,this.epubcfi.compare),t=0<=n-1?this.pages[n-1]:this.pages[0],void 0!==t||(t=-1)):t=this.pages[n],t}},{key:'cfiFromPage',value:function(e){var t=-1;'number'!=typeof e&&(e=parseInt(e));var n=this.pages.indexOf(e);return-1!=n&&(t=this.locations[n]),t}},{key:'pageFromPercentage',value:function(e){var t=r(this.totalPages*e);return t}},{key:'percentageFromPage',value:function(e){var t=(e-this.firstPage)/this.totalPages;return r(1e3*t)/1e3}},{key:'percentageFromCfi',value:function(e){var t=this.pageFromCfi(e),n=this.percentageFromPage(t);return n}},{key:'destroy',value:function(){this.pages=void 0,this.locations=void 0,this.epubcfi=void 0,this.pageList=void 0,this.toc=void 0,this.ncx=void 0}}]),e}();t.default=d,e.exports=t['default']},function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var i=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),r=n(0),s=n(2),d=n(3),u=function(e){return e&&e.__esModule?e:{default:e}}(d),c=function(){function e(t){a(this,e),this.settings=t,this.name=t.layout||'reflowable',this._spread='none'!==t.spread,this._minSpreadWidth=t.minSpreadWidth||800,this._evenSpreads=t.evenSpreads||!1,this._flow='scrolled'===t.flow||'scrolled-continuous'===t.flow||'scrolled-doc'===t.flow?'scrolled':'paginated',this.width=0,this.height=0,this.spreadWidth=0,this.delta=0,this.columnWidth=0,this.gap=0,this.divisor=1,this.props={name:this.name,spread:this._spread,flow:this._flow,width:0,height:0,spreadWidth:0,delta:0,columnWidth:0,gap:0,divisor:1}}return i(e,[{key:'flow',value:function(e){return'undefined'!=typeof e&&(this._flow='scrolled'===e||'scrolled-continuous'===e||'scrolled-doc'===e?'scrolled':'paginated',this.update({flow:this._flow})),this._flow}},{key:'spread',value:function(e,t){return e&&(this._spread='none'!==e,this.update({spread:this._spread})),0<=t&&(this._minSpreadWidth=t),this._spread}},{key:'calculate',value:function(e,t,n){var a=1,i=n||0,o=e,r=t,s=l(o/12),d,u,c,p;a=this._spread&&o>=this._minSpreadWidth?2:1,'reflowable'!==this.name||'paginated'!==this._flow||0<=n||(i=0==s%2?s:s-1),'pre-paginated'===this.name&&(i=0),1<a?(d=o/a-i,c=d+i):(d=o,c=o),'pre-paginated'===this.name&&1<a&&(o=d),u=d*a+i,p=o,this.width=o,this.height=r,this.spreadWidth=u,this.pageWidth=c,this.delta=p,this.columnWidth=d,this.gap=i,this.divisor=a,this.update({width:o,height:r,spreadWidth:u,pageWidth:c,delta:p,columnWidth:d,gap:i,divisor:a})}},{key:'format',value:function(e){var t;return t='pre-paginated'===this.name?e.fit(this.columnWidth,this.height):'paginated'===this._flow?e.columns(this.width,this.height,this.columnWidth,this.gap):e.size(this.width,null),t}},{key:'count',value:function(e,t){var n,a;return'pre-paginated'===this.name?(n=1,a=1):'paginated'===this._flow?(t=t||this.delta,n=o(e/t),a=n*this.divisor):(t=t||this.height,n=o(e/t),a=n),{spreads:n,pages:a}}},{key:'update',value:function(e){var t=this;if(Object.keys(e).forEach(function(n){t.props[n]===e[n]&&delete e[n]}),0<Object.keys(e).length){var n=(0,r.extend)(this.props,e);this.emit(s.EVENTS.LAYOUT.UPDATED,n,e)}}}]),e}();(0,u.default)(c.prototype),t.default=c,e.exports=t['default']},function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var i='function'==typeof Symbol&&'symbol'==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&'function'==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?'symbol':typeof e},o=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),r=n(6),s=function(e){return e&&e.__esModule?e:{default:e}}(r),l=function(){function e(t){a(this,e),this.rendition=t,this._themes={default:{rules:{},url:'',serialized:''}},this._overrides={},this._current='default',this._injected=[],this.rendition.hooks.content.register(this.inject.bind(this)),this.rendition.hooks.content.register(this.overrides.bind(this))}return o(e,[{key:'register',value:function(){return 0===arguments.length?void 0:1===arguments.length&&'object'===i(arguments[0])?this.registerThemes(arguments[0]):1===arguments.length&&'string'==typeof arguments[0]?this.default(arguments[0]):2===arguments.length&&'string'==typeof arguments[1]?this.registerUrl(arguments[0],arguments[1]):2===arguments.length&&'object'===i(arguments[1])?this.registerRules(arguments[0],arguments[1]):void 0}},{key:'default',value:function(e){return e?'string'==typeof e?this.registerUrl('default',e):'object'===('undefined'==typeof e?'undefined':i(e))?this.registerRules('default',e):void 0:void 0}},{key:'registerThemes',value:function(e){for(var t in e)e.hasOwnProperty(t)&&('string'==typeof e[t]?this.registerUrl(t,e[t]):this.registerRules(t,e[t]))}},{key:'registerUrl',value:function(e,t){var n=new s.default(t);this._themes[e]={url:n.toString()},this._injected[e]&&this.update(e)}},{key:'registerRules',value:function(e,t){this._themes[e]={rules:t},this._injected[e]&&this.update(e)}},{key:'select',value:function(e){var t=this._current,n;this._current=e,this.update(e),n=this.rendition.getContents(),n.forEach(function(n){n.removeClass(t),n.addClass(e)})}},{key:'update',value:function(e){var t=this,n=this.rendition.getContents();n.forEach(function(n){t.add(e,n)})}},{key:'inject',value:function(e){var t=[],n=this._themes,a;for(var i in n)n.hasOwnProperty(i)&&(i===this._current||'default'==i)&&(a=n[i],(a.rules&&0<Object.keys(a.rules).length||a.url&&-1===t.indexOf(a.url))&&this.add(i,e),this._injected.push(i));'default'!=this._current&&e.addClass(this._current)}},{key:'add',value:function(e,t){var n=this._themes[e];n&&t&&(n.url?t.addStylesheet(n.url):n.serialized||n.rules&&(t.addStylesheetRules(n.rules),n.injected=!0))}},{key:'override',value:function(e,t,n){var a=this,i=this.rendition.getContents();this._overrides[e]={value:t,priority:!0===n},i.forEach(function(t){t.css(e,a._overrides[e].value,a._overrides[e].priority)})}},{key:'overrides',value:function(e){var t=this._overrides;for(var n in t)t.hasOwnProperty(n)&&e.css(n,t[n].value,t[n].priority)}},{key:'fontSize',value:function(e){this.override('font-size',e)}},{key:'font',value:function(e){this.override('font-family',e,!0)}},{key:'destroy',value:function(){this.rendition=void 0,this._themes=void 0,this._overrides=void 0,this._current=void 0,this._injected=void 0}}]),e}();t.default=l,e.exports=t['default']},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var o=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),r=n(3),s=a(r),l=n(1),d=a(l),u=n(2),c=function(){function e(t){i(this,e),this.rendition=t,this.highlights=[],this.underlines=[],this.marks=[],this._annotations={},this._annotationsBySectionIndex={},this.rendition.hooks.render.register(this.inject.bind(this)),this.rendition.hooks.unloaded.register(this.clear.bind(this))}return o(e,[{key:'add',value:function(e,t,n,a,i,o){var r=encodeURI(t+e),s=new d.default(t),l=s.spinePos,u=new p({type:e,cfiRange:t,data:n,sectionIndex:l,cb:a,className:i,styles:o});this._annotations[r]=u,l in this._annotationsBySectionIndex?this._annotationsBySectionIndex[l].push(r):this._annotationsBySectionIndex[l]=[r];var c=this.rendition.views();return c.forEach(function(e){u.sectionIndex===e.index&&u.attach(e)}),u}},{key:'remove',value:function(e,t){var n=this,a=encodeURI(e+t);if(a in this._annotations){var i=this._annotations[a];if(t&&i.type!==t)return;var o=this.rendition.views();o.forEach(function(e){n._removeFromAnnotationBySectionIndex(i.sectionIndex,a),i.sectionIndex===e.index&&i.detach(e)}),delete this._annotations[a]}}},{key:'_removeFromAnnotationBySectionIndex',value:function(e,t){this._annotationsBySectionIndex[e]=this._annotationsAt(e).filter(function(e){return e!==t})}},{key:'_annotationsAt',value:function(e){return this._annotationsBySectionIndex[e]}},{key:'highlight',value:function(e,t,n,a,i){return this.add('highlight',e,t,n,a,i)}},{key:'underline',value:function(e,t,n,a,i){return this.add('underline',e,t,n,a,i)}},{key:'mark',value:function(e,t,n){return this.add('mark',e,t,n)}},{key:'each',value:function(){return this._annotations.forEach.apply(this._annotations,arguments)}},{key:'inject',value:function(e){var t=this,n=e.index;if(n in this._annotationsBySectionIndex){var a=this._annotationsBySectionIndex[n];a.forEach(function(n){var a=t._annotations[n];a.attach(e)})}}},{key:'clear',value:function(e){var t=this,n=e.index;if(n in this._annotationsBySectionIndex){var a=this._annotationsBySectionIndex[n];a.forEach(function(n){var a=t._annotations[n];a.detach(e)})}}},{key:'show',value:function(){}},{key:'hide',value:function(){}}]),e}(),p=function(){function e(t){var n=t.type,a=t.cfiRange,o=t.data,r=t.sectionIndex,s=t.cb,l=t.className,d=t.styles;i(this,e),this.type=n,this.cfiRange=a,this.data=o,this.sectionIndex=r,this.mark=void 0,this.cb=s,this.className=l,this.styles=d}return o(e,[{key:'update',value:function(e){this.data=e}},{key:'attach',value:function(e){var t=this.cfiRange,n=this.data,a=this.type,i=this.mark,o=this.cb,r=this.className,s=this.styles,l;return'highlight'===a?l=e.highlight(t,n,o,r,s):'underline'===a?l=e.underline(t,n,o,r,s):'mark'===a&&(l=e.mark(t,n,o)),this.mark=l,this.emit(u.EVENTS.ANNOTATION.ATTACH,l),l}},{key:'detach',value:function(e){var t=this.cfiRange,n=this.type,a;return e&&('highlight'===n?a=e.unhighlight(t):'underline'===n?a=e.ununderline(t):'mark'===n&&(a=e.unmark(t))),this.mark=void 0,this.emit(u.EVENTS.ANNOTATION.DETACH,a),a}},{key:'text',value:function(){}}]),e}();(0,s.default)(p.prototype),t.default=c,e.exports=t['default']},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!e)throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called');return t&&('object'===('undefined'==typeof t?'undefined':u(t))||'function'==typeof t)?t:e}function o(e,t){if('function'!=typeof t&&null!==t)throw new TypeError('Super expression must either be null or a function, not '+('undefined'==typeof t?'undefined':u(t)));e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function r(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}function s(e,t){var n=t.getBoundingClientRect(),a=e.getBoundingClientRect();return{top:a.top-n.top,left:a.left-n.left,height:e.scrollHeight,width:e.scrollWidth}}function l(e,t){e.style.setProperty('top',t.top+'px','important'),e.style.setProperty('left',t.left+'px','important'),e.style.setProperty('height',t.height+'px','important'),e.style.setProperty('width',t.width+'px','important')}function d(e,t){return t.right<=e.right&&t.left>=e.left&&t.top>=e.top&&t.bottom<=e.bottom}var u='function'==typeof Symbol&&'symbol'==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&'function'==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?'symbol':typeof e};Object.defineProperty(t,'__esModule',{value:!0}),t.Underline=t.Highlight=t.Mark=t.Pane=void 0;var c=function e(t,n,a){null===t&&(t=Function.prototype);var i=Object.getOwnPropertyDescriptor(t,n);if(i===void 0){var o=Object.getPrototypeOf(t);return null===o?void 0:e(o,n,a)}if('value'in i)return i.value;var r=i.get;return void 0===r?void 0:r.call(a)},p=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),g=n(57),h=a(g),m=n(58),f=a(m),y=t.Pane=function(){function e(t){var n=1<arguments.length&&void 0!==arguments[1]?arguments[1]:document.body;r(this,e),this.target=t,this.element=h.default.createElement('svg'),this.marks=[],this.element.style.position='absolute',this.element.setAttribute('pointer-events','none'),f.default.proxyMouse(this.target,this.marks),this.container=n,this.container.appendChild(this.element),this.render()}return p(e,[{key:'addMark',value:function(e){var t=h.default.createElement('g');return this.element.appendChild(t),e.bind(t,this.container),this.marks.push(e),e.render(),e}},{key:'removeMark',value:function(e){var t=this.marks.indexOf(e);if(-1!==t){var n=e.unbind();this.element.removeChild(n),this.marks.splice(t,1)}}},{key:'render',value:function(){l(this.element,s(this.target,this.container));var e=!0,t=!1,n;try{for(var a=this.marks[Symbol.iterator](),i,o;!(e=(i=a.next()).done);e=!0)o=i.value,o.render()}catch(e){t=!0,n=e}finally{try{!e&&a.return&&a.return()}finally{if(t)throw n}}}}]),e}(),v=t.Mark=function(){function e(){r(this,e),this.element=null}return p(e,[{key:'bind',value:function(e,t){this.element=e,this.container=t}},{key:'unbind',value:function(){var e=this.element;return this.element=null,e}},{key:'render',value:function(){}},{key:'dispatchEvent',value:function(t){this.element&&this.element.dispatchEvent(t)}},{key:'getBoundingClientRect',value:function(){return this.element.getBoundingClientRect()}},{key:'getClientRects',value:function(){for(var e=[],t=this.element.firstChild;t;)e.push(t.getBoundingClientRect()),t=t.nextSibling;return e}},{key:'filteredRanges',value:function(){var e=Array.from(this.range.getClientRects());return e.filter(function(t){for(var n=0;n<e.length;n++){if(e[n]===t)return!0;var a=d(e[n],t);if(a)return!1}return!0})}}]),e}(),b=t.Highlight=function(e){function t(e,n,a,o){r(this,t);var s=i(this,(t.__proto__||Object.getPrototypeOf(t)).call(this));return s.range=e,s.className=n,s.data=a||{},s.attributes=o||{},s}return o(t,e),p(t,[{key:'bind',value:function(e,n){for(var a in c(t.prototype.__proto__||Object.getPrototypeOf(t.prototype),'bind',this).call(this,e,n),this.data)this.data.hasOwnProperty(a)&&(this.element.dataset[a]=this.data[a]);for(var a in this.attributes)this.attributes.hasOwnProperty(a)&&this.element.setAttribute(a,this.attributes[a]);this.className&&this.element.classList.add(this.className)}},{key:'render',value:function(){for(;this.element.firstChild;)this.element.removeChild(this.element.firstChild);for(var e=this.element.ownerDocument.createDocumentFragment(),t=this.filteredRanges(),n=this.element.getBoundingClientRect(),a=this.container.getBoundingClientRect(),o=0,i=t.length;o<i;o++){var s=t[o],r=h.default.createElement('rect');r.setAttribute('x',s.left-n.left+a.left),r.setAttribute('y',s.top-n.top+a.top),r.setAttribute('height',s.height),r.setAttribute('width',s.width),e.appendChild(r)}this.element.appendChild(e)}}]),t}(v),k=t.Underline=function(e){function t(e,n,a,o){return r(this,t),i(this,(t.__proto__||Object.getPrototypeOf(t)).call(this,e,n,a,o))}return o(t,e),p(t,[{key:'render',value:function(){for(;this.element.firstChild;)this.element.removeChild(this.element.firstChild);for(var e=this.element.ownerDocument.createDocumentFragment(),t=this.filteredRanges(),n=this.element.getBoundingClientRect(),a=this.container.getBoundingClientRect(),o=0,i=t.length;o<i;o++){var s=t[o],r=h.default.createElement('rect');r.setAttribute('x',s.left-n.left+a.left),r.setAttribute('y',s.top-n.top+a.top),r.setAttribute('height',s.height),r.setAttribute('width',s.width),r.setAttribute('fill','none');var l=h.default.createElement('line');l.setAttribute('x1',s.left-n.left+a.left),l.setAttribute('x2',s.left-n.left+a.left+s.width),l.setAttribute('y1',s.top-n.top+a.top+s.height-1),l.setAttribute('y2',s.top-n.top+a.top+s.height-1),l.setAttribute('stroke-width',1),l.setAttribute('stroke','black'),l.setAttribute('stroke-linecap','square'),e.appendChild(r),e.appendChild(l)}this.element.appendChild(e)}}]),t}(b)},function(e,t){'use strict';function n(e){return document.createElementNS('http://www.w3.org/2000/svg',e)}Object.defineProperty(t,'__esModule',{value:!0}),t.createElement=n,t.default={createElement:n}},function(e,t){'use strict';function n(n,r){function t(s){for(var e=r.length-1;0<=e;e--){var i=r[e],t=s.clientX,l=s.clientY;if(s.touches&&s.touches.length&&(t=s.touches[0].clientX,l=s.touches[0].clientY),!!o(i,n,t,l)){i.dispatchEvent(a(s));break}}}if('iframe'===n.nodeName||'IFRAME'===n.nodeName)try{this.target=n.contentDocument}catch(e){this.target=n}else this.target=n;for(var e=['mouseup','mousedown','click','touchstart'],i=0,s;i<e.length;i++)s=e[i],this.target.addEventListener(s,function(n){return t(n)},!1)}function a(t){var e=Object.assign({},t,{bubbles:!1});try{return new MouseEvent(t.type,e)}catch(a){var n=document.createEvent('MouseEvents');return n.initMouseEvent(t.type,!1,e.cancelable,e.view,e.detail,e.screenX,e.screenY,e.clientX,e.clientY,e.ctrlKey,e.altKey,e.shiftKey,e.metaKey,e.button,e.relatedTarget),n}}function o(e,t,n,a){function o(e,t,n){var a=e.top-s.top,i=e.left-s.left,o=a+e.height,r=i+e.width;return a<=n&&i<=t&&o>n&&r>t}var s=t.getBoundingClientRect(),r=e.getBoundingClientRect();if(!o(r,n,a))return!1;for(var l=e.getClientRects(),d=0,i=l.length;d<i;d++)if(o(l[d],n,a))return!0;return!1}Object.defineProperty(t,'__esModule',{value:!0}),t.proxyMouse=n,t.clone=a,t.default={proxyMouse:n}},function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var i=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),o=n(0),r=n(60),s=function(e){return e&&e.__esModule?e:{default:e}}(r),d=function(){function e(t){a(this,e),this.settings=t||{},this.id='epubjs-container-'+(0,o.uuid)(),this.container=this.create(this.settings),this.settings.hidden&&(this.wrapper=this.wrap(this.container))}return i(e,[{key:'create',value:function(e){var t=e.height,n=e.width,a=e.overflow||!1,i=e.axis||'vertical',r=e.direction;(0,o.extend)(this.settings,e),e.height&&(0,o.isNumber)(e.height)&&(t=e.height+'px'),e.width&&(0,o.isNumber)(e.width)&&(n=e.width+'px');var s=document.createElement('div');return s.id=this.id,s.classList.add('epub-container'),s.style.wordSpacing='0',s.style.lineHeight='0',s.style.verticalAlign='top',s.style.position='relative','horizontal'===i&&(s.style.display='flex',s.style.flexDirection='row',s.style.flexWrap='nowrap'),n&&(s.style.width=n),t&&(s.style.height=t),a&&('scroll'===a&&'vertical'===i?(s.style['overflow-y']=a,s.style['overflow-x']='hidden'):'scroll'===a&&'horizontal'===i?(s.style['overflow-y']='hidden',s.style['overflow-x']=a):s.style.overflow=a),r&&(s.dir=r,s.style.direction=r),r&&this.settings.fullsize&&(document.body.style.direction=r),s}},{key:'wrap',value:function(e){var t=document.createElement('div');return t.style.visibility='hidden',t.style.overflow='hidden',t.style.width='0',t.style.height='0',t.appendChild(e),t}},{key:'getElement',value:function(e){var t;if((0,o.isElement)(e)?t=e:'string'==typeof e&&(t=document.getElementById(e)),!t)throw new Error('Not an Element');return t}},{key:'attachTo',value:function(e){var t=this.getElement(e),n;if(t)return n=this.settings.hidden?this.wrapper:this.container,t.appendChild(n),this.element=t,t}},{key:'getContainer',value:function(){return this.container}},{key:'onResize',value:function(e){(0,o.isNumber)(this.settings.width)&&(0,o.isNumber)(this.settings.height)||(this.resizeFunc=(0,s.default)(e,50),window.addEventListener('resize',this.resizeFunc,!1))}},{key:'onOrientationChange',value:function(e){this.orientationChangeFunc=e,window.addEventListener('orientationchange',this.orientationChangeFunc,!1)}},{key:'size',value:function(e,t){var n=e||this.settings.width,a=t||this.settings.height,i;null===e?(i=this.element.getBoundingClientRect(),i.width&&(e=l(i.width),this.container.style.width=e+'px')):(0,o.isNumber)(e)?this.container.style.width=e+'px':this.container.style.width=e,null===t?(i=i||this.element.getBoundingClientRect(),i.height&&(t=i.height,this.container.style.height=t+'px')):(0,o.isNumber)(t)?this.container.style.height=t+'px':this.container.style.height=t,(0,o.isNumber)(e)||(e=this.container.clientWidth),(0,o.isNumber)(t)||(t=this.container.clientHeight),this.containerStyles=window.getComputedStyle(this.container),this.containerPadding={left:parseFloat(this.containerStyles['padding-left'])||0,right:parseFloat(this.containerStyles['padding-right'])||0,top:parseFloat(this.containerStyles['padding-top'])||0,bottom:parseFloat(this.containerStyles['padding-bottom'])||0};var r=(0,o.windowBounds)(),s=window.getComputedStyle(document.body),d={left:parseFloat(s['padding-left'])||0,right:parseFloat(s['padding-right'])||0,top:parseFloat(s['padding-top'])||0,bottom:parseFloat(s['padding-bottom'])||0};return n||(e=r.width-d.left-d.right),(!this.settings.fullsize||a)&&a||(t=r.height-d.top-d.bottom),{width:e-this.containerPadding.left-this.containerPadding.right,height:t-this.containerPadding.top-this.containerPadding.bottom}}},{key:'bounds',value:function(){var e;return'visible'!==this.container.style.overflow&&(e=this.container&&this.container.getBoundingClientRect()),e&&e.width&&e.height?e:(0,o.windowBounds)()}},{key:'getSheet',value:function(){var e=document.createElement('style');return e.appendChild(document.createTextNode('')),document.head.appendChild(e),e.sheet}},{key:'addStyleRules',value:function(e,t){var n='#'+this.id+' ',a='';this.sheet||(this.sheet=this.getSheet()),t.forEach(function(e){for(var t in e)e.hasOwnProperty(t)&&(a+=t+':'+e[t]+';')}),this.sheet.insertRule(n+e+' {'+a+'}',0)}},{key:'axis',value:function(e){'horizontal'===e?(this.container.style.display='flex',this.container.style.flexDirection='row',this.container.style.flexWrap='nowrap'):this.container.style.display='block',this.settings.axis=e}},{key:'direction',value:function(e){this.container&&(this.container.dir=e,this.container.style.direction=e),this.settings.fullsize&&(document.body.style.direction=e),this.settings.dir=e}},{key:'overflow',value:function(e){this.container&&('scroll'===e&&'vertical'===this.settings.axis?(this.container.style['overflow-y']=e,this.container.style['overflow-x']='hidden'):'scroll'===e&&'horizontal'===this.settings.axis?(this.container.style['overflow-y']='hidden',this.container.style['overflow-x']=e):this.container.style.overflow=e),this.settings.overflow=e}},{key:'destroy',value:function(){var e;this.element&&(e=this.settings.hidden?this.wrapper:this.container,this.element.contains(this.container)&&this.element.removeChild(this.container),window.removeEventListener('resize',this.resizeFunc),window.removeEventListener('orientationChange',this.orientationChangeFunc))}}]),e}();t.default=d,e.exports=t['default']},function(e,t,n){var a=n(21),i=n(16);e.exports=function(e,t,n){var o=!0,r=!0;if('function'!=typeof e)throw new TypeError('Expected a function');return i(n)&&(o='leading'in n?!!n.leading:o,r='trailing'in n?!!n.trailing:r),a(e,t,{leading:o,maxWait:t,trailing:r})}},function(e,t,n){var a=n(22);e.exports=function(){return a.Date.now()}},function(e,t,n){(function(t){var n='object'==typeof t&&t&&t.Object===Object&&t;e.exports=n}).call(t,n(5))},function(e,t,n){var a=n(16),i=n(64),o=0/0,r=/^\s+|\s+$/g,s=/^[-+]0x[0-9a-f]+$/i,l=/^0b[01]+$/i,d=/^0o[0-7]+$/i,u=parseInt;e.exports=function(e){if('number'==typeof e)return e;if(i(e))return o;if(a(e)){var t='function'==typeof e.valueOf?e.valueOf():e;e=a(t)?t+'':t}if('string'!=typeof e)return 0===e?e:+e;e=e.replace(r,'');var n=l.test(e);return n||d.test(e)?u(e.slice(2),n?2:8):s.test(e)?o:+e}},function(e,t,n){var a=n(65),i=n(68);e.exports=function(e){return'symbol'==typeof e||i(e)&&a(e)=='[object Symbol]'}},function(e,t,n){var a=n(23),i=n(66),o=n(67),r=a?a.toStringTag:void 0;e.exports=function(e){return null==e?void 0===e?'[object Undefined]':'[object Null]':r&&r in Object(e)?i(e):o(e)}},function(e,t,n){var a=n(23),i=Object.prototype,o=i.hasOwnProperty,r=i.toString,s=a?a.toStringTag:void 0;e.exports=function(e){var t=o.call(e,s),n=e[s];try{e[s]=void 0}catch(t){}var a=r.call(e);return t?e[s]=n:delete e[s],a}},function(e){var t=Object.prototype,n=t.toString;e.exports=function(e){return n.call(e)}},function(e){e.exports=function(e){return null!=e&&'object'==typeof e}},function(e,t){'use strict';function n(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var a=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),i=function(){function e(t){n(this,e),this.container=t,this._views=[],this.length=0,this.hidden=!1}return a(e,[{key:'all',value:function(){return this._views}},{key:'first',value:function(){return this._views[0]}},{key:'last',value:function(){return this._views[this._views.length-1]}},{key:'indexOf',value:function(e){return this._views.indexOf(e)}},{key:'slice',value:function(){return this._views.slice.apply(this._views,arguments)}},{key:'get',value:function(e){return this._views[e]}},{key:'append',value:function(e){return this._views.push(e),this.container&&this.container.appendChild(e.element),this.length++,e}},{key:'prepend',value:function(e){return this._views.unshift(e),this.container&&this.container.insertBefore(e.element,this.container.firstChild),this.length++,e}},{key:'insert',value:function(e,t){return this._views.splice(t,0,e),this.container&&(t<this.container.children.length?this.container.insertBefore(e.element,this.container.children[t]):this.container.appendChild(e.element)),this.length++,e}},{key:'remove',value:function(e){var t=this._views.indexOf(e);-1<t&&this._views.splice(t,1),this.destroy(e),this.length--}},{key:'destroy',value:function(e){e.displayed&&e.destroy(),this.container&&this.container.removeChild(e.element),e=null}},{key:'forEach',value:function(){return this._views.forEach.apply(this._views,arguments)}},{key:'clear',value:function(){var e=this.length,t;if(this.length){for(var n=0;n<e;n++)t=this._views[n],this.destroy(t);this._views=[],this.length=0}}},{key:'find',value:function(e){for(var t=this.length,n=0,a;n<t;n++)if(a=this._views[n],a.displayed&&a.section.index==e.index)return a}},{key:'displayed',value:function(){for(var e=[],t=this.length,n=0,a;n<t;n++)a=this._views[n],a.displayed&&e.push(a);return e}},{key:'show',value:function(){for(var e=this.length,t=0,n;t<e;t++)n=this._views[t],n.displayed&&n.show();this.hidden=!1}},{key:'hide',value:function(){for(var e=this.length,t=0,n;t<e;t++)n=this._views[t],n.displayed&&n.hide();this.hidden=!0}}]),e}();t.default=i,e.exports=t['default']},function(e,t,n){'use strict';function o(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}var s=Math.pow,l=Math.PI;Object.defineProperty(t,'__esModule',{value:!0});var d=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),u=n(0),c=n(2),p=n(3),g=function(e){return e&&e.__esModule?e:{default:e}}(p),h={easeOutSine:function(e){return Math.sin(e*(l/2))},easeInOutSine:function(e){return-0.5*(Math.cos(l*e)-1)},easeInOutQuint:function(e){return 1>(e/=0.5)?0.5*s(e,5):0.5*(s(e-2,5)+2)},easeInCubic:function(e){return s(e,3)}},m=function(){function e(t,n){o(this,e),this.settings=(0,u.extend)({duration:80,minVelocity:0.2,minDistance:10,easing:h.easeInCubic},n||{}),this.supportsTouch=this.supportsTouch(),this.supportsTouch&&this.setup(t)}return d(e,[{key:'setup',value:function(e){this.manager=e,this.layout=this.manager.layout,this.fullsize=this.manager.settings.fullsize,this.fullsize?(this.element=this.manager.stage.element,this.scroller=window,this.disableScroll()):(this.element=this.manager.stage.container,this.scroller=this.element,this.element.style.WebkitOverflowScrolling='touch'),this.manager.settings.offset=this.layout.width,this.manager.settings.afterScrolledTimeout=2*this.settings.duration,this.isVertical='vertical'===this.manager.settings.axis,!this.manager.isPaginated||this.isVertical||(this.touchCanceler=!1,this.resizeCanceler=!1,this.snapping=!1,this.scrollLeft,this.scrollTop,this.startTouchX=void 0,this.startTouchY=void 0,this.startTime=void 0,this.endTouchX=void 0,this.endTouchY=void 0,this.endTime=void 0,this.addListeners())}},{key:'supportsTouch',value:function(){return'ontouchstart'in window||window.DocumentTouch&&document instanceof DocumentTouch}},{key:'disableScroll',value:function(){this.element.style.overflow='hidden'}},{key:'enableScroll',value:function(){this.element.style.overflow=''}},{key:'addListeners',value:function(){this._onResize=this.onResize.bind(this),window.addEventListener('resize',this._onResize),this._onScroll=this.onScroll.bind(this),this.scroller.addEventListener('scroll',this._onScroll),this._onTouchStart=this.onTouchStart.bind(this),this.scroller.addEventListener('touchstart',this._onTouchStart,{passive:!0}),this.on('touchstart',this._onTouchStart),this._onTouchMove=this.onTouchMove.bind(this),this.scroller.addEventListener('touchmove',this._onTouchMove,{passive:!0}),this.on('touchmove',this._onTouchMove),this._onTouchEnd=this.onTouchEnd.bind(this),this.scroller.addEventListener('touchend',this._onTouchEnd,{passive:!0}),this.on('touchend',this._onTouchEnd),this._afterDisplayed=this.afterDisplayed.bind(this),this.manager.on(c.EVENTS.MANAGERS.ADDED,this._afterDisplayed)}},{key:'removeListeners',value:function(){window.removeEventListener('resize',this._onResize),this._onResize=void 0,this.scroller.removeEventListener('scroll',this._onScroll),this._onScroll=void 0,this.scroller.removeEventListener('touchstart',this._onTouchStart,{passive:!0}),this.off('touchstart',this._onTouchStart),this._onTouchStart=void 0,this.scroller.removeEventListener('touchmove',this._onTouchMove,{passive:!0}),this.off('touchmove',this._onTouchMove),this._onTouchMove=void 0,this.scroller.removeEventListener('touchend',this._onTouchEnd,{passive:!0}),this.off('touchend',this._onTouchEnd),this._onTouchEnd=void 0,this.manager.off(c.EVENTS.MANAGERS.ADDED,this._afterDisplayed),this._afterDisplayed=void 0}},{key:'afterDisplayed',value:function(e){var t=this,n=e.contents;['touchstart','touchmove','touchend'].forEach(function(a){n.on(a,function(e){return t.triggerViewEvent(e,n)})})}},{key:'triggerViewEvent',value:function(t,e){this.emit(t.type,t,e)}},{key:'onScroll',value:function(){this.scrollLeft=this.fullsize?window.scrollX:this.scroller.scrollLeft,this.scrollTop=this.fullsize?window.scrollY:this.scroller.scrollTop}},{key:'onResize',value:function(){this.resizeCanceler=!0}},{key:'onTouchStart',value:function(t){var e=t.touches[0],n=e.screenX,a=e.screenY;this.fullsize&&this.enableScroll(),this.touchCanceler=!0,this.startTouchX||(this.startTouchX=n,this.startTouchY=a,this.startTime=this.now()),this.endTouchX=n,this.endTouchY=a,this.endTime=this.now()}},{key:'onTouchMove',value:function(t){var e=t.touches[0],n=e.screenX,i=e.screenY,o=a(i-this.endTouchY);this.touchCanceler=!0,!this.fullsize&&10>o&&(this.element.scrollLeft-=n-this.endTouchX),this.endTouchX=n,this.endTouchY=i,this.endTime=this.now()}},{key:'onTouchEnd',value:function(){this.fullsize&&this.disableScroll(),this.touchCanceler=!1;var e=this.wasSwiped();0===e?this.snap():this.snap(e),this.startTouchX=void 0,this.startTouchY=void 0,this.startTime=void 0,this.endTouchX=void 0,this.endTouchY=void 0,this.endTime=void 0}},{key:'wasSwiped',value:function(){var e=this.layout.pageWidth*this.layout.divisor,t=this.endTouchX-this.startTouchX,n=a(t),i=this.endTime-this.startTime,o=t/i,r=this.settings.minVelocity;return n<=this.settings.minDistance||n>=e?0:o>r?-1:o<-r?1:void 0}},{key:'needsSnap',value:function(){var e=this.scrollLeft,t=this.layout.pageWidth*this.layout.divisor;return 0!=e%t}},{key:'snap',value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:0,t=this.scrollLeft,n=this.layout.pageWidth*this.layout.divisor,a=r(t/n)*n;return e&&(a+=e*n),this.smoothScrollTo(a)}},{key:'smoothScrollTo',value:function(e){function t(){var l=this.now(),d=i(1,(l-o)/r),u=s(d);return this.touchCanceler||this.resizeCanceler?(this.resizeCanceler=!1,this.snapping=!1,void n.resolve()):void(1>d?(window.requestAnimationFrame(t.bind(this)),this.scrollTo(a+(e-a)*d,0)):(this.scrollTo(e,0),this.snapping=!1,n.resolve()))}var n=new u.defer,a=this.scrollLeft,o=this.now(),r=this.settings.duration,s=this.settings.easing;return this.snapping=!0,t.call(this),n.promise}},{key:'scrollTo',value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:0,t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;this.fullsize?window.scroll(e,t):(this.scroller.scrollLeft=e,this.scroller.scrollTop=t)}},{key:'now',value:function(){return'now'in window.performance?performance.now():new Date().getTime()}},{key:'destroy',value:function(){this.scroller&&(this.fullsize&&this.enableScroll(),this.removeListeners(),this.scroller=void 0)}}]),e}();(0,g.default)(m.prototype),t.default=m,e.exports=t['default']},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var o=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),s=n(0),r=n(9),l=a(r),d=n(13),u=a(d),c=n(4),p=a(c),g=function(){function e(){i(this,e),this.zip=void 0,this.urlCache={},this.checkRequirements()}return o(e,[{key:'checkRequirements',value:function(){try{if('undefined'==typeof JSZip){var e=n(72);this.zip=new e}else this.zip=new JSZip}catch(t){throw new Error('JSZip lib not loaded')}}},{key:'open',value:function(e,t){return this.zip.loadAsync(e,{base64:t})}},{key:'openUrl',value:function(e,t){return(0,l.default)(e,'binary').then(function(e){return this.zip.loadAsync(e,{base64:t})}.bind(this))}},{key:'request',value:function(e,t){var n=new s.defer,a=new p.default(e),i;return t||(t=a.extension),i='blob'==t?this.getBlob(e):this.getText(e),i?i.then(function(e){var a=this.handleResponse(e,t);n.resolve(a)}.bind(this)):n.reject({message:'File not found in the epub: '+e,stack:new Error().stack}),n.promise}},{key:'handleResponse',value:function(e,t){var n;return n='json'==t?JSON.parse(e):(0,s.isXml)(t)?(0,s.parse)(e,'text/xml'):'xhtml'==t?(0,s.parse)(e,'application/xhtml+xml'):'html'==t||'htm'==t?(0,s.parse)(e,'text/html'):e,n}},{key:'getBlob',value:function(e,t){var n=window.decodeURIComponent(e.substr(1)),a=this.zip.file(n);if(a)return t=t||u.default.lookup(a.name),a.async('uint8array').then(function(e){return new Blob([e],{type:t})})}},{key:'getText',value:function(e){var t=window.decodeURIComponent(e.substr(1)),n=this.zip.file(t);if(n)return n.async('string').then(function(e){return e})}},{key:'getBase64',value:function(e,t){var n=window.decodeURIComponent(e.substr(1)),a=this.zip.file(n);if(a)return t=t||u.default.lookup(a.name),a.async('base64').then(function(e){return'data:'+t+';base64,'+e})}},{key:'createUrl',value:function(e,t){var n=new s.defer,a=window.URL||window.webkitURL||window.mozURL,i=t&&t.base64,o,r;return e in this.urlCache?(n.resolve(this.urlCache[e]),n.promise):(i?(r=this.getBase64(e),r&&r.then(function(t){this.urlCache[e]=t,n.resolve(t)}.bind(this))):(r=this.getBlob(e),r&&r.then(function(t){o=a.createObjectURL(t),this.urlCache[e]=o,n.resolve(o)}.bind(this))),r||n.reject({message:'File not found in the epub: '+e,stack:new Error().stack}),n.promise)}},{key:'revokeUrl',value:function(e){var t=window.URL||window.webkitURL||window.mozURL,n=this.urlCache[e];n&&t.revokeObjectURL(n)}},{key:'destroy',value:function(){var e=window.URL||window.webkitURL||window.mozURL;for(var t in this.urlCache)e.revokeObjectURL(t);this.zip=void 0,this.urlCache={}}}]),e}();t.default=g,e.exports=t['default']},function(n){if('undefined'==typeof t){var a=new Error('Cannot find module "jszip"');throw a.code='MODULE_NOT_FOUND',a}n.exports=t},function(e,t,n){'use strict';function a(e){return e&&e.__esModule?e:{default:e}}function i(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var o=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),s=n(0),r=n(9),l=a(r),d=n(13),u=a(d),c=n(4),p=a(c),g=n(3),h=a(g),m=function(){function e(t,n,a){i(this,e),this.urlCache={},this.storage=void 0,this.name=t,this.requester=n||l.default,this.resolver=a,this.online=!0,this.checkRequirements(),this.addListeners()}return o(e,[{key:'checkRequirements',value:function(){try{var e;e='undefined'==typeof localforage?n(74):localforage,this.storage=e.createInstance({name:this.name})}catch(t){throw new Error('localForage lib not loaded')}}},{key:'addListeners',value:function(){this._status=this.status.bind(this),window.addEventListener('online',this._status),window.addEventListener('offline',this._status)}},{key:'removeListeners',value:function(){window.removeEventListener('online',this._status),window.removeEventListener('offline',this._status),this._status=void 0}},{key:'status',value:function(){var e=navigator.onLine;this.online=e,e?this.emit('online',this):this.emit('offline',this)}},{key:'add',value:function(e,t){var n=this,a=e.resources.map(function(e){var a=e.href,i=n.resolver(a),o=window.encodeURIComponent(i);return n.storage.getItem(o).then(function(e){return!e||t?n.requester(i,'binary').then(function(e){return n.storage.setItem(o,e)}):e})});return Promise.all(a)}},{key:'put',value:function(e,t,n){var a=this,i=window.encodeURIComponent(e);return this.storage.getItem(i).then(function(o){return o?o:a.requester(e,'binary',t,n).then(function(e){return a.storage.setItem(i,e)})})}},{key:'request',value:function(e,t,n,a){var i=this;return this.online?this.requester(e,t,n,a).then(function(t){return i.put(e),t}):this.retrieve(e,t)}},{key:'retrieve',value:function(e,t){var n=this,a=new s.defer,i=new p.default(e),o;return t||(t=i.extension),o='blob'==t?this.getBlob(e):this.getText(e),o.then(function(a){var i=new s.defer,o;return a?(o=n.handleResponse(a,t),i.resolve(o)):i.reject({message:'File not found in storage: '+e,stack:new Error().stack}),i.promise})}},{key:'handleResponse',value:function(e,t){var n;return n='json'==t?JSON.parse(e):(0,s.isXml)(t)?(0,s.parse)(e,'text/xml'):'xhtml'==t?(0,s.parse)(e,'application/xhtml+xml'):'html'==t||'htm'==t?(0,s.parse)(e,'text/html'):e,n}},{key:'getBlob',value:function(e,t){var n=window.encodeURIComponent(e);return this.storage.getItem(n).then(function(n){if(n)return t=t||u.default.lookup(e),new Blob([n],{type:t})})}},{key:'getText',value:function(e,t){var n=window.encodeURIComponent(e);return t=t||u.default.lookup(e),this.storage.getItem(n).then(function(e){var n=new s.defer,a=new FileReader,i;if(e)return i=new Blob([e],{type:t}),a.addEventListener('loadend',function(){n.resolve(a.result)}),a.readAsText(i,t),n.promise})}},{key:'getBase64',value:function(e,t){var n=window.encodeURIComponent(e);return t=t||u.default.lookup(e),this.storage.getItem(n).then(function(e){var n=new s.defer,a=new FileReader,i;if(e)return i=new Blob([e],{type:t}),a.addEventListener('loadend',function(){n.resolve(a.result)}),a.readAsDataURL(i,t),n.promise})}},{key:'createUrl',value:function(e,t){var n=new s.defer,a=window.URL||window.webkitURL||window.mozURL,i=t&&t.base64,o,r;return e in this.urlCache?(n.resolve(this.urlCache[e]),n.promise):(i?(r=this.getBase64(e),r&&r.then(function(t){this.urlCache[e]=t,n.resolve(t)}.bind(this))):(r=this.getBlob(e),r&&r.then(function(t){o=a.createObjectURL(t),this.urlCache[e]=o,n.resolve(o)}.bind(this))),r||n.reject({message:'File not found in storage: '+e,stack:new Error().stack}),n.promise)}},{key:'revokeUrl',value:function(e){var t=window.URL||window.webkitURL||window.mozURL,n=this.urlCache[e];n&&t.revokeObjectURL(n)}},{key:'destroy',value:function(){var e=window.URL||window.webkitURL||window.mozURL;for(var t in this.urlCache)e.revokeObjectURL(t);this.urlCache={},this.removeListeners()}}]),e}();(0,h.default)(m.prototype),t.default=m,e.exports=t['default']},function(e,t,n){(function(t){var n,n;(function(t){e.exports=t()})(function(){return function a(d,e,t){function r(i,o){if(!e[i]){if(!d[i]){if(!o&&'function'==typeof n&&n)return n(i,!0);if(s)return s(i,!0);var c=new Error('Cannot find module \''+i+'\'');throw c.code='MODULE_NOT_FOUND',c}var p=e[i]={exports:{}};d[i][0].call(p.exports,function(t){var e=d[i][1][t];return r(e?e:t)},p,p.exports,a,d,e,t)}return e[i].exports}for(var s='function'==typeof n&&n,i=0;i<t.length;i++)r(t[i]);return r}({1:[function(e,n){(function(e){'use strict';function t(){u=!0;for(var e=d.length,t,n;e;){for(n=d,d=[],t=-1;++t<e;)n[t]();e=d.length}u=!1}var a=e.MutationObserver||e.WebKitMutationObserver,i;if(a){var o=0,r=new a(t),s=e.document.createTextNode('');r.observe(s,{characterData:!0}),i=function(){s.data=o=++o%2}}else if(!e.setImmediate&&'undefined'!=typeof e.MessageChannel){var l=new e.MessageChannel;l.port1.onmessage=t,i=function(){l.port2.postMessage(0)}}else i='document'in e&&'onreadystatechange'in e.document.createElement('script')?function(){var n=e.document.createElement('script');n.onreadystatechange=function(){t(),n.onreadystatechange=null,n.parentNode.removeChild(n),n=null},e.document.documentElement.appendChild(n)}:function(){setTimeout(t,0)};var d=[],u;n.exports=function(e){1!==d.push(e)||u||i()}}).call(this,'undefined'==typeof t?'undefined'==typeof self?'undefined'==typeof window?{}:window:self:t)},{}],2:[function(e,t){'use strict';function n(){}function a(e){if('function'!=typeof e)throw new TypeError('resolver must be a function');this.state=g,this.queue=[],this.outcome=void 0,e!==n&&s(this,e)}function i(e,t,n){this.promise=e,'function'==typeof t&&(this.onFulfilled=t,this.callFulfilled=this.otherCallFulfilled),'function'==typeof n&&(this.onRejected=n,this.callRejected=this.otherCallRejected)}function o(t,e,n){d(function(){var a;try{a=e(n)}catch(n){return u.reject(t,n)}a===t?u.reject(t,new TypeError('Cannot resolve promise with itself')):u.resolve(t,a)})}function r(e){var t=e&&e.then;if(e&&('object'==typeof e||'function'==typeof e)&&'function'==typeof t)return function(){t.apply(e,arguments)}}function s(e,t){function n(t){i||(i=!0,u.reject(e,t))}function a(t){i||(i=!0,u.resolve(e,t))}var i=!1,o=l(function(){t(a,n)});'error'===o.status&&n(o.value)}function l(e,t){var n={};try{n.value=e(t),n.status='success'}catch(t){n.status='error',n.value=t}return n}var d=e(1),u={},c=['REJECTED'],p=['FULFILLED'],g=['PENDING'];t.exports=a,a.prototype['catch']=function(e){return this.then(null,e)},a.prototype.then=function(e,t){if('function'!=typeof e&&this.state===p||'function'!=typeof t&&this.state===c)return this;var a=new this.constructor(n);if(this.state!==g){var r=this.state===p?e:t;o(a,r,this.outcome)}else this.queue.push(new i(a,e,t));return a},i.prototype.callFulfilled=function(e){u.resolve(this.promise,e)},i.prototype.otherCallFulfilled=function(e){o(this.promise,this.onFulfilled,e)},i.prototype.callRejected=function(e){u.reject(this.promise,e)},i.prototype.otherCallRejected=function(e){o(this.promise,this.onRejected,e)},u.resolve=function(e,t){var n=l(r,t);if('error'===n.status)return u.reject(e,n.value);var a=n.value;if(a)s(e,a);else{e.state=p,e.outcome=t;for(var o=-1,i=e.queue.length;++o<i;)e.queue[o].callFulfilled(t)}return e},u.reject=function(e,t){e.state=c,e.outcome=t;for(var n=-1,a=e.queue.length;++n<a;)e.queue[n].callRejected(t);return e},a.resolve=function(e){return e instanceof this?e:u.resolve(new this(n),e)},a.reject=function(e){var t=new this(n);return u.reject(t,e)},a.all=function(e){function t(e,t){a.resolve(e).then(function(e){s[t]=e,++l!==o||r||(r=!0,u.resolve(c,s))},function(e){r||(r=!0,u.reject(c,e))})}var a=this;if('[object Array]'!==Object.prototype.toString.call(e))return this.reject(new TypeError('must be an array'));var o=e.length,r=!1;if(!o)return this.resolve([]);for(var s=Array(o),l=0,d=-1,c=new this(n);++d<o;)t(e[d],d);return c},a.race=function(e){function t(e){a.resolve(e).then(function(e){r||(r=!0,u.resolve(i,e))},function(e){r||(r=!0,u.reject(i,e))})}var a=this;if('[object Array]'!==Object.prototype.toString.call(e))return this.reject(new TypeError('must be an array'));var o=e.length,r=!1;if(!o)return this.resolve([]);for(var s=-1,i=new this(n);++s<o;)t(e[s]);return i}},{1:1}],3:[function(e){(function(t){'use strict';'function'!=typeof t.Promise&&(t.Promise=e(2))}).call(this,'undefined'==typeof t?'undefined'==typeof self?'undefined'==typeof window?{}:window:self:t)},{2:2}],4:[function(e,t){'use strict';function n(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}function a(e,t){e=e||[],t=t||{};try{return new Blob(e,t)}catch(i){if('TypeError'!==i.name)throw i;for(var n='undefined'==typeof BlobBuilder?'undefined'==typeof MSBlobBuilder?'undefined'==typeof MozBlobBuilder?WebKitBlobBuilder:MozBlobBuilder:MSBlobBuilder:BlobBuilder,a=new n,o=0;o<e.length;o+=1)a.append(e[o]);return a.getBlob(t.type)}}function i(e,t){t&&e.then(function(e){t(null,e)},function(e){t(e)})}function o(e,t,n){'function'==typeof t&&e.then(t),'function'==typeof n&&e['catch'](n)}function r(e){return'string'!=typeof e&&(console.warn(e+' used as a key, but it is not a string.'),e+=''),e}function s(){if(arguments.length&&'function'==typeof arguments[arguments.length-1])return arguments[arguments.length-1]}function l(e){for(var t=e.length,n=new ArrayBuffer(t),a=new Uint8Array(n),o=0;o<t;o++)a[o]=e.charCodeAt(o);return n}function d(e){return new B(function(t){var n=e.transaction(j,W),i=a(['']);n.objectStore(j).put(i,'key'),n.onabort=function(n){n.preventDefault(),n.stopPropagation(),t(!1)},n.oncomplete=function(){var e=navigator.userAgent.match(/Chrome\/(\d+)/),n=navigator.userAgent.match(/Edge\//);t(n||!e||43<=parseInt(e[1],10))}})['catch'](function(){return!1})}function u(e){return'boolean'==typeof _e?B.resolve(_e):d(e).then(function(e){return _e=e,_e})}function c(e){var t=q[e.name],n={};n.promise=new B(function(e,t){n.resolve=e,n.reject=t}),t.deferredOperations.push(n),t.dbReady=t.dbReady?t.dbReady.then(function(){return n.promise}):n.promise}function p(e){var t=q[e.name],n=t.deferredOperations.pop();if(n)return n.resolve(),n.promise}function g(e,t){var n=q[e.name],a=n.deferredOperations.pop();if(a)return a.reject(t),a.promise}function h(t,e){return new B(function(n,a){if(q[t.name]=q[t.name]||N(),t.db)if(e)c(t),t.db.close();else return n(t.db);var i=[t.name];e&&i.push(t.version);var o=M.open.apply(M,i);e&&(o.onupgradeneeded=function(n){var e=o.result;try{e.createObjectStore(t.storeName),1>=n.oldVersion&&e.createObjectStore(j)}catch(e){if('ConstraintError'===e.name)console.warn('The database "'+t.name+'" has been upgraded from version '+n.oldVersion+' to version '+n.newVersion+', but the storage "'+t.storeName+'" already exists.');else throw e}}),o.onerror=function(t){t.preventDefault(),a(o.error)},o.onsuccess=function(){n(o.result),p(t)}})}function m(e){return h(e,!1)}function f(e){return h(e,!0)}function y(e,t){if(!e.db)return!0;var n=!e.db.objectStoreNames.contains(e.storeName),a=e.version<e.db.version,i=e.version>e.db.version;if(a&&(e.version!==t&&console.warn('The database "'+e.name+'" can\'t be downgraded from version '+e.db.version+' to version '+e.version+'.'),e.version=e.db.version),i||n){if(n){var o=e.db.version+1;o>e.version&&(e.version=o)}return!0}return!1}function v(t){return new B(function(n,e){var a=new FileReader;a.onerror=e,a.onloadend=function(a){var e=btoa(a.target.result||'');n({__local_forage_encoded_blob:!0,data:e,type:t.type})},a.readAsBinaryString(t)})}function b(e){var t=l(atob(e.data));return a([t],{type:e.type})}function k(e){return e&&e.__local_forage_encoded_blob}function x(e){var t=this,n=t._initReady().then(function(){var e=q[t._dbInfo.name];if(e&&e.dbReady)return e.dbReady});return o(n,e,e),n}function E(e){c(e);for(var t=q[e.name],n=t.forages,a=0,i;a<n.length;a++)i=n[a],i._dbInfo.db&&(i._dbInfo.db.close(),i._dbInfo.db=null);return e.db=null,m(e).then(function(t){return e.db=t,y(e)?f(e):t}).then(function(a){e.db=t.db=a;for(var o=0;o<n.length;o++)n[o]._dbInfo.db=a})['catch'](function(t){throw g(e,t),t})}function _(e,t,n,a){a===void 0&&(a=1);try{var i=e.db.transaction(e.storeName,t);n(null,i)}catch(i){if(0<a&&(!e.db||'InvalidStateError'===i.name||'NotFoundError'===i.name))return B.resolve().then(function(){if(!e.db||'NotFoundError'===i.name&&!e.db.objectStoreNames.contains(e.storeName)&&e.version<=e.db.version)return e.db&&(e.version=e.db.version+1),f(e)}).then(function(){return E(e).then(function(){_(e,t,n,a-1)})})['catch'](n);n(i)}}function N(){return{forages:[],db:null,dbReady:null,deferredOperations:[]}}function S(e){var t=0.75*e.length,n=e.length,a=0,o,i,r,s,l;'='===e[e.length-1]&&(t--,'='===e[e.length-2]&&t--);var d=new ArrayBuffer(t),u=new Uint8Array(d);for(o=0;o<n;o+=4)i=H.indexOf(e[o]),r=H.indexOf(e[o+1]),s=H.indexOf(e[o+2]),l=H.indexOf(e[o+3]),u[a++]=i<<2|r>>4,u[a++]=(15&r)<<4|s>>2,u[a++]=(3&s)<<6|63&l;return d}function w(e){var t=new Uint8Array(e),n='',a;for(a=0;a<t.length;a+=3)n+=H[t[a]>>2],n+=H[(3&t[a])<<4|t[a+1]>>4],n+=H[(15&t[a+1])<<2|t[a+2]>>6],n+=H[63&t[a+2]];return 2==t.length%3?n=n.substring(0,n.length-1)+'=':1==t.length%3&&(n=n.substring(0,n.length-2)+'=='),n}function T(e,t,n,a){e.executeSql('CREATE TABLE IF NOT EXISTS '+t.storeName+' (id INTEGER PRIMARY KEY, key unique, value)',[],n,a)}function C(e,n,a,i,o,r){e.executeSql(a,i,o,function(e,s){s.code===s.SYNTAX_ERR?e.executeSql('SELECT name FROM sqlite_master WHERE type=\'table\' AND name = ?',[n.storeName],function(e,t){t.rows.length?r(e,s):T(e,n,function(){e.executeSql(a,i,o,r)},r)},r):r(e,s)},r)}function R(e,t,n,a){var o=this;e=r(e);var s=new B(function(i,r){o.ready().then(function(){void 0===t&&(t=null);var s=t,l=o._dbInfo;l.serializer.serialize(t,function(d,t){t?r(t):l.db.transaction(function(n){C(n,l,'INSERT OR REPLACE INTO '+l.storeName+' (key, value) VALUES (?, ?)',[e,d],function(){i(s)},function(e,t){r(t)})},function(t){if(t.code===t.QUOTA_ERR){if(0<a)return void i(R.apply(o,[e,s,n,a-1]));r(t)}})})})['catch'](r)});return i(s,n),s}function I(e){return new B(function(n,a){e.transaction(function(i){i.executeSql('SELECT name FROM sqlite_master WHERE type=\'table\' AND name <> \'__WebKitDatabaseInfoTable__\'',[],function(a,t){for(var o=[],r=0;r<t.rows.length;r++)o.push(t.rows.item(r).name);n({db:e,storeNames:o})},function(e,t){a(t)})},function(e){a(e)})})}function L(e,t){var n=e.name+'/';return e.storeName!==t.storeName&&(n+=e.storeName+'/'),n}function A(){var e='_localforage_support_test';try{return localStorage.setItem(e,!0),localStorage.removeItem(e),!1}catch(t){return!0}}function O(){return!A()||0<localStorage.length}function D(e,t){e[t]=function(){var n=arguments;return e.ready().then(function(){return e[t].apply(e,n)})}}function P(){for(var e=1,t;e<arguments.length;e++)if(t=arguments[e],t)for(var n in t)t.hasOwnProperty(n)&&(arguments[0][n]=ge(t[n])?t[n].slice():t[n]);return arguments[0]}var z='function'==typeof Symbol&&'symbol'==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&'function'==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?'symbol':typeof e},M=function(){try{if('undefined'!=typeof indexedDB)return indexedDB;if('undefined'!=typeof webkitIndexedDB)return webkitIndexedDB;if('undefined'!=typeof mozIndexedDB)return mozIndexedDB;if('undefined'!=typeof OIndexedDB)return OIndexedDB;if('undefined'!=typeof msIndexedDB)return msIndexedDB}catch(t){}}();'undefined'==typeof Promise&&e(3);var B=Promise,j='local-forage-detect-blob-support',q={},U=Object.prototype.toString,V='readonly',W='readwrite',F={_driver:'asyncStorage',_initStorage:function(e){function t(){return B.resolve()}var n=this,a={db:null};if(e)for(var o in e)a[o]=e[o];var i=q[a.name];i||(i=N(),q[a.name]=i),i.forages.push(n),n._initReady||(n._initReady=n.ready,n.ready=x);for(var r=[],s=0,l;s<i.forages.length;s++)l=i.forages[s],l!==n&&r.push(l._initReady()['catch'](t));var d=i.forages.slice(0);return B.all(r).then(function(){return a.db=i.db,m(a)}).then(function(e){return a.db=e,y(a,n._defaultConfig.version)?f(a):e}).then(function(e){a.db=i.db=e,n._dbInfo=a;for(var t=0,o;t<d.length;t++)o=d[t],o!==n&&(o._dbInfo.db=a.db,o._dbInfo.version=a.version)})},_support:function(){try{if(!M)return!1;var e='undefined'!=typeof openDatabase&&/(Safari|iPhone|iPad|iPod)/.test(navigator.userAgent)&&!/Chrome/.test(navigator.userAgent)&&!/BlackBerry/.test(navigator.platform),t='function'==typeof fetch&&-1!==fetch.toString().indexOf('[native code');return(!e||t)&&'undefined'!=typeof indexedDB&&'undefined'!=typeof IDBKeyRange}catch(t){return!1}}(),iterate:function(e,t){var n=this,a=new B(function(t,a){n.ready().then(function(){_(n._dbInfo,V,function(i,o){if(i)return a(i);try{var r=o.objectStore(n._dbInfo.storeName),s=r.openCursor(),l=1;s.onsuccess=function(){var n=s.result;if(n){var a=n.value;k(a)&&(a=b(a));var i=e(a,n.key,l++);void 0===i?n['continue']():t(i)}else t()},s.onerror=function(){a(s.error)}}catch(t){a(t)}})})['catch'](a)});return i(a,t),a},getItem:function(e,t){var n=this;e=r(e);var a=new B(function(t,a){n.ready().then(function(){_(n._dbInfo,V,function(i,o){if(i)return a(i);try{var r=o.objectStore(n._dbInfo.storeName),s=r.get(e);s.onsuccess=function(){var e=s.result;void 0===e&&(e=null),k(e)&&(e=b(e)),t(e)},s.onerror=function(){a(s.error)}}catch(t){a(t)}})})['catch'](a)});return i(a,t),a},setItem:function(e,t,n){var a=this;e=r(e);var o=new B(function(n,i){var o;a.ready().then(function(){return o=a._dbInfo,'[object Blob]'===U.call(t)?u(o.db).then(function(e){return e?t:v(t)}):t}).then(function(t){_(a._dbInfo,W,function(o,r){if(o)return i(o);try{var s=r.objectStore(a._dbInfo.storeName);null===t&&(t=void 0);var l=s.put(t,e);r.oncomplete=function(){void 0===t&&(t=null),n(t)},r.onabort=r.onerror=function(){var e=l.error?l.error:l.transaction.error;i(e)}}catch(t){i(t)}})})['catch'](i)});return i(o,n),o},removeItem:function(e,t){var n=this;e=r(e);var a=new B(function(t,a){n.ready().then(function(){_(n._dbInfo,W,function(i,o){if(i)return a(i);try{var r=o.objectStore(n._dbInfo.storeName),s=r['delete'](e);o.oncomplete=function(){t()},o.onerror=function(){a(s.error)},o.onabort=function(){var e=s.error?s.error:s.transaction.error;a(e)}}catch(t){a(t)}})})['catch'](a)});return i(a,t),a},clear:function(e){var t=this,n=new B(function(e,n){t.ready().then(function(){_(t._dbInfo,W,function(a,i){if(a)return n(a);try{var o=i.objectStore(t._dbInfo.storeName),r=o.clear();i.oncomplete=function(){e()},i.onabort=i.onerror=function(){var e=r.error?r.error:r.transaction.error;n(e)}}catch(t){n(t)}})})['catch'](n)});return i(n,e),n},length:function(e){var t=this,n=new B(function(e,n){t.ready().then(function(){_(t._dbInfo,V,function(a,i){if(a)return n(a);try{var o=i.objectStore(t._dbInfo.storeName),r=o.count();r.onsuccess=function(){e(r.result)},r.onerror=function(){n(r.error)}}catch(t){n(t)}})})['catch'](n)});return i(n,e),n},key:function(e,t){var n=this,a=new B(function(t,a){return 0>e?void t(null):void n.ready().then(function(){_(n._dbInfo,V,function(i,o){if(i)return a(i);try{var r=o.objectStore(n._dbInfo.storeName),s=!1,l=r.openCursor();l.onsuccess=function(){var n=l.result;return n?void(0===e?t(n.key):s?t(n.key):(s=!0,n.advance(e))):void t(null)},l.onerror=function(){a(l.error)}}catch(t){a(t)}})})['catch'](a)});return i(a,t),a},keys:function(e){var t=this,n=new B(function(e,n){t.ready().then(function(){_(t._dbInfo,V,function(a,i){if(a)return n(a);try{var o=i.objectStore(t._dbInfo.storeName),r=o.openCursor(),s=[];r.onsuccess=function(){var t=r.result;return t?void(s.push(t.key),t['continue']()):void e(s)},r.onerror=function(){n(r.error)}}catch(t){n(t)}})})['catch'](n)});return i(n,e),n},dropInstance:function(e,t){t=s.apply(this,arguments);var n=this.config();e='function'!=typeof e&&e||{},e.name||(e.name=e.name||n.name,e.storeName=e.storeName||n.storeName);var a=this,o;if(!e.name)o=B.reject('Invalid arguments');else{var r=e.name===n.name&&a._dbInfo.db,l=r?B.resolve(a._dbInfo.db):m(e).then(function(t){var n=q[e.name],a=n.forages;n.db=t;for(var o=0;o<a.length;o++)a[o]._dbInfo.db=t;return t});o=e.storeName?l.then(function(t){if(t.objectStoreNames.contains(e.storeName)){var n=t.version+1;c(e);var a=q[e.name],o=a.forages;t.close();for(var r=0,i;r<o.length;r++)i=o[r],i._dbInfo.db=null,i._dbInfo.version=n;var s=new B(function(t,a){var i=M.open(e.name,n);i.onerror=function(e){var t=i.result;t.close(),a(e)},i.onupgradeneeded=function(){var t=i.result;t.deleteObjectStore(e.storeName)},i.onsuccess=function(){var e=i.result;e.close(),t(e)}});return s.then(function(e){a.db=e;for(var t=0,n;t<o.length;t++)n=o[t],n._dbInfo.db=e,p(n._dbInfo)})['catch'](function(t){throw(g(e,t)||B.resolve())['catch'](function(){}),t})}}):l.then(function(t){c(e);var n=q[e.name],a=n.forages;t.close();for(var o=0,i;o<a.length;o++)i=a[o],i._dbInfo.db=null;var r=new B(function(t,n){var a=M.deleteDatabase(e.name);a.onerror=a.onblocked=function(e){var t=a.result;t&&t.close(),n(e)},a.onsuccess=function(){var e=a.result;e&&e.close(),t(e)}});return r.then(function(e){n.db=e;for(var t=0,i;t<a.length;t++)i=a[t],p(i._dbInfo)})['catch'](function(t){throw(g(e,t)||B.resolve())['catch'](function(){}),t})})}return i(o,t),o}},H='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',X=/^~~local_forage_type~([^~]+)~/,Y='__lfsc__:',G=Y.length,K='arbf',Z='blob',Q='si08',J='ui08',$='uic8',ee='si16',te='si32',ne='ur16',ae='ui32',ie='fl32',oe='fl64',re=G+K.length,se=Object.prototype.toString,le={serialize:function(t,n){var e='';if(t&&(e=se.call(t)),t&&('[object ArrayBuffer]'===e||t.buffer&&'[object ArrayBuffer]'===se.call(t.buffer))){var a=Y,i;t instanceof ArrayBuffer?(i=t,a+=K):(i=t.buffer,'[object Int8Array]'===e?a+=Q:'[object Uint8Array]'===e?a+=J:'[object Uint8ClampedArray]'===e?a+=$:'[object Int16Array]'===e?a+=ee:'[object Uint16Array]'===e?a+=ne:'[object Int32Array]'===e?a+=te:'[object Uint32Array]'===e?a+=ae:'[object Float32Array]'===e?a+=ie:'[object Float64Array]'===e?a+=oe:n(new Error('Failed to get type for BinaryArray'))),n(a+w(i))}else if('[object Blob]'===e){var o=new FileReader;o.onload=function(){var e='~~local_forage_type~'+t.type+'~'+w(this.result);n(Y+Z+e)},o.readAsArrayBuffer(t)}else try{n(JSON.stringify(t))}catch(a){console.error('Couldn\'t convert value into a JSON string: ',t),n(null,a)}},deserialize:function(e){if(e.substring(0,G)!==Y)return JSON.parse(e);var t=e.substring(re),n=e.substring(G,re),i;if(n===Z&&X.test(t)){var o=t.match(X);i=o[1],t=t.substring(o[0].length)}var r=S(t);switch(n){case K:return r;case Z:return a([r],{type:i});case Q:return new Int8Array(r);case J:return new Uint8Array(r);case $:return new Uint8ClampedArray(r);case ee:return new Int16Array(r);case ne:return new Uint16Array(r);case te:return new Int32Array(r);case ae:return new Uint32Array(r);case ie:return new Float32Array(r);case oe:return new Float64Array(r);default:throw new Error('Unkown type: '+n);}},stringToBuffer:S,bufferToString:w},de={_driver:'webSQLStorage',_initStorage:function(e){var t=this,n={db:null};if(e)for(var a in e)n[a]='string'==typeof e[a]?e[a]:e[a].toString();var i=new B(function(e,a){try{n.db=openDatabase(n.name,n.version+'',n.description,n.size)}catch(t){return a(t)}n.db.transaction(function(i){T(i,n,function(){t._dbInfo=n,e()},function(e,t){a(t)})},a)});return n.serializer=le,i},_support:function(){return'function'==typeof openDatabase}(),iterate:function(e,t){var n=this,a=new B(function(a,i){n.ready().then(function(){var o=n._dbInfo;o.db.transaction(function(n){C(n,o,'SELECT * FROM '+o.storeName,[],function(n,t){for(var r=t.rows,s=r.length,l=0;l<s;l++){var i=r.item(l),d=i.value;if(d&&(d=o.serializer.deserialize(d)),d=e(d,i.key,l+1),void 0!==d)return void a(d)}a()},function(e,t){i(t)})})})['catch'](i)});return i(a,t),a},getItem:function(e,t){var n=this;e=r(e);var a=new B(function(a,i){n.ready().then(function(){var o=n._dbInfo;o.db.transaction(function(n){C(n,o,'SELECT * FROM '+o.storeName+' WHERE key = ? LIMIT 1',[e],function(e,t){var n=t.rows.length?t.rows.item(0).value:null;n&&(n=o.serializer.deserialize(n)),a(n)},function(e,t){i(t)})})})['catch'](i)});return i(a,t),a},setItem:function(e,t,n){return R.apply(this,[e,t,n,1])},removeItem:function(e,t){var n=this;e=r(e);var a=new B(function(t,a){n.ready().then(function(){var i=n._dbInfo;i.db.transaction(function(n){C(n,i,'DELETE FROM '+i.storeName+' WHERE key = ?',[e],function(){t()},function(e,t){a(t)})})})['catch'](a)});return i(a,t),a},clear:function(e){var t=this,n=new B(function(e,n){t.ready().then(function(){var a=t._dbInfo;a.db.transaction(function(i){C(i,a,'DELETE FROM '+a.storeName,[],function(){e()},function(e,t){n(t)})})})['catch'](n)});return i(n,e),n},length:function(e){var t=this,n=new B(function(e,n){t.ready().then(function(){var a=t._dbInfo;a.db.transaction(function(i){C(i,a,'SELECT COUNT(key) as c FROM '+a.storeName,[],function(n,t){var a=t.rows.item(0).c;e(a)},function(e,t){n(t)})})})['catch'](n)});return i(n,e),n},key:function(e,t){var n=this,a=new B(function(a,i){n.ready().then(function(){var o=n._dbInfo;o.db.transaction(function(n){C(n,o,'SELECT key FROM '+o.storeName+' WHERE id = ? LIMIT 1',[e+1],function(e,t){var n=t.rows.length?t.rows.item(0).key:null;a(n)},function(e,t){i(t)})})})['catch'](i)});return i(a,t),a},keys:function(e){var t=this,n=new B(function(e,n){t.ready().then(function(){var a=t._dbInfo;a.db.transaction(function(i){C(i,a,'SELECT key FROM '+a.storeName,[],function(n,t){for(var a=[],o=0;o<t.rows.length;o++)a.push(t.rows.item(o).key);e(a)},function(e,t){n(t)})})})['catch'](n)});return i(n,e),n},dropInstance:function(e,t){t=s.apply(this,arguments);var n=this.config();e='function'!=typeof e&&e||{},e.name||(e.name=e.name||n.name,e.storeName=e.storeName||n.storeName);var a=this,o;return o=e.name?new B(function(t){var i;i=e.name===n.name?a._dbInfo.db:openDatabase(e.name,'','',0),e.storeName?t({db:i,storeNames:[e.storeName]}):t(I(i))}).then(function(e){return new B(function(t,n){e.db.transaction(function(a){function o(e){return new B(function(t,n){a.executeSql('DROP TABLE IF EXISTS '+e,[],function(){t()},function(e,t){n(t)})})}for(var r=[],s=0,i=e.storeNames.length;s<i;s++)r.push(o(e.storeNames[s]));B.all(r).then(function(){t()})['catch'](function(t){n(t)})},function(e){n(e)})})}):B.reject('Invalid arguments'),i(o,t),o}},ue={_driver:'localStorageWrapper',_initStorage:function(e){var t=this,n={};if(e)for(var a in e)n[a]=e[a];return(n.keyPrefix=L(e,t._defaultConfig),!O())?B.reject():(t._dbInfo=n,n.serializer=le,B.resolve())},_support:function(){try{return'undefined'!=typeof localStorage&&'setItem'in localStorage&&!!localStorage.setItem}catch(t){return!1}}(),iterate:function(e,t){var n=this,a=n.ready().then(function(){for(var t=n._dbInfo,a=t.keyPrefix,o=a.length,r=localStorage.length,s=1,l=0,i;l<r;l++)if(i=localStorage.key(l),0===i.indexOf(a)){var d=localStorage.getItem(i);if(d&&(d=t.serializer.deserialize(d)),d=e(d,i.substring(o),s++),void 0!==d)return d}});return i(a,t),a},getItem:function(e,t){var n=this;e=r(e);var a=n.ready().then(function(){var t=n._dbInfo,a=localStorage.getItem(t.keyPrefix+e);return a&&(a=t.serializer.deserialize(a)),a});return i(a,t),a},setItem:function(e,t,n){var a=this;e=r(e);var o=a.ready().then(function(){void 0===t&&(t=null);var n=t;return new B(function(i,o){var r=a._dbInfo;r.serializer.serialize(t,function(t,a){if(a)o(a);else try{localStorage.setItem(r.keyPrefix+e,t),i(n)}catch(t){('QuotaExceededError'===t.name||'NS_ERROR_DOM_QUOTA_REACHED'===t.name)&&o(t),o(t)}})})});return i(o,n),o},removeItem:function(e,t){var n=this;e=r(e);var a=n.ready().then(function(){var t=n._dbInfo;localStorage.removeItem(t.keyPrefix+e)});return i(a,t),a},clear:function(e){var t=this,n=t.ready().then(function(){for(var e=t._dbInfo.keyPrefix,n=localStorage.length-1,a;0<=n;n--)a=localStorage.key(n),0===a.indexOf(e)&&localStorage.removeItem(a)});return i(n,e),n},length:function(e){var t=this,n=t.keys().then(function(e){return e.length});return i(n,e),n},key:function(e,t){var n=this,a=n.ready().then(function(){var t=n._dbInfo,a;try{a=localStorage.key(e)}catch(e){a=null}return a&&(a=a.substring(t.keyPrefix.length)),a});return i(a,t),a},keys:function(e){var t=this,n=t.ready().then(function(){for(var e=t._dbInfo,n=localStorage.length,a=[],o=0,i;o<n;o++)i=localStorage.key(o),0===i.indexOf(e.keyPrefix)&&a.push(i.substring(e.keyPrefix.length));return a});return i(n,e),n},dropInstance:function(e,t){if(t=s.apply(this,arguments),e='function'!=typeof e&&e||{},!e.name){var n=this.config();e.name=e.name||n.name,e.storeName=e.storeName||n.storeName}var a=this,o;return o=e.name?new B(function(t){e.storeName?t(L(e,a._defaultConfig)):t(e.name+'/')}).then(function(e){for(var t=localStorage.length-1,n;0<=t;t--)n=localStorage.key(t),0===n.indexOf(e)&&localStorage.removeItem(n)}):B.reject('Invalid arguments'),i(o,t),o}},ce=function(e,t){return e===t||'number'==typeof e&&'number'==typeof t&&isNaN(e)&&isNaN(t)},pe=function(e,t){for(var n=e.length,a=0;a<n;){if(ce(e[a],t))return!0;a++}return!1},ge=Array.isArray||function(e){return'[object Array]'===Object.prototype.toString.call(e)},he={},me={},fe={INDEXEDDB:F,WEBSQL:de,LOCALSTORAGE:ue},ye=[fe.INDEXEDDB._driver,fe.WEBSQL._driver,fe.LOCALSTORAGE._driver],ve=['dropInstance'],be=['clear','getItem','iterate','key','keys','length','removeItem','setItem'].concat(ve),ke={description:'',driver:ye.slice(),name:'localforage',size:4980736,storeName:'keyvaluepairs',version:1},xe=function(){function e(t){for(var a in n(this,e),fe)if(fe.hasOwnProperty(a)){var i=fe[a],o=i._driver;this[a]=o,he[o]||this.defineDriver(i)}this._defaultConfig=P({},ke),this._config=P({},this._defaultConfig,t),this._driverSet=null,this._initDriver=null,this._ready=!1,this._dbInfo=null,this._wrapLibraryMethodsWithReady(),this.setDriver(this._config.driver)['catch'](function(){})}return e.prototype.config=function(e){if('object'===('undefined'==typeof e?'undefined':z(e))){if(this._ready)return new Error('Can\'t call config() after localforage has been used.');for(var t in e){if('storeName'==t&&(e[t]=e[t].replace(/\W/g,'_')),'version'==t&&'number'!=typeof e[t])return new Error('Database version must be a number.');this._config[t]=e[t]}return'driver'in e&&e.driver?this.setDriver(this._config.driver):!0}return'string'==typeof e?this._config[e]:this._config},e.prototype.defineDriver=function(e,t,n){var a=new B(function(t,n){try{var a=e._driver,o=new Error('Custom driver not compliant; see https://mozilla.github.io/localForage/#definedriver');if(!e._driver)return void n(o);for(var r=be.concat('_initStorage'),s=0,l=r.length;s<l;s++){var d=r[s],u=!pe(ve,d);if((u||e[d])&&'function'!=typeof e[d])return void n(o)}var c=function(){for(var t=function(e){return function(){var t=new Error('Method '+e+' is not implemented by the current driver'),n=B.reject(t);return i(n,arguments[arguments.length-1]),n}},n=0,a=ve.length,o;n<a;n++)o=ve[n],e[o]||(e[o]=t(o))};c();var p=function(n){he[a]&&console.info('Redefining LocalForage driver: '+a),he[a]=e,me[a]=n,t()};'_support'in e?e._support&&'function'==typeof e._support?e._support().then(p,n):p(!!e._support):p(!0)}catch(t){n(t)}});return o(a,t,n),a},e.prototype.driver=function(){return this._driver||null},e.prototype.getDriver=function(e,t,n){var a=he[e]?B.resolve(he[e]):B.reject(new Error('Driver not found.'));return o(a,t,n),a},e.prototype.getSerializer=function(e){var t=B.resolve(le);return o(t,e),t},e.prototype.ready=function(e){var t=this,n=t._driverSet.then(function(){return null===t._ready&&(t._ready=t._initDriver()),t._ready});return o(n,e,e),n},e.prototype.setDriver=function(e,t,n){function a(){s._config.driver=s.driver()}function i(e){return s._extend(e),a(),s._ready=s._initStorage(s._config),s._ready}function r(e){return function(){function t(){for(;n<e.length;){var o=e[n];return n++,s._dbInfo=null,s._ready=null,s.getDriver(o).then(i)['catch'](t)}a();var r=new Error('No available storage method found.');return s._driverSet=B.reject(r),s._driverSet}var n=0;return t()}}var s=this;ge(e)||(e=[e]);var l=this._getSupportedDrivers(e),d=null===this._driverSet?B.resolve():this._driverSet['catch'](function(){return B.resolve()});return this._driverSet=d.then(function(){var e=l[0];return s._dbInfo=null,s._ready=null,s.getDriver(e).then(function(e){s._driver=e._driver,a(),s._wrapLibraryMethodsWithReady(),s._initDriver=r(l)})})['catch'](function(){a();var e=new Error('No available storage method found.');return s._driverSet=B.reject(e),s._driverSet}),o(this._driverSet,t,n),this._driverSet},e.prototype.supports=function(e){return!!me[e]},e.prototype._extend=function(e){P(this,e)},e.prototype._getSupportedDrivers=function(e){for(var t=[],n=0,a=e.length,i;n<a;n++)i=e[n],this.supports(i)&&t.push(i);return t},e.prototype._wrapLibraryMethodsWithReady=function(){for(var e=0,t=be.length;e<t;e++)D(this,be[e])},e.prototype.createInstance=function(t){return new e(t)},e}(),Ee=new xe,_e;t.exports=Ee},{3:3}]},{},[4])(4)})}).call(t,n(5))},function(e,t,n){'use strict';function a(e,t){if(!(e instanceof t))throw new TypeError('Cannot call a class as a function')}Object.defineProperty(t,'__esModule',{value:!0});var i=function(){function e(e,t){for(var n=0,a;n<t.length;n++)a=t[n],a.enumerable=a.enumerable||!1,a.configurable=!0,'value'in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}(),o=n(0),r=function(){function e(t){a(this,e),this.interactive='',this.fixedLayout='',this.openToSpread='',this.orientationLock='',t&&this.parse(t)}return i(e,[{key:'parse',value:function(e){var t=this;if(!e)return this;var n=(0,o.qs)(e,'display_options');if(!n)return this;var a=(0,o.qsa)(n,'option');return a.forEach(function(e){var n='';switch(e.childNodes.length&&(n=e.childNodes[0].nodeValue),e.attributes.name.value){case'interactive':t.interactive=n;break;case'fixed-layout':t.fixedLayout=n;break;case'open-to-spread':t.openToSpread=n;break;case'orientation-lock':t.orientationLock=n;}}),this}},{key:'destroy',value:function(){this.interactive=void 0,this.fixedLayout=void 0,this.openToSpread=void 0,this.orientationLock=void 0}}]),e}();t.default=r,e.exports=t['default']},function(e,t,n){(function(e){(function(e){var t=function(){try{return!!Symbol.iterator}catch(e){return!1}}(),n=function(e){var n={next:function(){var t=e.shift();return{done:void 0===t,value:t}}};return t&&(n[Symbol.iterator]=function(){return n}),n},a=function(e){return encodeURIComponent(e).replace(/%20/g,'+')},o=function(e){return decodeURIComponent(e).replace(/\+/g,' ')};'URLSearchParams'in e&&'a=1'===new URLSearchParams('?a=1').toString()||function(){var o=function(e){Object.defineProperty(this,'_entries',{writable:!0,value:{}});var t=typeof e;if('undefined'==t);else if('string'==t)''!==e&&this._fromString(e);else if(e instanceof o){var n=this;e.forEach(function(e,t){n.append(t,e)})}else if(!(null!==e&&'object'==t))throw new TypeError('Unsupported input\'s type for URLSearchParams');else if('[object Array]'===Object.prototype.toString.call(e)){for(var a=0,i;a<e.length;a++)if(i=e[a],'[object Array]'===Object.prototype.toString.call(i)||2!==i.length)this.append(i[0],i[1]);else throw new TypeError('Expected [string, any] as entry at index '+a+' of URLSearchParams\'s input');}else for(var r in e)e.hasOwnProperty(r)&&this.append(r,e[r])},i=o.prototype;i.append=function(e,t){e in this._entries?this._entries[e].push(t+''):this._entries[e]=[t+'']},i.delete=function(e){delete this._entries[e]},i.get=function(e){return e in this._entries?this._entries[e][0]:null},i.getAll=function(e){return e in this._entries?this._entries[e].slice(0):[]},i.has=function(e){return e in this._entries},i.set=function(e,t){this._entries[e]=[t+'']},i.forEach=function(e,t){var n;for(var a in this._entries)if(this._entries.hasOwnProperty(a)){n=this._entries[a];for(var o=0;o<n.length;o++)e.call(t,n[o],a,this)}},i.keys=function(){var e=[];return this.forEach(function(t,n){e.push(n)}),n(e)},i.values=function(){var e=[];return this.forEach(function(t){e.push(t)}),n(e)},i.entries=function(){var e=[];return this.forEach(function(t,n){e.push([n,t])}),n(e)},t&&(i[Symbol.iterator]=i.entries),i.toString=function(){var e=[];return this.forEach(function(t,n){e.push(a(n)+'='+a(t))}),e.join('&')},e.URLSearchParams=o}();var i=URLSearchParams.prototype;'function'!=typeof i.sort&&(i.sort=function(){var e=this,t=[];this.forEach(function(n,a){t.push([a,n]),e._entries||e.delete(a)}),t.sort(function(e,t){return e[0]<t[0]?-1:e[0]>t[0]?1:0}),e._entries&&(e._entries={});for(var n=0;n<t.length;n++)this.append(t[n][0],t[n][1])}),'function'!=typeof i._fromString&&Object.defineProperty(i,'_fromString',{enumerable:!1,configurable:!1,writable:!1,value:function(e){if(this._entries)this._entries={};else{var t=[];this.forEach(function(e,n){t.push(n)});for(var n=0;n<t.length;n++)this.delete(t[n])}e=e.replace(/^\?/,'');for(var a=e.split('&'),n=0,i;n<a.length;n++)i=a[n].split('='),this.append(o(i[0]),1<i.length?o(i[1]):'')}})})('undefined'==typeof e?'undefined'==typeof window?'undefined'==typeof self?this:self:window:e),function(e){if(function(){try{var e=new URL('b','http://a');return e.pathname='c%20d','http://a/c%20d'===e.href&&e.searchParams}catch(t){return!1}}()||function(){var t=e.URL,n=function(t,n){'string'!=typeof t&&(t+='');var a=document,i;if(n&&(void 0===e.location||n!==e.location.href)){a=document.implementation.createHTMLDocument(''),i=a.createElement('base'),i.href=n,a.head.appendChild(i);try{if(0!==i.href.indexOf(n))throw new Error(i.href)}catch(e){throw new Error('URL unable to set base '+n+' due to '+e)}}var o=a.createElement('a');if(o.href=t,i&&(a.body.appendChild(o),o.href=o.href),':'===o.protocol||!/:/.test(o.href))throw new TypeError('Invalid URL');Object.defineProperty(this,'_anchorElement',{value:o});var r=new URLSearchParams(this.search),s=!0,l=!0,d=this;['append','delete','set'].forEach(function(e){var t=r[e];r[e]=function(){t.apply(r,arguments),s&&(l=!1,d.search=r.toString(),l=!0)}}),Object.defineProperty(this,'searchParams',{value:r,enumerable:!0});var u;Object.defineProperty(this,'_updateSearchParams',{enumerable:!1,configurable:!1,writable:!1,value:function(){this.search!==u&&(u=this.search,l&&(s=!1,this.searchParams._fromString(this.search),s=!0))}})},a=n.prototype,i=function(e){Object.defineProperty(a,e,{get:function(){return this._anchorElement[e]},set:function(t){this._anchorElement[e]=t},enumerable:!0})};['hash','host','hostname','port','protocol'].forEach(function(e){i(e)}),Object.defineProperty(a,'search',{get:function(){return this._anchorElement.search},set:function(e){this._anchorElement.search=e,this._updateSearchParams()},enumerable:!0}),Object.defineProperties(a,{toString:{get:function(){var e=this;return function(){return e.href}}},href:{get:function(){return this._anchorElement.href.replace(/\?$/,'')},set:function(e){this._anchorElement.href=e,this._updateSearchParams()},enumerable:!0},pathname:{get:function(){return this._anchorElement.pathname.replace(/(^\/?)/,'/')},set:function(e){this._anchorElement.pathname=e},enumerable:!0},origin:{get:function(){var e={"http:":80,"https:":443,"ftp:":21}[this._anchorElement.protocol],t=this._anchorElement.port!=e&&''!==this._anchorElement.port;return this._anchorElement.protocol+'//'+this._anchorElement.hostname+(t?':'+this._anchorElement.port:'')},enumerable:!0},password:{get:function(){return''},set:function(){},enumerable:!0},username:{get:function(){return''},set:function(){},enumerable:!0}}),n.createObjectURL=function(){return t.createObjectURL.apply(t,arguments)},n.revokeObjectURL=function(){return t.revokeObjectURL.apply(t,arguments)},e.URL=n}(),void 0!==e.location&&!('origin'in e.location)){var t=function(){return e.location.protocol+'//'+e.location.hostname+(e.location.port?':'+e.location.port:'')};try{Object.defineProperty(e.location,'origin',{get:t,enumerable:!0})}catch(n){setInterval(function(){e.location.origin=t()},100)}}}('undefined'==typeof e?'undefined'==typeof window?'undefined'==typeof self?this:self:window:e)}).call(t,n(5))}])});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("xmldom"), (function webpackLoadOptionalExternalModule() { try { return require("jszip"); } catch(e) {} }()));
+	else if(typeof define === 'function' && define.amd)
+		define(["xmldom", "jszip"], factory);
+	else if(typeof exports === 'object')
+		exports["ePub"] = factory(require("xmldom"), (function webpackLoadOptionalExternalModule() { try { return require("jszip"); } catch(e) {} }()));
+	else
+		root["ePub"] = factory(root["xmldom"], root["jszip"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_16__, __WEBPACK_EXTERNAL_MODULE_68__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/dist/";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 25);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+exports.uuid = uuid;
+exports.documentHeight = documentHeight;
+exports.isElement = isElement;
+exports.isNumber = isNumber;
+exports.isFloat = isFloat;
+exports.prefixed = prefixed;
+exports.defaults = defaults;
+exports.extend = extend;
+exports.insert = insert;
+exports.locationOf = locationOf;
+exports.indexOfSorted = indexOfSorted;
+exports.bounds = bounds;
+exports.borders = borders;
+exports.windowBounds = windowBounds;
+exports.indexOfNode = indexOfNode;
+exports.indexOfTextNode = indexOfTextNode;
+exports.indexOfElementNode = indexOfElementNode;
+exports.isXml = isXml;
+exports.createBlob = createBlob;
+exports.createBlobUrl = createBlobUrl;
+exports.revokeBlobUrl = revokeBlobUrl;
+exports.createBase64Url = createBase64Url;
+exports.type = type;
+exports.parse = parse;
+exports.qs = qs;
+exports.qsa = qsa;
+exports.qsp = qsp;
+exports.sprint = sprint;
+exports.treeWalker = treeWalker;
+exports.walk = walk;
+exports.blob2base64 = blob2base64;
+exports.defer = defer;
+exports.querySelectorByType = querySelectorByType;
+exports.findChildren = findChildren;
+exports.parents = parents;
+exports.filterChildren = filterChildren;
+exports.getParentByTagName = getParentByTagName;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Core Utilities and Helpers
+ * @module Core
+*/
+
+/**
+ * Vendor prefixed requestAnimationFrame
+ * @returns {function} requestAnimationFrame
+ * @memberof Core
+ */
+var requestAnimationFrame = exports.requestAnimationFrame = typeof window != "undefined" ? window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame : false;
+var ELEMENT_NODE = 1;
+var TEXT_NODE = 3;
+var COMMENT_NODE = 8;
+var DOCUMENT_NODE = 9;
+var _URL = typeof URL != "undefined" ? URL : typeof window != "undefined" ? window.URL || window.webkitURL || window.mozURL : undefined;
+
+/**
+ * Generates a UUID
+ * based on: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
+ * @returns {string} uuid
+ * @memberof Core
+ */
+function uuid() {
+	var d = new Date().getTime();
+	var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+		var r = (d + Math.random() * 16) % 16 | 0;
+		d = Math.floor(d / 16);
+		return (c == "x" ? r : r & 0x7 | 0x8).toString(16);
+	});
+	return uuid;
+}
+
+/**
+ * Gets the height of a document
+ * @returns {number} height
+ * @memberof Core
+ */
+function documentHeight() {
+	return Math.max(document.documentElement.clientHeight, document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight, document.documentElement.offsetHeight);
+}
+
+/**
+ * Checks if a node is an element
+ * @returns {boolean}
+ * @memberof Core
+ */
+function isElement(obj) {
+	return !!(obj && obj.nodeType == 1);
+}
+
+/**
+ * @returns {boolean}
+ * @memberof Core
+ */
+function isNumber(n) {
+	return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+/**
+ * @returns {boolean}
+ * @memberof Core
+ */
+function isFloat(n) {
+	var f = parseFloat(n);
+	return f === n && isNumber(n) && Math.floor(f) !== n;
+}
+
+/**
+ * Get a prefixed css property
+ * @returns {string}
+ * @memberof Core
+ */
+function prefixed(unprefixed) {
+	var vendors = ["Webkit", "webkit", "Moz", "O", "ms"];
+	var prefixes = ["-webkit-", "-webkit-", "-moz-", "-o-", "-ms-"];
+	var upper = unprefixed[0].toUpperCase() + unprefixed.slice(1);
+	var length = vendors.length;
+
+	if (typeof document === "undefined" || typeof document.body.style[unprefixed] != "undefined") {
+		return unprefixed;
+	}
+
+	for (var i = 0; i < length; i++) {
+		if (typeof document.body.style[vendors[i] + upper] != "undefined") {
+			return prefixes[i] + unprefixed;
+		}
+	}
+
+	return unprefixed;
+}
+
+/**
+ * Apply defaults to an object
+ * @param {object} obj
+ * @returns {object}
+ * @memberof Core
+ */
+function defaults(obj) {
+	for (var i = 1, length = arguments.length; i < length; i++) {
+		var source = arguments[i];
+		for (var prop in source) {
+			if (obj[prop] === void 0) obj[prop] = source[prop];
+		}
+	}
+	return obj;
+}
+
+/**
+ * Extend properties of an object
+ * @param {object} target
+ * @returns {object}
+ * @memberof Core
+ */
+function extend(target) {
+	var sources = [].slice.call(arguments, 1);
+	sources.forEach(function (source) {
+		if (!source) return;
+		Object.getOwnPropertyNames(source).forEach(function (propName) {
+			Object.defineProperty(target, propName, Object.getOwnPropertyDescriptor(source, propName));
+		});
+	});
+	return target;
+}
+
+/**
+ * Fast quicksort insert for sorted array -- based on:
+ *  http://stackoverflow.com/questions/1344500/efficient-way-to-insert-a-number-into-a-sorted-array-of-numbers
+ * @param {any} item
+ * @param {array} array
+ * @param {function} [compareFunction]
+ * @returns {number} location (in array)
+ * @memberof Core
+ */
+function insert(item, array, compareFunction) {
+	var location = locationOf(item, array, compareFunction);
+	array.splice(location, 0, item);
+
+	return location;
+}
+
+/**
+ * Finds where something would fit into a sorted array
+ * @param {any} item
+ * @param {array} array
+ * @param {function} [compareFunction]
+ * @param {function} [_start]
+ * @param {function} [_end]
+ * @returns {number} location (in array)
+ * @memberof Core
+ */
+function locationOf(item, array, compareFunction, _start, _end) {
+	var start = _start || 0;
+	var end = _end || array.length;
+	var pivot = parseInt(start + (end - start) / 2);
+	var compared;
+	if (!compareFunction) {
+		compareFunction = function compareFunction(a, b) {
+			if (a > b) return 1;
+			if (a < b) return -1;
+			if (a == b) return 0;
+		};
+	}
+	if (end - start <= 0) {
+		return pivot;
+	}
+
+	compared = compareFunction(array[pivot], item);
+	if (end - start === 1) {
+		return compared >= 0 ? pivot : pivot + 1;
+	}
+	if (compared === 0) {
+		return pivot;
+	}
+	if (compared === -1) {
+		return locationOf(item, array, compareFunction, pivot, end);
+	} else {
+		return locationOf(item, array, compareFunction, start, pivot);
+	}
+}
+
+/**
+ * Finds index of something in a sorted array
+ * Returns -1 if not found
+ * @param {any} item
+ * @param {array} array
+ * @param {function} [compareFunction]
+ * @param {function} [_start]
+ * @param {function} [_end]
+ * @returns {number} index (in array) or -1
+ * @memberof Core
+ */
+function indexOfSorted(item, array, compareFunction, _start, _end) {
+	var start = _start || 0;
+	var end = _end || array.length;
+	var pivot = parseInt(start + (end - start) / 2);
+	var compared;
+	if (!compareFunction) {
+		compareFunction = function compareFunction(a, b) {
+			if (a > b) return 1;
+			if (a < b) return -1;
+			if (a == b) return 0;
+		};
+	}
+	if (end - start <= 0) {
+		return -1; // Not found
+	}
+
+	compared = compareFunction(array[pivot], item);
+	if (end - start === 1) {
+		return compared === 0 ? pivot : -1;
+	}
+	if (compared === 0) {
+		return pivot; // Found
+	}
+	if (compared === -1) {
+		return indexOfSorted(item, array, compareFunction, pivot, end);
+	} else {
+		return indexOfSorted(item, array, compareFunction, start, pivot);
+	}
+}
+/**
+ * Find the bounds of an element
+ * taking padding and margin into account
+ * @param {element} el
+ * @returns {{ width: Number, height: Number}}
+ * @memberof Core
+ */
+function bounds(el) {
+
+	var style = window.getComputedStyle(el);
+	var widthProps = ["width", "paddingRight", "paddingLeft", "marginRight", "marginLeft", "borderRightWidth", "borderLeftWidth"];
+	var heightProps = ["height", "paddingTop", "paddingBottom", "marginTop", "marginBottom", "borderTopWidth", "borderBottomWidth"];
+
+	var width = 0;
+	var height = 0;
+
+	widthProps.forEach(function (prop) {
+		width += parseFloat(style[prop]) || 0;
+	});
+
+	heightProps.forEach(function (prop) {
+		height += parseFloat(style[prop]) || 0;
+	});
+
+	return {
+		height: height,
+		width: width
+	};
+}
+
+/**
+ * Find the bounds of an element
+ * taking padding, margin and borders into account
+ * @param {element} el
+ * @returns {{ width: Number, height: Number}}
+ * @memberof Core
+ */
+function borders(el) {
+
+	var style = window.getComputedStyle(el);
+	var widthProps = ["paddingRight", "paddingLeft", "marginRight", "marginLeft", "borderRightWidth", "borderLeftWidth"];
+	var heightProps = ["paddingTop", "paddingBottom", "marginTop", "marginBottom", "borderTopWidth", "borderBottomWidth"];
+
+	var width = 0;
+	var height = 0;
+
+	widthProps.forEach(function (prop) {
+		width += parseFloat(style[prop]) || 0;
+	});
+
+	heightProps.forEach(function (prop) {
+		height += parseFloat(style[prop]) || 0;
+	});
+
+	return {
+		height: height,
+		width: width
+	};
+}
+
+/**
+ * Find the equivelent of getBoundingClientRect of a browser window
+ * @returns {{ width: Number, height: Number, top: Number, left: Number, right: Number, bottom: Number }}
+ * @memberof Core
+ */
+function windowBounds() {
+
+	var width = window.innerWidth;
+	var height = window.innerHeight;
+
+	return {
+		top: 0,
+		left: 0,
+		right: width,
+		bottom: height,
+		width: width,
+		height: height
+	};
+}
+
+/**
+ * Gets the index of a node in its parent
+ * @private
+ * @memberof Core
+ */
+function indexOfNode(node, typeId) {
+	var parent = node.parentNode;
+	var children = parent.childNodes;
+	var sib;
+	var index = -1;
+	for (var i = 0; i < children.length; i++) {
+		sib = children[i];
+		if (sib.nodeType === typeId) {
+			index++;
+		}
+		if (sib == node) break;
+	}
+
+	return index;
+}
+
+/**
+ * Gets the index of a text node in its parent
+ * @param {node} textNode
+ * @returns {number} index
+ * @memberof Core
+ */
+function indexOfTextNode(textNode) {
+	return indexOfNode(textNode, TEXT_NODE);
+}
+
+/**
+ * Gets the index of an element node in its parent
+ * @param {element} elementNode
+ * @returns {number} index
+ * @memberof Core
+ */
+function indexOfElementNode(elementNode) {
+	return indexOfNode(elementNode, ELEMENT_NODE);
+}
+
+/**
+ * Check if extension is xml
+ * @param {string} ext
+ * @returns {boolean}
+ * @memberof Core
+ */
+function isXml(ext) {
+	return ["xml", "opf", "ncx"].indexOf(ext) > -1;
+}
+
+/**
+ * Create a new blob
+ * @param {any} content
+ * @param {string} mime
+ * @returns {Blob}
+ * @memberof Core
+ */
+function createBlob(content, mime) {
+	return new Blob([content], { type: mime });
+}
+
+/**
+ * Create a new blob url
+ * @param {any} content
+ * @param {string} mime
+ * @returns {string} url
+ * @memberof Core
+ */
+function createBlobUrl(content, mime) {
+	var tempUrl;
+	var blob = createBlob(content, mime);
+
+	tempUrl = _URL.createObjectURL(blob);
+
+	return tempUrl;
+}
+
+/**
+ * Remove a blob url
+ * @param {string} url
+ * @memberof Core
+ */
+function revokeBlobUrl(url) {
+	return _URL.revokeObjectURL(url);
+}
+
+/**
+ * Create a new base64 encoded url
+ * @param {any} content
+ * @param {string} mime
+ * @returns {string} url
+ * @memberof Core
+ */
+function createBase64Url(content, mime) {
+	var data;
+	var datauri;
+
+	if (typeof content !== "string") {
+		// Only handles strings
+		return;
+	}
+
+	data = btoa(encodeURIComponent(content));
+
+	datauri = "data:" + mime + ";base64," + data;
+
+	return datauri;
+}
+
+/**
+ * Get type of an object
+ * @param {object} obj
+ * @returns {string} type
+ * @memberof Core
+ */
+function type(obj) {
+	return Object.prototype.toString.call(obj).slice(8, -1);
+}
+
+/**
+ * Parse xml (or html) markup
+ * @param {string} markup
+ * @param {string} mime
+ * @param {boolean} forceXMLDom force using xmlDom to parse instead of native parser
+ * @returns {document} document
+ * @memberof Core
+ */
+function parse(markup, mime, forceXMLDom) {
+	var doc;
+	var Parser;
+
+	if (typeof DOMParser === "undefined" || forceXMLDom) {
+		Parser = __webpack_require__(16).DOMParser;
+	} else {
+		Parser = DOMParser;
+	}
+
+	// Remove byte order mark before parsing
+	// https://www.w3.org/International/questions/qa-byte-order-mark
+	if (markup.charCodeAt(0) === 0xFEFF) {
+		markup = markup.slice(1);
+	}
+
+	doc = new Parser().parseFromString(markup, mime);
+
+	return doc;
+}
+
+/**
+ * querySelector polyfill
+ * @param {element} el
+ * @param {string} sel selector string
+ * @returns {element} element
+ * @memberof Core
+ */
+function qs(el, sel) {
+	var elements;
+	if (!el) {
+		throw new Error("No Element Provided");
+	}
+
+	if (typeof el.querySelector != "undefined") {
+		return el.querySelector(sel);
+	} else {
+		elements = el.getElementsByTagName(sel);
+		if (elements.length) {
+			return elements[0];
+		}
+	}
+}
+
+/**
+ * querySelectorAll polyfill
+ * @param {element} el
+ * @param {string} sel selector string
+ * @returns {element[]} elements
+ * @memberof Core
+ */
+function qsa(el, sel) {
+
+	if (typeof el.querySelector != "undefined") {
+		return el.querySelectorAll(sel);
+	} else {
+		return el.getElementsByTagName(sel);
+	}
+}
+
+/**
+ * querySelector by property
+ * @param {element} el
+ * @param {string} sel selector string
+ * @param {props[]} props
+ * @returns {element[]} elements
+ * @memberof Core
+ */
+function qsp(el, sel, props) {
+	var q, filtered;
+	if (typeof el.querySelector != "undefined") {
+		sel += "[";
+		for (var prop in props) {
+			sel += prop + "~='" + props[prop] + "'";
+		}
+		sel += "]";
+		return el.querySelector(sel);
+	} else {
+		q = el.getElementsByTagName(sel);
+		filtered = Array.prototype.slice.call(q, 0).filter(function (el) {
+			for (var prop in props) {
+				if (el.getAttribute(prop) === props[prop]) {
+					return true;
+				}
+			}
+			return false;
+		});
+
+		if (filtered) {
+			return filtered[0];
+		}
+	}
+}
+
+/**
+ * Sprint through all text nodes in a document
+ * @memberof Core
+ * @param  {element} root element to start with
+ * @param  {function} func function to run on each element
+ */
+function sprint(root, func) {
+	var doc = root.ownerDocument || root;
+	if (typeof doc.createTreeWalker !== "undefined") {
+		treeWalker(root, func, NodeFilter.SHOW_TEXT);
+	} else {
+		walk(root, function (node) {
+			if (node && node.nodeType === 3) {
+				// Node.TEXT_NODE
+				func(node);
+			}
+		}, true);
+	}
+}
+
+function treeWalker(root, func, filter) {
+	var treeWalker = document.createTreeWalker(root, filter, null, false);
+	var node = void 0;
+	while (node = treeWalker.nextNode()) {
+		func(node);
+	}
+}
+
+/**
+ * @memberof Core
+ * @param {node} node
+ * @param {callback} return false for continue,true for break inside callback
+ */
+function walk(node, callback) {
+	if (callback(node)) {
+		return true;
+	}
+	node = node.firstChild;
+	if (node) {
+		do {
+			var walked = walk(node, callback);
+			if (walked) {
+				return true;
+			}
+			node = node.nextSibling;
+		} while (node);
+	}
+}
+
+/**
+ * Convert a blob to a base64 encoded string
+ * @param {Blog} blob
+ * @returns {string}
+ * @memberof Core
+ */
+function blob2base64(blob) {
+	return new Promise(function (resolve, reject) {
+		var reader = new FileReader();
+		reader.readAsDataURL(blob);
+		reader.onloadend = function () {
+			resolve(reader.result);
+		};
+	});
+}
+
+/**
+ * Creates a new pending promise and provides methods to resolve or reject it.
+ * From: https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Deferred#backwards_forwards_compatible
+ * @memberof Core
+ */
+function defer() {
+	var _this = this;
+
+	/* A method to resolve the associated Promise with the value passed.
+  * If the promise is already settled it does nothing.
+  *
+  * @param {anything} value : This value is used to resolve the promise
+  * If the value is a Promise then the associated promise assumes the state
+  * of Promise passed as value.
+  */
+	this.resolve = null;
+
+	/* A method to reject the assocaited Promise with the value passed.
+  * If the promise is already settled it does nothing.
+  *
+  * @param {anything} reason: The reason for the rejection of the Promise.
+  * Generally its an Error object. If however a Promise is passed, then the Promise
+  * itself will be the reason for rejection no matter the state of the Promise.
+  */
+	this.reject = null;
+
+	this.id = uuid();
+
+	/* A newly created Pomise object.
+  * Initially in pending state.
+  */
+	this.promise = new Promise(function (resolve, reject) {
+		_this.resolve = resolve;
+		_this.reject = reject;
+	});
+	Object.freeze(this);
+}
+
+/**
+ * querySelector with filter by epub type
+ * @param {element} html
+ * @param {string} element element type to find
+ * @param {string} type epub type to find
+ * @returns {element[]} elements
+ * @memberof Core
+ */
+function querySelectorByType(html, element, type) {
+	var query;
+	if (typeof html.querySelector != "undefined") {
+		query = html.querySelector(element + "[*|type=\"" + type + "\"]");
+	}
+	// Handle IE not supporting namespaced epub:type in querySelector
+	if (!query || query.length === 0) {
+		query = qsa(html, element);
+		for (var i = 0; i < query.length; i++) {
+			if (query[i].getAttributeNS("http://www.idpf.org/2007/ops", "type") === type || query[i].getAttribute("epub:type") === type) {
+				return query[i];
+			}
+		}
+	} else {
+		return query;
+	}
+}
+
+/**
+ * Find direct decendents of an element
+ * @param {element} el
+ * @returns {element[]} children
+ * @memberof Core
+ */
+function findChildren(el) {
+	var result = [];
+	var childNodes = el.childNodes;
+	for (var i = 0; i < childNodes.length; i++) {
+		var node = childNodes[i];
+		if (node.nodeType === 1) {
+			result.push(node);
+		}
+	}
+	return result;
+}
+
+/**
+ * Find all parents (ancestors) of an element
+ * @param {element} node
+ * @returns {element[]} parents
+ * @memberof Core
+ */
+function parents(node) {
+	var nodes = [node];
+	for (; node; node = node.parentNode) {
+		nodes.unshift(node);
+	}
+	return nodes;
+}
+
+/**
+ * Find all direct decendents of a specific type
+ * @param {element} el
+ * @param {string} nodeName
+ * @param {boolean} [single]
+ * @returns {element[]} children
+ * @memberof Core
+ */
+function filterChildren(el, nodeName, single) {
+	var result = [];
+	var childNodes = el.childNodes;
+	for (var i = 0; i < childNodes.length; i++) {
+		var node = childNodes[i];
+		if (node.nodeType === 1 && node.nodeName.toLowerCase() === nodeName) {
+			if (single) {
+				return node;
+			} else {
+				result.push(node);
+			}
+		}
+	}
+	if (!single) {
+		return result;
+	}
+}
+
+/**
+ * Filter all parents (ancestors) with tag name
+ * @param {element} node
+ * @param {string} tagname
+ * @returns {element[]} parents
+ * @memberof Core
+ */
+function getParentByTagName(node, tagname) {
+	var parent = void 0;
+	if (node === null || tagname === '') return;
+	parent = node.parentNode;
+	while (parent.nodeType === 1) {
+		if (parent.tagName.toLowerCase() === tagname) {
+			return parent;
+		}
+		parent = parent.parentNode;
+	}
+}
+
+/**
+ * Lightweight Polyfill for DOM Range
+ * @class
+ * @memberof Core
+ */
+
+var RangeObject = exports.RangeObject = function () {
+	function RangeObject() {
+		_classCallCheck(this, RangeObject);
+
+		this.collapsed = false;
+		this.commonAncestorContainer = undefined;
+		this.endContainer = undefined;
+		this.endOffset = undefined;
+		this.startContainer = undefined;
+		this.startOffset = undefined;
+	}
+
+	_createClass(RangeObject, [{
+		key: "setStart",
+		value: function setStart(startNode, startOffset) {
+			this.startContainer = startNode;
+			this.startOffset = startOffset;
+
+			if (!this.endContainer) {
+				this.collapse(true);
+			} else {
+				this.commonAncestorContainer = this._commonAncestorContainer();
+			}
+
+			this._checkCollapsed();
+		}
+	}, {
+		key: "setEnd",
+		value: function setEnd(endNode, endOffset) {
+			this.endContainer = endNode;
+			this.endOffset = endOffset;
+
+			if (!this.startContainer) {
+				this.collapse(false);
+			} else {
+				this.collapsed = false;
+				this.commonAncestorContainer = this._commonAncestorContainer();
+			}
+
+			this._checkCollapsed();
+		}
+	}, {
+		key: "collapse",
+		value: function collapse(toStart) {
+			this.collapsed = true;
+			if (toStart) {
+				this.endContainer = this.startContainer;
+				this.endOffset = this.startOffset;
+				this.commonAncestorContainer = this.startContainer.parentNode;
+			} else {
+				this.startContainer = this.endContainer;
+				this.startOffset = this.endOffset;
+				this.commonAncestorContainer = this.endOffset.parentNode;
+			}
+		}
+	}, {
+		key: "selectNode",
+		value: function selectNode(referenceNode) {
+			var parent = referenceNode.parentNode;
+			var index = Array.prototype.indexOf.call(parent.childNodes, referenceNode);
+			this.setStart(parent, index);
+			this.setEnd(parent, index + 1);
+		}
+	}, {
+		key: "selectNodeContents",
+		value: function selectNodeContents(referenceNode) {
+			var end = referenceNode.childNodes[referenceNode.childNodes - 1];
+			var endIndex = referenceNode.nodeType === 3 ? referenceNode.textContent.length : parent.childNodes.length;
+			this.setStart(referenceNode, 0);
+			this.setEnd(referenceNode, endIndex);
+		}
+	}, {
+		key: "_commonAncestorContainer",
+		value: function _commonAncestorContainer(startContainer, endContainer) {
+			var startParents = parents(startContainer || this.startContainer);
+			var endParents = parents(endContainer || this.endContainer);
+
+			if (startParents[0] != endParents[0]) return undefined;
+
+			for (var i = 0; i < startParents.length; i++) {
+				if (startParents[i] != endParents[i]) {
+					return startParents[i - 1];
+				}
+			}
+		}
+	}, {
+		key: "_checkCollapsed",
+		value: function _checkCollapsed() {
+			if (this.startContainer === this.endContainer && this.startOffset === this.endOffset) {
+				this.collapsed = true;
+			} else {
+				this.collapsed = false;
+			}
+		}
+	}, {
+		key: "toString",
+		value: function toString() {
+			// TODO: implement walking between start and end to find text
+		}
+	}]);
+
+	return RangeObject;
+}();
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = __webpack_require__(0);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ELEMENT_NODE = 1;
+var TEXT_NODE = 3;
+var COMMENT_NODE = 8;
+var DOCUMENT_NODE = 9;
+
+/**
+	* Parsing and creation of EpubCFIs: http://www.idpf.org/epub/linking/cfi/epub-cfi.html
+
+	* Implements:
+	* - Character Offset: epubcfi(/6/4[chap01ref]!/4[body01]/10[para05]/2/1:3)
+	* - Simple Ranges : epubcfi(/6/4[chap01ref]!/4[body01]/10[para05],/2/1:1,/3:4)
+
+	* Does Not Implement:
+	* - Temporal Offset (~)
+	* - Spatial Offset (@)
+	* - Temporal-Spatial Offset (~ + @)
+	* - Text Location Assertion ([)
+	* @class
+	@param {string | Range | Node } [cfiFrom]
+	@param {string | object} [base]
+	@param {string} [ignoreClass] class to ignore when parsing DOM
+*/
+
+var EpubCFI = function () {
+	function EpubCFI(cfiFrom, base, ignoreClass) {
+		_classCallCheck(this, EpubCFI);
+
+		var type;
+
+		this.str = "";
+
+		this.base = {};
+		this.spinePos = 0; // For compatibility
+
+		this.range = false; // true || false;
+
+		this.path = {};
+		this.start = null;
+		this.end = null;
+
+		// Allow instantiation without the "new" keyword
+		if (!(this instanceof EpubCFI)) {
+			return new EpubCFI(cfiFrom, base, ignoreClass);
+		}
+
+		if (typeof base === "string") {
+			this.base = this.parseComponent(base);
+		} else if ((typeof base === "undefined" ? "undefined" : _typeof(base)) === "object" && base.steps) {
+			this.base = base;
+		}
+
+		type = this.checkType(cfiFrom);
+
+		if (type === "string") {
+			this.str = cfiFrom;
+			return (0, _core.extend)(this, this.parse(cfiFrom));
+		} else if (type === "range") {
+			return (0, _core.extend)(this, this.fromRange(cfiFrom, this.base, ignoreClass));
+		} else if (type === "node") {
+			return (0, _core.extend)(this, this.fromNode(cfiFrom, this.base, ignoreClass));
+		} else if (type === "EpubCFI" && cfiFrom.path) {
+			return cfiFrom;
+		} else if (!cfiFrom) {
+			return this;
+		} else {
+			throw new TypeError("not a valid argument for EpubCFI");
+		}
+	}
+
+	/**
+  * Check the type of constructor input
+  * @private
+  */
+
+
+	_createClass(EpubCFI, [{
+		key: "checkType",
+		value: function checkType(cfi) {
+
+			if (this.isCfiString(cfi)) {
+				return "string";
+				// Is a range object
+			} else if ((typeof cfi === "undefined" ? "undefined" : _typeof(cfi)) === "object" && ((0, _core.type)(cfi) === "Range" || typeof cfi.startContainer != "undefined")) {
+				return "range";
+			} else if ((typeof cfi === "undefined" ? "undefined" : _typeof(cfi)) === "object" && typeof cfi.nodeType != "undefined") {
+				// || typeof cfi === "function"
+				return "node";
+			} else if ((typeof cfi === "undefined" ? "undefined" : _typeof(cfi)) === "object" && cfi instanceof EpubCFI) {
+				return "EpubCFI";
+			} else {
+				return false;
+			}
+		}
+
+		/**
+   * Parse a cfi string to a CFI object representation
+   * @param {string} cfiStr
+   * @returns {object} cfi
+   */
+
+	}, {
+		key: "parse",
+		value: function parse(cfiStr) {
+			var cfi = {
+				spinePos: -1,
+				range: false,
+				base: {},
+				path: {},
+				start: null,
+				end: null
+			};
+			var baseComponent, pathComponent, range;
+
+			if (typeof cfiStr !== "string") {
+				return { spinePos: -1 };
+			}
+
+			if (cfiStr.indexOf("epubcfi(") === 0 && cfiStr[cfiStr.length - 1] === ")") {
+				// Remove intial epubcfi( and ending )
+				cfiStr = cfiStr.slice(8, cfiStr.length - 1);
+			}
+
+			baseComponent = this.getChapterComponent(cfiStr);
+
+			// Make sure this is a valid cfi or return
+			if (!baseComponent) {
+				return { spinePos: -1 };
+			}
+
+			cfi.base = this.parseComponent(baseComponent);
+
+			pathComponent = this.getPathComponent(cfiStr);
+			cfi.path = this.parseComponent(pathComponent);
+
+			range = this.getRange(cfiStr);
+
+			if (range) {
+				cfi.range = true;
+				cfi.start = this.parseComponent(range[0]);
+				cfi.end = this.parseComponent(range[1]);
+			}
+
+			// Get spine node position
+			// cfi.spineSegment = cfi.base.steps[1];
+
+			// Chapter segment is always the second step
+			cfi.spinePos = cfi.base.steps[1].index;
+
+			return cfi;
+		}
+	}, {
+		key: "parseComponent",
+		value: function parseComponent(componentStr) {
+			var component = {
+				steps: [],
+				terminal: {
+					offset: null,
+					assertion: null
+				}
+			};
+			var parts = componentStr.split(":");
+			var steps = parts[0].split("/");
+			var terminal;
+
+			if (parts.length > 1) {
+				terminal = parts[1];
+				component.terminal = this.parseTerminal(terminal);
+			}
+
+			if (steps[0] === "") {
+				steps.shift(); // Ignore the first slash
+			}
+
+			component.steps = steps.map(function (step) {
+				return this.parseStep(step);
+			}.bind(this));
+
+			return component;
+		}
+	}, {
+		key: "parseStep",
+		value: function parseStep(stepStr) {
+			var type, num, index, has_brackets, id;
+
+			has_brackets = stepStr.match(/\[(.*)\]/);
+			if (has_brackets && has_brackets[1]) {
+				id = has_brackets[1];
+			}
+
+			//-- Check if step is a text node or element
+			num = parseInt(stepStr);
+
+			if (isNaN(num)) {
+				return;
+			}
+
+			if (num % 2 === 0) {
+				// Even = is an element
+				type = "element";
+				index = num / 2 - 1;
+			} else {
+				type = "text";
+				index = (num - 1) / 2;
+			}
+
+			return {
+				"type": type,
+				"index": index,
+				"id": id || null
+			};
+		}
+	}, {
+		key: "parseTerminal",
+		value: function parseTerminal(termialStr) {
+			var characterOffset, textLocationAssertion;
+			var assertion = termialStr.match(/\[(.*)\]/);
+
+			if (assertion && assertion[1]) {
+				characterOffset = parseInt(termialStr.split("[")[0]);
+				textLocationAssertion = assertion[1];
+			} else {
+				characterOffset = parseInt(termialStr);
+			}
+
+			if (!(0, _core.isNumber)(characterOffset)) {
+				characterOffset = null;
+			}
+
+			return {
+				"offset": characterOffset,
+				"assertion": textLocationAssertion
+			};
+		}
+	}, {
+		key: "getChapterComponent",
+		value: function getChapterComponent(cfiStr) {
+
+			var indirection = cfiStr.split("!");
+
+			return indirection[0];
+		}
+	}, {
+		key: "getPathComponent",
+		value: function getPathComponent(cfiStr) {
+
+			var indirection = cfiStr.split("!");
+
+			if (indirection[1]) {
+				var ranges = indirection[1].split(",");
+				return ranges[0];
+			}
+		}
+	}, {
+		key: "getRange",
+		value: function getRange(cfiStr) {
+
+			var ranges = cfiStr.split(",");
+
+			if (ranges.length === 3) {
+				return [ranges[1], ranges[2]];
+			}
+
+			return false;
+		}
+	}, {
+		key: "getCharecterOffsetComponent",
+		value: function getCharecterOffsetComponent(cfiStr) {
+			var splitStr = cfiStr.split(":");
+			return splitStr[1] || "";
+		}
+	}, {
+		key: "joinSteps",
+		value: function joinSteps(steps) {
+			if (!steps) {
+				return "";
+			}
+
+			return steps.map(function (part) {
+				var segment = "";
+
+				if (part.type === "element") {
+					segment += (part.index + 1) * 2;
+				}
+
+				if (part.type === "text") {
+					segment += 1 + 2 * part.index; // TODO: double check that this is odd
+				}
+
+				if (part.id) {
+					segment += "[" + part.id + "]";
+				}
+
+				return segment;
+			}).join("/");
+		}
+	}, {
+		key: "segmentString",
+		value: function segmentString(segment) {
+			var segmentString = "/";
+
+			segmentString += this.joinSteps(segment.steps);
+
+			if (segment.terminal && segment.terminal.offset != null) {
+				segmentString += ":" + segment.terminal.offset;
+			}
+
+			if (segment.terminal && segment.terminal.assertion != null) {
+				segmentString += "[" + segment.terminal.assertion + "]";
+			}
+
+			return segmentString;
+		}
+
+		/**
+   * Convert CFI to a epubcfi(...) string
+   * @returns {string} epubcfi
+   */
+
+	}, {
+		key: "toString",
+		value: function toString() {
+			var cfiString = "epubcfi(";
+
+			cfiString += this.segmentString(this.base);
+
+			cfiString += "!";
+			cfiString += this.segmentString(this.path);
+
+			// Add Range, if present
+			if (this.range && this.start) {
+				cfiString += ",";
+				cfiString += this.segmentString(this.start);
+			}
+
+			if (this.range && this.end) {
+				cfiString += ",";
+				cfiString += this.segmentString(this.end);
+			}
+
+			cfiString += ")";
+
+			return cfiString;
+		}
+
+		/**
+   * Compare which of two CFIs is earlier in the text
+   * @returns {number} First is earlier = 1, Second is earlier = -1, They are equal = 0
+   */
+
+	}, {
+		key: "compare",
+		value: function compare(cfiOne, cfiTwo) {
+			var stepsA, stepsB;
+			var terminalA, terminalB;
+
+			var rangeAStartSteps, rangeAEndSteps;
+			var rangeBEndSteps, rangeBEndSteps;
+			var rangeAStartTerminal, rangeAEndTerminal;
+			var rangeBStartTerminal, rangeBEndTerminal;
+
+			if (typeof cfiOne === "string") {
+				cfiOne = new EpubCFI(cfiOne);
+			}
+			if (typeof cfiTwo === "string") {
+				cfiTwo = new EpubCFI(cfiTwo);
+			}
+			// Compare Spine Positions
+			if (cfiOne.spinePos > cfiTwo.spinePos) {
+				return 1;
+			}
+			if (cfiOne.spinePos < cfiTwo.spinePos) {
+				return -1;
+			}
+
+			if (cfiOne.range) {
+				stepsA = cfiOne.path.steps.concat(cfiOne.start.steps);
+				terminalA = cfiOne.start.terminal;
+			} else {
+				stepsA = cfiOne.path.steps;
+				terminalA = cfiOne.path.terminal;
+			}
+
+			if (cfiTwo.range) {
+				stepsB = cfiTwo.path.steps.concat(cfiTwo.start.steps);
+				terminalB = cfiTwo.start.terminal;
+			} else {
+				stepsB = cfiTwo.path.steps;
+				terminalB = cfiTwo.path.terminal;
+			}
+
+			// Compare Each Step in the First item
+			for (var i = 0; i < stepsA.length; i++) {
+				if (!stepsA[i]) {
+					return -1;
+				}
+				if (!stepsB[i]) {
+					return 1;
+				}
+				if (stepsA[i].index > stepsB[i].index) {
+					return 1;
+				}
+				if (stepsA[i].index < stepsB[i].index) {
+					return -1;
+				}
+				// Otherwise continue checking
+			}
+
+			// All steps in First equal to Second and First is Less Specific
+			if (stepsA.length < stepsB.length) {
+				return 1;
+			}
+
+			// Compare the charecter offset of the text node
+			if (terminalA.offset > terminalB.offset) {
+				return 1;
+			}
+			if (terminalA.offset < terminalB.offset) {
+				return -1;
+			}
+
+			// CFI's are equal
+			return 0;
+		}
+	}, {
+		key: "step",
+		value: function step(node) {
+			var nodeType = node.nodeType === TEXT_NODE ? "text" : "element";
+
+			return {
+				"id": node.id,
+				"tagName": node.tagName,
+				"type": nodeType,
+				"index": this.position(node)
+			};
+		}
+	}, {
+		key: "filteredStep",
+		value: function filteredStep(node, ignoreClass) {
+			var filteredNode = this.filter(node, ignoreClass);
+			var nodeType;
+
+			// Node filtered, so ignore
+			if (!filteredNode) {
+				return;
+			}
+
+			// Otherwise add the filter node in
+			nodeType = filteredNode.nodeType === TEXT_NODE ? "text" : "element";
+
+			return {
+				"id": filteredNode.id,
+				"tagName": filteredNode.tagName,
+				"type": nodeType,
+				"index": this.filteredPosition(filteredNode, ignoreClass)
+			};
+		}
+	}, {
+		key: "pathTo",
+		value: function pathTo(node, offset, ignoreClass) {
+			var segment = {
+				steps: [],
+				terminal: {
+					offset: null,
+					assertion: null
+				}
+			};
+			var currentNode = node;
+			var step;
+
+			while (currentNode && currentNode.parentNode && currentNode.parentNode.nodeType != DOCUMENT_NODE) {
+
+				if (ignoreClass) {
+					step = this.filteredStep(currentNode, ignoreClass);
+				} else {
+					step = this.step(currentNode);
+				}
+
+				if (step) {
+					segment.steps.unshift(step);
+				}
+
+				currentNode = currentNode.parentNode;
+			}
+
+			if (offset != null && offset >= 0) {
+
+				segment.terminal.offset = offset;
+
+				// Make sure we are getting to a textNode if there is an offset
+				if (segment.steps[segment.steps.length - 1].type != "text") {
+					segment.steps.push({
+						"type": "text",
+						"index": 0
+					});
+				}
+			}
+
+			return segment;
+		}
+	}, {
+		key: "equalStep",
+		value: function equalStep(stepA, stepB) {
+			if (!stepA || !stepB) {
+				return false;
+			}
+
+			if (stepA.index === stepB.index && stepA.id === stepB.id && stepA.type === stepB.type) {
+				return true;
+			}
+
+			return false;
+		}
+
+		/**
+   * Create a CFI object from a Range
+   * @param {Range} range
+   * @param {string | object} base
+   * @param {string} [ignoreClass]
+   * @returns {object} cfi
+   */
+
+	}, {
+		key: "fromRange",
+		value: function fromRange(range, base, ignoreClass) {
+			var cfi = {
+				range: false,
+				base: {},
+				path: {},
+				start: null,
+				end: null
+			};
+
+			var start = range.startContainer;
+			var end = range.endContainer;
+
+			var startOffset = range.startOffset;
+			var endOffset = range.endOffset;
+
+			var needsIgnoring = false;
+
+			if (ignoreClass) {
+				// Tell pathTo if / what to ignore
+				needsIgnoring = start.ownerDocument.querySelector("." + ignoreClass) != null;
+			}
+
+			if (typeof base === "string") {
+				cfi.base = this.parseComponent(base);
+				cfi.spinePos = cfi.base.steps[1].index;
+			} else if ((typeof base === "undefined" ? "undefined" : _typeof(base)) === "object") {
+				cfi.base = base;
+			}
+
+			if (range.collapsed) {
+				if (needsIgnoring) {
+					startOffset = this.patchOffset(start, startOffset, ignoreClass);
+				}
+				cfi.path = this.pathTo(start, startOffset, ignoreClass);
+			} else {
+				cfi.range = true;
+
+				if (needsIgnoring) {
+					startOffset = this.patchOffset(start, startOffset, ignoreClass);
+				}
+
+				cfi.start = this.pathTo(start, startOffset, ignoreClass);
+				if (needsIgnoring) {
+					endOffset = this.patchOffset(end, endOffset, ignoreClass);
+				}
+
+				cfi.end = this.pathTo(end, endOffset, ignoreClass);
+
+				// Create a new empty path
+				cfi.path = {
+					steps: [],
+					terminal: null
+				};
+
+				// Push steps that are shared between start and end to the common path
+				var len = cfi.start.steps.length;
+				var i;
+
+				for (i = 0; i < len; i++) {
+					if (this.equalStep(cfi.start.steps[i], cfi.end.steps[i])) {
+						if (i === len - 1) {
+							// Last step is equal, check terminals
+							if (cfi.start.terminal === cfi.end.terminal) {
+								// CFI's are equal
+								cfi.path.steps.push(cfi.start.steps[i]);
+								// Not a range
+								cfi.range = false;
+							}
+						} else {
+							cfi.path.steps.push(cfi.start.steps[i]);
+						}
+					} else {
+						break;
+					}
+				}
+
+				cfi.start.steps = cfi.start.steps.slice(cfi.path.steps.length);
+				cfi.end.steps = cfi.end.steps.slice(cfi.path.steps.length);
+
+				// TODO: Add Sanity check to make sure that the end if greater than the start
+			}
+
+			return cfi;
+		}
+
+		/**
+   * Create a CFI object from a Node
+   * @param {Node} anchor
+   * @param {string | object} base
+   * @param {string} [ignoreClass]
+   * @returns {object} cfi
+   */
+
+	}, {
+		key: "fromNode",
+		value: function fromNode(anchor, base, ignoreClass) {
+			var cfi = {
+				range: false,
+				base: {},
+				path: {},
+				start: null,
+				end: null
+			};
+
+			if (typeof base === "string") {
+				cfi.base = this.parseComponent(base);
+				cfi.spinePos = cfi.base.steps[1].index;
+			} else if ((typeof base === "undefined" ? "undefined" : _typeof(base)) === "object") {
+				cfi.base = base;
+			}
+
+			cfi.path = this.pathTo(anchor, null, ignoreClass);
+
+			return cfi;
+		}
+	}, {
+		key: "filter",
+		value: function filter(anchor, ignoreClass) {
+			var needsIgnoring;
+			var sibling; // to join with
+			var parent, previousSibling, nextSibling;
+			var isText = false;
+
+			if (anchor.nodeType === TEXT_NODE) {
+				isText = true;
+				parent = anchor.parentNode;
+				needsIgnoring = anchor.parentNode.classList.contains(ignoreClass);
+			} else {
+				isText = false;
+				needsIgnoring = anchor.classList.contains(ignoreClass);
+			}
+
+			if (needsIgnoring && isText) {
+				previousSibling = parent.previousSibling;
+				nextSibling = parent.nextSibling;
+
+				// If the sibling is a text node, join the nodes
+				if (previousSibling && previousSibling.nodeType === TEXT_NODE) {
+					sibling = previousSibling;
+				} else if (nextSibling && nextSibling.nodeType === TEXT_NODE) {
+					sibling = nextSibling;
+				}
+
+				if (sibling) {
+					return sibling;
+				} else {
+					// Parent will be ignored on next step
+					return anchor;
+				}
+			} else if (needsIgnoring && !isText) {
+				// Otherwise just skip the element node
+				return false;
+			} else {
+				// No need to filter
+				return anchor;
+			}
+		}
+	}, {
+		key: "patchOffset",
+		value: function patchOffset(anchor, offset, ignoreClass) {
+			if (anchor.nodeType != TEXT_NODE) {
+				throw new Error("Anchor must be a text node");
+			}
+
+			var curr = anchor;
+			var totalOffset = offset;
+
+			// If the parent is a ignored node, get offset from it's start
+			if (anchor.parentNode.classList.contains(ignoreClass)) {
+				curr = anchor.parentNode;
+			}
+
+			while (curr.previousSibling) {
+				if (curr.previousSibling.nodeType === ELEMENT_NODE) {
+					// Originally a text node, so join
+					if (curr.previousSibling.classList.contains(ignoreClass)) {
+						totalOffset += curr.previousSibling.textContent.length;
+					} else {
+						break; // Normal node, dont join
+					}
+				} else {
+					// If the previous sibling is a text node, join the nodes
+					totalOffset += curr.previousSibling.textContent.length;
+				}
+
+				curr = curr.previousSibling;
+			}
+
+			return totalOffset;
+		}
+	}, {
+		key: "normalizedMap",
+		value: function normalizedMap(children, nodeType, ignoreClass) {
+			var output = {};
+			var prevIndex = -1;
+			var i,
+			    len = children.length;
+			var currNodeType;
+			var prevNodeType;
+
+			for (i = 0; i < len; i++) {
+
+				currNodeType = children[i].nodeType;
+
+				// Check if needs ignoring
+				if (currNodeType === ELEMENT_NODE && children[i].classList.contains(ignoreClass)) {
+					currNodeType = TEXT_NODE;
+				}
+
+				if (i > 0 && currNodeType === TEXT_NODE && prevNodeType === TEXT_NODE) {
+					// join text nodes
+					output[i] = prevIndex;
+				} else if (nodeType === currNodeType) {
+					prevIndex = prevIndex + 1;
+					output[i] = prevIndex;
+				}
+
+				prevNodeType = currNodeType;
+			}
+
+			return output;
+		}
+	}, {
+		key: "position",
+		value: function position(anchor) {
+			var children, index;
+			if (anchor.nodeType === ELEMENT_NODE) {
+				children = anchor.parentNode.children;
+				if (!children) {
+					children = (0, _core.findChildren)(anchor.parentNode);
+				}
+				index = Array.prototype.indexOf.call(children, anchor);
+			} else {
+				children = this.textNodes(anchor.parentNode);
+				index = children.indexOf(anchor);
+			}
+
+			return index;
+		}
+	}, {
+		key: "filteredPosition",
+		value: function filteredPosition(anchor, ignoreClass) {
+			var children, index, map;
+
+			if (anchor.nodeType === ELEMENT_NODE) {
+				children = anchor.parentNode.children;
+				map = this.normalizedMap(children, ELEMENT_NODE, ignoreClass);
+			} else {
+				children = anchor.parentNode.childNodes;
+				// Inside an ignored node
+				if (anchor.parentNode.classList.contains(ignoreClass)) {
+					anchor = anchor.parentNode;
+					children = anchor.parentNode.childNodes;
+				}
+				map = this.normalizedMap(children, TEXT_NODE, ignoreClass);
+			}
+
+			index = Array.prototype.indexOf.call(children, anchor);
+
+			return map[index];
+		}
+	}, {
+		key: "stepsToXpath",
+		value: function stepsToXpath(steps) {
+			var xpath = [".", "*"];
+
+			steps.forEach(function (step) {
+				var position = step.index + 1;
+
+				if (step.id) {
+					xpath.push("*[position()=" + position + " and @id='" + step.id + "']");
+				} else if (step.type === "text") {
+					xpath.push("text()[" + position + "]");
+				} else {
+					xpath.push("*[" + position + "]");
+				}
+			});
+
+			return xpath.join("/");
+		}
+
+		/*
+  	To get the last step if needed:
+  	// Get the terminal step
+  lastStep = steps[steps.length-1];
+  // Get the query string
+  query = this.stepsToQuery(steps);
+  // Find the containing element
+  startContainerParent = doc.querySelector(query);
+  // Find the text node within that element
+  if(startContainerParent && lastStep.type == "text") {
+  	container = startContainerParent.childNodes[lastStep.index];
+  }
+  */
+
+	}, {
+		key: "stepsToQuerySelector",
+		value: function stepsToQuerySelector(steps) {
+			var query = ["html"];
+
+			steps.forEach(function (step) {
+				var position = step.index + 1;
+
+				if (step.id) {
+					query.push("#" + step.id);
+				} else if (step.type === "text") {
+					// unsupported in querySelector
+					// query.push("text()[" + position + "]");
+				} else {
+					query.push("*:nth-child(" + position + ")");
+				}
+			});
+
+			return query.join(">");
+		}
+	}, {
+		key: "textNodes",
+		value: function textNodes(container, ignoreClass) {
+			return Array.prototype.slice.call(container.childNodes).filter(function (node) {
+				if (node.nodeType === TEXT_NODE) {
+					return true;
+				} else if (ignoreClass && node.classList.contains(ignoreClass)) {
+					return true;
+				}
+				return false;
+			});
+		}
+	}, {
+		key: "walkToNode",
+		value: function walkToNode(steps, _doc, ignoreClass) {
+			var doc = _doc || document;
+			var container = doc.documentElement;
+			var children;
+			var step;
+			var len = steps.length;
+			var i;
+
+			for (i = 0; i < len; i++) {
+				step = steps[i];
+
+				if (step.type === "element") {
+					//better to get a container using id as some times step.index may not be correct
+					//For ex.https://github.com/futurepress/epub.js/issues/561
+					if (step.id) {
+						container = doc.getElementById(step.id);
+					} else {
+						children = container.children || (0, _core.findChildren)(container);
+						container = children[step.index];
+					}
+				} else if (step.type === "text") {
+					container = this.textNodes(container, ignoreClass)[step.index];
+				}
+				if (!container) {
+					//Break the for loop as due to incorrect index we can get error if
+					//container is undefined so that other functionailties works fine
+					//like navigation
+					break;
+				}
+			}
+
+			return container;
+		}
+	}, {
+		key: "findNode",
+		value: function findNode(steps, _doc, ignoreClass) {
+			var doc = _doc || document;
+			var container;
+			var xpath;
+
+			if (!ignoreClass && typeof doc.evaluate != "undefined") {
+				xpath = this.stepsToXpath(steps);
+				container = doc.evaluate(xpath, doc, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+			} else if (ignoreClass) {
+				container = this.walkToNode(steps, doc, ignoreClass);
+			} else {
+				container = this.walkToNode(steps, doc);
+			}
+
+			return container;
+		}
+	}, {
+		key: "fixMiss",
+		value: function fixMiss(steps, offset, _doc, ignoreClass) {
+			var container = this.findNode(steps.slice(0, -1), _doc, ignoreClass);
+			var children = container.childNodes;
+			var map = this.normalizedMap(children, TEXT_NODE, ignoreClass);
+			var child;
+			var len;
+			var lastStepIndex = steps[steps.length - 1].index;
+
+			for (var childIndex in map) {
+				if (!map.hasOwnProperty(childIndex)) return;
+
+				if (map[childIndex] === lastStepIndex) {
+					child = children[childIndex];
+					len = child.textContent.length;
+					if (offset > len) {
+						offset = offset - len;
+					} else {
+						if (child.nodeType === ELEMENT_NODE) {
+							container = child.childNodes[0];
+						} else {
+							container = child;
+						}
+						break;
+					}
+				}
+			}
+
+			return {
+				container: container,
+				offset: offset
+			};
+		}
+
+		/**
+   * Creates a DOM range representing a CFI
+   * @param {document} _doc document referenced in the base
+   * @param {string} [ignoreClass]
+   * @return {Range}
+   */
+
+	}, {
+		key: "toRange",
+		value: function toRange(_doc, ignoreClass) {
+			var doc = _doc || document;
+			var range;
+			var start, end, startContainer, endContainer;
+			var cfi = this;
+			var startSteps, endSteps;
+			var needsIgnoring = ignoreClass ? doc.querySelector("." + ignoreClass) != null : false;
+			var missed;
+
+			if (typeof doc.createRange !== "undefined") {
+				range = doc.createRange();
+			} else {
+				range = new _core.RangeObject();
+			}
+
+			if (cfi.range) {
+				start = cfi.start;
+				startSteps = cfi.path.steps.concat(start.steps);
+				startContainer = this.findNode(startSteps, doc, needsIgnoring ? ignoreClass : null);
+				end = cfi.end;
+				endSteps = cfi.path.steps.concat(end.steps);
+				endContainer = this.findNode(endSteps, doc, needsIgnoring ? ignoreClass : null);
+			} else {
+				start = cfi.path;
+				startSteps = cfi.path.steps;
+				startContainer = this.findNode(cfi.path.steps, doc, needsIgnoring ? ignoreClass : null);
+			}
+
+			if (startContainer) {
+				try {
+
+					if (start.terminal.offset != null) {
+						range.setStart(startContainer, start.terminal.offset);
+					} else {
+						range.setStart(startContainer, 0);
+					}
+				} catch (e) {
+					missed = this.fixMiss(startSteps, start.terminal.offset, doc, needsIgnoring ? ignoreClass : null);
+					range.setStart(missed.container, missed.offset);
+				}
+			} else {
+				console.log("No startContainer found for", this.toString());
+				// No start found
+				return null;
+			}
+
+			if (endContainer) {
+				try {
+
+					if (end.terminal.offset != null) {
+						range.setEnd(endContainer, end.terminal.offset);
+					} else {
+						range.setEnd(endContainer, 0);
+					}
+				} catch (e) {
+					missed = this.fixMiss(endSteps, cfi.end.terminal.offset, doc, needsIgnoring ? ignoreClass : null);
+					range.setEnd(missed.container, missed.offset);
+				}
+			}
+
+			// doc.defaultView.getSelection().addRange(range);
+			return range;
+		}
+
+		/**
+   * Check if a string is wrapped with "epubcfi()"
+   * @param {string} str
+   * @returns {boolean}
+   */
+
+	}, {
+		key: "isCfiString",
+		value: function isCfiString(str) {
+			if (typeof str === "string" && str.indexOf("epubcfi(") === 0 && str[str.length - 1] === ")") {
+				return true;
+			}
+
+			return false;
+		}
+	}, {
+		key: "generateChapterComponent",
+		value: function generateChapterComponent(_spineNodeIndex, _pos, id) {
+			var pos = parseInt(_pos),
+			    spineNodeIndex = (_spineNodeIndex + 1) * 2,
+			    cfi = "/" + spineNodeIndex + "/";
+
+			cfi += (pos + 1) * 2;
+
+			if (id) {
+				cfi += "[" + id + "]";
+			}
+
+			return cfi;
+		}
+
+		/**
+   * Collapse a CFI Range to a single CFI Position
+   * @param {boolean} [toStart=false]
+   */
+
+	}, {
+		key: "collapse",
+		value: function collapse(toStart) {
+			if (!this.range) {
+				return;
+			}
+
+			this.range = false;
+
+			if (toStart) {
+				this.path.steps = this.path.steps.concat(this.start.steps);
+				this.path.terminal = this.start.terminal;
+			} else {
+				this.path.steps = this.path.steps.concat(this.end.steps);
+				this.path.terminal = this.end.terminal;
+			}
+		}
+	}]);
+
+	return EpubCFI;
+}();
+
+exports.default = EpubCFI;
+module.exports = exports["default"];
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var d        = __webpack_require__(27)
+  , callable = __webpack_require__(41)
+
+  , apply = Function.prototype.apply, call = Function.prototype.call
+  , create = Object.create, defineProperty = Object.defineProperty
+  , defineProperties = Object.defineProperties
+  , hasOwnProperty = Object.prototype.hasOwnProperty
+  , descriptor = { configurable: true, enumerable: false, writable: true }
+
+  , on, once, off, emit, methods, descriptors, base;
+
+on = function (type, listener) {
+	var data;
+
+	callable(listener);
+
+	if (!hasOwnProperty.call(this, '__ee__')) {
+		data = descriptor.value = create(null);
+		defineProperty(this, '__ee__', descriptor);
+		descriptor.value = null;
+	} else {
+		data = this.__ee__;
+	}
+	if (!data[type]) data[type] = listener;
+	else if (typeof data[type] === 'object') data[type].push(listener);
+	else data[type] = [data[type], listener];
+
+	return this;
+};
+
+once = function (type, listener) {
+	var once, self;
+
+	callable(listener);
+	self = this;
+	on.call(this, type, once = function () {
+		off.call(self, type, once);
+		apply.call(listener, this, arguments);
+	});
+
+	once.__eeOnceListener__ = listener;
+	return this;
+};
+
+off = function (type, listener) {
+	var data, listeners, candidate, i;
+
+	callable(listener);
+
+	if (!hasOwnProperty.call(this, '__ee__')) return this;
+	data = this.__ee__;
+	if (!data[type]) return this;
+	listeners = data[type];
+
+	if (typeof listeners === 'object') {
+		for (i = 0; (candidate = listeners[i]); ++i) {
+			if ((candidate === listener) ||
+					(candidate.__eeOnceListener__ === listener)) {
+				if (listeners.length === 2) data[type] = listeners[i ? 0 : 1];
+				else listeners.splice(i, 1);
+			}
+		}
+	} else {
+		if ((listeners === listener) ||
+				(listeners.__eeOnceListener__ === listener)) {
+			delete data[type];
+		}
+	}
+
+	return this;
+};
+
+emit = function (type) {
+	var i, l, listener, listeners, args;
+
+	if (!hasOwnProperty.call(this, '__ee__')) return;
+	listeners = this.__ee__[type];
+	if (!listeners) return;
+
+	if (typeof listeners === 'object') {
+		l = arguments.length;
+		args = new Array(l - 1);
+		for (i = 1; i < l; ++i) args[i - 1] = arguments[i];
+
+		listeners = listeners.slice();
+		for (i = 0; (listener = listeners[i]); ++i) {
+			apply.call(listener, this, args);
+		}
+	} else {
+		switch (arguments.length) {
+		case 1:
+			call.call(listeners, this);
+			break;
+		case 2:
+			call.call(listeners, this, arguments[1]);
+			break;
+		case 3:
+			call.call(listeners, this, arguments[1], arguments[2]);
+			break;
+		default:
+			l = arguments.length;
+			args = new Array(l - 1);
+			for (i = 1; i < l; ++i) {
+				args[i - 1] = arguments[i];
+			}
+			apply.call(listeners, this, args);
+		}
+	}
+};
+
+methods = {
+	on: on,
+	once: once,
+	off: off,
+	emit: emit
+};
+
+descriptors = {
+	on: d(on),
+	once: d(once),
+	off: d(off),
+	emit: d(emit)
+};
+
+base = defineProperties({}, descriptors);
+
+module.exports = exports = function (o) {
+	return (o == null) ? create(base) : defineProperties(Object(o), descriptors);
+};
+exports.methods = methods;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// Dom events to listen for
+var DOM_EVENTS = exports.DOM_EVENTS = ["keydown", "keyup", "keypressed", "mouseup", "mousedown", "click", "touchend", "touchstart"];
+
+var EVENTS = exports.EVENTS = {
+  BOOK: {
+    OPEN_FAILED: "openFailed"
+  },
+  CONTENTS: {
+    EXPAND: "expand",
+    RESIZE: "resize",
+    SELECTED: "selected",
+    SELECTED_RANGE: "selectedRange",
+    LINK_CLICKED: "linkClicked"
+  },
+  LOCATIONS: {
+    CHANGED: "changed"
+  },
+  MANAGERS: {
+    RESIZE: "resize",
+    RESIZED: "resized",
+    ORIENTATION_CHANGE: "orientationchange",
+    ADDED: "added",
+    SCROLL: "scroll",
+    SCROLLED: "scrolled"
+  },
+  VIEWS: {
+    AXIS: "axis",
+    LOAD_ERROR: "loaderror",
+    RENDERED: "rendered",
+    RESIZED: "resized",
+    DISPLAYED: "displayed",
+    SHOWN: "shown",
+    HIDDEN: "hidden",
+    MARK_CLICKED: "markClicked"
+  },
+  RENDITION: {
+    STARTED: "started",
+    ATTACHED: "attached",
+    DISPLAYED: "displayed",
+    DISPLAY_ERROR: "displayerror",
+    RENDERED: "rendered",
+    REMOVED: "removed",
+    RESIZED: "resized",
+    ORIENTATION_CHANGE: "orientationchange",
+    LOCATION_CHANGED: "locationChanged",
+    RELOCATED: "relocated",
+    MARK_CLICKED: "markClicked",
+    SELECTED: "selected",
+    LAYOUT: "layout"
+  },
+  LAYOUT: {
+    UPDATED: "updated"
+  }
+};
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _pathWebpack = __webpack_require__(6);
+
+var _pathWebpack2 = _interopRequireDefault(_pathWebpack);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Creates a Path object for parsing and manipulation of a path strings
+ *
+ * Uses a polyfill for Nodejs path: https://nodejs.org/api/path.html
+ * @param	{string} pathString	a url string (relative or absolute)
+ * @class
+ */
+var Path = function () {
+	function Path(pathString) {
+		_classCallCheck(this, Path);
+
+		var protocol;
+		var parsed;
+
+		protocol = pathString.indexOf("://");
+		if (protocol > -1) {
+			pathString = new URL(pathString).pathname;
+		}
+
+		parsed = this.parse(pathString);
+
+		this.path = pathString;
+
+		if (this.isDirectory(pathString)) {
+			this.directory = pathString;
+		} else {
+			this.directory = parsed.dir + "/";
+		}
+
+		this.filename = parsed.base;
+		this.extension = parsed.ext.slice(1);
+	}
+
+	/**
+  * Parse the path: https://nodejs.org/api/path.html#path_path_parse_path
+  * @param	{string} what
+  * @returns {object}
+  */
+
+
+	_createClass(Path, [{
+		key: "parse",
+		value: function parse(what) {
+			return _pathWebpack2.default.parse(what);
+		}
+
+		/**
+   * @param	{string} what
+   * @returns {boolean}
+   */
+
+	}, {
+		key: "isAbsolute",
+		value: function isAbsolute(what) {
+			return _pathWebpack2.default.isAbsolute(what || this.path);
+		}
+
+		/**
+   * Check if path ends with a directory
+   * @param	{string} what
+   * @returns {boolean}
+   */
+
+	}, {
+		key: "isDirectory",
+		value: function isDirectory(what) {
+			return what.charAt(what.length - 1) === "/";
+		}
+
+		/**
+   * Resolve a path against the directory of the Path
+   *
+   * https://nodejs.org/api/path.html#path_path_resolve_paths
+   * @param	{string} what
+   * @returns {string} resolved
+   */
+
+	}, {
+		key: "resolve",
+		value: function resolve(what) {
+			return _pathWebpack2.default.resolve(this.directory, what);
+		}
+
+		/**
+   * Resolve a path relative to the directory of the Path
+   *
+   * https://nodejs.org/api/path.html#path_path_relative_from_to
+   * @param	{string} what
+   * @returns {string} relative
+   */
+
+	}, {
+		key: "relative",
+		value: function relative(what) {
+			return _pathWebpack2.default.relative(this.directory, what);
+		}
+	}, {
+		key: "splitPath",
+		value: function splitPath(filename) {
+			return this.splitPathRe.exec(filename).slice(1);
+		}
+
+		/**
+   * Return the path string
+   * @returns {string} path
+   */
+
+	}, {
+		key: "toString",
+		value: function toString() {
+			return this.path;
+		}
+	}]);
+
+	return Path;
+}();
+
+exports.default = Path;
+module.exports = exports["default"];
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _path = __webpack_require__(4);
+
+var _path2 = _interopRequireDefault(_path);
+
+var _pathWebpack = __webpack_require__(6);
+
+var _pathWebpack2 = _interopRequireDefault(_pathWebpack);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * creates a Url object for parsing and manipulation of a url string
+ * @param	{string} urlString	a url string (relative or absolute)
+ * @param	{string} [baseString] optional base for the url,
+ * default to window.location.href
+ */
+var Url = function () {
+	function Url(urlString, baseString) {
+		_classCallCheck(this, Url);
+
+		var absolute = urlString.indexOf("://") > -1;
+		var pathname = urlString;
+		var basePath;
+
+		this.Url = undefined;
+		this.href = urlString;
+		this.protocol = "";
+		this.origin = "";
+		this.hash = "";
+		this.hash = "";
+		this.search = "";
+		this.base = baseString;
+
+		if (!absolute && baseString !== false && typeof baseString !== "string" && window && window.location) {
+			this.base = window.location.href;
+		}
+
+		// URL Polyfill doesn't throw an error if base is empty
+		if (absolute || this.base) {
+			try {
+				if (this.base) {
+					// Safari doesn't like an undefined base
+					this.Url = new URL(urlString, this.base);
+				} else {
+					this.Url = new URL(urlString);
+				}
+				this.href = this.Url.href;
+
+				this.protocol = this.Url.protocol;
+				this.origin = this.Url.origin;
+				this.hash = this.Url.hash;
+				this.search = this.Url.search;
+
+				pathname = this.Url.pathname;
+			} catch (e) {
+				// Skip URL parsing
+				this.Url = undefined;
+				// resolve the pathname from the base
+				if (this.base) {
+					basePath = new _path2.default(this.base);
+					pathname = basePath.resolve(pathname);
+				}
+			}
+		}
+
+		this.Path = new _path2.default(pathname);
+
+		this.directory = this.Path.directory;
+		this.filename = this.Path.filename;
+		this.extension = this.Path.extension;
+	}
+
+	/**
+  * @returns {Path}
+  */
+
+
+	_createClass(Url, [{
+		key: "path",
+		value: function path() {
+			return this.Path;
+		}
+
+		/**
+   * Resolves a relative path to a absolute url
+   * @returns {string} url
+   */
+
+	}, {
+		key: "resolve",
+		value: function resolve(what) {
+			var isAbsolute = what.indexOf("://") > -1;
+			var fullpath;
+
+			if (isAbsolute) {
+				return what;
+			}
+
+			fullpath = _pathWebpack2.default.resolve(this.directory, what);
+			return this.origin + fullpath;
+		}
+
+		/**
+   * Resolve a path relative to the url
+   * @returns {string} path
+   */
+
+	}, {
+		key: "relative",
+		value: function relative(what) {
+			return _pathWebpack2.default.relative(what, this.directory);
+		}
+
+		/**
+   * @returns {string}
+   */
+
+	}, {
+		key: "toString",
+		value: function toString() {
+			return this.href;
+		}
+	}]);
+
+	return Url;
+}();
+
+exports.default = Url;
+module.exports = exports["default"];
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+if (!process) {
+  var process = {
+    "cwd" : function () { return '/' }
+  };
+}
+
+function assertPath(path) {
+  if (typeof path !== 'string') {
+    throw new TypeError('Path must be a string. Received ' + path);
+  }
+}
+
+// Resolves . and .. elements in a path with directory names
+function normalizeStringPosix(path, allowAboveRoot) {
+  var res = '';
+  var lastSlash = -1;
+  var dots = 0;
+  var code;
+  for (var i = 0; i <= path.length; ++i) {
+    if (i < path.length)
+      code = path.charCodeAt(i);
+    else if (code === 47/*/*/)
+      break;
+    else
+      code = 47/*/*/;
+    if (code === 47/*/*/) {
+      if (lastSlash === i - 1 || dots === 1) {
+        // NOOP
+      } else if (lastSlash !== i - 1 && dots === 2) {
+        if (res.length < 2 ||
+            res.charCodeAt(res.length - 1) !== 46/*.*/ ||
+            res.charCodeAt(res.length - 2) !== 46/*.*/) {
+          if (res.length > 2) {
+            var start = res.length - 1;
+            var j = start;
+            for (; j >= 0; --j) {
+              if (res.charCodeAt(j) === 47/*/*/)
+                break;
+            }
+            if (j !== start) {
+              if (j === -1)
+                res = '';
+              else
+                res = res.slice(0, j);
+              lastSlash = i;
+              dots = 0;
+              continue;
+            }
+          } else if (res.length === 2 || res.length === 1) {
+            res = '';
+            lastSlash = i;
+            dots = 0;
+            continue;
+          }
+        }
+        if (allowAboveRoot) {
+          if (res.length > 0)
+            res += '/..';
+          else
+            res = '..';
+        }
+      } else {
+        if (res.length > 0)
+          res += '/' + path.slice(lastSlash + 1, i);
+        else
+          res = path.slice(lastSlash + 1, i);
+      }
+      lastSlash = i;
+      dots = 0;
+    } else if (code === 46/*.*/ && dots !== -1) {
+      ++dots;
+    } else {
+      dots = -1;
+    }
+  }
+  return res;
+}
+
+function _format(sep, pathObject) {
+  var dir = pathObject.dir || pathObject.root;
+  var base = pathObject.base ||
+    ((pathObject.name || '') + (pathObject.ext || ''));
+  if (!dir) {
+    return base;
+  }
+  if (dir === pathObject.root) {
+    return dir + base;
+  }
+  return dir + sep + base;
+}
+
+var posix = {
+  // path.resolve([from ...], to)
+  resolve: function resolve() {
+    var resolvedPath = '';
+    var resolvedAbsolute = false;
+    var cwd;
+
+    for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+      var path;
+      if (i >= 0)
+        path = arguments[i];
+      else {
+        if (cwd === undefined)
+          cwd = process.cwd();
+        path = cwd;
+      }
+
+      assertPath(path);
+
+      // Skip empty entries
+      if (path.length === 0) {
+        continue;
+      }
+
+      resolvedPath = path + '/' + resolvedPath;
+      resolvedAbsolute = path.charCodeAt(0) === 47/*/*/;
+    }
+
+    // At this point the path should be resolved to a full absolute path, but
+    // handle relative paths to be safe (might happen when process.cwd() fails)
+
+    // Normalize the path
+    resolvedPath = normalizeStringPosix(resolvedPath, !resolvedAbsolute);
+
+    if (resolvedAbsolute) {
+      if (resolvedPath.length > 0)
+        return '/' + resolvedPath;
+      else
+        return '/';
+    } else if (resolvedPath.length > 0) {
+      return resolvedPath;
+    } else {
+      return '.';
+    }
+  },
+
+
+  normalize: function normalize(path) {
+    assertPath(path);
+
+    if (path.length === 0)
+      return '.';
+
+    var isAbsolute = path.charCodeAt(0) === 47/*/*/;
+    var trailingSeparator = path.charCodeAt(path.length - 1) === 47/*/*/;
+
+    // Normalize the path
+    path = normalizeStringPosix(path, !isAbsolute);
+
+    if (path.length === 0 && !isAbsolute)
+      path = '.';
+    if (path.length > 0 && trailingSeparator)
+      path += '/';
+
+    if (isAbsolute)
+      return '/' + path;
+    return path;
+  },
+
+
+  isAbsolute: function isAbsolute(path) {
+    assertPath(path);
+    return path.length > 0 && path.charCodeAt(0) === 47/*/*/;
+  },
+
+
+  join: function join() {
+    if (arguments.length === 0)
+      return '.';
+    var joined;
+    for (var i = 0; i < arguments.length; ++i) {
+      var arg = arguments[i];
+      assertPath(arg);
+      if (arg.length > 0) {
+        if (joined === undefined)
+          joined = arg;
+        else
+          joined += '/' + arg;
+      }
+    }
+    if (joined === undefined)
+      return '.';
+    return posix.normalize(joined);
+  },
+
+
+  relative: function relative(from, to) {
+    assertPath(from);
+    assertPath(to);
+
+    if (from === to)
+      return '';
+
+    from = posix.resolve(from);
+    to = posix.resolve(to);
+
+    if (from === to)
+      return '';
+
+    // Trim any leading backslashes
+    var fromStart = 1;
+    for (; fromStart < from.length; ++fromStart) {
+      if (from.charCodeAt(fromStart) !== 47/*/*/)
+        break;
+    }
+    var fromEnd = from.length;
+    var fromLen = (fromEnd - fromStart);
+
+    // Trim any leading backslashes
+    var toStart = 1;
+    for (; toStart < to.length; ++toStart) {
+      if (to.charCodeAt(toStart) !== 47/*/*/)
+        break;
+    }
+    var toEnd = to.length;
+    var toLen = (toEnd - toStart);
+
+    // Compare paths to find the longest common path from root
+    var length = (fromLen < toLen ? fromLen : toLen);
+    var lastCommonSep = -1;
+    var i = 0;
+    for (; i <= length; ++i) {
+      if (i === length) {
+        if (toLen > length) {
+          if (to.charCodeAt(toStart + i) === 47/*/*/) {
+            // We get here if `from` is the exact base path for `to`.
+            // For example: from='/foo/bar'; to='/foo/bar/baz'
+            return to.slice(toStart + i + 1);
+          } else if (i === 0) {
+            // We get here if `from` is the root
+            // For example: from='/'; to='/foo'
+            return to.slice(toStart + i);
+          }
+        } else if (fromLen > length) {
+          if (from.charCodeAt(fromStart + i) === 47/*/*/) {
+            // We get here if `to` is the exact base path for `from`.
+            // For example: from='/foo/bar/baz'; to='/foo/bar'
+            lastCommonSep = i;
+          } else if (i === 0) {
+            // We get here if `to` is the root.
+            // For example: from='/foo'; to='/'
+            lastCommonSep = 0;
+          }
+        }
+        break;
+      }
+      var fromCode = from.charCodeAt(fromStart + i);
+      var toCode = to.charCodeAt(toStart + i);
+      if (fromCode !== toCode)
+        break;
+      else if (fromCode === 47/*/*/)
+        lastCommonSep = i;
+    }
+
+    var out = '';
+    // Generate the relative path based on the path difference between `to`
+    // and `from`
+    for (i = fromStart + lastCommonSep + 1; i <= fromEnd; ++i) {
+      if (i === fromEnd || from.charCodeAt(i) === 47/*/*/) {
+        if (out.length === 0)
+          out += '..';
+        else
+          out += '/..';
+      }
+    }
+
+    // Lastly, append the rest of the destination (`to`) path that comes after
+    // the common path parts
+    if (out.length > 0)
+      return out + to.slice(toStart + lastCommonSep);
+    else {
+      toStart += lastCommonSep;
+      if (to.charCodeAt(toStart) === 47/*/*/)
+        ++toStart;
+      return to.slice(toStart);
+    }
+  },
+
+
+  _makeLong: function _makeLong(path) {
+    return path;
+  },
+
+
+  dirname: function dirname(path) {
+    assertPath(path);
+    if (path.length === 0)
+      return '.';
+    var code = path.charCodeAt(0);
+    var hasRoot = (code === 47/*/*/);
+    var end = -1;
+    var matchedSlash = true;
+    for (var i = path.length - 1; i >= 1; --i) {
+      code = path.charCodeAt(i);
+      if (code === 47/*/*/) {
+        if (!matchedSlash) {
+          end = i;
+          break;
+        }
+      } else {
+        // We saw the first non-path separator
+        matchedSlash = false;
+      }
+    }
+
+    if (end === -1)
+      return hasRoot ? '/' : '.';
+    if (hasRoot && end === 1)
+      return '//';
+    return path.slice(0, end);
+  },
+
+
+  basename: function basename(path, ext) {
+    if (ext !== undefined && typeof ext !== 'string')
+      throw new TypeError('"ext" argument must be a string');
+    assertPath(path);
+
+    var start = 0;
+    var end = -1;
+    var matchedSlash = true;
+    var i;
+
+    if (ext !== undefined && ext.length > 0 && ext.length <= path.length) {
+      if (ext.length === path.length && ext === path)
+        return '';
+      var extIdx = ext.length - 1;
+      var firstNonSlashEnd = -1;
+      for (i = path.length - 1; i >= 0; --i) {
+        var code = path.charCodeAt(i);
+        if (code === 47/*/*/) {
+          // If we reached a path separator that was not part of a set of path
+          // separators at the end of the string, stop now
+          if (!matchedSlash) {
+            start = i + 1;
+            break;
+          }
+        } else {
+          if (firstNonSlashEnd === -1) {
+            // We saw the first non-path separator, remember this index in case
+            // we need it if the extension ends up not matching
+            matchedSlash = false;
+            firstNonSlashEnd = i + 1;
+          }
+          if (extIdx >= 0) {
+            // Try to match the explicit extension
+            if (code === ext.charCodeAt(extIdx)) {
+              if (--extIdx === -1) {
+                // We matched the extension, so mark this as the end of our path
+                // component
+                end = i;
+              }
+            } else {
+              // Extension does not match, so our result is the entire path
+              // component
+              extIdx = -1;
+              end = firstNonSlashEnd;
+            }
+          }
+        }
+      }
+
+      if (start === end)
+        end = firstNonSlashEnd;
+      else if (end === -1)
+        end = path.length;
+      return path.slice(start, end);
+    } else {
+      for (i = path.length - 1; i >= 0; --i) {
+        if (path.charCodeAt(i) === 47/*/*/) {
+          // If we reached a path separator that was not part of a set of path
+          // separators at the end of the string, stop now
+          if (!matchedSlash) {
+            start = i + 1;
+            break;
+          }
+        } else if (end === -1) {
+          // We saw the first non-path separator, mark this as the end of our
+          // path component
+          matchedSlash = false;
+          end = i + 1;
+        }
+      }
+
+      if (end === -1)
+        return '';
+      return path.slice(start, end);
+    }
+  },
+
+
+  extname: function extname(path) {
+    assertPath(path);
+    var startDot = -1;
+    var startPart = 0;
+    var end = -1;
+    var matchedSlash = true;
+    // Track the state of characters (if any) we see before our first dot and
+    // after any path separator we find
+    var preDotState = 0;
+    for (var i = path.length - 1; i >= 0; --i) {
+      var code = path.charCodeAt(i);
+      if (code === 47/*/*/) {
+        // If we reached a path separator that was not part of a set of path
+        // separators at the end of the string, stop now
+        if (!matchedSlash) {
+          startPart = i + 1;
+          break;
+        }
+        continue;
+      }
+      if (end === -1) {
+        // We saw the first non-path separator, mark this as the end of our
+        // extension
+        matchedSlash = false;
+        end = i + 1;
+      }
+      if (code === 46/*.*/) {
+        // If this is our first dot, mark it as the start of our extension
+        if (startDot === -1)
+          startDot = i;
+        else if (preDotState !== 1)
+          preDotState = 1;
+      } else if (startDot !== -1) {
+        // We saw a non-dot and non-path separator before our dot, so we should
+        // have a good chance at having a non-empty extension
+        preDotState = -1;
+      }
+    }
+
+    if (startDot === -1 ||
+        end === -1 ||
+        // We saw a non-dot character immediately before the dot
+        preDotState === 0 ||
+        // The (right-most) trimmed path component is exactly '..'
+        (preDotState === 1 &&
+         startDot === end - 1 &&
+         startDot === startPart + 1)) {
+      return '';
+    }
+    return path.slice(startDot, end);
+  },
+
+
+  format: function format(pathObject) {
+    if (pathObject === null || typeof pathObject !== 'object') {
+      throw new TypeError(
+        'Parameter "pathObject" must be an object, not ' + typeof(pathObject)
+      );
+    }
+    return _format('/', pathObject);
+  },
+
+
+  parse: function parse(path) {
+    assertPath(path);
+
+    var ret = { root: '', dir: '', base: '', ext: '', name: '' };
+    if (path.length === 0)
+      return ret;
+    var code = path.charCodeAt(0);
+    var isAbsolute = (code === 47/*/*/);
+    var start;
+    if (isAbsolute) {
+      ret.root = '/';
+      start = 1;
+    } else {
+      start = 0;
+    }
+    var startDot = -1;
+    var startPart = 0;
+    var end = -1;
+    var matchedSlash = true;
+    var i = path.length - 1;
+
+    // Track the state of characters (if any) we see before our first dot and
+    // after any path separator we find
+    var preDotState = 0;
+
+    // Get non-dir info
+    for (; i >= start; --i) {
+      code = path.charCodeAt(i);
+      if (code === 47/*/*/) {
+        // If we reached a path separator that was not part of a set of path
+        // separators at the end of the string, stop now
+        if (!matchedSlash) {
+          startPart = i + 1;
+          break;
+        }
+        continue;
+      }
+      if (end === -1) {
+        // We saw the first non-path separator, mark this as the end of our
+        // extension
+        matchedSlash = false;
+        end = i + 1;
+      }
+      if (code === 46/*.*/) {
+        // If this is our first dot, mark it as the start of our extension
+        if (startDot === -1)
+          startDot = i;
+        else if (preDotState !== 1)
+          preDotState = 1;
+      } else if (startDot !== -1) {
+        // We saw a non-dot and non-path separator before our dot, so we should
+        // have a good chance at having a non-empty extension
+        preDotState = -1;
+      }
+    }
+
+    if (startDot === -1 ||
+        end === -1 ||
+        // We saw a non-dot character immediately before the dot
+        preDotState === 0 ||
+        // The (right-most) trimmed path component is exactly '..'
+        (preDotState === 1 &&
+         startDot === end - 1 &&
+         startDot === startPart + 1)) {
+      if (end !== -1) {
+        if (startPart === 0 && isAbsolute)
+          ret.base = ret.name = path.slice(1, end);
+        else
+          ret.base = ret.name = path.slice(startPart, end);
+      }
+    } else {
+      if (startPart === 0 && isAbsolute) {
+        ret.name = path.slice(1, startDot);
+        ret.base = path.slice(1, end);
+      } else {
+        ret.name = path.slice(startPart, startDot);
+        ret.base = path.slice(startPart, end);
+      }
+      ret.ext = path.slice(startDot, end);
+    }
+
+    if (startPart > 0)
+      ret.dir = path.slice(0, startPart - 1);
+    else if (isAbsolute)
+      ret.dir = '/';
+
+    return ret;
+  },
+
+
+  sep: '/',
+  delimiter: ':',
+  posix: null
+};
+
+
+module.exports = posix;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.replaceBase = replaceBase;
+exports.replaceCanonical = replaceCanonical;
+exports.replaceMeta = replaceMeta;
+exports.replaceLinks = replaceLinks;
+exports.substitute = substitute;
+
+var _core = __webpack_require__(0);
+
+var _url = __webpack_require__(5);
+
+var _url2 = _interopRequireDefault(_url);
+
+var _path = __webpack_require__(4);
+
+var _path2 = _interopRequireDefault(_path);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function replaceBase(doc, section) {
+	var base;
+	var head;
+	var url = section.url;
+	var absolute = url.indexOf("://") > -1;
+
+	if (!doc) {
+		return;
+	}
+
+	head = (0, _core.qs)(doc, "head");
+	base = (0, _core.qs)(head, "base");
+
+	if (!base) {
+		base = doc.createElement("base");
+		head.insertBefore(base, head.firstChild);
+	}
+
+	// Fix for Safari crashing if the url doesn't have an origin
+	if (!absolute && window && window.location) {
+		url = window.location.origin + url;
+	}
+
+	base.setAttribute("href", url);
+}
+
+function replaceCanonical(doc, section) {
+	var head;
+	var link;
+	var url = section.canonical;
+
+	if (!doc) {
+		return;
+	}
+
+	head = (0, _core.qs)(doc, "head");
+	link = (0, _core.qs)(head, "link[rel='canonical']");
+
+	if (link) {
+		link.setAttribute("href", url);
+	} else {
+		link = doc.createElement("link");
+		link.setAttribute("rel", "canonical");
+		link.setAttribute("href", url);
+		head.appendChild(link);
+	}
+}
+
+function replaceMeta(doc, section) {
+	var head;
+	var meta;
+	var id = section.idref;
+	if (!doc) {
+		return;
+	}
+
+	head = (0, _core.qs)(doc, "head");
+	meta = (0, _core.qs)(head, "link[property='dc.identifier']");
+
+	if (meta) {
+		meta.setAttribute("content", id);
+	} else {
+		meta = doc.createElement("meta");
+		meta.setAttribute("name", "dc.identifier");
+		meta.setAttribute("content", id);
+		head.appendChild(meta);
+	}
+}
+
+// TODO: move me to Contents
+function replaceLinks(contents, fn) {
+
+	var links = contents.querySelectorAll("a[href]");
+
+	if (!links.length) {
+		return;
+	}
+
+	var base = (0, _core.qs)(contents.ownerDocument, "base");
+	var location = base ? base.getAttribute("href") : undefined;
+	var replaceLink = function (link) {
+		var href = link.getAttribute("href");
+
+		if (href.indexOf("mailto:") === 0) {
+			return;
+		}
+
+		var absolute = href.indexOf("://") > -1;
+		var linkUrl = new _url2.default(href, location);
+
+		if (absolute) {
+
+			link.setAttribute("target", "_blank");
+		} else {
+			link.onclick = function () {
+
+				if (linkUrl && linkUrl.hash) {
+					fn(linkUrl.Path.path + linkUrl.hash);
+				} else if (linkUrl) {
+					fn(linkUrl.Path.path);
+				} else {
+					fn(href);
+				}
+
+				return false;
+			};
+		}
+	}.bind(this);
+
+	for (var i = 0; i < links.length; i++) {
+		replaceLink(links[i]);
+	}
+}
+
+function substitute(content, urls, replacements) {
+	urls.forEach(function (url, i) {
+		if (url && replacements[i]) {
+			content = content.replace(new RegExp(url, "g"), replacements[i]);
+		}
+	});
+	return content;
+}
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _undefined = __webpack_require__(34)(); // Support ES3 engines
+
+module.exports = function (val) {
+ return (val !== _undefined) && (val !== null);
+};
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Hooks allow for injecting functions that must all complete in order before finishing
+ * They will execute in parallel but all must finish before continuing
+ * Functions may return a promise if they are asycn.
+ * @param {any} context scope of this
+ * @example this.content = new EPUBJS.Hook(this);
+ */
+var Hook = function () {
+	function Hook(context) {
+		_classCallCheck(this, Hook);
+
+		this.context = context || this;
+		this.hooks = [];
+	}
+
+	/**
+  * Adds a function to be run before a hook completes
+  * @example this.content.register(function(){...});
+  */
+
+
+	_createClass(Hook, [{
+		key: "register",
+		value: function register() {
+			for (var i = 0; i < arguments.length; ++i) {
+				if (typeof arguments[i] === "function") {
+					this.hooks.push(arguments[i]);
+				} else {
+					// unpack array
+					for (var j = 0; j < arguments[i].length; ++j) {
+						this.hooks.push(arguments[i][j]);
+					}
+				}
+			}
+		}
+
+		/**
+   * Triggers a hook to run all functions
+   * @example this.content.trigger(args).then(function(){...});
+   */
+
+	}, {
+		key: "trigger",
+		value: function trigger() {
+			var args = arguments;
+			var context = this.context;
+			var promises = [];
+
+			this.hooks.forEach(function (task) {
+				var executing = task.apply(context, args);
+
+				if (executing && typeof executing["then"] === "function") {
+					// Task is a function that returns a promise
+					promises.push(executing);
+				}
+				// Otherwise Task resolves immediately, continue
+			});
+
+			return Promise.all(promises);
+		}
+
+		// Adds a function to be run before a hook completes
+
+	}, {
+		key: "list",
+		value: function list() {
+			return this.hooks;
+		}
+	}, {
+		key: "clear",
+		value: function clear() {
+			return this.hooks = [];
+		}
+	}]);
+
+	return Hook;
+}();
+
+exports.default = Hook;
+module.exports = exports["default"];
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _core = __webpack_require__(0);
+
+var _path = __webpack_require__(4);
+
+var _path2 = _interopRequireDefault(_path);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function request(url, type, withCredentials, headers) {
+	var supportsURL = typeof window != "undefined" ? window.URL : false; // TODO: fallback for url if window isn't defined
+	var BLOB_RESPONSE = supportsURL ? "blob" : "arraybuffer";
+
+	var deferred = new _core.defer();
+
+	var xhr = new XMLHttpRequest();
+
+	//-- Check from PDF.js:
+	//   https://github.com/mozilla/pdf.js/blob/master/web/compatibility.js
+	var xhrPrototype = XMLHttpRequest.prototype;
+
+	var header;
+
+	if (!("overrideMimeType" in xhrPrototype)) {
+		// IE10 might have response, but not overrideMimeType
+		Object.defineProperty(xhrPrototype, "overrideMimeType", {
+			value: function xmlHttpRequestOverrideMimeType() {}
+		});
+	}
+
+	if (withCredentials) {
+		xhr.withCredentials = true;
+	}
+
+	xhr.onreadystatechange = handler;
+	xhr.onerror = err;
+
+	xhr.open("GET", url, true);
+
+	for (header in headers) {
+		xhr.setRequestHeader(header, headers[header]);
+	}
+
+	if (type == "json") {
+		xhr.setRequestHeader("Accept", "application/json");
+	}
+
+	// If type isn"t set, determine it from the file extension
+	if (!type) {
+		type = new _path2.default(url).extension;
+	}
+
+	if (type == "blob") {
+		xhr.responseType = BLOB_RESPONSE;
+	}
+
+	if ((0, _core.isXml)(type)) {
+		// xhr.responseType = "document";
+		xhr.overrideMimeType("text/xml"); // for OPF parsing
+	}
+
+	if (type == "xhtml") {
+		// xhr.responseType = "document";
+	}
+
+	if (type == "html" || type == "htm") {
+		// xhr.responseType = "document";
+	}
+
+	if (type == "binary") {
+		xhr.responseType = "arraybuffer";
+	}
+
+	xhr.send();
+
+	function err(e) {
+		deferred.reject(e);
+	}
+
+	function handler() {
+		if (this.readyState === XMLHttpRequest.DONE) {
+			var responseXML = false;
+
+			if (this.responseType === "" || this.responseType === "document") {
+				responseXML = this.responseXML;
+			}
+
+			if (this.status === 200 || responseXML) {
+				//-- Firefox is reporting 0 for blob urls
+				var r;
+
+				if (!this.response && !responseXML) {
+					deferred.reject({
+						status: this.status,
+						message: "Empty Response",
+						stack: new Error().stack
+					});
+					return deferred.promise;
+				}
+
+				if (this.status === 403) {
+					deferred.reject({
+						status: this.status,
+						response: this.response,
+						message: "Forbidden",
+						stack: new Error().stack
+					});
+					return deferred.promise;
+				}
+				if (responseXML) {
+					r = this.responseXML;
+				} else if ((0, _core.isXml)(type)) {
+					// xhr.overrideMimeType("text/xml"); // for OPF parsing
+					// If this.responseXML wasn't set, try to parse using a DOMParser from text
+					r = (0, _core.parse)(this.response, "text/xml");
+				} else if (type == "xhtml") {
+					r = (0, _core.parse)(this.response, "application/xhtml+xml");
+				} else if (type == "html" || type == "htm") {
+					r = (0, _core.parse)(this.response, "text/html");
+				} else if (type == "json") {
+					r = JSON.parse(this.response);
+				} else if (type == "blob") {
+
+					if (supportsURL) {
+						r = this.response;
+					} else {
+						//-- Safari doesn't support responseType blob, so create a blob from arraybuffer
+						r = new Blob([this.response]);
+					}
+				} else {
+					r = this.response;
+				}
+
+				deferred.resolve(r);
+			} else {
+
+				deferred.reject({
+					status: this.status,
+					message: this.response,
+					stack: new Error().stack
+				});
+			}
+		}
+	}
+
+	return deferred.promise;
+}
+
+exports.default = request;
+module.exports = exports["default"];
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Task = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = __webpack_require__(0);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Queue for handling tasks one at a time
+ * @class
+ * @param {scope} context what this will resolve to in the tasks
+ */
+var Queue = function () {
+	function Queue(context) {
+		_classCallCheck(this, Queue);
+
+		this._q = [];
+		this.context = context;
+		this.tick = _core.requestAnimationFrame;
+		this.running = false;
+		this.paused = false;
+	}
+
+	/**
+  * Add an item to the queue
+  * @return {Promise}
+  */
+
+
+	_createClass(Queue, [{
+		key: "enqueue",
+		value: function enqueue() {
+			var deferred, promise;
+			var queued;
+			var task = [].shift.call(arguments);
+			var args = arguments;
+
+			// Handle single args without context
+			// if(args && !Array.isArray(args)) {
+			//   args = [args];
+			// }
+			if (!task) {
+				throw new Error("No Task Provided");
+			}
+
+			if (typeof task === "function") {
+
+				deferred = new _core.defer();
+				promise = deferred.promise;
+
+				queued = {
+					"task": task,
+					"args": args,
+					//"context"  : context,
+					"deferred": deferred,
+					"promise": promise
+				};
+			} else {
+				// Task is a promise
+				queued = {
+					"promise": task
+				};
+			}
+
+			this._q.push(queued);
+
+			// Wait to start queue flush
+			if (this.paused == false && !this.running) {
+				// setTimeout(this.flush.bind(this), 0);
+				// this.tick.call(window, this.run.bind(this));
+				this.run();
+			}
+
+			return queued.promise;
+		}
+
+		/**
+   * Run one item
+   * @return {Promise}
+   */
+
+	}, {
+		key: "dequeue",
+		value: function dequeue() {
+			var inwait, task, result;
+
+			if (this._q.length && !this.paused) {
+				inwait = this._q.shift();
+				task = inwait.task;
+				if (task) {
+					// console.log(task)
+
+					result = task.apply(this.context, inwait.args);
+
+					if (result && typeof result["then"] === "function") {
+						// Task is a function that returns a promise
+						return result.then(function () {
+							inwait.deferred.resolve.apply(this.context, arguments);
+						}.bind(this), function () {
+							inwait.deferred.reject.apply(this.context, arguments);
+						}.bind(this));
+					} else {
+						// Task resolves immediately
+						inwait.deferred.resolve.apply(this.context, result);
+						return inwait.promise;
+					}
+				} else if (inwait.promise) {
+					// Task is a promise
+					return inwait.promise;
+				}
+			} else {
+				inwait = new _core.defer();
+				inwait.deferred.resolve();
+				return inwait.promise;
+			}
+		}
+
+		// Run All Immediately
+
+	}, {
+		key: "dump",
+		value: function dump() {
+			while (this._q.length) {
+				this.dequeue();
+			}
+		}
+
+		/**
+   * Run all tasks sequentially, at convince
+   * @return {Promise}
+   */
+
+	}, {
+		key: "run",
+		value: function run() {
+			var _this = this;
+
+			if (!this.running) {
+				this.running = true;
+				this.defered = new _core.defer();
+			}
+
+			this.tick.call(window, function () {
+
+				if (_this._q.length) {
+
+					_this.dequeue().then(function () {
+						this.run();
+					}.bind(_this));
+				} else {
+					_this.defered.resolve();
+					_this.running = undefined;
+				}
+			});
+
+			// Unpause
+			if (this.paused == true) {
+				this.paused = false;
+			}
+
+			return this.defered.promise;
+		}
+
+		/**
+   * Flush all, as quickly as possible
+   * @return {Promise}
+   */
+
+	}, {
+		key: "flush",
+		value: function flush() {
+
+			if (this.running) {
+				return this.running;
+			}
+
+			if (this._q.length) {
+				this.running = this.dequeue().then(function () {
+					this.running = undefined;
+					return this.flush();
+				}.bind(this));
+
+				return this.running;
+			}
+		}
+
+		/**
+   * Clear all items in wait
+   */
+
+	}, {
+		key: "clear",
+		value: function clear() {
+			this._q = [];
+		}
+
+		/**
+   * Get the number of tasks in the queue
+   * @return {int} tasks
+   */
+
+	}, {
+		key: "length",
+		value: function length() {
+			return this._q.length;
+		}
+
+		/**
+   * Pause a running queue
+   */
+
+	}, {
+		key: "pause",
+		value: function pause() {
+			this.paused = true;
+		}
+
+		/**
+   * End the queue
+   */
+
+	}, {
+		key: "stop",
+		value: function stop() {
+			this._q = [];
+			this.running = false;
+			this.paused = true;
+		}
+	}]);
+
+	return Queue;
+}();
+
+/**
+ * Create a new task from a callback
+ * @class
+ * @private
+ * @param {function} task
+ * @param {array} args
+ * @param {scope} context
+ * @return {function} task
+ */
+
+
+var Task = function Task(task, args, context) {
+	_classCallCheck(this, Task);
+
+	return function () {
+		var _this2 = this;
+
+		var toApply = arguments || [];
+
+		return new Promise(function (resolve, reject) {
+			var callback = function callback(value, err) {
+				if (!value && err) {
+					reject(err);
+				} else {
+					resolve(value);
+				}
+			};
+			// Add the callback to the arguments list
+			toApply.push(callback);
+
+			// Apply all arguments to the functions
+			task.apply(context || _this2, toApply);
+		});
+	};
+};
+
+exports.default = Queue;
+exports.Task = Task;
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _eventEmitter = __webpack_require__(2);
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+var _core = __webpack_require__(0);
+
+var _epubcfi = __webpack_require__(1);
+
+var _epubcfi2 = _interopRequireDefault(_epubcfi);
+
+var _mapping = __webpack_require__(19);
+
+var _mapping2 = _interopRequireDefault(_mapping);
+
+var _replacements = __webpack_require__(7);
+
+var _constants = __webpack_require__(3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var isChrome = /Chrome/.test(navigator.userAgent);
+var isWebkit = !isChrome && /AppleWebKit/.test(navigator.userAgent);
+
+var ELEMENT_NODE = 1;
+var TEXT_NODE = 3;
+
+/**
+	* Handles DOM manipulation, queries and events for View contents
+	* @class
+	* @param {document} doc Document
+	* @param {element} content Parent Element (typically Body)
+	* @param {string} cfiBase Section component of CFIs
+	* @param {number} sectionIndex Index in Spine of Conntent's Section
+	*/
+
+var Contents = function () {
+	function Contents(doc, content, cfiBase, sectionIndex) {
+		_classCallCheck(this, Contents);
+
+		// Blank Cfi for Parsing
+		this.epubcfi = new _epubcfi2.default();
+
+		this.document = doc;
+		this.documentElement = this.document.documentElement;
+		this.content = content || this.document.body;
+		this.window = this.document.defaultView;
+
+		this._size = {
+			width: 0,
+			height: 0
+		};
+
+		this.sectionIndex = sectionIndex || 0;
+		this.cfiBase = cfiBase || "";
+
+		this.epubReadingSystem("epub.js", ePub.VERSION);
+
+		this.listeners();
+	}
+
+	/**
+ 	* Get DOM events that are listened for and passed along
+ 	*/
+
+
+	_createClass(Contents, [{
+		key: "width",
+
+
+		/**
+  	* Get or Set width
+  	* @param {number} [w]
+  	* @returns {number} width
+  	*/
+		value: function width(w) {
+			// var frame = this.documentElement;
+			var frame = this.content;
+
+			if (w && (0, _core.isNumber)(w)) {
+				w = w + "px";
+			}
+
+			if (w) {
+				frame.style.width = w;
+				// this.content.style.width = w;
+			}
+
+			return this.window.getComputedStyle(frame)["width"];
+		}
+
+		/**
+  	* Get or Set height
+  	* @param {number} [h]
+  	* @returns {number} height
+  	*/
+
+	}, {
+		key: "height",
+		value: function height(h) {
+			// var frame = this.documentElement;
+			var frame = this.content;
+
+			if (h && (0, _core.isNumber)(h)) {
+				h = h + "px";
+			}
+
+			if (h) {
+				frame.style.height = h;
+				// this.content.style.height = h;
+			}
+
+			return this.window.getComputedStyle(frame)["height"];
+		}
+
+		/**
+  	* Get or Set width of the contents
+  	* @param {number} [w]
+  	* @returns {number} width
+  	*/
+
+	}, {
+		key: "contentWidth",
+		value: function contentWidth(w) {
+
+			var content = this.content || this.document.body;
+
+			if (w && (0, _core.isNumber)(w)) {
+				w = w + "px";
+			}
+
+			if (w) {
+				content.style.width = w;
+			}
+
+			return this.window.getComputedStyle(content)["width"];
+		}
+
+		/**
+  	* Get or Set height of the contents
+  	* @param {number} [h]
+  	* @returns {number} height
+  	*/
+
+	}, {
+		key: "contentHeight",
+		value: function contentHeight(h) {
+
+			var content = this.content || this.document.body;
+
+			if (h && (0, _core.isNumber)(h)) {
+				h = h + "px";
+			}
+
+			if (h) {
+				content.style.height = h;
+			}
+
+			return this.window.getComputedStyle(content)["height"];
+		}
+
+		/**
+  	* Get the width of the text using Range
+  	* @returns {number} width
+  	*/
+
+	}, {
+		key: "textWidth",
+		value: function textWidth() {
+			var width = void 0;
+			var range = this.document.createRange();
+			var content = this.content || this.document.body;
+			var border = (0, _core.borders)(content);
+
+			// Select the contents of frame
+			range.selectNodeContents(content);
+
+			// get the width of the text content
+			width = range.getBoundingClientRect().width;
+
+			if (border && border.width) {
+				width += border.width;
+			}
+
+			return Math.round(width);
+		}
+
+		/**
+  	* Get the height of the text using Range
+  	* @returns {number} height
+  	*/
+
+	}, {
+		key: "textHeight",
+		value: function textHeight() {
+			var height = void 0;
+			var range = this.document.createRange();
+			var content = this.content || this.document.body;
+			var border = (0, _core.borders)(content);
+
+			range.selectNodeContents(content);
+
+			height = range.getBoundingClientRect().height;
+
+			if (height && border.height) {
+				height += border.height;
+			}
+
+			return Math.round(height);
+		}
+
+		/**
+  	* Get documentElement scrollWidth
+  	* @returns {number} width
+  	*/
+
+	}, {
+		key: "scrollWidth",
+		value: function scrollWidth() {
+			var width = this.documentElement.scrollWidth;
+
+			return width;
+		}
+
+		/**
+  	* Get documentElement scrollHeight
+  	* @returns {number} height
+  	*/
+
+	}, {
+		key: "scrollHeight",
+		value: function scrollHeight() {
+			var height = this.documentElement.scrollHeight;
+
+			return height;
+		}
+
+		/**
+  	* Set overflow css style of the contents
+  	* @param {string} [overflow]
+  	*/
+
+	}, {
+		key: "overflow",
+		value: function overflow(_overflow) {
+
+			if (_overflow) {
+				this.documentElement.style.overflow = _overflow;
+			}
+
+			return this.window.getComputedStyle(this.documentElement)["overflow"];
+		}
+
+		/**
+  	* Set overflowX css style of the documentElement
+  	* @param {string} [overflow]
+  	*/
+
+	}, {
+		key: "overflowX",
+		value: function overflowX(overflow) {
+
+			if (overflow) {
+				this.documentElement.style.overflowX = overflow;
+			}
+
+			return this.window.getComputedStyle(this.documentElement)["overflowX"];
+		}
+
+		/**
+  	* Set overflowY css style of the documentElement
+  	* @param {string} [overflow]
+  	*/
+
+	}, {
+		key: "overflowY",
+		value: function overflowY(overflow) {
+
+			if (overflow) {
+				this.documentElement.style.overflowY = overflow;
+			}
+
+			return this.window.getComputedStyle(this.documentElement)["overflowY"];
+		}
+
+		/**
+  	* Set Css styles on the contents element (typically Body)
+  	* @param {string} property
+  	* @param {string} value
+  	* @param {boolean} [priority] set as "important"
+  	*/
+
+	}, {
+		key: "css",
+		value: function css(property, value, priority) {
+			var content = this.content || this.document.body;
+
+			if (value) {
+				content.style.setProperty(property, value, priority ? "important" : "");
+			}
+
+			return this.window.getComputedStyle(content)[property];
+		}
+
+		/**
+  	* Get or Set the viewport element
+  	* @param {object} [options]
+  	* @param {string} [options.width]
+  	* @param {string} [options.height]
+  	* @param {string} [options.scale]
+  	* @param {string} [options.minimum]
+  	* @param {string} [options.maximum]
+  	* @param {string} [options.scalable]
+  	*/
+
+	}, {
+		key: "viewport",
+		value: function viewport(options) {
+			var _width, _height, _scale, _minimum, _maximum, _scalable;
+			// var width, height, scale, minimum, maximum, scalable;
+			var $viewport = this.document.querySelector("meta[name='viewport']");
+			var parsed = {
+				"width": undefined,
+				"height": undefined,
+				"scale": undefined,
+				"minimum": undefined,
+				"maximum": undefined,
+				"scalable": undefined
+			};
+			var newContent = [];
+			var settings = {};
+
+			/*
+   * check for the viewport size
+   * <meta name="viewport" content="width=1024,height=697" />
+   */
+			if ($viewport && $viewport.hasAttribute("content")) {
+				var content = $viewport.getAttribute("content");
+				var _width2 = content.match(/width\s*=\s*([^,]*)/);
+				var _height2 = content.match(/height\s*=\s*([^,]*)/);
+				var _scale2 = content.match(/initial-scale\s*=\s*([^,]*)/);
+				var _minimum2 = content.match(/minimum-scale\s*=\s*([^,]*)/);
+				var _maximum2 = content.match(/maximum-scale\s*=\s*([^,]*)/);
+				var _scalable2 = content.match(/user-scalable\s*=\s*([^,]*)/);
+
+				if (_width2 && _width2.length && typeof _width2[1] !== "undefined") {
+					parsed.width = _width2[1];
+				}
+				if (_height2 && _height2.length && typeof _height2[1] !== "undefined") {
+					parsed.height = _height2[1];
+				}
+				if (_scale2 && _scale2.length && typeof _scale2[1] !== "undefined") {
+					parsed.scale = _scale2[1];
+				}
+				if (_minimum2 && _minimum2.length && typeof _minimum2[1] !== "undefined") {
+					parsed.minimum = _minimum2[1];
+				}
+				if (_maximum2 && _maximum2.length && typeof _maximum2[1] !== "undefined") {
+					parsed.maximum = _maximum2[1];
+				}
+				if (_scalable2 && _scalable2.length && typeof _scalable2[1] !== "undefined") {
+					parsed.scalable = _scalable2[1];
+				}
+			}
+
+			settings = (0, _core.defaults)(options || {}, parsed);
+
+			if (options) {
+				if (settings.width) {
+					newContent.push("width=" + settings.width);
+				}
+
+				if (settings.height) {
+					newContent.push("height=" + settings.height);
+				}
+
+				if (settings.scale) {
+					newContent.push("initial-scale=" + settings.scale);
+				}
+
+				if (settings.scalable === "no") {
+					newContent.push("minimum-scale=" + settings.scale);
+					newContent.push("maximum-scale=" + settings.scale);
+					newContent.push("user-scalable=" + settings.scalable);
+				} else {
+
+					if (settings.scalable) {
+						newContent.push("user-scalable=" + settings.scalable);
+					}
+
+					if (settings.minimum) {
+						newContent.push("minimum-scale=" + settings.minimum);
+					}
+
+					if (settings.maximum) {
+						newContent.push("minimum-scale=" + settings.maximum);
+					}
+				}
+
+				if (!$viewport) {
+					$viewport = this.document.createElement("meta");
+					$viewport.setAttribute("name", "viewport");
+					this.document.querySelector("head").appendChild($viewport);
+				}
+
+				$viewport.setAttribute("content", newContent.join(", "));
+
+				this.window.scrollTo(0, 0);
+			}
+
+			return settings;
+		}
+
+		/**
+   * Event emitter for when the contents has expanded
+   * @private
+   */
+
+	}, {
+		key: "expand",
+		value: function expand() {
+			this.emit(_constants.EVENTS.CONTENTS.EXPAND);
+		}
+
+		/**
+   * Add DOM listeners
+   * @private
+   */
+
+	}, {
+		key: "listeners",
+		value: function listeners() {
+
+			this.imageLoadListeners();
+
+			this.mediaQueryListeners();
+
+			// this.fontLoadListeners();
+
+			this.addEventListeners();
+
+			this.addSelectionListeners();
+
+			// this.transitionListeners();
+
+			this.resizeListeners();
+
+			// this.resizeObservers();
+
+			this.linksHandler();
+		}
+
+		/**
+   * Remove DOM listeners
+   * @private
+   */
+
+	}, {
+		key: "removeListeners",
+		value: function removeListeners() {
+
+			this.removeEventListeners();
+
+			this.removeSelectionListeners();
+
+			clearTimeout(this.expanding);
+		}
+
+		/**
+   * Check if size of contents has changed and
+   * emit 'resize' event if it has.
+   * @private
+   */
+
+	}, {
+		key: "resizeCheck",
+		value: function resizeCheck() {
+			var width = this.textWidth();
+			var height = this.textHeight();
+
+			if (width != this._size.width || height != this._size.height) {
+
+				this._size = {
+					width: width,
+					height: height
+				};
+
+				this.onResize && this.onResize(this._size);
+				this.emit(_constants.EVENTS.CONTENTS.RESIZE, this._size);
+			}
+		}
+
+		/**
+   * Poll for resize detection
+   * @private
+   */
+
+	}, {
+		key: "resizeListeners",
+		value: function resizeListeners() {
+			var width, height;
+			// Test size again
+			clearTimeout(this.expanding);
+
+			requestAnimationFrame(this.resizeCheck.bind(this));
+
+			this.expanding = setTimeout(this.resizeListeners.bind(this), 350);
+		}
+
+		/**
+   * Use css transitions to detect resize
+   * @private
+   */
+
+	}, {
+		key: "transitionListeners",
+		value: function transitionListeners() {
+			var body = this.content;
+
+			body.style['transitionProperty'] = "font, font-size, font-size-adjust, font-stretch, font-variation-settings, font-weight, width, height";
+			body.style['transitionDuration'] = "0.001ms";
+			body.style['transitionTimingFunction'] = "linear";
+			body.style['transitionDelay'] = "0";
+
+			this.document.addEventListener('transitionend', this.resizeCheck.bind(this));
+		}
+
+		/**
+   * Listen for media query changes and emit 'expand' event
+   * Adapted from: https://github.com/tylergaw/media-query-events/blob/master/js/mq-events.js
+   * @private
+   */
+
+	}, {
+		key: "mediaQueryListeners",
+		value: function mediaQueryListeners() {
+			var sheets = this.document.styleSheets;
+			var mediaChangeHandler = function (m) {
+				if (m.matches && !this._expanding) {
+					setTimeout(this.expand.bind(this), 1);
+				}
+			}.bind(this);
+
+			for (var i = 0; i < sheets.length; i += 1) {
+				var rules;
+				// Firefox errors if we access cssRules cross-domain
+				try {
+					rules = sheets[i].cssRules;
+				} catch (e) {
+					return;
+				}
+				if (!rules) return; // Stylesheets changed
+				for (var j = 0; j < rules.length; j += 1) {
+					//if (rules[j].constructor === CSSMediaRule) {
+					if (rules[j].media) {
+						var mql = this.window.matchMedia(rules[j].media.mediaText);
+						mql.addListener(mediaChangeHandler);
+						//mql.onchange = mediaChangeHandler;
+					}
+				}
+			}
+		}
+
+		/**
+   * Use MutationObserver to listen for changes in the DOM and check for resize
+   * @private
+   */
+
+	}, {
+		key: "resizeObservers",
+		value: function resizeObservers() {
+			var _this = this;
+
+			// create an observer instance
+			this.observer = new MutationObserver(function (mutations) {
+				_this.resizeCheck();
+			});
+
+			// configuration of the observer:
+			var config = { attributes: true, childList: true, characterData: true, subtree: true };
+
+			// pass in the target node, as well as the observer options
+			this.observer.observe(this.document, config);
+		}
+	}, {
+		key: "imageLoadListeners",
+		value: function imageLoadListeners(target) {
+			var images = this.document.querySelectorAll("img");
+			var img;
+			for (var i = 0; i < images.length; i++) {
+				img = images[i];
+
+				if (typeof img.naturalWidth !== "undefined" && img.naturalWidth === 0) {
+					img.onload = this.expand.bind(this);
+				}
+			}
+		}
+
+		/**
+   * Listen for font load and check for resize when loaded
+   * @private
+   */
+
+	}, {
+		key: "fontLoadListeners",
+		value: function fontLoadListeners(target) {
+			if (!this.document || !this.document.fonts) {
+				return;
+			}
+
+			this.document.fonts.ready.then(function () {
+				this.resizeCheck();
+			}.bind(this));
+		}
+
+		/**
+   * Get the documentElement
+   * @returns {element} documentElement
+   */
+
+	}, {
+		key: "root",
+		value: function root() {
+			if (!this.document) return null;
+			return this.document.documentElement;
+		}
+
+		/**
+   * Get the location offset of a EpubCFI or an #id
+   * @param {string | EpubCFI} target
+   * @param {string} [ignoreClass] for the cfi
+   * @returns { {left: Number, top: Number }
+   */
+
+	}, {
+		key: "locationOf",
+		value: function locationOf(target, ignoreClass) {
+			var position;
+			var targetPos = { "left": 0, "top": 0 };
+
+			if (!this.document) return targetPos;
+
+			if (this.epubcfi.isCfiString(target)) {
+				var range = new _epubcfi2.default(target).toRange(this.document, ignoreClass);
+
+				if (range) {
+					if (range.startContainer.nodeType === Node.ELEMENT_NODE) {
+						position = range.startContainer.getBoundingClientRect();
+						targetPos.left = position.left;
+						targetPos.top = position.top;
+					} else {
+						// Webkit does not handle collapsed range bounds correctly
+						// https://bugs.webkit.org/show_bug.cgi?id=138949
+
+						// Construct a new non-collapsed range
+						if (isWebkit) {
+							var container = range.startContainer;
+							var newRange = new Range();
+							try {
+								if (container.nodeType === ELEMENT_NODE) {
+									position = container.getBoundingClientRect();
+								} else if (range.startOffset + 2 < container.length) {
+									newRange.setStart(container, range.startOffset);
+									newRange.setEnd(container, range.startOffset + 2);
+									position = newRange.getBoundingClientRect();
+								} else if (range.startOffset - 2 > 0) {
+									newRange.setStart(container, range.startOffset - 2);
+									newRange.setEnd(container, range.startOffset);
+									position = newRange.getBoundingClientRect();
+								} else {
+									// empty, return the parent element
+									position = container.parentNode.getBoundingClientRect();
+								}
+							} catch (e) {
+								console.error(e, e.stack);
+							}
+						} else {
+							position = range.getBoundingClientRect();
+						}
+					}
+				}
+			} else if (typeof target === "string" && target.indexOf("#") > -1) {
+
+				var id = target.substring(target.indexOf("#") + 1);
+				var el = this.document.getElementById(id);
+
+				if (el) {
+					position = el.getBoundingClientRect();
+				}
+			}
+
+			if (position) {
+				targetPos.left = position.left;
+				targetPos.top = position.top;
+			}
+
+			return targetPos;
+		}
+
+		/**
+   * Append a stylesheet link to the document head
+   * @param {string} src url
+   */
+
+	}, {
+		key: "addStylesheet",
+		value: function addStylesheet(src) {
+			return new Promise(function (resolve, reject) {
+				var $stylesheet;
+				var ready = false;
+
+				if (!this.document) {
+					resolve(false);
+					return;
+				}
+
+				// Check if link already exists
+				$stylesheet = this.document.querySelector("link[href='" + src + "']");
+				if ($stylesheet) {
+					resolve(true);
+					return; // already present
+				}
+
+				$stylesheet = this.document.createElement("link");
+				$stylesheet.type = "text/css";
+				$stylesheet.rel = "stylesheet";
+				$stylesheet.href = src;
+				$stylesheet.onload = $stylesheet.onreadystatechange = function () {
+					if (!ready && (!this.readyState || this.readyState == "complete")) {
+						ready = true;
+						// Let apply
+						setTimeout(function () {
+							resolve(true);
+						}, 1);
+					}
+				};
+
+				this.document.head.appendChild($stylesheet);
+			}.bind(this));
+		}
+
+		/**
+   * Append stylesheet rules to a generate stylesheet
+   * Array: https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleSheet/insertRule
+   * Object: https://github.com/desirable-objects/json-to-css
+   * @param {array | object} rules
+   */
+
+	}, {
+		key: "addStylesheetRules",
+		value: function addStylesheetRules(rules) {
+			var styleEl;
+			var styleSheet;
+			var key = "epubjs-inserted-css";
+
+			if (!this.document || !rules || rules.length === 0) return;
+
+			// Check if link already exists
+			styleEl = this.document.getElementById("#" + key);
+			if (!styleEl) {
+				styleEl = this.document.createElement("style");
+				styleEl.id = key;
+			}
+
+			// Append style element to head
+			this.document.head.appendChild(styleEl);
+
+			// Grab style sheet
+			styleSheet = styleEl.sheet;
+
+			if (Object.prototype.toString.call(rules) === "[object Array]") {
+				for (var i = 0, rl = rules.length; i < rl; i++) {
+					var j = 1,
+					    rule = rules[i],
+					    selector = rules[i][0],
+					    propStr = "";
+					// If the second argument of a rule is an array of arrays, correct our variables.
+					if (Object.prototype.toString.call(rule[1][0]) === "[object Array]") {
+						rule = rule[1];
+						j = 0;
+					}
+
+					for (var pl = rule.length; j < pl; j++) {
+						var prop = rule[j];
+						propStr += prop[0] + ":" + prop[1] + (prop[2] ? " !important" : "") + ";\n";
+					}
+
+					// Insert CSS Rule
+					styleSheet.insertRule(selector + "{" + propStr + "}", styleSheet.cssRules.length);
+				}
+			} else {
+				var selectors = Object.keys(rules);
+				selectors.forEach(function (selector) {
+					var definition = rules[selector];
+					if (Array.isArray(definition)) {
+						definition.forEach(function (item) {
+							var _rules = Object.keys(item);
+							var result = _rules.map(function (rule) {
+								return rule + ":" + item[rule];
+							}).join(';');
+							styleSheet.insertRule(selector + "{" + result + "}", styleSheet.cssRules.length);
+						});
+					} else {
+						var _rules = Object.keys(definition);
+						var result = _rules.map(function (rule) {
+							return rule + ":" + definition[rule];
+						}).join(';');
+						styleSheet.insertRule(selector + "{" + result + "}", styleSheet.cssRules.length);
+					}
+				});
+			}
+		}
+
+		/**
+   * Append a script tag to the document head
+   * @param {string} src url
+   * @returns {Promise} loaded
+   */
+
+	}, {
+		key: "addScript",
+		value: function addScript(src) {
+
+			return new Promise(function (resolve, reject) {
+				var $script;
+				var ready = false;
+
+				if (!this.document) {
+					resolve(false);
+					return;
+				}
+
+				$script = this.document.createElement("script");
+				$script.type = "text/javascript";
+				$script.async = true;
+				$script.src = src;
+				$script.onload = $script.onreadystatechange = function () {
+					if (!ready && (!this.readyState || this.readyState == "complete")) {
+						ready = true;
+						setTimeout(function () {
+							resolve(true);
+						}, 1);
+					}
+				};
+
+				this.document.head.appendChild($script);
+			}.bind(this));
+		}
+
+		/**
+   * Add a class to the contents container
+   * @param {string} className
+   */
+
+	}, {
+		key: "addClass",
+		value: function addClass(className) {
+			var content;
+
+			if (!this.document) return;
+
+			content = this.content || this.document.body;
+
+			if (content) {
+				content.classList.add(className);
+			}
+		}
+
+		/**
+   * Remove a class from the contents container
+   * @param {string} removeClass
+   */
+
+	}, {
+		key: "removeClass",
+		value: function removeClass(className) {
+			var content;
+
+			if (!this.document) return;
+
+			content = this.content || this.document.body;
+
+			if (content) {
+				content.classList.remove(className);
+			}
+		}
+
+		/**
+   * Add DOM event listeners
+   * @private
+   */
+
+	}, {
+		key: "addEventListeners",
+		value: function addEventListeners() {
+			if (!this.document) {
+				return;
+			}
+
+			_constants.DOM_EVENTS.forEach(function (eventName) {
+				this.document.addEventListener(eventName, this.triggerEvent.bind(this), false);
+			}, this);
+		}
+
+		/**
+   * Remove DOM event listeners
+   * @private
+   */
+
+	}, {
+		key: "removeEventListeners",
+		value: function removeEventListeners() {
+			if (!this.document) {
+				return;
+			}
+			_constants.DOM_EVENTS.forEach(function (eventName) {
+				this.document.removeEventListener(eventName, this.triggerEvent, false);
+			}, this);
+		}
+
+		/**
+   * Emit passed browser events
+   * @private
+   */
+
+	}, {
+		key: "triggerEvent",
+		value: function triggerEvent(e) {
+			this.emit(e.type, e);
+		}
+
+		/**
+   * Add listener for text selection
+   * @private
+   */
+
+	}, {
+		key: "addSelectionListeners",
+		value: function addSelectionListeners() {
+			if (!this.document) {
+				return;
+			}
+			this.document.addEventListener("selectionchange", this.onSelectionChange.bind(this), false);
+		}
+
+		/**
+   * Remove listener for text selection
+   * @private
+   */
+
+	}, {
+		key: "removeSelectionListeners",
+		value: function removeSelectionListeners() {
+			if (!this.document) {
+				return;
+			}
+			this.document.removeEventListener("selectionchange", this.onSelectionChange, false);
+		}
+
+		/**
+   * Handle getting text on selection
+   * @private
+   */
+
+	}, {
+		key: "onSelectionChange",
+		value: function onSelectionChange(e) {
+			if (this.selectionEndTimeout) {
+				clearTimeout(this.selectionEndTimeout);
+			}
+			this.selectionEndTimeout = setTimeout(function () {
+				var selection = this.window.getSelection();
+				this.triggerSelectedEvent(selection);
+			}.bind(this), 250);
+		}
+
+		/**
+   * Emit event on text selection
+   * @private
+   */
+
+	}, {
+		key: "triggerSelectedEvent",
+		value: function triggerSelectedEvent(selection) {
+			var range, cfirange;
+
+			if (selection && selection.rangeCount > 0) {
+				range = selection.getRangeAt(0);
+				if (!range.collapsed) {
+					// cfirange = this.section.cfiFromRange(range);
+					cfirange = new _epubcfi2.default(range, this.cfiBase).toString();
+					this.emit(_constants.EVENTS.CONTENTS.SELECTED, cfirange);
+					this.emit(_constants.EVENTS.CONTENTS.SELECTED_RANGE, range);
+				}
+			}
+		}
+
+		/**
+   * Get a Dom Range from EpubCFI
+   * @param {EpubCFI} _cfi
+   * @param {string} [ignoreClass]
+   * @returns {Range} range
+   */
+
+	}, {
+		key: "range",
+		value: function range(_cfi, ignoreClass) {
+			var cfi = new _epubcfi2.default(_cfi);
+			return cfi.toRange(this.document, ignoreClass);
+		}
+
+		/**
+   * Get an EpubCFI from a Dom Range
+   * @param {Range} range
+   * @param {string} [ignoreClass]
+   * @returns {EpubCFI} cfi
+   */
+
+	}, {
+		key: "cfiFromRange",
+		value: function cfiFromRange(range, ignoreClass) {
+			return new _epubcfi2.default(range, this.cfiBase, ignoreClass).toString();
+		}
+
+		/**
+   * Get an EpubCFI from a Dom node
+   * @param {node} node
+   * @param {string} [ignoreClass]
+   * @returns {EpubCFI} cfi
+   */
+
+	}, {
+		key: "cfiFromNode",
+		value: function cfiFromNode(node, ignoreClass) {
+			return new _epubcfi2.default(node, this.cfiBase, ignoreClass).toString();
+		}
+
+		// TODO: find where this is used - remove?
+
+	}, {
+		key: "map",
+		value: function map(layout) {
+			var map = new _mapping2.default(layout);
+			return map.section();
+		}
+
+		/**
+   * Size the contents to a given width and height
+   * @param {number} [width]
+   * @param {number} [height]
+   */
+
+	}, {
+		key: "size",
+		value: function size(width, height) {
+			var viewport = { scale: 1.0, scalable: "no" };
+
+			this.layoutStyle("scrolling");
+
+			if (width >= 0) {
+				this.width(width);
+				viewport.width = width;
+				this.css("padding", "0 " + width / 12 + "px", true);
+			}
+
+			if (height >= 0) {
+				this.height(height);
+				viewport.height = height;
+			}
+
+			this.css("margin", "0");
+			this.css("box-sizing", "border-box");
+
+			this.viewport(viewport);
+		}
+
+		/**
+   * Apply columns to the contents for pagination
+   * @param {number} width
+   * @param {number} height
+   * @param {number} columnWidth
+   * @param {number} gap
+   */
+
+	}, {
+		key: "columns",
+		value: function columns(width, height, columnWidth, gap) {
+			var COLUMN_AXIS = (0, _core.prefixed)("column-axis");
+			var COLUMN_GAP = (0, _core.prefixed)("column-gap");
+			var COLUMN_WIDTH = (0, _core.prefixed)("column-width");
+			var COLUMN_FILL = (0, _core.prefixed)("column-fill");
+
+			var writingMode = this.writingMode();
+			var axis = writingMode.indexOf("vertical") === 0 ? "vertical" : "horizontal";
+
+			this.layoutStyle("paginated");
+
+			// Fix body width issues if rtl is only set on body element
+			if (this.content.dir === "rtl") {
+				this.direction("rtl");
+			}
+
+			this.width(width);
+			this.height(height);
+
+			// Deal with Mobile trying to scale to viewport
+			this.viewport({ width: width, height: height, scale: 1.0, scalable: "no" });
+
+			// TODO: inline-block needs more testing
+			// Fixes Safari column cut offs, but causes RTL issues
+			// this.css("display", "inline-block");
+
+			this.css("overflow-y", "hidden");
+			this.css("margin", "0", true);
+
+			if (axis === "vertical") {
+				this.css("padding", gap / 2 + "px 20px", true);
+			} else {
+				this.css("padding", "20px " + gap / 2 + "px", true);
+			}
+
+			this.css("box-sizing", "border-box");
+			this.css("max-width", "inherit");
+
+			this.css(COLUMN_AXIS, "horizontal");
+			this.css(COLUMN_FILL, "auto");
+
+			this.css(COLUMN_GAP, gap + "px");
+			this.css(COLUMN_WIDTH, columnWidth + "px");
+		}
+
+		/**
+   * Scale contents from center
+   * @param {number} scale
+   * @param {number} offsetX
+   * @param {number} offsetY
+   */
+
+	}, {
+		key: "scaler",
+		value: function scaler(scale, offsetX, offsetY) {
+			var scaleStr = "scale(" + scale + ")";
+			var translateStr = "";
+			// this.css("position", "absolute"));
+			this.css("transform-origin", "top left");
+
+			if (offsetX >= 0 || offsetY >= 0) {
+				translateStr = " translate(" + (offsetX || 0) + "px, " + (offsetY || 0) + "px )";
+			}
+
+			this.css("transform", scaleStr + translateStr);
+		}
+
+		/**
+   * Fit contents into a fixed width and height
+   * @param {number} width
+   * @param {number} height
+   */
+
+	}, {
+		key: "fit",
+		value: function fit(width, height) {
+			var viewport = this.viewport();
+			var widthScale = width / parseInt(viewport.width);
+			var heightScale = height / parseInt(viewport.height);
+			var scale = widthScale < heightScale ? widthScale : heightScale;
+
+			var offsetY = (height - viewport.height * scale) / 2;
+
+			this.layoutStyle("paginated");
+
+			this.width(width);
+			this.height(height);
+			this.overflow("hidden");
+
+			// Scale to the correct size
+			this.scaler(scale, 0, offsetY);
+
+			this.css("background-color", "transparent");
+		}
+
+		/**
+   * Set the direction of the text
+   * @param {string} [dir="ltr"] "rtl" | "ltr"
+   */
+
+	}, {
+		key: "direction",
+		value: function direction(dir) {
+			if (this.documentElement) {
+				this.documentElement.style["direction"] = dir;
+			}
+		}
+	}, {
+		key: "mapPage",
+		value: function mapPage(cfiBase, layout, start, end, dev) {
+			var mapping = new _mapping2.default(layout, dev);
+
+			return mapping.page(this, cfiBase, start, end);
+		}
+
+		/**
+   * Emit event when link in content is clicked
+   * @private
+   */
+
+	}, {
+		key: "linksHandler",
+		value: function linksHandler() {
+			var _this2 = this;
+
+			(0, _replacements.replaceLinks)(this.content, function (href) {
+				_this2.emit(_constants.EVENTS.CONTENTS.LINK_CLICKED, href);
+			});
+		}
+
+		/**
+   * Set the writingMode of the text
+   * @param {string} [mode="horizontal-tb"] "horizontal-tb" | "vertical-rl" | "vertical-lr"
+   */
+
+	}, {
+		key: "writingMode",
+		value: function writingMode(mode) {
+			var WRITING_MODE = (0, _core.prefixed)("writing-mode");
+
+			if (mode && this.documentElement) {
+				this.documentElement.style[WRITING_MODE] = mode;
+			}
+
+			return this.window.getComputedStyle(this.documentElement)[WRITING_MODE] || '';
+		}
+
+		/**
+   * Set the layoutStyle of the content
+   * @param {string} [style="paginated"] "scrolling" | "paginated"
+   * @private
+   */
+
+	}, {
+		key: "layoutStyle",
+		value: function layoutStyle(style) {
+
+			if (style) {
+				this._layoutStyle = style;
+				navigator.epubReadingSystem.layoutStyle = this._layoutStyle;
+			}
+
+			return this._layoutStyle || "paginated";
+		}
+
+		/**
+   * Add the epubReadingSystem object to the navigator
+   * @param {string} name
+   * @param {string} version
+   * @private
+   */
+
+	}, {
+		key: "epubReadingSystem",
+		value: function epubReadingSystem(name, version) {
+			navigator.epubReadingSystem = {
+				name: name,
+				version: version,
+				layoutStyle: this.layoutStyle(),
+				hasFeature: function hasFeature(feature) {
+					switch (feature) {
+						case "dom-manipulation":
+							return true;
+						case "layout-changes":
+							return true;
+						case "touch-events":
+							return true;
+						case "mouse-events":
+							return true;
+						case "keyboard-events":
+							return true;
+						case "spine-scripting":
+							return false;
+						default:
+							return false;
+					}
+				}
+			};
+			return navigator.epubReadingSystem;
+		}
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			// Stop observing
+			if (this.observer) {
+				this.observer.disconnect();
+			}
+
+			this.document.removeEventListener('transitionend', this.resizeCheck);
+
+			this.removeListeners();
+		}
+	}], [{
+		key: "listenedEvents",
+		get: function get() {
+			return _constants.DOM_EVENTS;
+		}
+	}]);
+
+	return Contents;
+}();
+
+(0, _eventEmitter2.default)(Contents.prototype);
+
+exports.default = Contents;
+module.exports = exports["default"];
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _eventEmitter = __webpack_require__(2);
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+var _core = __webpack_require__(0);
+
+var _mapping = __webpack_require__(19);
+
+var _mapping2 = _interopRequireDefault(_mapping);
+
+var _queue = __webpack_require__(12);
+
+var _queue2 = _interopRequireDefault(_queue);
+
+var _stage = __webpack_require__(56);
+
+var _stage2 = _interopRequireDefault(_stage);
+
+var _views = __webpack_require__(66);
+
+var _views2 = _interopRequireDefault(_views);
+
+var _constants = __webpack_require__(3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var DefaultViewManager = function () {
+	function DefaultViewManager(options) {
+		_classCallCheck(this, DefaultViewManager);
+
+		this.name = "default";
+		this.View = options.view;
+		this.request = options.request;
+		this.renditionQueue = options.queue;
+		this.q = new _queue2.default(this);
+
+		this.settings = (0, _core.extend)(this.settings || {}, {
+			infinite: true,
+			hidden: false,
+			width: undefined,
+			height: undefined,
+			axis: undefined,
+			flow: "scrolled",
+			ignoreClass: ""
+		});
+
+		(0, _core.extend)(this.settings, options.settings || {});
+
+		this.viewSettings = {
+			ignoreClass: this.settings.ignoreClass,
+			axis: this.settings.axis,
+			flow: this.settings.flow,
+			layout: this.layout,
+			method: this.settings.method, // srcdoc, blobUrl, write
+			width: 0,
+			height: 0,
+			forceEvenPages: true
+		};
+
+		this.rendered = false;
+	}
+
+	_createClass(DefaultViewManager, [{
+		key: "render",
+		value: function render(element, size) {
+			var tag = element.tagName;
+
+			if (tag && (tag.toLowerCase() == "body" || tag.toLowerCase() == "html")) {
+				this.fullsize = true;
+			}
+
+			if (this.fullsize) {
+				this.settings.overflow = "visible";
+				this.overflow = this.settings.overflow;
+			}
+
+			this.settings.size = size;
+
+			// Save the stage
+			this.stage = new _stage2.default({
+				width: size.width,
+				height: size.height,
+				overflow: this.overflow,
+				hidden: this.settings.hidden,
+				axis: this.settings.axis,
+				fullsize: this.fullsize,
+				direction: this.settings.direction
+			});
+
+			this.stage.attachTo(element);
+
+			// Get this stage container div
+			this.container = this.stage.getContainer();
+
+			// Views array methods
+			this.views = new _views2.default(this.container);
+
+			// Calculate Stage Size
+			this._bounds = this.bounds();
+			this._stageSize = this.stage.size();
+
+			// Set the dimensions for views
+			this.viewSettings.width = this._stageSize.width;
+			this.viewSettings.height = this._stageSize.height;
+
+			// Function to handle a resize event.
+			// Will only attach if width and height are both fixed.
+			this.stage.onResize(this.onResized.bind(this));
+
+			this.stage.onOrientationChange(this.onOrientationChange.bind(this));
+
+			// Add Event Listeners
+			this.addEventListeners();
+
+			// Add Layout method
+			// this.applyLayoutMethod();
+			if (this.layout) {
+				this.updateLayout();
+			}
+
+			this.rendered = true;
+		}
+	}, {
+		key: "addEventListeners",
+		value: function addEventListeners() {
+			var scroller;
+
+			window.addEventListener("unload", function (e) {
+				this.destroy();
+			}.bind(this));
+
+			if (!this.fullsize) {
+				scroller = this.container;
+			} else {
+				scroller = window;
+			}
+
+			scroller.addEventListener("scroll", this.onScroll.bind(this));
+		}
+	}, {
+		key: "removeEventListeners",
+		value: function removeEventListeners() {
+			var scroller;
+
+			if (!this.fullsize) {
+				scroller = this.container;
+			} else {
+				scroller = window;
+			}
+
+			scroller.removeEventListener("scroll", this.onScroll.bind(this));
+		}
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			clearTimeout(this.orientationTimeout);
+			clearTimeout(this.resizeTimeout);
+			clearTimeout(this.afterScrolled);
+
+			this.clear();
+
+			this.removeEventListeners();
+
+			this.stage.destroy();
+
+			this.rendered = false;
+
+			/*
+   		clearTimeout(this.trimTimeout);
+   	if(this.settings.hidden) {
+   		this.element.removeChild(this.wrapper);
+   	} else {
+   		this.element.removeChild(this.container);
+   	}
+   */
+		}
+	}, {
+		key: "onOrientationChange",
+		value: function onOrientationChange(e) {
+			var _window = window,
+			    orientation = _window.orientation;
+
+
+			this.resize();
+
+			// Per ampproject:
+			// In IOS 10.3, the measured size of an element is incorrect if the
+			// element size depends on window size directly and the measurement
+			// happens in window.resize event. Adding a timeout for correct
+			// measurement. See https://github.com/ampproject/amphtml/issues/8479
+			clearTimeout(this.orientationTimeout);
+			this.orientationTimeout = setTimeout(function () {
+				this.orientationTimeout = undefined;
+				this.resize();
+				this.emit(_constants.EVENTS.MANAGERS.ORIENTATION_CHANGE, orientation);
+			}.bind(this), 500);
+		}
+	}, {
+		key: "onResized",
+		value: function onResized(e) {
+			this.resize();
+		}
+	}, {
+		key: "resize",
+		value: function resize(width, height) {
+			var stageSize = this.stage.size(width, height);
+
+			// For Safari, wait for orientation to catch up
+			// if the window is a square
+			this.winBounds = (0, _core.windowBounds)();
+			if (this.orientationTimeout && this.winBounds.width === this.winBounds.height) {
+				// reset the stage size for next resize
+				this._stageSize = undefined;
+				return;
+			}
+
+			if (this._stageSize && this._stageSize.width === stageSize.width && this._stageSize.height === stageSize.height) {
+				// Size is the same, no need to resize
+				return;
+			}
+
+			this._stageSize = stageSize;
+
+			this._bounds = this.bounds();
+
+			// Clear current views
+			this.clear();
+
+			// Update for new views
+			this.viewSettings.width = this._stageSize.width;
+			this.viewSettings.height = this._stageSize.height;
+
+			this.updateLayout();
+
+			this.emit(_constants.EVENTS.MANAGERS.RESIZED, {
+				width: this._stageSize.width,
+				height: this._stageSize.height
+			});
+		}
+	}, {
+		key: "createView",
+		value: function createView(section) {
+			return new this.View(section, this.viewSettings);
+		}
+	}, {
+		key: "display",
+		value: function display(section, target) {
+
+			var displaying = new _core.defer();
+			var displayed = displaying.promise;
+
+			// Check if moving to target is needed
+			if (target === section.href || (0, _core.isNumber)(target)) {
+				target = undefined;
+			}
+
+			// Check to make sure the section we want isn't already shown
+			var visible = this.views.find(section);
+
+			// View is already shown, just move to correct location in view
+			if (visible && section) {
+				var offset = visible.offset();
+
+				if (this.settings.direction === "ltr") {
+					this.scrollTo(offset.left, offset.top, true);
+				} else {
+					var width = visible.width();
+					this.scrollTo(offset.left + width, offset.top, true);
+				}
+
+				if (target) {
+					var _offset = visible.locationOf(target);
+					this.moveTo(_offset);
+				}
+
+				displaying.resolve();
+				return displayed;
+			}
+
+			// Hide all current views
+			this.clear();
+
+			this.add(section).then(function (view) {
+
+				// Move to correct place within the section, if needed
+				if (target) {
+					var _offset2 = view.locationOf(target);
+					this.moveTo(_offset2);
+				}
+			}.bind(this), function (err) {
+				displaying.reject(err);
+			}).then(function () {
+				var next;
+				if (this.layout.name === "pre-paginated" && this.layout.divisor > 1) {
+					next = section.next();
+					if (next) {
+						return this.add(next);
+					}
+				}
+			}.bind(this)).then(function () {
+
+				this.views.show();
+
+				displaying.resolve();
+			}.bind(this));
+			// .then(function(){
+			// 	return this.hooks.display.trigger(view);
+			// }.bind(this))
+			// .then(function(){
+			// 	this.views.show();
+			// }.bind(this));
+			return displayed;
+		}
+	}, {
+		key: "afterDisplayed",
+		value: function afterDisplayed(view) {
+			this.emit(_constants.EVENTS.MANAGERS.ADDED, view);
+		}
+	}, {
+		key: "afterResized",
+		value: function afterResized(view) {
+			this.emit(_constants.EVENTS.MANAGERS.RESIZE, view.section);
+		}
+	}, {
+		key: "moveTo",
+		value: function moveTo(offset) {
+			var distX = 0,
+			    distY = 0;
+
+			if (!this.isPaginated) {
+				distY = offset.top;
+			} else {
+				distX = Math.floor(offset.left / this.layout.delta) * this.layout.delta;
+
+				if (distX + this.layout.delta > this.container.scrollWidth) {
+					distX = this.container.scrollWidth - this.layout.delta;
+				}
+			}
+			this.scrollTo(distX, distY, true);
+		}
+	}, {
+		key: "add",
+		value: function add(section) {
+			var _this = this;
+
+			var view = this.createView(section);
+
+			this.views.append(view);
+
+			// view.on(EVENTS.VIEWS.SHOWN, this.afterDisplayed.bind(this));
+			view.onDisplayed = this.afterDisplayed.bind(this);
+			view.onResize = this.afterResized.bind(this);
+
+			view.on(_constants.EVENTS.VIEWS.AXIS, function (axis) {
+				_this.updateAxis(axis);
+			});
+
+			return view.display(this.request);
+		}
+	}, {
+		key: "append",
+		value: function append(section) {
+			var _this2 = this;
+
+			var view = this.createView(section);
+			this.views.append(view);
+
+			view.onDisplayed = this.afterDisplayed.bind(this);
+			view.onResize = this.afterResized.bind(this);
+
+			view.on(_constants.EVENTS.VIEWS.AXIS, function (axis) {
+				_this2.updateAxis(axis);
+			});
+
+			return view.display(this.request);
+		}
+	}, {
+		key: "prepend",
+		value: function prepend(section) {
+			var _this3 = this;
+
+			var view = this.createView(section);
+
+			view.on(_constants.EVENTS.VIEWS.RESIZED, function (bounds) {
+				_this3.counter(bounds);
+			});
+
+			this.views.prepend(view);
+
+			view.onDisplayed = this.afterDisplayed.bind(this);
+			view.onResize = this.afterResized.bind(this);
+
+			view.on(_constants.EVENTS.VIEWS.AXIS, function (axis) {
+				_this3.updateAxis(axis);
+			});
+
+			return view.display(this.request);
+		}
+	}, {
+		key: "counter",
+		value: function counter(bounds) {
+			if (this.settings.axis === "vertical") {
+				this.scrollBy(0, bounds.heightDelta, true);
+			} else {
+				this.scrollBy(bounds.widthDelta, 0, true);
+			}
+		}
+
+		// resizeView(view) {
+		//
+		// 	if(this.settings.globalLayoutProperties.layout === "pre-paginated") {
+		// 		view.lock("both", this.bounds.width, this.bounds.height);
+		// 	} else {
+		// 		view.lock("width", this.bounds.width, this.bounds.height);
+		// 	}
+		//
+		// };
+
+	}, {
+		key: "next",
+		value: function next() {
+			var next;
+			var left;
+
+			var dir = this.settings.direction;
+
+			if (!this.views.length) return;
+
+			if (this.isPaginated && this.settings.axis === "horizontal" && (!dir || dir === "ltr")) {
+
+				this.scrollLeft = this.container.scrollLeft;
+
+				left = this.container.scrollLeft + this.container.offsetWidth + this.layout.delta;
+
+				if (left <= this.container.scrollWidth) {
+					this.scrollBy(this.layout.delta, 0, true);
+				} else {
+					next = this.views.last().section.next();
+				}
+			} else if (this.isPaginated && this.settings.axis === "horizontal" && dir === "rtl") {
+
+				this.scrollLeft = this.container.scrollLeft;
+
+				left = this.container.scrollLeft;
+
+				if (left > 0) {
+					this.scrollBy(this.layout.delta, 0, true);
+				} else {
+					next = this.views.last().section.next();
+				}
+			} else if (this.isPaginated && this.settings.axis === "vertical") {
+
+				this.scrollTop = this.container.scrollTop;
+
+				var top = this.container.scrollTop + this.container.offsetHeight;
+
+				if (top < this.container.scrollHeight) {
+					this.scrollBy(0, this.layout.height, true);
+				} else {
+					next = this.views.last().section.next();
+				}
+			} else {
+				next = this.views.last().section.next();
+			}
+
+			if (next) {
+				this.clear();
+
+				return this.append(next).then(function () {
+					var right;
+					if (this.layout.name === "pre-paginated" && this.layout.divisor > 1) {
+						right = next.next();
+						if (right) {
+							return this.append(right);
+						}
+					}
+				}.bind(this), function (err) {
+					displaying.reject(err);
+				}).then(function () {
+					this.views.show();
+				}.bind(this));
+			}
+		}
+	}, {
+		key: "prev",
+		value: function prev() {
+			var prev;
+			var left;
+			var dir = this.settings.direction;
+
+			if (!this.views.length) return;
+
+			if (this.isPaginated && this.settings.axis === "horizontal" && (!dir || dir === "ltr")) {
+
+				this.scrollLeft = this.container.scrollLeft;
+
+				left = this.container.scrollLeft;
+
+				if (left > 0) {
+					this.scrollBy(-this.layout.delta, 0, true);
+				} else {
+					prev = this.views.first().section.prev();
+				}
+			} else if (this.isPaginated && this.settings.axis === "horizontal" && dir === "rtl") {
+
+				this.scrollLeft = this.container.scrollLeft;
+
+				left = this.container.scrollLeft + this.container.offsetWidth + this.layout.delta;
+
+				if (left <= this.container.scrollWidth) {
+					this.scrollBy(-this.layout.delta, 0, true);
+				} else {
+					prev = this.views.first().section.prev();
+				}
+			} else if (this.isPaginated && this.settings.axis === "vertical") {
+
+				this.scrollTop = this.container.scrollTop;
+
+				var top = this.container.scrollTop;
+
+				if (top > 0) {
+					this.scrollBy(0, -this.layout.height, true);
+				} else {
+					prev = this.views.first().section.prev();
+				}
+			} else {
+
+				prev = this.views.first().section.prev();
+			}
+
+			if (prev) {
+				this.clear();
+
+				return this.prepend(prev).then(function () {
+					var left;
+					if (this.layout.name === "pre-paginated" && this.layout.divisor > 1) {
+						left = prev.prev();
+						if (left) {
+							return this.prepend(left);
+						}
+					}
+				}.bind(this), function (err) {
+					displaying.reject(err);
+				}).then(function () {
+					if (this.isPaginated && this.settings.axis === "horizontal") {
+						if (this.settings.direction === "rtl") {
+							this.scrollTo(0, 0, true);
+						} else {
+							this.scrollTo(this.container.scrollWidth - this.layout.delta, 0, true);
+						}
+					}
+					this.views.show();
+				}.bind(this));
+			}
+		}
+	}, {
+		key: "current",
+		value: function current() {
+			var visible = this.visible();
+			if (visible.length) {
+				// Current is the last visible view
+				return visible[visible.length - 1];
+			}
+			return null;
+		}
+	}, {
+		key: "clear",
+		value: function clear() {
+
+			// this.q.clear();
+
+			if (this.views) {
+				this.views.hide();
+				this.scrollTo(0, 0, true);
+				this.views.clear();
+			}
+		}
+	}, {
+		key: "currentLocation",
+		value: function currentLocation() {
+
+			if (this.settings.axis === "vertical") {
+				this.location = this.scrolledLocation();
+			} else {
+				this.location = this.paginatedLocation();
+			}
+			return this.location;
+		}
+	}, {
+		key: "scrolledLocation",
+		value: function scrolledLocation() {
+			var _this4 = this;
+
+			var visible = this.visible();
+			var container = this.container.getBoundingClientRect();
+			var pageHeight = container.height < window.innerHeight ? container.height : window.innerHeight;
+
+			var offset = 0;
+			var used = 0;
+
+			if (this.fullsize) {
+				offset = window.scrollY;
+			}
+
+			var sections = visible.map(function (view) {
+				var _view$section = view.section,
+				    index = _view$section.index,
+				    href = _view$section.href;
+
+				var position = view.position();
+				var height = view.height();
+
+				var startPos = offset + container.top - position.top + used;
+				var endPos = startPos + pageHeight - used;
+				if (endPos > height) {
+					endPos = height;
+					used = endPos - startPos;
+				}
+
+				var totalPages = _this4.layout.count(height, pageHeight).pages;
+
+				var currPage = Math.ceil(startPos / pageHeight);
+				var pages = [];
+				var endPage = Math.ceil(endPos / pageHeight);
+
+				pages = [];
+				for (var i = currPage; i <= endPage; i++) {
+					var pg = i + 1;
+					pages.push(pg);
+				}
+
+				var mapping = _this4.mapping.page(view.contents, view.section.cfiBase, startPos, endPos);
+
+				return {
+					index: index,
+					href: href,
+					pages: pages,
+					totalPages: totalPages,
+					mapping: mapping
+				};
+			});
+
+			return sections;
+		}
+	}, {
+		key: "paginatedLocation",
+		value: function paginatedLocation() {
+			var _this5 = this;
+
+			var visible = this.visible();
+			var container = this.container.getBoundingClientRect();
+
+			var left = 0;
+			var used = 0;
+
+			if (this.fullsize) {
+				left = window.scrollX;
+			}
+
+			var sections = visible.map(function (view) {
+				var _view$section2 = view.section,
+				    index = _view$section2.index,
+				    href = _view$section2.href;
+
+				var offset = view.offset().left;
+				var position = view.position().left;
+				var width = view.width();
+
+				// Find mapping
+				var start = left + container.left - position + used;
+				var end = start + _this5.layout.width - used;
+
+				var mapping = _this5.mapping.page(view.contents, view.section.cfiBase, start, end);
+
+				// Find displayed pages
+				//console.log("pre", end, offset + width);
+				// if (end > offset + width) {
+				// 	end = offset + width;
+				// 	used = this.layout.pageWidth;
+				// }
+				// console.log("post", end);
+
+				var totalPages = _this5.layout.count(width).pages;
+				var startPage = Math.floor(start / _this5.layout.pageWidth);
+				var pages = [];
+				var endPage = Math.floor(end / _this5.layout.pageWidth);
+
+				// start page should not be negative
+				if (startPage < 0) {
+					startPage = 0;
+					endPage = endPage + 1;
+				}
+
+				// Reverse page counts for rtl
+				if (_this5.settings.direction === "rtl") {
+					var tempStartPage = startPage;
+					startPage = totalPages - endPage;
+					endPage = totalPages - tempStartPage;
+				}
+
+				for (var i = startPage + 1; i <= endPage; i++) {
+					var pg = i;
+					pages.push(pg);
+				}
+
+				return {
+					index: index,
+					href: href,
+					pages: pages,
+					totalPages: totalPages,
+					mapping: mapping
+				};
+			});
+
+			return sections;
+		}
+	}, {
+		key: "isVisible",
+		value: function isVisible(view, offsetPrev, offsetNext, _container) {
+			var position = view.position();
+			var container = _container || this.bounds();
+
+			if (this.settings.axis === "horizontal" && position.right > container.left - offsetPrev && position.left < container.right + offsetNext) {
+
+				return true;
+			} else if (this.settings.axis === "vertical" && position.bottom > container.top - offsetPrev && position.top < container.bottom + offsetNext) {
+
+				return true;
+			}
+
+			return false;
+		}
+	}, {
+		key: "visible",
+		value: function visible() {
+			var container = this.bounds();
+			var views = this.views.displayed();
+			var viewsLength = views.length;
+			var visible = [];
+			var isVisible;
+			var view;
+
+			for (var i = 0; i < viewsLength; i++) {
+				view = views[i];
+				isVisible = this.isVisible(view, 0, 0, container);
+
+				if (isVisible === true) {
+					visible.push(view);
+				}
+			}
+			return visible;
+		}
+	}, {
+		key: "scrollBy",
+		value: function scrollBy(x, y, silent) {
+			var dir = this.settings.direction === "rtl" ? -1 : 1;
+
+			if (silent) {
+				this.ignore = true;
+			}
+
+			if (!this.fullsize) {
+				if (x) this.container.scrollLeft += x * dir;
+				if (y) this.container.scrollTop += y;
+			} else {
+				window.scrollBy(x * dir, y * dir);
+			}
+			this.scrolled = true;
+		}
+	}, {
+		key: "scrollTo",
+		value: function scrollTo(x, y, silent) {
+			if (silent) {
+				this.ignore = true;
+			}
+
+			if (!this.fullsize) {
+				this.container.scrollLeft = x;
+				this.container.scrollTop = y;
+			} else {
+				window.scrollTo(x, y);
+			}
+			this.scrolled = true;
+		}
+	}, {
+		key: "onScroll",
+		value: function onScroll() {
+			var scrollTop = void 0;
+			var scrollLeft = void 0;
+
+			if (!this.fullsize) {
+				scrollTop = this.container.scrollTop;
+				scrollLeft = this.container.scrollLeft;
+			} else {
+				scrollTop = window.scrollY;
+				scrollLeft = window.scrollX;
+			}
+
+			this.scrollTop = scrollTop;
+			this.scrollLeft = scrollLeft;
+
+			if (!this.ignore) {
+				this.emit(_constants.EVENTS.MANAGERS.SCROLL, {
+					top: scrollTop,
+					left: scrollLeft
+				});
+
+				clearTimeout(this.afterScrolled);
+				this.afterScrolled = setTimeout(function () {
+					this.emit(_constants.EVENTS.MANAGERS.SCROLLED, {
+						top: this.scrollTop,
+						left: this.scrollLeft
+					});
+				}.bind(this), 20);
+			} else {
+				this.ignore = false;
+			}
+		}
+	}, {
+		key: "bounds",
+		value: function bounds() {
+			var bounds;
+
+			bounds = this.stage.bounds();
+
+			return bounds;
+		}
+	}, {
+		key: "applyLayout",
+		value: function applyLayout(layout) {
+
+			this.layout = layout;
+			this.updateLayout();
+			// this.manager.layout(this.layout.format);
+		}
+	}, {
+		key: "updateLayout",
+		value: function updateLayout() {
+
+			if (!this.stage) {
+				return;
+			}
+
+			this._stageSize = this.stage.size();
+
+			if (!this.isPaginated) {
+				this.layout.calculate(this._stageSize.width, this._stageSize.height);
+			} else {
+				this.layout.calculate(this._stageSize.width, this._stageSize.height, this.settings.gap);
+
+				// Set the look ahead offset for what is visible
+				this.settings.offset = this.layout.delta;
+
+				// this.stage.addStyleRules("iframe", [{"margin-right" : this.layout.gap + "px"}]);
+			}
+
+			// Set the dimensions for views
+			this.viewSettings.width = this.layout.width;
+			this.viewSettings.height = this.layout.height;
+
+			this.setLayout(this.layout);
+		}
+	}, {
+		key: "setLayout",
+		value: function setLayout(layout) {
+
+			this.viewSettings.layout = layout;
+
+			this.mapping = new _mapping2.default(layout.props, this.settings.direction, this.settings.axis);
+
+			if (this.views) {
+
+				this.views.forEach(function (view) {
+					if (view) {
+						view.setLayout(layout);
+					}
+				});
+			}
+		}
+	}, {
+		key: "updateAxis",
+		value: function updateAxis(axis, forceUpdate) {
+
+			if (!this.isPaginated) {
+				axis = "vertical";
+			}
+
+			if (!forceUpdate && axis === this.settings.axis) {
+				return;
+			}
+
+			this.settings.axis = axis;
+
+			this.stage && this.stage.axis(axis);
+
+			this.viewSettings.axis = axis;
+
+			if (this.mapping) {
+				this.mapping = new _mapping2.default(this.layout.props, this.settings.direction, this.settings.axis);
+			}
+
+			if (this.layout) {
+				if (axis === "vertical") {
+					this.layout.spread("none");
+				} else {
+					this.layout.spread(this.layout.settings.spread);
+				}
+			}
+		}
+	}, {
+		key: "updateFlow",
+		value: function updateFlow(flow) {
+			var isPaginated = flow === "paginated" || flow === "auto";
+
+			this.isPaginated = isPaginated;
+
+			if (flow === "scrolled-doc" || flow === "scrolled-continuous" || flow === "scrolled") {
+				this.updateAxis("vertical");
+			}
+
+			this.viewSettings.flow = flow;
+
+			if (!this.settings.overflow) {
+				this.overflow = isPaginated ? "hidden" : "auto";
+			} else {
+				this.overflow = this.settings.overflow;
+			}
+			// this.views.forEach(function(view){
+			// 	view.setAxis(axis);
+			// });
+
+			this.updateLayout();
+		}
+	}, {
+		key: "getContents",
+		value: function getContents() {
+			var contents = [];
+			if (!this.views) {
+				return contents;
+			}
+			this.views.forEach(function (view) {
+				var viewContents = view && view.contents;
+				if (viewContents) {
+					contents.push(viewContents);
+				}
+			});
+			return contents;
+		}
+	}, {
+		key: "direction",
+		value: function direction() {
+			var dir = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "ltr";
+
+			this.settings.direction = dir;
+
+			this.stage && this.stage.direction(dir);
+
+			this.viewSettings.direction = dir;
+
+			this.updateLayout();
+		}
+	}, {
+		key: "isRendered",
+		value: function isRendered() {
+			return this.rendered;
+		}
+	}]);
+
+	return DefaultViewManager;
+}();
+
+//-- Enable binding events to Manager
+
+
+(0, _eventEmitter2.default)(DefaultViewManager.prototype);
+
+exports.default = DefaultViewManager;
+module.exports = exports["default"];
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+module.exports = isObject;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_16__;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+ From Zip.js, by Gildas Lormeau
+edited down
+ */
+
+var table = {
+	"application": {
+		"ecmascript": ["es", "ecma"],
+		"javascript": "js",
+		"ogg": "ogx",
+		"pdf": "pdf",
+		"postscript": ["ps", "ai", "eps", "epsi", "epsf", "eps2", "eps3"],
+		"rdf+xml": "rdf",
+		"smil": ["smi", "smil"],
+		"xhtml+xml": ["xhtml", "xht"],
+		"xml": ["xml", "xsl", "xsd", "opf", "ncx"],
+		"zip": "zip",
+		"x-httpd-eruby": "rhtml",
+		"x-latex": "latex",
+		"x-maker": ["frm", "maker", "frame", "fm", "fb", "book", "fbdoc"],
+		"x-object": "o",
+		"x-shockwave-flash": ["swf", "swfl"],
+		"x-silverlight": "scr",
+		"epub+zip": "epub",
+		"font-tdpfr": "pfr",
+		"inkml+xml": ["ink", "inkml"],
+		"json": "json",
+		"jsonml+json": "jsonml",
+		"mathml+xml": "mathml",
+		"metalink+xml": "metalink",
+		"mp4": "mp4s",
+		// "oebps-package+xml" : "opf",
+		"omdoc+xml": "omdoc",
+		"oxps": "oxps",
+		"vnd.amazon.ebook": "azw",
+		"widget": "wgt",
+		// "x-dtbncx+xml" : "ncx",
+		"x-dtbook+xml": "dtb",
+		"x-dtbresource+xml": "res",
+		"x-font-bdf": "bdf",
+		"x-font-ghostscript": "gsf",
+		"x-font-linux-psf": "psf",
+		"x-font-otf": "otf",
+		"x-font-pcf": "pcf",
+		"x-font-snf": "snf",
+		"x-font-ttf": ["ttf", "ttc"],
+		"x-font-type1": ["pfa", "pfb", "pfm", "afm"],
+		"x-font-woff": "woff",
+		"x-mobipocket-ebook": ["prc", "mobi"],
+		"x-mspublisher": "pub",
+		"x-nzb": "nzb",
+		"x-tgif": "obj",
+		"xaml+xml": "xaml",
+		"xml-dtd": "dtd",
+		"xproc+xml": "xpl",
+		"xslt+xml": "xslt",
+		"internet-property-stream": "acx",
+		"x-compress": "z",
+		"x-compressed": "tgz",
+		"x-gzip": "gz"
+	},
+	"audio": {
+		"flac": "flac",
+		"midi": ["mid", "midi", "kar", "rmi"],
+		"mpeg": ["mpga", "mpega", "mp2", "mp3", "m4a", "mp2a", "m2a", "m3a"],
+		"mpegurl": "m3u",
+		"ogg": ["oga", "ogg", "spx"],
+		"x-aiff": ["aif", "aiff", "aifc"],
+		"x-ms-wma": "wma",
+		"x-wav": "wav",
+		"adpcm": "adp",
+		"mp4": "mp4a",
+		"webm": "weba",
+		"x-aac": "aac",
+		"x-caf": "caf",
+		"x-matroska": "mka",
+		"x-pn-realaudio-plugin": "rmp",
+		"xm": "xm",
+		"mid": ["mid", "rmi"]
+	},
+	"image": {
+		"gif": "gif",
+		"ief": "ief",
+		"jpeg": ["jpeg", "jpg", "jpe"],
+		"pcx": "pcx",
+		"png": "png",
+		"svg+xml": ["svg", "svgz"],
+		"tiff": ["tiff", "tif"],
+		"x-icon": "ico",
+		"bmp": "bmp",
+		"webp": "webp",
+		"x-pict": ["pic", "pct"],
+		"x-tga": "tga",
+		"cis-cod": "cod"
+	},
+	"text": {
+		"cache-manifest": ["manifest", "appcache"],
+		"css": "css",
+		"csv": "csv",
+		"html": ["html", "htm", "shtml", "stm"],
+		"mathml": "mml",
+		"plain": ["txt", "text", "brf", "conf", "def", "list", "log", "in", "bas"],
+		"richtext": "rtx",
+		"tab-separated-values": "tsv",
+		"x-bibtex": "bib"
+	},
+	"video": {
+		"mpeg": ["mpeg", "mpg", "mpe", "m1v", "m2v", "mp2", "mpa", "mpv2"],
+		"mp4": ["mp4", "mp4v", "mpg4"],
+		"quicktime": ["qt", "mov"],
+		"ogg": "ogv",
+		"vnd.mpegurl": ["mxu", "m4u"],
+		"x-flv": "flv",
+		"x-la-asf": ["lsf", "lsx"],
+		"x-mng": "mng",
+		"x-ms-asf": ["asf", "asx", "asr"],
+		"x-ms-wm": "wm",
+		"x-ms-wmv": "wmv",
+		"x-ms-wmx": "wmx",
+		"x-ms-wvx": "wvx",
+		"x-msvideo": "avi",
+		"x-sgi-movie": "movie",
+		"x-matroska": ["mpv", "mkv", "mk3d", "mks"],
+		"3gpp2": "3g2",
+		"h261": "h261",
+		"h263": "h263",
+		"h264": "h264",
+		"jpeg": "jpgv",
+		"jpm": ["jpm", "jpgm"],
+		"mj2": ["mj2", "mjp2"],
+		"vnd.ms-playready.media.pyv": "pyv",
+		"vnd.uvvu.mp4": ["uvu", "uvvu"],
+		"vnd.vivo": "viv",
+		"webm": "webm",
+		"x-f4v": "f4v",
+		"x-m4v": "m4v",
+		"x-ms-vob": "vob",
+		"x-smv": "smv"
+	}
+};
+
+var mimeTypes = function () {
+	var type,
+	    subtype,
+	    val,
+	    index,
+	    mimeTypes = {};
+	for (type in table) {
+		if (table.hasOwnProperty(type)) {
+			for (subtype in table[type]) {
+				if (table[type].hasOwnProperty(subtype)) {
+					val = table[type][subtype];
+					if (typeof val == "string") {
+						mimeTypes[val] = type + "/" + subtype;
+					} else {
+						for (index = 0; index < val.length; index++) {
+							mimeTypes[val[index]] = type + "/" + subtype;
+						}
+					}
+				}
+			}
+		}
+	}
+	return mimeTypes;
+}();
+
+var defaultValue = "text/plain"; //"application/octet-stream";
+
+function lookup(filename) {
+	return filename && mimeTypes[filename.split(".").pop().toLowerCase()] || defaultValue;
+};
+
+module.exports = {
+	'lookup': lookup
+};
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+// import Mapping from "./mapping";
+
+
+// Default Views
+
+
+// Default View Managers
+
+
+var _eventEmitter = __webpack_require__(2);
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+var _core = __webpack_require__(0);
+
+var _hook = __webpack_require__(10);
+
+var _hook2 = _interopRequireDefault(_hook);
+
+var _epubcfi = __webpack_require__(1);
+
+var _epubcfi2 = _interopRequireDefault(_epubcfi);
+
+var _queue = __webpack_require__(12);
+
+var _queue2 = _interopRequireDefault(_queue);
+
+var _layout = __webpack_require__(50);
+
+var _layout2 = _interopRequireDefault(_layout);
+
+var _themes = __webpack_require__(51);
+
+var _themes2 = _interopRequireDefault(_themes);
+
+var _contents = __webpack_require__(13);
+
+var _contents2 = _interopRequireDefault(_contents);
+
+var _annotations = __webpack_require__(52);
+
+var _annotations2 = _interopRequireDefault(_annotations);
+
+var _constants = __webpack_require__(3);
+
+var _iframe = __webpack_require__(20);
+
+var _iframe2 = _interopRequireDefault(_iframe);
+
+var _index = __webpack_require__(14);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _index3 = __webpack_require__(24);
+
+var _index4 = _interopRequireDefault(_index3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Displays an Epub as a series of Views for each Section.
+ * Requires Manager and View class to handle specifics of rendering
+ * the section contetn.
+ * @class
+ * @param {Book} book
+ * @param {object} [options]
+ * @param {number} [options.width]
+ * @param {number} [options.height]
+ * @param {string} [options.ignoreClass] class for the cfi parser to ignore
+ * @param {string | function | object} [options.manager='default']
+ * @param {string | function} [options.view='iframe']
+ * @param {string} [options.layout] layout to force
+ * @param {string} [options.spread] force spread value
+ * @param {number} [options.minSpreadWidth] overridden by spread: none (never) / both (always)
+ * @param {string} [options.stylesheet] url of stylesheet to be injected
+ * @param {string} [options.script] url of script to be injected
+ */
+var Rendition = function () {
+	function Rendition(book, options) {
+		_classCallCheck(this, Rendition);
+
+		this.settings = (0, _core.extend)(this.settings || {}, {
+			width: null,
+			height: null,
+			ignoreClass: "",
+			manager: "default",
+			view: "iframe",
+			flow: null,
+			layout: null,
+			spread: null,
+			minSpreadWidth: 800,
+			stylesheet: null,
+			script: null
+		});
+
+		(0, _core.extend)(this.settings, options);
+
+		if (_typeof(this.settings.manager) === "object") {
+			this.manager = this.settings.manager;
+		}
+
+		this.book = book;
+
+		/**
+   * Adds Hook methods to the Rendition prototype
+   * @member {object} hooks
+   * @property {Hook} hooks.content
+   * @memberof Rendition
+   */
+		this.hooks = {};
+		this.hooks.display = new _hook2.default(this);
+		this.hooks.serialize = new _hook2.default(this);
+		this.hooks.content = new _hook2.default(this);
+		this.hooks.unloaded = new _hook2.default(this);
+		this.hooks.layout = new _hook2.default(this);
+		this.hooks.render = new _hook2.default(this);
+		this.hooks.show = new _hook2.default(this);
+
+		this.hooks.content.register(this.handleLinks.bind(this));
+		this.hooks.content.register(this.passEvents.bind(this));
+		this.hooks.content.register(this.adjustImages.bind(this));
+
+		this.book.spine.hooks.content.register(this.injectIdentifier.bind(this));
+
+		if (this.settings.stylesheet) {
+			this.book.spine.hooks.content.register(this.injectStylesheet.bind(this));
+		}
+
+		if (this.settings.script) {
+			this.book.spine.hooks.content.register(this.injectScript.bind(this));
+		}
+
+		/**
+   * @member {Themes} themes
+   * @memberof Rendition
+   */
+		this.themes = new _themes2.default(this);
+
+		/**
+   * @member {Annotations} annotations
+   * @memberof Rendition
+   */
+		this.annotations = new _annotations2.default(this);
+
+		this.epubcfi = new _epubcfi2.default();
+
+		this.q = new _queue2.default(this);
+
+		/**
+   * A Rendered Location Range
+   * @typedef location
+   * @type {Object}
+   * @property {object} start
+   * @property {string} start.index
+   * @property {string} start.href
+   * @property {object} start.displayed
+   * @property {EpubCFI} start.cfi
+   * @property {number} start.location
+   * @property {number} start.percentage
+   * @property {number} start.displayed.page
+   * @property {number} start.displayed.total
+   * @property {object} end
+   * @property {string} end.index
+   * @property {string} end.href
+   * @property {object} end.displayed
+   * @property {EpubCFI} end.cfi
+   * @property {number} end.location
+   * @property {number} end.percentage
+   * @property {number} end.displayed.page
+   * @property {number} end.displayed.total
+   * @property {boolean} atStart
+   * @property {boolean} atEnd
+   * @memberof Rendition
+   */
+		this.location = undefined;
+
+		// Hold queue until book is opened
+		this.q.enqueue(this.book.opened);
+
+		this.starting = new _core.defer();
+		/**
+   * @member {promise} started returns after the rendition has started
+   * @memberof Rendition
+   */
+		this.started = this.starting.promise;
+		// Block the queue until rendering is started
+		this.q.enqueue(this.start);
+	}
+
+	/**
+  * Set the manager function
+  * @param {function} manager
+  */
+
+
+	_createClass(Rendition, [{
+		key: "setManager",
+		value: function setManager(manager) {
+			this.manager = manager;
+		}
+
+		/**
+   * Require the manager from passed string, or as a class function
+   * @param  {string|object} manager [description]
+   * @return {method}
+   */
+
+	}, {
+		key: "requireManager",
+		value: function requireManager(manager) {
+			var viewManager;
+
+			// If manager is a string, try to load from imported managers
+			if (typeof manager === "string" && manager === "default") {
+				viewManager = _index2.default;
+			} else if (typeof manager === "string" && manager === "continuous") {
+				viewManager = _index4.default;
+			} else {
+				// otherwise, assume we were passed a class function
+				viewManager = manager;
+			}
+
+			return viewManager;
+		}
+
+		/**
+   * Require the view from passed string, or as a class function
+   * @param  {string|object} view
+   * @return {view}
+   */
+
+	}, {
+		key: "requireView",
+		value: function requireView(view) {
+			var View;
+
+			// If view is a string, try to load from imported views,
+			if (typeof view == "string" && view === "iframe") {
+				View = _iframe2.default;
+			} else {
+				// otherwise, assume we were passed a class function
+				View = view;
+			}
+
+			return View;
+		}
+
+		/**
+   * Start the rendering
+   * @return {Promise} rendering has started
+   */
+
+	}, {
+		key: "start",
+		value: function start() {
+
+			if (!this.manager) {
+				this.ViewManager = this.requireManager(this.settings.manager);
+				this.View = this.requireView(this.settings.view);
+
+				this.manager = new this.ViewManager({
+					view: this.View,
+					queue: this.q,
+					request: this.book.load.bind(this.book),
+					settings: this.settings
+				});
+			}
+
+			this.direction(this.book.package.metadata.direction);
+
+			// Parse metadata to get layout props
+			this.settings.globalLayoutProperties = this.determineLayoutProperties(this.book.package.metadata);
+
+			this.flow(this.settings.globalLayoutProperties.flow);
+
+			this.layout(this.settings.globalLayoutProperties);
+
+			// Listen for displayed views
+			this.manager.on(_constants.EVENTS.MANAGERS.ADDED, this.afterDisplayed.bind(this));
+			this.manager.on(_constants.EVENTS.MANAGERS.REMOVED, this.afterRemoved.bind(this));
+
+			// Listen for resizing
+			this.manager.on(_constants.EVENTS.MANAGERS.RESIZED, this.onResized.bind(this));
+
+			// Listen for rotation
+			this.manager.on(_constants.EVENTS.MANAGERS.ORIENTATION_CHANGE, this.onOrientationChange.bind(this));
+
+			// Listen for scroll changes
+			this.manager.on(_constants.EVENTS.MANAGERS.SCROLLED, this.reportLocation.bind(this));
+
+			/**
+    * Emit that rendering has started
+    * @event started
+    * @memberof Rendition
+    */
+			this.emit(_constants.EVENTS.RENDITION.STARTED);
+
+			// Start processing queue
+			this.starting.resolve();
+		}
+
+		/**
+   * Call to attach the container to an element in the dom
+   * Container must be attached before rendering can begin
+   * @param  {element} element to attach to
+   * @return {Promise}
+   */
+
+	}, {
+		key: "attachTo",
+		value: function attachTo(element) {
+
+			return this.q.enqueue(function () {
+
+				// Start rendering
+				this.manager.render(element, {
+					"width": this.settings.width,
+					"height": this.settings.height
+				});
+
+				/**
+     * Emit that rendering has attached to an element
+     * @event attached
+     * @memberof Rendition
+     */
+				this.emit(_constants.EVENTS.RENDITION.ATTACHED);
+			}.bind(this));
+		}
+
+		/**
+   * Display a point in the book
+   * The request will be added to the rendering Queue,
+   * so it will wait until book is opened, rendering started
+   * and all other rendering tasks have finished to be called.
+   * @param  {string} target Url or EpubCFI
+   * @return {Promise}
+   */
+
+	}, {
+		key: "display",
+		value: function display(target) {
+			if (this.displaying) {
+				this.displaying.resolve();
+			}
+			return this.q.enqueue(this._display, target);
+		}
+
+		/**
+   * Tells the manager what to display immediately
+   * @private
+   * @param  {string} target Url or EpubCFI
+   * @return {Promise}
+   */
+
+	}, {
+		key: "_display",
+		value: function _display(target) {
+			var _this = this;
+
+			if (!this.book) {
+				return;
+			}
+			var isCfiString = this.epubcfi.isCfiString(target);
+			var displaying = new _core.defer();
+			var displayed = displaying.promise;
+			var section;
+			var moveTo;
+
+			this.displaying = displaying;
+
+			// Check if this is a book percentage
+			if (this.book.locations.length() && ((0, _core.isFloat)(target) || target === "1.0") // Handle 1.0
+			) {
+					target = this.book.locations.cfiFromPercentage(parseFloat(target));
+				}
+
+			section = this.book.spine.get(target);
+
+			if (!section) {
+				displaying.reject(new Error("No Section Found"));
+				return displayed;
+			}
+
+			this.manager.display(section, target).then(function () {
+				displaying.resolve(section);
+				_this.displaying = undefined;
+
+				/**
+     * Emit that a section has been displayed
+     * @event displayed
+     * @param {Section} section
+     * @memberof Rendition
+     */
+				_this.emit(_constants.EVENTS.RENDITION.DISPLAYED, section);
+				_this.reportLocation();
+			}, function (err) {
+				/**
+     * Emit that has been an error displaying
+     * @event displayError
+     * @param {Section} section
+     * @memberof Rendition
+     */
+				_this.emit(_constants.EVENTS.RENDITION.DISPLAY_ERROR, err);
+			});
+
+			return displayed;
+		}
+
+		/*
+  render(view, show) {
+  		// view.onLayout = this.layout.format.bind(this.layout);
+  	view.create();
+  		// Fit to size of the container, apply padding
+  	this.manager.resizeView(view);
+  		// Render Chain
+  	return view.section.render(this.book.request)
+  		.then(function(contents){
+  			return view.load(contents);
+  		}.bind(this))
+  		.then(function(doc){
+  			return this.hooks.content.trigger(view, this);
+  		}.bind(this))
+  		.then(function(){
+  			this.layout.format(view.contents);
+  			return this.hooks.layout.trigger(view, this);
+  		}.bind(this))
+  		.then(function(){
+  			return view.display();
+  		}.bind(this))
+  		.then(function(){
+  			return this.hooks.render.trigger(view, this);
+  		}.bind(this))
+  		.then(function(){
+  			if(show !== false) {
+  				this.q.enqueue(function(view){
+  					view.show();
+  				}, view);
+  			}
+  			// this.map = new Map(view, this.layout);
+  			this.hooks.show.trigger(view, this);
+  			this.trigger("rendered", view.section);
+  			}.bind(this))
+  		.catch(function(e){
+  			this.trigger("loaderror", e);
+  		}.bind(this));
+  	}
+  */
+
+		/**
+   * Report what section has been displayed
+   * @private
+   * @param  {*} view
+   */
+
+	}, {
+		key: "afterDisplayed",
+		value: function afterDisplayed(view) {
+			var _this2 = this;
+
+			view.on(_constants.EVENTS.VIEWS.MARK_CLICKED, function (cfiRange, data) {
+				return _this2.triggerMarkEvent(cfiRange, data, view);
+			});
+
+			this.hooks.render.trigger(view, this).then(function () {
+				if (view.contents) {
+					_this2.hooks.content.trigger(view.contents, _this2).then(function () {
+						/**
+       * Emit that a section has been rendered
+       * @event rendered
+       * @param {Section} section
+       * @param {View} view
+       * @memberof Rendition
+       */
+						_this2.emit(_constants.EVENTS.RENDITION.RENDERED, view.section, view);
+					});
+				} else {
+					_this2.emit(_constants.EVENTS.RENDITION.RENDERED, view.section, view);
+				}
+			});
+		}
+
+		/**
+   * Report what has been removed
+   * @private
+   * @param  {*} view
+   */
+
+	}, {
+		key: "afterRemoved",
+		value: function afterRemoved(view) {
+			var _this3 = this;
+
+			this.hooks.unloaded.trigger(view, this).then(function () {
+				/**
+     * Emit that a section has been removed
+     * @event removed
+     * @param {Section} section
+     * @param {View} view
+     * @memberof Rendition
+     */
+				_this3.emit(_constants.EVENTS.RENDITION.REMOVED, view.section, view);
+			});
+		}
+
+		/**
+   * Report resize events and display the last seen location
+   * @private
+   */
+
+	}, {
+		key: "onResized",
+		value: function onResized(size) {
+
+			/**
+    * Emit that the rendition has been resized
+    * @event resized
+    * @param {number} width
+    * @param {height} height
+    * @memberof Rendition
+    */
+			this.emit(_constants.EVENTS.RENDITION.RESIZED, {
+				width: size.width,
+				height: size.height
+			});
+
+			if (this.location && this.location.start) {
+				this.display(this.location.start.cfi);
+			}
+		}
+
+		/**
+   * Report orientation events and display the last seen location
+   * @private
+   */
+
+	}, {
+		key: "onOrientationChange",
+		value: function onOrientationChange(orientation) {
+			/**
+    * Emit that the rendition has been rotated
+    * @event orientationchange
+    * @param {string} orientation
+    * @memberof Rendition
+    */
+			this.emit(_constants.EVENTS.RENDITION.ORIENTATION_CHANGE, orientation);
+		}
+
+		/**
+   * Move the Rendition to a specific offset
+   * Usually you would be better off calling display()
+   * @param {object} offset
+   */
+
+	}, {
+		key: "moveTo",
+		value: function moveTo(offset) {
+			this.manager.moveTo(offset);
+		}
+
+		/**
+   * Trigger a resize of the views
+   * @param {number} [width]
+   * @param {number} [height]
+   */
+
+	}, {
+		key: "resize",
+		value: function resize(width, height) {
+			if (width) {
+				this.settings.width = width;
+			}
+			if (height) {
+				this.settings.height = height;
+			}
+			this.manager.resize(width, height);
+		}
+
+		/**
+   * Clear all rendered views
+   */
+
+	}, {
+		key: "clear",
+		value: function clear() {
+			this.manager.clear();
+		}
+
+		/**
+   * Go to the next "page" in the rendition
+   * @return {Promise}
+   */
+
+	}, {
+		key: "next",
+		value: function next() {
+			return this.q.enqueue(this.manager.next.bind(this.manager)).then(this.reportLocation.bind(this));
+		}
+
+		/**
+   * Go to the previous "page" in the rendition
+   * @return {Promise}
+   */
+
+	}, {
+		key: "prev",
+		value: function prev() {
+			return this.q.enqueue(this.manager.prev.bind(this.manager)).then(this.reportLocation.bind(this));
+		}
+
+		//-- http://www.idpf.org/epub/301/spec/epub-publications.html#meta-properties-rendering
+		/**
+   * Determine the Layout properties from metadata and settings
+   * @private
+   * @param  {object} metadata
+   * @return {object} properties
+   */
+
+	}, {
+		key: "determineLayoutProperties",
+		value: function determineLayoutProperties(metadata) {
+			var properties;
+			var layout = this.settings.layout || metadata.layout || "reflowable";
+			var spread = this.settings.spread || metadata.spread || "auto";
+			var orientation = this.settings.orientation || metadata.orientation || "auto";
+			var flow = this.settings.flow || metadata.flow || "auto";
+			var viewport = metadata.viewport || "";
+			var minSpreadWidth = this.settings.minSpreadWidth || metadata.minSpreadWidth || 800;
+			var direction = this.settings.direction || metadata.direction || "ltr";
+
+			if ((this.settings.width === 0 || this.settings.width > 0) && (this.settings.height === 0 || this.settings.height > 0)) {
+				// viewport = "width="+this.settings.width+", height="+this.settings.height+"";
+			}
+
+			properties = {
+				layout: layout,
+				spread: spread,
+				orientation: orientation,
+				flow: flow,
+				viewport: viewport,
+				minSpreadWidth: minSpreadWidth,
+				direction: direction
+			};
+
+			return properties;
+		}
+
+		/**
+   * Adjust the flow of the rendition to paginated or scrolled
+   * (scrolled-continuous vs scrolled-doc are handled by different view managers)
+   * @param  {string} flow
+   */
+
+	}, {
+		key: "flow",
+		value: function flow(_flow2) {
+			var _flow = _flow2;
+			if (_flow2 === "scrolled" || _flow2 === "scrolled-doc" || _flow2 === "scrolled-continuous") {
+				_flow = "scrolled";
+			}
+
+			if (_flow2 === "auto" || _flow2 === "paginated") {
+				_flow = "paginated";
+			}
+
+			this.settings.flow = _flow2;
+
+			if (this._layout) {
+				this._layout.flow(_flow);
+			}
+
+			if (this.manager && this._layout) {
+				this.manager.applyLayout(this._layout);
+			}
+
+			if (this.manager) {
+				this.manager.updateFlow(_flow);
+			}
+
+			if (this.manager && this.manager.isRendered() && this.location) {
+				this.manager.clear();
+				this.display(this.location.start.cfi);
+			}
+		}
+
+		/**
+   * Adjust the layout of the rendition to reflowable or pre-paginated
+   * @param  {object} settings
+   */
+
+	}, {
+		key: "layout",
+		value: function layout(settings) {
+			var _this4 = this;
+
+			if (settings) {
+				this._layout = new _layout2.default(settings);
+				this._layout.spread(settings.spread, this.settings.minSpreadWidth);
+
+				// this.mapping = new Mapping(this._layout.props);
+
+				this._layout.on(_constants.EVENTS.LAYOUT.UPDATED, function (props, changed) {
+					_this4.emit(_constants.EVENTS.RENDITION.LAYOUT, props, changed);
+				});
+			}
+
+			if (this.manager && this._layout) {
+				this.manager.applyLayout(this._layout);
+			}
+
+			return this._layout;
+		}
+
+		/**
+   * Adjust if the rendition uses spreads
+   * @param  {string} spread none | auto (TODO: implement landscape, portrait, both)
+   * @param  {int} min min width to use spreads at
+   */
+
+	}, {
+		key: "spread",
+		value: function spread(_spread, min) {
+
+			this._layout.spread(_spread, min);
+
+			if (this.manager.isRendered()) {
+				this.manager.updateLayout();
+			}
+		}
+
+		/**
+   * Adjust the direction of the rendition
+   * @param  {string} dir
+   */
+
+	}, {
+		key: "direction",
+		value: function direction(dir) {
+
+			this.settings.direction = dir || "ltr";
+
+			if (this.manager) {
+				this.manager.direction(this.settings.direction);
+			}
+
+			if (this.manager && this.manager.isRendered() && this.location) {
+				this.manager.clear();
+				this.display(this.location.start.cfi);
+			}
+		}
+
+		/**
+   * Report the current location
+   * @fires relocated
+   * @fires locationChanged
+   */
+
+	}, {
+		key: "reportLocation",
+		value: function reportLocation() {
+			return this.q.enqueue(function reportedLocation() {
+				requestAnimationFrame(function reportedLocationAfterRAF() {
+					var location = this.manager.currentLocation();
+					if (location && location.then && typeof location.then === "function") {
+						location.then(function (result) {
+							var located = this.located(result);
+
+							if (!located || !located.start || !located.end) {
+								return;
+							}
+
+							this.location = located;
+
+							this.emit(_constants.EVENTS.RENDITION.LOCATION_CHANGED, {
+								index: this.location.start.index,
+								href: this.location.start.href,
+								start: this.location.start.cfi,
+								end: this.location.end.cfi,
+								percentage: this.location.start.percentage
+							});
+
+							this.emit(_constants.EVENTS.RENDITION.RELOCATED, this.location);
+						}.bind(this));
+					} else if (location) {
+						var located = this.located(location);
+
+						if (!located || !located.start || !located.end) {
+							return;
+						}
+
+						this.location = located;
+
+						/**
+       * @event locationChanged
+       * @deprecated
+       * @type {object}
+       * @property {number} index
+       * @property {string} href
+       * @property {EpubCFI} start
+       * @property {EpubCFI} end
+       * @property {number} percentage
+       * @memberof Rendition
+       */
+						this.emit(_constants.EVENTS.RENDITION.LOCATION_CHANGED, {
+							index: this.location.start.index,
+							href: this.location.start.href,
+							start: this.location.start.cfi,
+							end: this.location.end.cfi,
+							percentage: this.location.start.percentage
+						});
+
+						/**
+       * @event relocated
+       * @type {displayedLocation}
+       * @memberof Rendition
+       */
+						this.emit(_constants.EVENTS.RENDITION.RELOCATED, this.location);
+					}
+				}.bind(this));
+			}.bind(this));
+		}
+
+		/**
+   * Get the Current Location object
+   * @return {displayedLocation | promise} location (may be a promise)
+   */
+
+	}, {
+		key: "currentLocation",
+		value: function currentLocation() {
+			var location = this.manager.currentLocation();
+			if (location && location.then && typeof location.then === "function") {
+				location.then(function (result) {
+					var located = this.located(result);
+					return located;
+				}.bind(this));
+			} else if (location) {
+				var located = this.located(location);
+				return located;
+			}
+		}
+
+		/**
+   * Creates a Rendition#locationRange from location
+   * passed by the Manager
+   * @returns {displayedLocation}
+   * @private
+   */
+
+	}, {
+		key: "located",
+		value: function located(location) {
+			if (!location.length) {
+				return {};
+			}
+			var start = location[0];
+			var end = location[location.length - 1];
+
+			var located = {
+				start: {
+					index: start.index,
+					href: start.href,
+					cfi: start.mapping.start,
+					displayed: {
+						page: start.pages[0] || 1,
+						total: start.totalPages
+					}
+				},
+				end: {
+					index: end.index,
+					href: end.href,
+					cfi: end.mapping.end,
+					displayed: {
+						page: end.pages[end.pages.length - 1] || 1,
+						total: end.totalPages
+					}
+				}
+			};
+
+			var locationStart = this.book.locations.locationFromCfi(start.mapping.start);
+			var locationEnd = this.book.locations.locationFromCfi(end.mapping.end);
+
+			if (locationStart != null) {
+				located.start.location = locationStart;
+				located.start.percentage = this.book.locations.percentageFromLocation(locationStart);
+			}
+			if (locationEnd != null) {
+				located.end.location = locationEnd;
+				located.end.percentage = this.book.locations.percentageFromLocation(locationEnd);
+			}
+
+			var pageStart = this.book.pageList.pageFromCfi(start.mapping.start);
+			var pageEnd = this.book.pageList.pageFromCfi(end.mapping.end);
+
+			if (pageStart != -1) {
+				located.start.page = pageStart;
+			}
+			if (pageEnd != -1) {
+				located.end.page = pageEnd;
+			}
+
+			if (end.index === this.book.spine.last().index && located.end.displayed.page >= located.end.displayed.total) {
+				located.atEnd = true;
+			}
+
+			if (start.index === this.book.spine.first().index && located.start.displayed.page === 1) {
+				located.atStart = true;
+			}
+
+			return located;
+		}
+
+		/**
+   * Remove and Clean Up the Rendition
+   */
+
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			// Clear the queue
+			// this.q.clear();
+			// this.q = undefined;
+
+			this.manager && this.manager.destroy();
+
+			this.book = undefined;
+
+			// this.views = null;
+
+			// this.hooks.display.clear();
+			// this.hooks.serialize.clear();
+			// this.hooks.content.clear();
+			// this.hooks.layout.clear();
+			// this.hooks.render.clear();
+			// this.hooks.show.clear();
+			// this.hooks = {};
+
+			// this.themes.destroy();
+			// this.themes = undefined;
+
+			// this.epubcfi = undefined;
+
+			// this.starting = undefined;
+			// this.started = undefined;
+
+		}
+
+		/**
+   * Pass the events from a view's Contents
+   * @private
+   * @param  {View} view
+   */
+
+	}, {
+		key: "passEvents",
+		value: function passEvents(contents) {
+			var _this5 = this;
+
+			var listenedEvents = _contents2.default.listenedEvents;
+
+			listenedEvents.forEach(function (e) {
+				contents.on(e, function (ev) {
+					return _this5.triggerViewEvent(ev, contents);
+				});
+			});
+
+			contents.on(_constants.EVENTS.CONTENTS.SELECTED, function (e) {
+				return _this5.triggerSelectedEvent(e, contents);
+			});
+		}
+
+		/**
+   * Emit events passed by a view
+   * @private
+   * @param  {event} e
+   */
+
+	}, {
+		key: "triggerViewEvent",
+		value: function triggerViewEvent(e, contents) {
+			this.emit(e.type, e, contents);
+		}
+
+		/**
+   * Emit a selection event's CFI Range passed from a a view
+   * @private
+   * @param  {EpubCFI} cfirange
+   */
+
+	}, {
+		key: "triggerSelectedEvent",
+		value: function triggerSelectedEvent(cfirange, contents) {
+			/**
+    * Emit that a text selection has occured
+    * @event selected
+    * @param {EpubCFI} cfirange
+    * @param {Contents} contents
+    * @memberof Rendition
+    */
+			this.emit(_constants.EVENTS.RENDITION.SELECTED, cfirange, contents);
+		}
+
+		/**
+   * Emit a markClicked event with the cfiRange and data from a mark
+   * @private
+   * @param  {EpubCFI} cfirange
+   */
+
+	}, {
+		key: "triggerMarkEvent",
+		value: function triggerMarkEvent(cfiRange, data, contents) {
+			/**
+    * Emit that a mark was clicked
+    * @event markClicked
+    * @param {EpubCFI} cfirange
+    * @param {object} data
+    * @param {Contents} contents
+    * @memberof Rendition
+    */
+			this.emit(_constants.EVENTS.RENDITION.MARK_CLICKED, cfiRange, data, contents);
+		}
+
+		/**
+   * Get a Range from a Visible CFI
+   * @param  {string} cfi EpubCfi String
+   * @param  {string} ignoreClass
+   * @return {range}
+   */
+
+	}, {
+		key: "getRange",
+		value: function getRange(cfi, ignoreClass) {
+			var _cfi = new _epubcfi2.default(cfi);
+			var found = this.manager.visible().filter(function (view) {
+				if (_cfi.spinePos === view.index) return true;
+			});
+
+			// Should only every return 1 item
+			if (found.length) {
+				return found[0].contents.range(_cfi, ignoreClass);
+			}
+		}
+
+		/**
+   * Hook to adjust images to fit in columns
+   * @param  {Contents} contents
+   * @private
+   */
+
+	}, {
+		key: "adjustImages",
+		value: function adjustImages(contents) {
+
+			if (this._layout.name === "pre-paginated") {
+				return new Promise(function (resolve) {
+					resolve();
+				});
+			}
+
+			contents.addStylesheetRules({
+				"img": {
+					"max-width": (this._layout.columnWidth ? this._layout.columnWidth + "px" : "100%") + "!important",
+					"max-height": (this._layout.height ? this._layout.height * 0.6 + "px" : "60%") + "!important",
+					"object-fit": "contain",
+					"page-break-inside": "avoid"
+				},
+				"svg": {
+					"max-width": (this._layout.columnWidth ? this._layout.columnWidth + "px" : "100%") + "!important",
+					"max-height": (this._layout.height ? this._layout.height * 0.6 + "px" : "60%") + "!important",
+					"page-break-inside": "avoid"
+				}
+			});
+
+			return new Promise(function (resolve, reject) {
+				// Wait to apply
+				setTimeout(function () {
+					resolve();
+				}, 1);
+			});
+		}
+
+		/**
+   * Get the Contents object of each rendered view
+   * @returns {Contents[]}
+   */
+
+	}, {
+		key: "getContents",
+		value: function getContents() {
+			return this.manager ? this.manager.getContents() : [];
+		}
+
+		/**
+   * Get the views member from the manager
+   * @returns {Views}
+   */
+
+	}, {
+		key: "views",
+		value: function views() {
+			var views = this.manager ? this.manager.views : undefined;
+			return views || [];
+		}
+
+		/**
+   * Hook to handle link clicks in rendered content
+   * @param  {Contents} contents
+   * @private
+   */
+
+	}, {
+		key: "handleLinks",
+		value: function handleLinks(contents) {
+			var _this6 = this;
+
+			if (contents) {
+				contents.on(_constants.EVENTS.CONTENTS.LINK_CLICKED, function (href) {
+					var relative = _this6.book.path.relative(href);
+					_this6.display(relative);
+				});
+			}
+		}
+
+		/**
+   * Hook to handle injecting stylesheet before
+   * a Section is serialized
+   * @param  {document} doc
+   * @param  {Section} section
+   * @private
+   */
+
+	}, {
+		key: "injectStylesheet",
+		value: function injectStylesheet(doc, section) {
+			var style = doc.createElement("link");
+			style.setAttribute("type", "text/css");
+			style.setAttribute("rel", "stylesheet");
+			style.setAttribute("href", this.settings.stylesheet);
+			doc.getElementsByTagName("head")[0].appendChild(style);
+		}
+
+		/**
+   * Hook to handle injecting scripts before
+   * a Section is serialized
+   * @param  {document} doc
+   * @param  {Section} section
+   * @private
+   */
+
+	}, {
+		key: "injectScript",
+		value: function injectScript(doc, section) {
+			var script = doc.createElement("script");
+			script.setAttribute("type", "text/javascript");
+			script.setAttribute("src", this.settings.script);
+			script.textContent = " "; // Needed to prevent self closing tag
+			doc.getElementsByTagName("head")[0].appendChild(script);
+		}
+
+		/**
+   * Hook to handle the document identifier before
+   * a Section is serialized
+   * @param  {document} doc
+   * @param  {Section} section
+   * @private
+   */
+
+	}, {
+		key: "injectIdentifier",
+		value: function injectIdentifier(doc, section) {
+			var ident = this.book.package.metadata.identifier;
+			var meta = doc.createElement("meta");
+			meta.setAttribute("name", "dc.relation.ispartof");
+			if (ident) {
+				meta.setAttribute("content", ident);
+			}
+			doc.getElementsByTagName("head")[0].appendChild(meta);
+		}
+	}]);
+
+	return Rendition;
+}();
+
+//-- Enable binding events to Renderer
+
+
+(0, _eventEmitter2.default)(Rendition.prototype);
+
+exports.default = Rendition;
+module.exports = exports["default"];
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _epubcfi = __webpack_require__(1);
+
+var _epubcfi2 = _interopRequireDefault(_epubcfi);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Map text locations to CFI ranges
+ * @class
+ */
+var Mapping = function () {
+	function Mapping(layout, direction, axis, dev) {
+		_classCallCheck(this, Mapping);
+
+		this.layout = layout;
+		this.horizontal = axis === "horizontal" ? true : false;
+		this.direction = direction || "ltr";
+		this._dev = dev;
+	}
+
+	/**
+  * Find CFI pairs for entire section at once
+  */
+
+
+	_createClass(Mapping, [{
+		key: "section",
+		value: function section(view) {
+			var ranges = this.findRanges(view);
+			var map = this.rangeListToCfiList(view.section.cfiBase, ranges);
+
+			return map;
+		}
+
+		/**
+   * Find CFI pairs for a page
+   */
+
+	}, {
+		key: "page",
+		value: function page(contents, cfiBase, start, end) {
+			var root = contents && contents.document ? contents.document.body : false;
+			var result;
+
+			if (!root) {
+				return;
+			}
+
+			result = this.rangePairToCfiPair(cfiBase, {
+				start: this.findStart(root, start, end),
+				end: this.findEnd(root, start, end)
+			});
+
+			if (this._dev === true) {
+				var doc = contents.document;
+				var startRange = new _epubcfi2.default(result.start).toRange(doc);
+				var endRange = new _epubcfi2.default(result.end).toRange(doc);
+
+				var selection = doc.defaultView.getSelection();
+				var r = doc.createRange();
+				selection.removeAllRanges();
+				r.setStart(startRange.startContainer, startRange.startOffset);
+				r.setEnd(endRange.endContainer, endRange.endOffset);
+				selection.addRange(r);
+			}
+
+			return result;
+		}
+	}, {
+		key: "walk",
+		value: function walk(root, func) {
+			// IE11 has strange issue, if root is text node IE throws exception on
+			// calling treeWalker.nextNode(), saying
+			// Unexpected call to method or property access instead of returing null value
+			if (root && root.nodeType === Node.TEXT_NODE) {
+				return;
+			}
+			// safeFilter is required so that it can work in IE as filter is a function for IE
+			// and for other browser filter is an object.
+			var filter = {
+				acceptNode: function acceptNode(node) {
+					if (node.data.trim().length > 0) {
+						return NodeFilter.FILTER_ACCEPT;
+					} else {
+						return NodeFilter.FILTER_REJECT;
+					}
+				}
+			};
+			var safeFilter = filter.acceptNode;
+			safeFilter.acceptNode = filter.acceptNode;
+
+			var treeWalker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, safeFilter, false);
+			var node;
+			var result;
+			while (node = treeWalker.nextNode()) {
+				result = func(node);
+				if (result) break;
+			}
+
+			return result;
+		}
+	}, {
+		key: "findRanges",
+		value: function findRanges(view) {
+			var columns = [];
+			var scrollWidth = view.contents.scrollWidth();
+			var spreads = Math.ceil(scrollWidth / this.layout.spreadWidth);
+			var count = spreads * this.layout.divisor;
+			var columnWidth = this.layout.columnWidth;
+			var gap = this.layout.gap;
+			var start, end;
+
+			for (var i = 0; i < count.pages; i++) {
+				start = (columnWidth + gap) * i;
+				end = columnWidth * (i + 1) + gap * i;
+				columns.push({
+					start: this.findStart(view.document.body, start, end),
+					end: this.findEnd(view.document.body, start, end)
+				});
+			}
+
+			return columns;
+		}
+	}, {
+		key: "findStart",
+		value: function findStart(root, start, end) {
+			var _this = this;
+
+			var stack = [root];
+			var $el;
+			var found;
+			var $prev = root;
+
+			while (stack.length) {
+
+				$el = stack.shift();
+
+				found = this.walk($el, function (node) {
+					var left, right, top, bottom;
+					var elPos;
+					var elRange;
+
+					elPos = _this.getBounds(node);
+
+					if (_this.horizontal && _this.direction === "ltr") {
+
+						left = _this.horizontal ? elPos.left : elPos.top;
+						right = _this.horizontal ? elPos.right : elPos.bottom;
+
+						if (left >= start && left <= end) {
+							return node;
+						} else if (right > start) {
+							return node;
+						} else {
+							$prev = node;
+							stack.push(node);
+						}
+					} else if (_this.horizontal && _this.direction === "rtl") {
+
+						left = elPos.left;
+						right = elPos.right;
+
+						if (right <= end && right >= start) {
+							return node;
+						} else if (left < end) {
+							return node;
+						} else {
+							$prev = node;
+							stack.push(node);
+						}
+					} else {
+
+						top = elPos.top;
+						bottom = elPos.bottom;
+
+						if (top >= start && top <= end) {
+							return node;
+						} else if (bottom > start) {
+							return node;
+						} else {
+							$prev = node;
+							stack.push(node);
+						}
+					}
+				});
+
+				if (found) {
+					return this.findTextStartRange(found, start, end);
+				}
+			}
+
+			// Return last element
+			return this.findTextStartRange($prev, start, end);
+		}
+	}, {
+		key: "findEnd",
+		value: function findEnd(root, start, end) {
+			var _this2 = this;
+
+			var stack = [root];
+			var $el;
+			var $prev = root;
+			var found;
+
+			while (stack.length) {
+
+				$el = stack.shift();
+
+				found = this.walk($el, function (node) {
+
+					var left, right, top, bottom;
+					var elPos;
+					var elRange;
+
+					elPos = _this2.getBounds(node);
+
+					if (_this2.horizontal && _this2.direction === "ltr") {
+
+						left = Math.round(elPos.left);
+						right = Math.round(elPos.right);
+
+						if (left > end && $prev) {
+							return $prev;
+						} else if (right > end) {
+							return node;
+						} else {
+							$prev = node;
+							stack.push(node);
+						}
+					} else if (_this2.horizontal && _this2.direction === "rtl") {
+
+						left = Math.round(_this2.horizontal ? elPos.left : elPos.top);
+						right = Math.round(_this2.horizontal ? elPos.right : elPos.bottom);
+
+						if (right < start && $prev) {
+							return $prev;
+						} else if (left < start) {
+							return node;
+						} else {
+							$prev = node;
+							stack.push(node);
+						}
+					} else {
+
+						top = Math.round(elPos.top);
+						bottom = Math.round(elPos.bottom);
+
+						if (top > end && $prev) {
+							return $prev;
+						} else if (bottom > end) {
+							return node;
+						} else {
+							$prev = node;
+							stack.push(node);
+						}
+					}
+				});
+
+				if (found) {
+					return this.findTextEndRange(found, start, end);
+				}
+			}
+
+			// end of chapter
+			return this.findTextEndRange($prev, start, end);
+		}
+	}, {
+		key: "findTextStartRange",
+		value: function findTextStartRange(node, start, end) {
+			var ranges = this.splitTextNodeIntoRanges(node);
+			var range;
+			var pos;
+			var left, top, right;
+
+			for (var i = 0; i < ranges.length; i++) {
+				range = ranges[i];
+
+				pos = range.getBoundingClientRect();
+
+				if (this.horizontal && this.direction === "ltr") {
+
+					left = pos.left;
+					if (left >= start) {
+						return range;
+					}
+				} else if (this.horizontal && this.direction === "rtl") {
+
+					right = pos.right;
+					if (right <= end) {
+						return range;
+					}
+				} else {
+
+					top = pos.top;
+					if (top >= start) {
+						return range;
+					}
+				}
+
+				// prev = range;
+			}
+
+			return ranges[0];
+		}
+	}, {
+		key: "findTextEndRange",
+		value: function findTextEndRange(node, start, end) {
+			var ranges = this.splitTextNodeIntoRanges(node);
+			var prev;
+			var range;
+			var pos;
+			var left, right, top, bottom;
+
+			for (var i = 0; i < ranges.length; i++) {
+				range = ranges[i];
+
+				pos = range.getBoundingClientRect();
+
+				if (this.horizontal && this.direction === "ltr") {
+
+					left = pos.left;
+					right = pos.right;
+
+					if (left > end && prev) {
+						return prev;
+					} else if (right > end) {
+						return range;
+					}
+				} else if (this.horizontal && this.direction === "rtl") {
+
+					left = pos.left;
+					right = pos.right;
+
+					if (right < start && prev) {
+						return prev;
+					} else if (left < start) {
+						return range;
+					}
+				} else {
+
+					top = pos.top;
+					bottom = pos.bottom;
+
+					if (top > end && prev) {
+						return prev;
+					} else if (bottom > end) {
+						return range;
+					}
+				}
+
+				prev = range;
+			}
+
+			// Ends before limit
+			return ranges[ranges.length - 1];
+		}
+	}, {
+		key: "splitTextNodeIntoRanges",
+		value: function splitTextNodeIntoRanges(node, _splitter) {
+			var ranges = [];
+			var textContent = node.textContent || "";
+			var text = textContent.trim();
+			var range;
+			var doc = node.ownerDocument;
+			var splitter = _splitter || " ";
+
+			var pos = text.indexOf(splitter);
+
+			if (pos === -1 || node.nodeType != Node.TEXT_NODE) {
+				range = doc.createRange();
+				range.selectNodeContents(node);
+				return [range];
+			}
+
+			range = doc.createRange();
+			range.setStart(node, 0);
+			range.setEnd(node, pos);
+			ranges.push(range);
+			range = false;
+
+			while (pos != -1) {
+
+				pos = text.indexOf(splitter, pos + 1);
+				if (pos > 0) {
+
+					if (range) {
+						range.setEnd(node, pos);
+						ranges.push(range);
+					}
+
+					range = doc.createRange();
+					range.setStart(node, pos + 1);
+				}
+			}
+
+			if (range) {
+				range.setEnd(node, text.length);
+				ranges.push(range);
+			}
+
+			return ranges;
+		}
+	}, {
+		key: "rangePairToCfiPair",
+		value: function rangePairToCfiPair(cfiBase, rangePair) {
+
+			var startRange = rangePair.start;
+			var endRange = rangePair.end;
+
+			startRange.collapse(true);
+			endRange.collapse(false);
+
+			var startCfi = new _epubcfi2.default(startRange, cfiBase).toString();
+			var endCfi = new _epubcfi2.default(endRange, cfiBase).toString();
+
+			return {
+				start: startCfi,
+				end: endCfi
+			};
+		}
+	}, {
+		key: "rangeListToCfiList",
+		value: function rangeListToCfiList(cfiBase, columns) {
+			var map = [];
+			var cifPair;
+
+			for (var i = 0; i < columns.length; i++) {
+				cifPair = this.rangePairToCfiPair(cfiBase, columns[i]);
+
+				map.push(cifPair);
+			}
+
+			return map;
+		}
+	}, {
+		key: "getBounds",
+		value: function getBounds(node) {
+			var elPos = void 0;
+			if (node.nodeType == Node.TEXT_NODE) {
+				var elRange = document.createRange();
+				elRange.selectNodeContents(node);
+				elPos = elRange.getBoundingClientRect();
+			} else {
+				elPos = node.getBoundingClientRect();
+			}
+			return elPos;
+		}
+	}, {
+		key: "axis",
+		value: function axis(_axis) {
+			if (_axis) {
+				this.horizontal = _axis === "horizontal" ? true : false;
+			}
+			return this.horizontal;
+		}
+	}]);
+
+	return Mapping;
+}();
+
+exports.default = Mapping;
+module.exports = exports["default"];
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _eventEmitter = __webpack_require__(2);
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+var _core = __webpack_require__(0);
+
+var _epubcfi = __webpack_require__(1);
+
+var _epubcfi2 = _interopRequireDefault(_epubcfi);
+
+var _contents = __webpack_require__(13);
+
+var _contents2 = _interopRequireDefault(_contents);
+
+var _constants = __webpack_require__(3);
+
+var _marksPane = __webpack_require__(53);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var IframeView = function () {
+	function IframeView(section, options) {
+		_classCallCheck(this, IframeView);
+
+		this.settings = (0, _core.extend)({
+			ignoreClass: "",
+			axis: options.layout && options.layout.props.flow === "scrolled" ? "vertical" : "horizontal",
+			direction: undefined,
+			width: 0,
+			height: 0,
+			layout: undefined,
+			globalLayoutProperties: {},
+			method: undefined
+		}, options || {});
+
+		this.id = "epubjs-view-" + (0, _core.uuid)();
+		this.section = section;
+		this.index = section.index;
+
+		this.element = this.container(this.settings.axis);
+
+		this.added = false;
+		this.displayed = false;
+		this.rendered = false;
+
+		// this.width  = this.settings.width;
+		// this.height = this.settings.height;
+
+		this.fixedWidth = 0;
+		this.fixedHeight = 0;
+
+		// Blank Cfi for Parsing
+		this.epubcfi = new _epubcfi2.default();
+
+		this.layout = this.settings.layout;
+		// Dom events to listen for
+		// this.listenedEvents = ["keydown", "keyup", "keypressed", "mouseup", "mousedown", "click", "touchend", "touchstart"];
+
+		this.pane = undefined;
+		this.highlights = {};
+		this.underlines = {};
+		this.marks = {};
+	}
+
+	_createClass(IframeView, [{
+		key: "container",
+		value: function container(axis) {
+			var element = document.createElement("div");
+
+			element.classList.add("epub-view");
+
+			// this.element.style.minHeight = "100px";
+			element.style.height = "0px";
+			element.style.width = "0px";
+			element.style.overflow = "hidden";
+			element.style.position = "relative";
+			element.style.display = "block";
+
+			if (axis && axis == "horizontal") {
+				element.style.flex = "none";
+			} else {
+				element.style.flex = "initial";
+			}
+
+			return element;
+		}
+	}, {
+		key: "create",
+		value: function create() {
+
+			if (this.iframe) {
+				return this.iframe;
+			}
+
+			if (!this.element) {
+				this.element = this.createContainer();
+			}
+
+			this.iframe = document.createElement("iframe");
+			this.iframe.id = this.id;
+			this.iframe.scrolling = "no"; // Might need to be removed: breaks ios width calculations
+			this.iframe.style.overflow = "hidden";
+			this.iframe.seamless = "seamless";
+			// Back up if seamless isn't supported
+			this.iframe.style.border = "none";
+
+			this.iframe.setAttribute("enable-annotation", "true");
+
+			this.resizing = true;
+
+			// this.iframe.style.display = "none";
+			this.element.style.visibility = "hidden";
+			this.iframe.style.visibility = "hidden";
+
+			this.iframe.style.width = "0";
+			this.iframe.style.height = "0";
+			this._width = 0;
+			this._height = 0;
+
+			this.element.setAttribute("ref", this.index);
+
+			this.element.appendChild(this.iframe);
+			this.added = true;
+
+			this.elementBounds = (0, _core.bounds)(this.element);
+
+			// if(width || height){
+			//   this.resize(width, height);
+			// } else if(this.width && this.height){
+			//   this.resize(this.width, this.height);
+			// } else {
+			//   this.iframeBounds = bounds(this.iframe);
+			// }
+
+
+			if ("srcdoc" in this.iframe) {
+				this.supportsSrcdoc = true;
+			} else {
+				this.supportsSrcdoc = false;
+			}
+
+			if (!this.settings.method) {
+				this.settings.method = this.supportsSrcdoc ? "srcdoc" : "write";
+			}
+
+			return this.iframe;
+		}
+	}, {
+		key: "render",
+		value: function render(request, show) {
+
+			// view.onLayout = this.layout.format.bind(this.layout);
+			this.create();
+
+			// Fit to size of the container, apply padding
+			this.size();
+
+			if (!this.sectionRender) {
+				this.sectionRender = this.section.render(request);
+			}
+
+			// Render Chain
+			return this.sectionRender.then(function (contents) {
+				return this.load(contents);
+			}.bind(this)).then(function () {
+				var _this = this;
+
+				// apply the layout function to the contents
+				this.layout.format(this.contents);
+
+				// find and report the writingMode axis
+				var writingMode = this.contents.writingMode();
+				var axis = writingMode.indexOf("vertical") === 0 ? "vertical" : "horizontal";
+
+				this.setAxis(axis);
+				this.emit(_constants.EVENTS.VIEWS.AXIS, axis);
+
+				// Listen for events that require an expansion of the iframe
+				this.addListeners();
+
+				return new Promise(function (resolve, reject) {
+					// Expand the iframe to the full size of the content
+					_this.expand();
+					resolve();
+				});
+			}.bind(this), function (e) {
+				this.emit(_constants.EVENTS.VIEWS.LOAD_ERROR, e);
+				return new Promise(function (resolve, reject) {
+					reject(e);
+				});
+			}.bind(this)).then(function () {
+				this.emit(_constants.EVENTS.VIEWS.RENDERED, this.section);
+			}.bind(this));
+		}
+	}, {
+		key: "reset",
+		value: function reset() {
+			if (this.iframe) {
+				this.iframe.style.width = "0";
+				this.iframe.style.height = "0";
+				this._width = 0;
+				this._height = 0;
+				this._textWidth = undefined;
+				this._contentWidth = undefined;
+				this._textHeight = undefined;
+				this._contentHeight = undefined;
+			}
+			this._needsReframe = true;
+		}
+
+		// Determine locks base on settings
+
+	}, {
+		key: "size",
+		value: function size(_width, _height) {
+			var width = _width || this.settings.width;
+			var height = _height || this.settings.height;
+
+			if (this.layout.name === "pre-paginated") {
+				this.lock("both", width, height);
+			} else if (this.settings.axis === "horizontal") {
+				this.lock("height", width, height);
+			} else {
+				this.lock("width", width, height);
+			}
+
+			this.settings.width = width;
+			this.settings.height = height;
+		}
+
+		// Lock an axis to element dimensions, taking borders into account
+
+	}, {
+		key: "lock",
+		value: function lock(what, width, height) {
+			var elBorders = (0, _core.borders)(this.element);
+			var iframeBorders;
+
+			if (this.iframe) {
+				iframeBorders = (0, _core.borders)(this.iframe);
+			} else {
+				iframeBorders = { width: 0, height: 0 };
+			}
+
+			if (what == "width" && (0, _core.isNumber)(width)) {
+				this.lockedWidth = width - elBorders.width - iframeBorders.width;
+				// this.resize(this.lockedWidth, width); //  width keeps ratio correct
+			}
+
+			if (what == "height" && (0, _core.isNumber)(height)) {
+				this.lockedHeight = height - elBorders.height - iframeBorders.height;
+				// this.resize(width, this.lockedHeight);
+			}
+
+			if (what === "both" && (0, _core.isNumber)(width) && (0, _core.isNumber)(height)) {
+
+				this.lockedWidth = width - elBorders.width - iframeBorders.width;
+				this.lockedHeight = height - elBorders.height - iframeBorders.height;
+				// this.resize(this.lockedWidth, this.lockedHeight);
+			}
+
+			if (this.displayed && this.iframe) {
+
+				// this.contents.layout();
+				this.expand();
+			}
+		}
+
+		// Resize a single axis based on content dimensions
+
+	}, {
+		key: "expand",
+		value: function expand(force) {
+			var width = this.lockedWidth;
+			var height = this.lockedHeight;
+			var columns;
+
+			var textWidth, textHeight;
+
+			if (!this.iframe || this._expanding) return;
+
+			this._expanding = true;
+
+			if (this.layout.name === "pre-paginated") {
+				width = this.layout.columnWidth;
+				height = this.layout.height;
+			}
+			// Expand Horizontally
+			else if (this.settings.axis === "horizontal") {
+					// Get the width of the text
+					width = this.contents.textWidth();
+
+					if (width % this.layout.pageWidth > 0) {
+						width = Math.ceil(width / this.layout.pageWidth) * this.layout.pageWidth;
+					}
+
+					if (this.settings.forceEvenPages) {
+						columns = width / this.layout.delta;
+						if (this.layout.divisor > 1 && this.layout.name === "reflowable" && columns % 2 > 0) {
+							// add a blank page
+							width += this.layout.gap + this.layout.columnWidth;
+						}
+					}
+				} // Expand Vertically
+				else if (this.settings.axis === "vertical") {
+						height = this.contents.textHeight();
+					}
+
+			// Only Resize if dimensions have changed or
+			// if Frame is still hidden, so needs reframing
+			if (this._needsReframe || width != this._width || height != this._height) {
+				this.reframe(width, height);
+			}
+
+			this._expanding = false;
+		}
+	}, {
+		key: "reframe",
+		value: function reframe(width, height) {
+			var size;
+
+			if ((0, _core.isNumber)(width)) {
+				this.element.style.width = width + "px";
+				this.iframe.style.width = width + "px";
+				this._width = width;
+			}
+
+			if ((0, _core.isNumber)(height)) {
+				this.element.style.height = height + "px";
+				this.iframe.style.height = height + "px";
+				this._height = height;
+			}
+
+			var widthDelta = this.prevBounds ? width - this.prevBounds.width : width;
+			var heightDelta = this.prevBounds ? height - this.prevBounds.height : height;
+
+			size = {
+				width: width,
+				height: height,
+				widthDelta: widthDelta,
+				heightDelta: heightDelta
+			};
+
+			this.pane && this.pane.render();
+
+			this.onResize(this, size);
+
+			this.emit(_constants.EVENTS.VIEWS.RESIZED, size);
+
+			this.prevBounds = size;
+
+			this.elementBounds = (0, _core.bounds)(this.element);
+		}
+	}, {
+		key: "load",
+		value: function load(contents) {
+			var loading = new _core.defer();
+			var loaded = loading.promise;
+
+			if (!this.iframe) {
+				loading.reject(new Error("No Iframe Available"));
+				return loaded;
+			}
+
+			this.iframe.onload = function (event) {
+
+				this.onLoad(event, loading);
+			}.bind(this);
+
+			if (this.settings.method === "blobUrl") {
+				this.blobUrl = (0, _core.createBlobUrl)(contents, "application/xhtml+xml");
+				this.iframe.src = this.blobUrl;
+			} else if (this.settings.method === "srcdoc") {
+				this.iframe.srcdoc = contents;
+			} else {
+
+				this.document = this.iframe.contentDocument;
+
+				if (!this.document) {
+					loading.reject(new Error("No Document Available"));
+					return loaded;
+				}
+
+				this.iframe.contentDocument.open();
+				this.iframe.contentDocument.write(contents);
+				this.iframe.contentDocument.close();
+			}
+
+			return loaded;
+		}
+	}, {
+		key: "onLoad",
+		value: function onLoad(event, promise) {
+			var _this2 = this;
+
+			this.window = this.iframe.contentWindow;
+			this.document = this.iframe.contentDocument;
+
+			this.contents = new _contents2.default(this.document, this.document.body, this.section.cfiBase, this.section.index);
+
+			this.rendering = false;
+
+			var link = this.document.querySelector("link[rel='canonical']");
+			if (link) {
+				link.setAttribute("href", this.section.canonical);
+			} else {
+				link = this.document.createElement("link");
+				link.setAttribute("rel", "canonical");
+				link.setAttribute("href", this.section.canonical);
+				this.document.querySelector("head").appendChild(link);
+			}
+
+			this.contents.on(_constants.EVENTS.CONTENTS.EXPAND, function () {
+				if (_this2.displayed && _this2.iframe) {
+					_this2.expand();
+					if (_this2.contents) {
+						_this2.layout.format(_this2.contents);
+					}
+				}
+			});
+
+			this.contents.on(_constants.EVENTS.CONTENTS.RESIZE, function (e) {
+				if (_this2.displayed && _this2.iframe) {
+					_this2.expand();
+					if (_this2.contents) {
+						_this2.layout.format(_this2.contents);
+					}
+				}
+			});
+
+			promise.resolve(this.contents);
+		}
+	}, {
+		key: "setLayout",
+		value: function setLayout(layout) {
+			this.layout = layout;
+
+			if (this.contents) {
+				this.layout.format(this.contents);
+				this.expand();
+			}
+		}
+	}, {
+		key: "setAxis",
+		value: function setAxis(axis) {
+
+			// Force vertical for scrolled
+			if (this.layout.props.flow === "scrolled") {
+				axis = "vertical";
+			}
+
+			this.settings.axis = axis;
+
+			if (axis == "horizontal") {
+				this.element.style.flex = "none";
+			} else {
+				this.element.style.flex = "initial";
+			}
+
+			this.size();
+		}
+	}, {
+		key: "addListeners",
+		value: function addListeners() {
+			//TODO: Add content listeners for expanding
+		}
+	}, {
+		key: "removeListeners",
+		value: function removeListeners(layoutFunc) {
+			//TODO: remove content listeners for expanding
+		}
+	}, {
+		key: "display",
+		value: function display(request) {
+			var displayed = new _core.defer();
+
+			if (!this.displayed) {
+
+				this.render(request).then(function () {
+
+					this.emit(_constants.EVENTS.VIEWS.DISPLAYED, this);
+					this.onDisplayed(this);
+
+					this.displayed = true;
+					displayed.resolve(this);
+				}.bind(this), function (err) {
+					displayed.reject(err, this);
+				});
+			} else {
+				displayed.resolve(this);
+			}
+
+			return displayed.promise;
+		}
+	}, {
+		key: "show",
+		value: function show() {
+
+			this.element.style.visibility = "visible";
+
+			if (this.iframe) {
+				this.iframe.style.visibility = "visible";
+			}
+
+			this.emit(_constants.EVENTS.VIEWS.SHOWN, this);
+		}
+	}, {
+		key: "hide",
+		value: function hide() {
+			// this.iframe.style.display = "none";
+			this.element.style.visibility = "hidden";
+			this.iframe.style.visibility = "hidden";
+
+			this.stopExpanding = true;
+			this.emit(_constants.EVENTS.VIEWS.HIDDEN, this);
+		}
+	}, {
+		key: "offset",
+		value: function offset() {
+			return {
+				top: this.element.offsetTop,
+				left: this.element.offsetLeft
+			};
+		}
+	}, {
+		key: "width",
+		value: function width() {
+			return this._width;
+		}
+	}, {
+		key: "height",
+		value: function height() {
+			return this._height;
+		}
+	}, {
+		key: "position",
+		value: function position() {
+			return this.element.getBoundingClientRect();
+		}
+	}, {
+		key: "locationOf",
+		value: function locationOf(target) {
+			var parentPos = this.iframe.getBoundingClientRect();
+			var targetPos = this.contents.locationOf(target, this.settings.ignoreClass);
+
+			return {
+				"left": targetPos.left,
+				"top": targetPos.top
+			};
+		}
+	}, {
+		key: "onDisplayed",
+		value: function onDisplayed(view) {
+			// Stub, override with a custom functions
+		}
+	}, {
+		key: "onResize",
+		value: function onResize(view, e) {
+			// Stub, override with a custom functions
+		}
+	}, {
+		key: "bounds",
+		value: function bounds(force) {
+			if (force || !this.elementBounds) {
+				this.elementBounds = (0, _core.bounds)(this.element);
+			}
+
+			return this.elementBounds;
+		}
+	}, {
+		key: "highlight",
+		value: function highlight(cfiRange) {
+			var _this3 = this;
+
+			var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+			var cb = arguments[2];
+
+			if (!this.contents) {
+				return;
+			}
+			var range = this.contents.range(cfiRange);
+
+			var emitter = function emitter() {
+				_this3.emit(_constants.EVENTS.VIEWS.MARK_CLICKED, cfiRange, data);
+			};
+
+			data["epubcfi"] = cfiRange;
+
+			if (!this.pane) {
+				this.pane = new _marksPane.Pane(this.iframe, this.element);
+			}
+
+			var m = new _marksPane.Highlight(range, "epubjs-hl", data, { 'fill': 'blue', 'fill-opacity': '0.3', 'mix-blend-mode': 'multiply' });
+			var h = this.pane.addMark(m);
+
+			this.highlights[cfiRange] = { "mark": h, "element": h.element, "listeners": [emitter, cb] };
+
+			h.element.setAttribute("ref", "epubjs-hl");
+			h.element.addEventListener("click", emitter);
+			h.element.addEventListener("touchstart", emitter);
+
+			if (cb) {
+				h.element.addEventListener("click", cb);
+				h.element.addEventListener("touchstart", cb);
+			}
+			return h;
+		}
+	}, {
+		key: "underline",
+		value: function underline(cfiRange) {
+			var _this4 = this;
+
+			var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+			var cb = arguments[2];
+
+			if (!this.contents) {
+				return;
+			}
+			var range = this.contents.range(cfiRange);
+			var emitter = function emitter() {
+				_this4.emit(_constants.EVENTS.VIEWS.MARK_CLICKED, cfiRange, data);
+			};
+
+			data["epubcfi"] = cfiRange;
+
+			if (!this.pane) {
+				this.pane = new _marksPane.Pane(this.iframe, this.element);
+			}
+
+			var m = new _marksPane.Underline(range, "epubjs-ul", data, { 'stroke': 'black', 'stroke-opacity': '0.3', 'mix-blend-mode': 'multiply' });
+			var h = this.pane.addMark(m);
+
+			this.underlines[cfiRange] = { "mark": h, "element": h.element, "listeners": [emitter, cb] };
+
+			h.element.setAttribute("ref", "epubjs-ul");
+			h.element.addEventListener("click", emitter);
+			h.element.addEventListener("touchstart", emitter);
+
+			if (cb) {
+				h.element.addEventListener("click", cb);
+				h.element.addEventListener("touchstart", cb);
+			}
+			return h;
+		}
+	}, {
+		key: "mark",
+		value: function mark(cfiRange) {
+			var _this5 = this;
+
+			var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+			var cb = arguments[2];
+
+
+			if (!this.contents) {
+				return;
+			}
+
+			if (cfiRange in this.marks) {
+				var item = this.marks[cfiRange];
+				return item;
+			}
+
+			var range = this.contents.range(cfiRange);
+			if (!range) {
+				return;
+			}
+			var container = range.commonAncestorContainer;
+			var parent = container.nodeType === 1 ? container : container.parentNode;
+
+			var emitter = function emitter(e) {
+				_this5.emit(_constants.EVENTS.VIEWS.MARK_CLICKED, cfiRange, data);
+			};
+
+			if (range.collapsed && container.nodeType === 1) {
+				range = new Range();
+				range.selectNodeContents(container);
+			} else if (range.collapsed) {
+				// Webkit doesn't like collapsed ranges
+				range = new Range();
+				range.selectNodeContents(parent);
+			}
+
+			var top = void 0,
+			    right = void 0,
+			    left = void 0;
+
+			if (this.layout.name === "pre-paginated" || this.settings.axis !== "horizontal") {
+				var pos = range.getBoundingClientRect();
+				top = pos.top;
+				right = pos.right;
+			} else {
+				// Element might break columns, so find the left most element
+				var rects = range.getClientRects();
+				var rect = void 0;
+				for (var i = 0; i != rects.length; i++) {
+					rect = rects[i];
+					if (!left || rect.left < left) {
+						left = rect.left;
+						right = left + this.layout.columnWidth - this.layout.gap;
+						top = rect.top;
+					}
+				}
+			}
+
+			var mark = this.document.createElement('a');
+			mark.setAttribute("ref", "epubjs-mk");
+			mark.style.position = "absolute";
+			mark.style.top = top + "px";
+			mark.style.left = right + "px";
+
+			mark.dataset["epubcfi"] = cfiRange;
+
+			if (data) {
+				Object.keys(data).forEach(function (key) {
+					mark.dataset[key] = data[key];
+				});
+			}
+
+			if (cb) {
+				mark.addEventListener("click", cb);
+				mark.addEventListener("touchstart", cb);
+			}
+
+			mark.addEventListener("click", emitter);
+			mark.addEventListener("touchstart", emitter);
+
+			this.element.appendChild(mark);
+
+			this.marks[cfiRange] = { "element": mark, "listeners": [emitter, cb] };
+
+			return parent;
+		}
+	}, {
+		key: "unhighlight",
+		value: function unhighlight(cfiRange) {
+			var item = void 0;
+			if (cfiRange in this.highlights) {
+				item = this.highlights[cfiRange];
+
+				this.pane.removeMark(item.mark);
+				item.listeners.forEach(function (l) {
+					if (l) {
+						item.element.removeEventListener("click", l);
+					};
+				});
+				delete this.highlights[cfiRange];
+			}
+		}
+	}, {
+		key: "ununderline",
+		value: function ununderline(cfiRange) {
+			var item = void 0;
+			if (cfiRange in this.underlines) {
+				item = this.underlines[cfiRange];
+				this.pane.removeMark(item.mark);
+				item.listeners.forEach(function (l) {
+					if (l) {
+						item.element.removeEventListener("click", l);
+					};
+				});
+				delete this.underlines[cfiRange];
+			}
+		}
+	}, {
+		key: "unmark",
+		value: function unmark(cfiRange) {
+			var item = void 0;
+			if (cfiRange in this.marks) {
+				item = this.marks[cfiRange];
+				this.element.removeChild(item.element);
+				item.listeners.forEach(function (l) {
+					if (l) {
+						item.element.removeEventListener("click", l);
+					};
+				});
+				delete this.marks[cfiRange];
+			}
+		}
+	}, {
+		key: "destroy",
+		value: function destroy() {
+
+			for (var cfiRange in this.highlights) {
+				this.unhighlight(cfiRange);
+			}
+
+			for (var _cfiRange in this.underlines) {
+				this.ununderline(_cfiRange);
+			}
+
+			for (var _cfiRange2 in this.marks) {
+				this.unmark(_cfiRange2);
+			}
+
+			if (this.blobUrl) {
+				(0, _core.revokeBlobUrl)(this.blobUrl);
+			}
+
+			if (this.displayed) {
+				this.displayed = false;
+
+				this.removeListeners();
+
+				this.stopExpanding = true;
+				this.element.removeChild(this.iframe);
+
+				this.iframe = null;
+
+				this._textWidth = null;
+				this._textHeight = null;
+				this._width = null;
+				this._height = null;
+			}
+			// this.element.style.height = "0px";
+			// this.element.style.width = "0px";
+		}
+	}]);
+
+	return IframeView;
+}();
+
+(0, _eventEmitter2.default)(IframeView.prototype);
+
+exports.default = IframeView;
+module.exports = exports["default"];
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(15),
+    now = __webpack_require__(58),
+    toNumber = __webpack_require__(60);
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        result = wait - timeSinceLastCall;
+
+    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+module.exports = debounce;
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var freeGlobal = __webpack_require__(59);
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+module.exports = root;
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__(22);
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = __webpack_require__(0);
+
+var _default = __webpack_require__(14);
+
+var _default2 = _interopRequireDefault(_default);
+
+var _constants = __webpack_require__(3);
+
+var _debounce = __webpack_require__(21);
+
+var _debounce2 = _interopRequireDefault(_debounce);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ContinuousViewManager = function (_DefaultViewManager) {
+	_inherits(ContinuousViewManager, _DefaultViewManager);
+
+	function ContinuousViewManager(options) {
+		_classCallCheck(this, ContinuousViewManager);
+
+		var _this = _possibleConstructorReturn(this, (ContinuousViewManager.__proto__ || Object.getPrototypeOf(ContinuousViewManager)).call(this, options));
+
+		_this.name = "continuous";
+
+		_this.settings = (0, _core.extend)(_this.settings || {}, {
+			infinite: true,
+			overflow: undefined,
+			axis: undefined,
+			flow: "scrolled",
+			offset: 500,
+			offsetDelta: 250,
+			width: undefined,
+			height: undefined
+		});
+
+		(0, _core.extend)(_this.settings, options.settings || {});
+
+		// Gap can be 0, but defaults doesn't handle that
+		if (options.settings.gap != "undefined" && options.settings.gap === 0) {
+			_this.settings.gap = options.settings.gap;
+		}
+
+		_this.viewSettings = {
+			ignoreClass: _this.settings.ignoreClass,
+			axis: _this.settings.axis,
+			flow: _this.settings.flow,
+			layout: _this.layout,
+			width: 0,
+			height: 0,
+			forceEvenPages: false
+		};
+
+		_this.scrollTop = 0;
+		_this.scrollLeft = 0;
+		return _this;
+	}
+
+	_createClass(ContinuousViewManager, [{
+		key: "display",
+		value: function display(section, target) {
+			return _default2.default.prototype.display.call(this, section, target).then(function () {
+				return this.fill();
+			}.bind(this));
+		}
+	}, {
+		key: "fill",
+		value: function fill(_full) {
+			var _this2 = this;
+
+			var full = _full || new _core.defer();
+
+			this.q.enqueue(function () {
+				return _this2.check();
+			}).then(function (result) {
+				if (result) {
+					_this2.fill(full);
+				} else {
+					full.resolve();
+				}
+			});
+
+			return full.promise;
+		}
+	}, {
+		key: "moveTo",
+		value: function moveTo(offset) {
+			// var bounds = this.stage.bounds();
+			// var dist = Math.floor(offset.top / bounds.height) * bounds.height;
+			var distX = 0,
+			    distY = 0;
+
+			var offsetX = 0,
+			    offsetY = 0;
+
+			if (!this.isPaginated) {
+				distY = offset.top;
+				offsetY = offset.top + this.settings.offset;
+			} else {
+				distX = Math.floor(offset.left / this.layout.delta) * this.layout.delta;
+				offsetX = distX + this.settings.offset;
+			}
+
+			if (distX > 0 || distY > 0) {
+				this.scrollBy(distX, distY, true);
+			}
+		}
+	}, {
+		key: "afterResized",
+		value: function afterResized(view) {
+			this.emit(_constants.EVENTS.MANAGERS.RESIZE, view.section);
+		}
+
+		// Remove Previous Listeners if present
+
+	}, {
+		key: "removeShownListeners",
+		value: function removeShownListeners(view) {
+
+			// view.off("shown", this.afterDisplayed);
+			// view.off("shown", this.afterDisplayedAbove);
+			view.onDisplayed = function () {};
+		}
+	}, {
+		key: "add",
+		value: function add(section) {
+			var _this3 = this;
+
+			var view = this.createView(section);
+
+			this.views.append(view);
+
+			view.on(_constants.EVENTS.VIEWS.RESIZED, function (bounds) {
+				view.expanded = true;
+			});
+
+			view.on(_constants.EVENTS.VIEWS.AXIS, function (axis) {
+				_this3.updateAxis(axis);
+			});
+
+			// view.on(EVENTS.VIEWS.SHOWN, this.afterDisplayed.bind(this));
+			view.onDisplayed = this.afterDisplayed.bind(this);
+			view.onResize = this.afterResized.bind(this);
+
+			return view.display(this.request);
+		}
+	}, {
+		key: "append",
+		value: function append(section) {
+			var view = this.createView(section);
+
+			view.on(_constants.EVENTS.VIEWS.RESIZED, function (bounds) {
+				view.expanded = true;
+			});
+
+			/*
+   view.on(EVENTS.VIEWS.AXIS, (axis) => {
+   	this.updateAxis(axis);
+   });
+   */
+
+			this.views.append(view);
+
+			view.onDisplayed = this.afterDisplayed.bind(this);
+
+			return view;
+		}
+	}, {
+		key: "prepend",
+		value: function prepend(section) {
+			var _this4 = this;
+
+			var view = this.createView(section);
+
+			view.on(_constants.EVENTS.VIEWS.RESIZED, function (bounds) {
+				_this4.counter(bounds);
+				view.expanded = true;
+			});
+
+			/*
+   view.on(EVENTS.VIEWS.AXIS, (axis) => {
+   	this.updateAxis(axis);
+   });
+   */
+
+			this.views.prepend(view);
+
+			view.onDisplayed = this.afterDisplayed.bind(this);
+
+			return view;
+		}
+	}, {
+		key: "counter",
+		value: function counter(bounds) {
+			if (this.settings.axis === "vertical") {
+				this.scrollBy(0, bounds.heightDelta, true);
+			} else {
+				this.scrollBy(bounds.widthDelta, 0, true);
+			}
+		}
+	}, {
+		key: "update",
+		value: function update(_offset) {
+			var container = this.bounds();
+			var views = this.views.all();
+			var viewsLength = views.length;
+			var visible = [];
+			var offset = typeof _offset != "undefined" ? _offset : this.settings.offset || 0;
+			var isVisible;
+			var view;
+
+			var updating = new _core.defer();
+			var promises = [];
+			for (var i = 0; i < viewsLength; i++) {
+				view = views[i];
+
+				isVisible = this.isVisible(view, offset, offset, container);
+
+				if (isVisible === true) {
+					// console.log("visible " + view.index);
+
+					if (!view.displayed) {
+						var displayed = view.display(this.request).then(function (view) {
+							view.show();
+						}, function (err) {
+							view.hide();
+						});
+						promises.push(displayed);
+					} else {
+						view.show();
+					}
+					visible.push(view);
+				} else {
+					this.q.enqueue(view.destroy.bind(view));
+					// console.log("hidden " + view.index);
+
+					clearTimeout(this.trimTimeout);
+					this.trimTimeout = setTimeout(function () {
+						this.q.enqueue(this.trim.bind(this));
+					}.bind(this), 250);
+				}
+			}
+
+			if (promises.length) {
+				return Promise.all(promises).catch(function (err) {
+					updating.reject(err);
+				});
+			} else {
+				updating.resolve();
+				return updating.promise;
+			}
+		}
+	}, {
+		key: "check",
+		value: function check(_offsetLeft, _offsetTop) {
+			var _this5 = this;
+
+			var checking = new _core.defer();
+			var newViews = [];
+
+			var horizontal = this.settings.axis === "horizontal";
+			var delta = this.settings.offset || 0;
+
+			if (_offsetLeft && horizontal) {
+				delta = _offsetLeft;
+			}
+
+			if (_offsetTop && !horizontal) {
+				delta = _offsetTop;
+			}
+
+			var bounds = this._bounds; // bounds saved this until resize
+
+			var rtl = this.settings.direction === "rtl";
+			var dir = horizontal && rtl ? -1 : 1; //RTL reverses scrollTop
+
+			var offset = horizontal ? this.scrollLeft : this.scrollTop * dir;
+			var visibleLength = horizontal ? bounds.width : bounds.height;
+			var contentLength = horizontal ? this.container.scrollWidth : this.container.scrollHeight;
+
+			var prepend = function prepend() {
+				var first = _this5.views.first();
+				var prev = first && first.section.prev();
+
+				if (prev) {
+					newViews.push(_this5.prepend(prev));
+				}
+			};
+
+			var append = function append() {
+				var last = _this5.views.last();
+				var next = last && last.section.next();
+
+				if (next) {
+					newViews.push(_this5.append(next));
+				}
+			};
+
+			if (offset + visibleLength + delta >= contentLength) {
+				if (horizontal && rtl) {
+					prepend();
+				} else {
+					append();
+				}
+			}
+
+			if (offset - delta < 0) {
+				if (horizontal && rtl) {
+					append();
+				} else {
+					prepend();
+				}
+			}
+
+			var promises = newViews.map(function (view) {
+				return view.displayed;
+			});
+
+			if (newViews.length) {
+				return Promise.all(promises).then(function () {
+					if (_this5.layout.name === "pre-paginated" && _this5.layout.props.spread) {
+						return _this5.check();
+					}
+				}).then(function () {
+					// Check to see if anything new is on screen after rendering
+					return _this5.update(delta);
+				}, function (err) {
+					return err;
+				});
+			} else {
+				this.q.enqueue(function () {
+					this.update();
+				}.bind(this));
+				checking.resolve(false);
+				return checking.promise;
+			}
+		}
+	}, {
+		key: "trim",
+		value: function trim() {
+			var task = new _core.defer();
+			var displayed = this.views.displayed();
+			var first = displayed[0];
+			var last = displayed[displayed.length - 1];
+			var firstIndex = this.views.indexOf(first);
+			var lastIndex = this.views.indexOf(last);
+			var above = this.views.slice(0, firstIndex);
+			var below = this.views.slice(lastIndex + 1);
+
+			// Erase all but last above
+			for (var i = 0; i < above.length - 1; i++) {
+				this.erase(above[i], above);
+			}
+
+			// Erase all except first below
+			for (var j = 1; j < below.length; j++) {
+				this.erase(below[j]);
+			}
+
+			task.resolve();
+			return task.promise;
+		}
+	}, {
+		key: "erase",
+		value: function erase(view, above) {
+			//Trim
+
+			var prevTop;
+			var prevLeft;
+
+			if (this.settings.height) {
+				prevTop = this.container.scrollTop;
+				prevLeft = this.container.scrollLeft;
+			} else {
+				prevTop = window.scrollY;
+				prevLeft = window.scrollX;
+			}
+
+			var bounds = view.bounds();
+
+			this.views.remove(view);
+
+			if (above) {
+				if (this.settings.axis === "vertical") {
+					this.scrollTo(0, prevTop - bounds.height, true);
+				} else {
+					this.scrollTo(prevLeft - bounds.width, 0, true);
+				}
+			}
+		}
+	}, {
+		key: "addEventListeners",
+		value: function addEventListeners(stage) {
+
+			window.addEventListener("unload", function (e) {
+				this.ignore = true;
+				// this.scrollTo(0,0);
+				this.destroy();
+			}.bind(this));
+
+			this.addScrollListeners();
+		}
+	}, {
+		key: "addScrollListeners",
+		value: function addScrollListeners() {
+			var scroller;
+
+			this.tick = _core.requestAnimationFrame;
+
+			if (this.settings.height) {
+				this.prevScrollTop = this.container.scrollTop;
+				this.prevScrollLeft = this.container.scrollLeft;
+			} else {
+				this.prevScrollTop = window.scrollY;
+				this.prevScrollLeft = window.scrollX;
+			}
+
+			this.scrollDeltaVert = 0;
+			this.scrollDeltaHorz = 0;
+
+			if (this.settings.height) {
+				scroller = this.container;
+				this.scrollTop = this.container.scrollTop;
+				this.scrollLeft = this.container.scrollLeft;
+			} else {
+				scroller = window;
+				this.scrollTop = window.scrollY;
+				this.scrollLeft = window.scrollX;
+			}
+
+			scroller.addEventListener("scroll", this.onScroll.bind(this));
+			this._scrolled = (0, _debounce2.default)(this.scrolled.bind(this), 30);
+			// this.tick.call(window, this.onScroll.bind(this));
+
+			this.didScroll = false;
+		}
+	}, {
+		key: "removeEventListeners",
+		value: function removeEventListeners() {
+			var scroller;
+
+			if (this.settings.height) {
+				scroller = this.container;
+			} else {
+				scroller = window;
+			}
+
+			scroller.removeEventListener("scroll", this.onScroll.bind(this));
+		}
+	}, {
+		key: "onScroll",
+		value: function onScroll() {
+			var scrollTop = void 0;
+			var scrollLeft = void 0;
+			var dir = this.settings.direction === "rtl" ? -1 : 1;
+
+			if (this.settings.height) {
+				scrollTop = this.container.scrollTop;
+				scrollLeft = this.container.scrollLeft;
+			} else {
+				scrollTop = window.scrollY * dir;
+				scrollLeft = window.scrollX * dir;
+			}
+
+			this.scrollTop = scrollTop;
+			this.scrollLeft = scrollLeft;
+
+			if (!this.ignore) {
+
+				this._scrolled();
+			} else {
+				this.ignore = false;
+			}
+
+			this.scrollDeltaVert += Math.abs(scrollTop - this.prevScrollTop);
+			this.scrollDeltaHorz += Math.abs(scrollLeft - this.prevScrollLeft);
+
+			this.prevScrollTop = scrollTop;
+			this.prevScrollLeft = scrollLeft;
+
+			clearTimeout(this.scrollTimeout);
+			this.scrollTimeout = setTimeout(function () {
+				this.scrollDeltaVert = 0;
+				this.scrollDeltaHorz = 0;
+			}.bind(this), 150);
+
+			this.didScroll = false;
+		}
+	}, {
+		key: "scrolled",
+		value: function scrolled() {
+			this.q.enqueue(function () {
+				this.check();
+			}.bind(this));
+
+			this.emit(_constants.EVENTS.MANAGERS.SCROLL, {
+				top: this.scrollTop,
+				left: this.scrollLeft
+			});
+
+			clearTimeout(this.afterScrolled);
+			this.afterScrolled = setTimeout(function () {
+				this.emit(_constants.EVENTS.MANAGERS.SCROLLED, {
+					top: this.scrollTop,
+					left: this.scrollLeft
+				});
+			}.bind(this));
+		}
+	}, {
+		key: "next",
+		value: function next() {
+
+			var dir = this.settings.direction;
+			var delta = this.layout.props.name === "pre-paginated" && this.layout.props.spread ? this.layout.props.delta * 2 : this.layout.props.delta;
+
+			if (!this.views.length) return;
+
+			if (this.isPaginated && this.settings.axis === "horizontal") {
+
+				this.scrollBy(delta, 0, true);
+			} else {
+
+				this.scrollBy(0, this.layout.height, true);
+			}
+
+			this.q.enqueue(function () {
+				this.check();
+			}.bind(this));
+		}
+	}, {
+		key: "prev",
+		value: function prev() {
+
+			var dir = this.settings.direction;
+			var delta = this.layout.props.name === "pre-paginated" && this.layout.props.spread ? this.layout.props.delta * 2 : this.layout.props.delta;
+
+			if (!this.views.length) return;
+
+			if (this.isPaginated && this.settings.axis === "horizontal") {
+
+				this.scrollBy(-delta, 0, true);
+			} else {
+
+				this.scrollBy(0, -this.layout.height, true);
+			}
+
+			this.q.enqueue(function () {
+				this.check();
+			}.bind(this));
+		}
+	}, {
+		key: "updateAxis",
+		value: function updateAxis(axis, forceUpdate) {
+
+			if (!this.isPaginated) {
+				axis = "vertical";
+			}
+
+			if (!forceUpdate && axis === this.settings.axis) {
+				return;
+			}
+
+			this.settings.axis = axis;
+
+			this.stage && this.stage.axis(axis);
+
+			this.viewSettings.axis = axis;
+
+			if (this.mapping) {
+				this.mapping.axis(axis);
+			}
+
+			if (this.layout) {
+				if (axis === "vertical") {
+					this.layout.spread("none");
+				} else {
+					this.layout.spread(this.layout.settings.spread);
+				}
+			}
+
+			if (axis === "vertical") {
+				this.settings.infinite = true;
+			} else {
+				this.settings.infinite = false;
+			}
+		}
+	}]);
+
+	return ContinuousViewManager;
+}(_default2.default);
+
+exports.default = ContinuousViewManager;
+module.exports = exports["default"];
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _book = __webpack_require__(26);
+
+var _book2 = _interopRequireDefault(_book);
+
+var _rendition = __webpack_require__(18);
+
+var _rendition2 = _interopRequireDefault(_rendition);
+
+var _epubcfi = __webpack_require__(1);
+
+var _epubcfi2 = _interopRequireDefault(_epubcfi);
+
+var _contents = __webpack_require__(13);
+
+var _contents2 = _interopRequireDefault(_contents);
+
+var _core = __webpack_require__(0);
+
+var utils = _interopRequireWildcard(_core);
+
+__webpack_require__(69);
+
+var _iframe = __webpack_require__(20);
+
+var _iframe2 = _interopRequireDefault(_iframe);
+
+var _default = __webpack_require__(14);
+
+var _default2 = _interopRequireDefault(_default);
+
+var _continuous = __webpack_require__(24);
+
+var _continuous2 = _interopRequireDefault(_continuous);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Creates a new Book
+ * @param {string|ArrayBuffer} url URL, Path or ArrayBuffer
+ * @param {object} options to pass to the book
+ * @returns {Book} a new Book object
+ * @example ePub("/path/to/book.epub", {})
+ */
+function ePub(url, options) {
+  return new _book2.default(url, options);
+}
+
+ePub.VERSION = "0.3";
+
+if (typeof global !== "undefined") {
+  global.EPUBJS_VERSION = ePub.VERSION;
+}
+
+ePub.Book = _book2.default;
+ePub.Rendition = _rendition2.default;
+ePub.Contents = _contents2.default;
+ePub.CFI = _epubcfi2.default;
+ePub.utils = utils;
+
+exports.default = ePub;
+module.exports = exports["default"];
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _eventEmitter = __webpack_require__(2);
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+var _core = __webpack_require__(0);
+
+var _url = __webpack_require__(5);
+
+var _url2 = _interopRequireDefault(_url);
+
+var _path = __webpack_require__(4);
+
+var _path2 = _interopRequireDefault(_path);
+
+var _spine = __webpack_require__(42);
+
+var _spine2 = _interopRequireDefault(_spine);
+
+var _locations = __webpack_require__(44);
+
+var _locations2 = _interopRequireDefault(_locations);
+
+var _container = __webpack_require__(45);
+
+var _container2 = _interopRequireDefault(_container);
+
+var _packaging = __webpack_require__(46);
+
+var _packaging2 = _interopRequireDefault(_packaging);
+
+var _navigation = __webpack_require__(47);
+
+var _navigation2 = _interopRequireDefault(_navigation);
+
+var _resources = __webpack_require__(48);
+
+var _resources2 = _interopRequireDefault(_resources);
+
+var _pagelist = __webpack_require__(49);
+
+var _pagelist2 = _interopRequireDefault(_pagelist);
+
+var _rendition = __webpack_require__(18);
+
+var _rendition2 = _interopRequireDefault(_rendition);
+
+var _archive = __webpack_require__(67);
+
+var _archive2 = _interopRequireDefault(_archive);
+
+var _request2 = __webpack_require__(11);
+
+var _request3 = _interopRequireDefault(_request2);
+
+var _epubcfi = __webpack_require__(1);
+
+var _epubcfi2 = _interopRequireDefault(_epubcfi);
+
+var _constants = __webpack_require__(3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var CONTAINER_PATH = "META-INF/container.xml";
+var EPUBJS_VERSION = "0.3";
+
+var INPUT_TYPE = {
+	BINARY: "binary",
+	BASE64: "base64",
+	EPUB: "epub",
+	OPF: "opf",
+	MANIFEST: "json",
+	DIRECTORY: "directory"
+};
+
+/**
+ * An Epub representation with methods for the loading, parsing and manipulation
+ * of its contents.
+ * @class
+ * @param {string} [url]
+ * @param {object} [options]
+ * @param {method} [options.requestMethod] a request function to use instead of the default
+ * @param {boolean} [options.requestCredentials=undefined] send the xhr request withCredentials
+ * @param {object} [options.requestHeaders=undefined] send the xhr request headers
+ * @param {string} [options.encoding=binary] optional to pass 'binary' or base64' for archived Epubs
+ * @param {string} [options.replacements=none] use base64, blobUrl, or none for replacing assets in archived Epubs
+ * @param {method} [options.canonical] optional function to determine canonical urls for a path
+ * @returns {Book}
+ * @example new Book("/path/to/book.epub", {})
+ * @example new Book({ replacements: "blobUrl" })
+ */
+
+var Book = function () {
+	function Book(url, options) {
+		var _this = this;
+
+		_classCallCheck(this, Book);
+
+		// Allow passing just options to the Book
+		if (typeof options === "undefined" && (typeof url === "undefined" ? "undefined" : _typeof(url)) === "object") {
+			options = url;
+			url = undefined;
+		}
+
+		this.settings = (0, _core.extend)(this.settings || {}, {
+			requestMethod: undefined,
+			requestCredentials: undefined,
+			requestHeaders: undefined,
+			encoding: undefined,
+			replacements: undefined,
+			canonical: undefined
+		});
+
+		(0, _core.extend)(this.settings, options);
+
+		// Promises
+		this.opening = new _core.defer();
+		/**
+   * @member {promise} opened returns after the book is loaded
+   * @memberof Book
+   */
+		this.opened = this.opening.promise;
+		this.isOpen = false;
+
+		this.loading = {
+			manifest: new _core.defer(),
+			spine: new _core.defer(),
+			metadata: new _core.defer(),
+			cover: new _core.defer(),
+			navigation: new _core.defer(),
+			pageList: new _core.defer(),
+			resources: new _core.defer()
+		};
+
+		this.loaded = {
+			manifest: this.loading.manifest.promise,
+			spine: this.loading.spine.promise,
+			metadata: this.loading.metadata.promise,
+			cover: this.loading.cover.promise,
+			navigation: this.loading.navigation.promise,
+			pageList: this.loading.pageList.promise,
+			resources: this.loading.resources.promise
+		};
+
+		/**
+   * @member {promise} ready returns after the book is loaded and parsed
+   * @memberof Book
+   * @private
+   */
+		this.ready = Promise.all([this.loaded.manifest, this.loaded.spine, this.loaded.metadata, this.loaded.cover, this.loaded.navigation, this.loaded.resources]);
+
+		// Queue for methods used before opening
+		this.isRendered = false;
+		// this._q = queue(this);
+
+		/**
+   * @member {method} request
+   * @memberof Book
+   * @private
+   */
+		this.request = this.settings.requestMethod || _request3.default;
+
+		/**
+   * @member {Spine} spine
+   * @memberof Book
+   */
+		this.spine = new _spine2.default();
+
+		/**
+   * @member {Locations} locations
+   * @memberof Book
+   */
+		this.locations = new _locations2.default(this.spine, this.load.bind(this));
+
+		/**
+   * @member {Navigation} navigation
+   * @memberof Book
+   */
+		this.navigation = undefined;
+
+		/**
+   * @member {PageList} pagelist
+   * @memberof Book
+   */
+		this.pageList = undefined;
+
+		/**
+   * @member {Url} url
+   * @memberof Book
+   * @private
+   */
+		this.url = undefined;
+
+		/**
+   * @member {Path} path
+   * @memberof Book
+   * @private
+   */
+		this.path = undefined;
+
+		/**
+   * @member {boolean} archived
+   * @memberof Book
+   * @private
+   */
+		this.archived = false;
+
+		/**
+   * @member {Archive} archive
+   * @memberof Book
+   * @private
+   */
+		this.archive = undefined;
+
+		/**
+   * @member {Resources} resources
+   * @memberof Book
+   * @private
+   */
+		this.resources = undefined;
+
+		/**
+   * @member {Rendition} rendition
+   * @memberof Book
+   * @private
+   */
+		this.rendition = undefined;
+
+		/**
+   * @member {Container} container
+   * @memberof Book
+   * @private
+   */
+		this.container = undefined;
+
+		/**
+   * @member {Packaging} packaging
+   * @memberof Book
+   * @private
+   */
+		this.packaging = undefined;
+
+		// this.toc = undefined;
+
+		if (url) {
+			this.open(url).catch(function (error) {
+				var err = new Error("Cannot load book at " + url);
+				_this.emit(_constants.EVENTS.BOOK.OPEN_FAILED, err);
+			});
+		}
+	}
+
+	/**
+  * Open a epub or url
+  * @param {string | ArrayBuffer} input Url, Path or ArrayBuffer
+  * @param {string} [what="binary", "base64", "epub", "opf", "json", "directory"] force opening as a certain type
+  * @returns {Promise} of when the book has been loaded
+  * @example book.open("/path/to/book.epub")
+  */
+
+
+	_createClass(Book, [{
+		key: "open",
+		value: function open(input, what) {
+			var opening;
+			var type = what || this.determineType(input);
+
+			if (type === INPUT_TYPE.BINARY) {
+				this.archived = true;
+				this.url = new _url2.default("/", "");
+				opening = this.openEpub(input);
+			} else if (type === INPUT_TYPE.BASE64) {
+				this.archived = true;
+				this.url = new _url2.default("/", "");
+				opening = this.openEpub(input, type);
+			} else if (type === INPUT_TYPE.EPUB) {
+				this.archived = true;
+				this.url = new _url2.default("/", "");
+				opening = this.request(input, "binary").then(this.openEpub.bind(this));
+			} else if (type == INPUT_TYPE.OPF) {
+				this.url = new _url2.default(input);
+				opening = this.openPackaging(this.url.Path.toString());
+			} else if (type == INPUT_TYPE.MANIFEST) {
+				this.url = new _url2.default(input);
+				opening = this.openManifest(this.url.Path.toString());
+			} else {
+				this.url = new _url2.default(input);
+				opening = this.openContainer(CONTAINER_PATH).then(this.openPackaging.bind(this));
+			}
+
+			return opening;
+		}
+
+		/**
+   * Open an archived epub
+   * @private
+   * @param  {binary} data
+   * @param  {string} [encoding]
+   * @return {Promise}
+   */
+
+	}, {
+		key: "openEpub",
+		value: function openEpub(data, encoding) {
+			var _this2 = this;
+
+			return this.unarchive(data, encoding || this.settings.encoding).then(function () {
+				return _this2.openContainer(CONTAINER_PATH);
+			}).then(function (packagePath) {
+				return _this2.openPackaging(packagePath);
+			});
+		}
+
+		/**
+   * Open the epub container
+   * @private
+   * @param  {string} url
+   * @return {string} packagePath
+   */
+
+	}, {
+		key: "openContainer",
+		value: function openContainer(url) {
+			var _this3 = this;
+
+			return this.load(url).then(function (xml) {
+				_this3.container = new _container2.default(xml);
+				return _this3.resolve(_this3.container.packagePath);
+			});
+		}
+
+		/**
+   * Open the Open Packaging Format Xml
+   * @private
+   * @param  {string} url
+   * @return {Promise}
+   */
+
+	}, {
+		key: "openPackaging",
+		value: function openPackaging(url) {
+			var _this4 = this;
+
+			this.path = new _path2.default(url);
+			return this.load(url).then(function (xml) {
+				_this4.packaging = new _packaging2.default(xml);
+				return _this4.unpack(_this4.packaging);
+			});
+		}
+
+		/**
+   * Open the manifest JSON
+   * @private
+   * @param  {string} url
+   * @return {Promise}
+   */
+
+	}, {
+		key: "openManifest",
+		value: function openManifest(url) {
+			var _this5 = this;
+
+			this.path = new _path2.default(url);
+			return this.load(url).then(function (json) {
+				_this5.packaging = new _packaging2.default();
+				_this5.packaging.load(json);
+				return _this5.unpack(_this5.packaging);
+			});
+		}
+
+		/**
+   * Load a resource from the Book
+   * @param  {string} path path to the resource to load
+   * @return {Promise}     returns a promise with the requested resource
+   */
+
+	}, {
+		key: "load",
+		value: function load(path) {
+			var resolved;
+
+			if (this.archived) {
+				resolved = this.resolve(path);
+				return this.archive.request(resolved);
+			} else {
+				resolved = this.resolve(path);
+				return this.request(resolved, null, this.settings.requestCredentials, this.settings.requestHeaders);
+			}
+		}
+
+		/**
+   * Resolve a path to it's absolute position in the Book
+   * @param  {string} path
+   * @param  {boolean} [absolute] force resolving the full URL
+   * @return {string}          the resolved path string
+   */
+
+	}, {
+		key: "resolve",
+		value: function resolve(path, absolute) {
+			if (!path) {
+				return;
+			}
+			var resolved = path;
+			var isAbsolute = path.indexOf("://") > -1;
+
+			if (isAbsolute) {
+				return path;
+			}
+
+			if (this.path) {
+				resolved = this.path.resolve(path);
+			}
+
+			if (absolute != false && this.url) {
+				resolved = this.url.resolve(resolved);
+			}
+
+			return resolved;
+		}
+
+		/**
+   * Get a canonical link to a path
+   * @param  {string} path
+   * @return {string} the canonical path string
+   */
+
+	}, {
+		key: "canonical",
+		value: function canonical(path) {
+			var url = path;
+
+			if (!path) {
+				return "";
+			}
+
+			if (this.settings.canonical) {
+				url = this.settings.canonical(path);
+			} else {
+				url = this.resolve(path, true);
+			}
+
+			return url;
+		}
+
+		/**
+   * Determine the type of they input passed to open
+   * @private
+   * @param  {string} input
+   * @return {string}  binary | directory | epub | opf
+   */
+
+	}, {
+		key: "determineType",
+		value: function determineType(input) {
+			var url;
+			var path;
+			var extension;
+
+			if (this.settings.encoding === "base64") {
+				return INPUT_TYPE.BASE64;
+			}
+
+			if (typeof input != "string") {
+				return INPUT_TYPE.BINARY;
+			}
+
+			url = new _url2.default(input);
+			path = url.path();
+			extension = path.extension;
+
+			if (!extension) {
+				return INPUT_TYPE.DIRECTORY;
+			}
+
+			if (extension === "epub") {
+				return INPUT_TYPE.EPUB;
+			}
+
+			if (extension === "opf") {
+				return INPUT_TYPE.OPF;
+			}
+
+			if (extension === "json") {
+				return INPUT_TYPE.MANIFEST;
+			}
+		}
+
+		/**
+   * unpack the contents of the Books packageXml
+   * @private
+   * @param {document} packageXml XML Document
+   */
+
+	}, {
+		key: "unpack",
+		value: function unpack(opf) {
+			var _this6 = this;
+
+			this.package = opf;
+
+			this.spine.unpack(this.package, this.resolve.bind(this), this.canonical.bind(this));
+
+			this.resources = new _resources2.default(this.package.manifest, {
+				archive: this.archive,
+				resolver: this.resolve.bind(this),
+				request: this.request.bind(this),
+				replacements: this.settings.replacements || (this.archived ? "blobUrl" : "base64")
+			});
+
+			this.loadNavigation(this.package).then(function () {
+				// this.toc = this.navigation.toc;
+				_this6.loading.navigation.resolve(_this6.navigation);
+			});
+
+			if (this.package.coverPath) {
+				this.cover = this.resolve(this.package.coverPath);
+			}
+			// Resolve promises
+			this.loading.manifest.resolve(this.package.manifest);
+			this.loading.metadata.resolve(this.package.metadata);
+			this.loading.spine.resolve(this.spine);
+			this.loading.cover.resolve(this.cover);
+			this.loading.resources.resolve(this.resources);
+			this.loading.pageList.resolve(this.pageList);
+
+			this.isOpen = true;
+
+			if (this.archived || this.settings.replacements && this.settings.replacements != "none") {
+				this.replacements().then(function () {
+					_this6.opening.resolve(_this6);
+				}).catch(function (err) {
+					console.error(err);
+				});
+			} else {
+				// Resolve book opened promise
+				this.opening.resolve(this);
+			}
+		}
+
+		/**
+   * Load Navigation and PageList from package
+   * @private
+   * @param {document} opf XML Document
+   */
+
+	}, {
+		key: "loadNavigation",
+		value: function loadNavigation(opf) {
+			var _this7 = this;
+
+			var navPath = opf.navPath || opf.ncxPath;
+			var toc = opf.toc;
+
+			// From json manifest
+			if (toc) {
+				return new Promise(function (resolve, reject) {
+					_this7.navigation = new _navigation2.default(toc);
+
+					if (opf.pageList) {
+						_this7.pageList = new _pagelist2.default(opf.pageList); // TODO: handle page lists from Manifest
+					}
+
+					resolve(_this7.navigation);
+				});
+			}
+
+			if (!navPath) {
+				return new Promise(function (resolve, reject) {
+					_this7.navigation = new _navigation2.default();
+					_this7.pageList = new _pagelist2.default();
+
+					resolve(_this7.navigation);
+				});
+			}
+
+			return this.load(navPath, "xml").then(function (xml) {
+				_this7.navigation = new _navigation2.default(xml);
+				_this7.pageList = new _pagelist2.default(xml);
+				return _this7.navigation;
+			});
+		}
+
+		/**
+   * Gets a Section of the Book from the Spine
+   * Alias for `book.spine.get`
+   * @param {string} target
+   * @return {Section}
+   */
+
+	}, {
+		key: "section",
+		value: function section(target) {
+			return this.spine.get(target);
+		}
+
+		/**
+   * Sugar to render a book to an element
+   * @param  {element | string} element element or string to add a rendition to
+   * @param  {object} [options]
+   * @return {Rendition}
+   */
+
+	}, {
+		key: "renderTo",
+		value: function renderTo(element, options) {
+			this.rendition = new _rendition2.default(this, options);
+			this.rendition.attachTo(element);
+
+			return this.rendition;
+		}
+
+		/**
+   * Set if request should use withCredentials
+   * @param {boolean} credentials
+   */
+
+	}, {
+		key: "setRequestCredentials",
+		value: function setRequestCredentials(credentials) {
+			this.settings.requestCredentials = credentials;
+		}
+
+		/**
+   * Set headers request should use
+   * @param {object} headers
+   */
+
+	}, {
+		key: "setRequestHeaders",
+		value: function setRequestHeaders(headers) {
+			this.settings.requestHeaders = headers;
+		}
+
+		/**
+   * Unarchive a zipped epub
+   * @private
+   * @param  {binary} input epub data
+   * @param  {string} [encoding]
+   * @return {Archive}
+   */
+
+	}, {
+		key: "unarchive",
+		value: function unarchive(input, encoding) {
+			this.archive = new _archive2.default();
+			return this.archive.open(input, encoding);
+		}
+
+		/**
+   * Get the cover url
+   * @return {string} coverUrl
+   */
+
+	}, {
+		key: "coverUrl",
+		value: function coverUrl() {
+			var _this8 = this;
+
+			var retrieved = this.loaded.cover.then(function (url) {
+				if (_this8.archived) {
+					return _this8.archive.createUrl(_this8.cover);
+				// 	return _this8.resources.get(_this8.cover);
+				} else {
+					return _this8.cover;
+				}
+			});
+
+			return retrieved;
+		}
+
+		/**
+   * Load replacement urls
+   * @private
+   * @return {Promise} completed loading urls
+   */
+
+	}, {
+		key: "replacements",
+		value: function replacements() {
+			var _this9 = this;
+
+			this.spine.hooks.serialize.register(function (output, section) {
+				section.output = _this9.resources.substitute(output, section.url);
+			});
+
+			return this.resources.replacements().then(function () {
+				return _this9.resources.replaceCss();
+			});
+		}
+
+		/**
+   * Find a DOM Range for a given CFI Range
+   * @param  {EpubCFI} cfiRange a epub cfi range
+   * @return {Range}
+   */
+
+	}, {
+		key: "getRange",
+		value: function getRange(cfiRange) {
+			var cfi = new _epubcfi2.default(cfiRange);
+			var item = this.spine.get(cfi.spinePos);
+			var _request = this.load.bind(this);
+			if (!item) {
+				return new Promise(function (resolve, reject) {
+					reject("CFI could not be found");
+				});
+			}
+			return item.load(_request).then(function (contents) {
+				var range = cfi.toRange(item.document);
+				return range;
+			});
+		}
+
+		/**
+   * Generates the Book Key using the identifer in the manifest or other string provided
+   * @param  {string} [identifier] to use instead of metadata identifier
+   * @return {string} key
+   */
+
+	}, {
+		key: "key",
+		value: function key(identifier) {
+			var ident = identifier || this.package.metadata.identifier || this.url.filename;
+			return "epubjs:" + EPUBJS_VERSION + ":" + ident;
+		}
+
+		/**
+   * Destroy the Book and all associated objects
+   */
+
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			this.opened = undefined;
+			this.loading = undefined;
+			this.loaded = undefined;
+			this.ready = undefined;
+
+			this.isOpen = false;
+			this.isRendered = false;
+
+			this.spine && this.spine.destroy();
+			this.locations && this.locations.destroy();
+			this.pageList && this.pageList.destroy();
+			this.archive && this.archive.destroy();
+			this.resources && this.resources.destroy();
+			this.container && this.container.destroy();
+			this.packaging && this.packaging.destroy();
+			this.rendition && this.rendition.destroy();
+
+			this.spine = undefined;
+			this.locations = undefined;
+			this.pageList = undefined;
+			this.archive = undefined;
+			this.resources = undefined;
+			this.container = undefined;
+			this.packaging = undefined;
+			this.rendition = undefined;
+
+			this.navigation = undefined;
+			this.url = undefined;
+			this.path = undefined;
+			this.archived = false;
+		}
+	}]);
+
+	return Book;
+}();
+
+//-- Enable binding events to book
+
+
+(0, _eventEmitter2.default)(Book.prototype);
+
+exports.default = Book;
+module.exports = exports["default"];
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var assign        = __webpack_require__(28)
+  , normalizeOpts = __webpack_require__(36)
+  , isCallable    = __webpack_require__(37)
+  , contains      = __webpack_require__(38)
+
+  , d;
+
+d = module.exports = function (dscr, value/*, options*/) {
+	var c, e, w, options, desc;
+	if ((arguments.length < 2) || (typeof dscr !== 'string')) {
+		options = value;
+		value = dscr;
+		dscr = null;
+	} else {
+		options = arguments[2];
+	}
+	if (dscr == null) {
+		c = w = true;
+		e = false;
+	} else {
+		c = contains.call(dscr, 'c');
+		e = contains.call(dscr, 'e');
+		w = contains.call(dscr, 'w');
+	}
+
+	desc = { value: value, configurable: c, enumerable: e, writable: w };
+	return !options ? desc : assign(normalizeOpts(options), desc);
+};
+
+d.gs = function (dscr, get, set/*, options*/) {
+	var c, e, options, desc;
+	if (typeof dscr !== 'string') {
+		options = set;
+		set = get;
+		get = dscr;
+		dscr = null;
+	} else {
+		options = arguments[3];
+	}
+	if (get == null) {
+		get = undefined;
+	} else if (!isCallable(get)) {
+		options = get;
+		get = set = undefined;
+	} else if (set == null) {
+		set = undefined;
+	} else if (!isCallable(set)) {
+		options = set;
+		set = undefined;
+	}
+	if (dscr == null) {
+		c = true;
+		e = false;
+	} else {
+		c = contains.call(dscr, 'c');
+		e = contains.call(dscr, 'e');
+	}
+
+	desc = { get: get, set: set, configurable: c, enumerable: e };
+	return !options ? desc : assign(normalizeOpts(options), desc);
+};
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(29)()
+	? Object.assign
+	: __webpack_require__(30);
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function () {
+	var assign = Object.assign, obj;
+	if (typeof assign !== "function") return false;
+	obj = { foo: "raz" };
+	assign(obj, { bar: "dwa" }, { trzy: "trzy" });
+	return (obj.foo + obj.bar + obj.trzy) === "razdwatrzy";
+};
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var keys  = __webpack_require__(31)
+  , value = __webpack_require__(35)
+  , max   = Math.max;
+
+module.exports = function (dest, src /*, …srcn*/) {
+	var error, i, length = max(arguments.length, 2), assign;
+	dest = Object(value(dest));
+	assign = function (key) {
+		try {
+			dest[key] = src[key];
+		} catch (e) {
+			if (!error) error = e;
+		}
+	};
+	for (i = 1; i < length; ++i) {
+		src = arguments[i];
+		keys(src).forEach(assign);
+	}
+	if (error !== undefined) throw error;
+	return dest;
+};
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(32)()
+	? Object.keys
+	: __webpack_require__(33);
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function () {
+	try {
+		Object.keys("primitive");
+		return true;
+	} catch (e) {
+ return false;
+}
+};
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isValue = __webpack_require__(9);
+
+var keys = Object.keys;
+
+module.exports = function (object) {
+	return keys(isValue(object) ? Object(object) : object);
+};
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// eslint-disable-next-line no-empty-function
+module.exports = function () {};
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isValue = __webpack_require__(9);
+
+module.exports = function (value) {
+	if (!isValue(value)) throw new TypeError("Cannot use null or undefined");
+	return value;
+};
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var isValue = __webpack_require__(9);
+
+var forEach = Array.prototype.forEach, create = Object.create;
+
+var process = function (src, obj) {
+	var key;
+	for (key in src) obj[key] = src[key];
+};
+
+// eslint-disable-next-line no-unused-vars
+module.exports = function (opts1 /*, …options*/) {
+	var result = create(null);
+	forEach.call(arguments, function (options) {
+		if (!isValue(options)) return;
+		process(Object(options), result);
+	});
+	return result;
+};
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// Deprecated
+
+
+
+module.exports = function (obj) {
+ return typeof obj === "function";
+};
+
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(39)()
+	? String.prototype.contains
+	: __webpack_require__(40);
+
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var str = "razdwatrzy";
+
+module.exports = function () {
+	if (typeof str.contains !== "function") return false;
+	return (str.contains("dwa") === true) && (str.contains("foo") === false);
+};
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var indexOf = String.prototype.indexOf;
+
+module.exports = function (searchString/*, position*/) {
+	return indexOf.call(this, searchString, arguments[1]) > -1;
+};
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (fn) {
+	if (typeof fn !== "function") throw new TypeError(fn + " is not a function");
+	return fn;
+};
+
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _epubcfi = __webpack_require__(1);
+
+var _epubcfi2 = _interopRequireDefault(_epubcfi);
+
+var _hook = __webpack_require__(10);
+
+var _hook2 = _interopRequireDefault(_hook);
+
+var _section = __webpack_require__(43);
+
+var _section2 = _interopRequireDefault(_section);
+
+var _replacements = __webpack_require__(7);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * A collection of Spine Items
+ */
+var Spine = function () {
+	function Spine() {
+		_classCallCheck(this, Spine);
+
+		this.spineItems = [];
+		this.spineByHref = {};
+		this.spineById = {};
+
+		this.hooks = {};
+		this.hooks.serialize = new _hook2.default();
+		this.hooks.content = new _hook2.default();
+
+		// Register replacements
+		this.hooks.content.register(_replacements.replaceBase);
+		this.hooks.content.register(_replacements.replaceCanonical);
+		this.hooks.content.register(_replacements.replaceMeta);
+
+		this.epubcfi = new _epubcfi2.default();
+
+		this.loaded = false;
+
+		this.items = undefined;
+		this.manifest = undefined;
+		this.spineNodeIndex = undefined;
+		this.baseUrl = undefined;
+		this.length = undefined;
+	}
+
+	/**
+  * Unpack items from a opf into spine items
+  * @param  {Package} _package
+  * @param  {method} resolver URL resolver
+  */
+
+
+	_createClass(Spine, [{
+		key: "unpack",
+		value: function unpack(_package, resolver, canonical) {
+			var _this = this;
+
+			this.items = _package.spine;
+			this.manifest = _package.manifest;
+			this.spineNodeIndex = _package.spineNodeIndex;
+			this.baseUrl = _package.baseUrl || _package.basePath || "";
+			this.length = this.items.length;
+
+			this.items.forEach(function (item, index) {
+				var manifestItem = _this.manifest[item.idref];
+				var spineItem;
+
+				item.index = index;
+				item.cfiBase = _this.epubcfi.generateChapterComponent(_this.spineNodeIndex, item.index, item.idref);
+
+				if (item.href) {
+					item.url = resolver(item.href, true);
+					item.canonical = canonical(item.href);
+				}
+
+				if (manifestItem) {
+					item.href = manifestItem.href;
+					item.url = resolver(item.href, true);
+					item.canonical = canonical(item.href);
+
+					if (manifestItem.properties.length) {
+						item.properties.push.apply(item.properties, manifestItem.properties);
+					}
+				}
+
+				if (item.linear === "yes") {
+					item.prev = function () {
+						var prevIndex = item.index;
+						while (prevIndex > 0) {
+							var prev = this.get(prevIndex - 1);
+							if (prev && prev.linear) {
+								return prev;
+							}
+							prevIndex -= 1;
+						}
+						return;
+					}.bind(_this);
+					item.next = function () {
+						var nextIndex = item.index;
+						while (nextIndex < this.spineItems.length - 1) {
+							var next = this.get(nextIndex + 1);
+							if (next && next.linear) {
+								return next;
+							}
+							nextIndex += 1;
+						}
+						return;
+					}.bind(_this);
+				} else {
+					item.prev = function () {
+						return;
+					};
+					item.next = function () {
+						return;
+					};
+				}
+
+				spineItem = new _section2.default(item, _this.hooks);
+
+				_this.append(spineItem);
+			});
+
+			this.loaded = true;
+		}
+
+		/**
+   * Get an item from the spine
+   * @param  {string|int} [target]
+   * @return {Section} section
+   * @example spine.get();
+   * @example spine.get(1);
+   * @example spine.get("chap1.html");
+   * @example spine.get("#id1234");
+   */
+
+	}, {
+		key: "get",
+		value: function get(target) {
+			var index = 0;
+
+			if (typeof target === "undefined") {
+				while (index < this.spineItems.length) {
+					var next = this.spineItems[index];
+					if (next && next.linear) {
+						break;
+					}
+					index += 1;
+				}
+			} else if (this.epubcfi.isCfiString(target)) {
+				var cfi = new _epubcfi2.default(target);
+				index = cfi.spinePos;
+			} else if (typeof target === "number" || isNaN(target) === false) {
+				index = target;
+			} else if (typeof target === "string" && target.indexOf("#") === 0) {
+				index = this.spineById[target.substring(1)];
+			} else if (typeof target === "string") {
+				// Remove fragments
+				target = target.split("#")[0];
+				index = this.spineByHref[target] || this.spineByHref[encodeURI(target)];
+			}
+
+			return this.spineItems[index] || null;
+		}
+
+		/**
+   * Append a Section to the Spine
+   * @private
+   * @param  {Section} section
+   */
+
+	}, {
+		key: "append",
+		value: function append(section) {
+			var index = this.spineItems.length;
+			section.index = index;
+
+			this.spineItems.push(section);
+
+			// Encode and Decode href lookups
+			// see pr for details: https://github.com/futurepress/epub.js/pull/358
+			this.spineByHref[decodeURI(section.href)] = index;
+			this.spineByHref[encodeURI(section.href)] = index;
+			this.spineByHref[section.href] = index;
+
+			this.spineById[section.idref] = index;
+
+			return index;
+		}
+
+		/**
+   * Prepend a Section to the Spine
+   * @private
+   * @param  {Section} section
+   */
+
+	}, {
+		key: "prepend",
+		value: function prepend(section) {
+			// var index = this.spineItems.unshift(section);
+			this.spineByHref[section.href] = 0;
+			this.spineById[section.idref] = 0;
+
+			// Re-index
+			this.spineItems.forEach(function (item, index) {
+				item.index = index;
+			});
+
+			return 0;
+		}
+
+		// insert(section, index) {
+		//
+		// };
+
+		/**
+   * Remove a Section from the Spine
+   * @private
+   * @param  {Section} section
+   */
+
+	}, {
+		key: "remove",
+		value: function remove(section) {
+			var index = this.spineItems.indexOf(section);
+
+			if (index > -1) {
+				delete this.spineByHref[section.href];
+				delete this.spineById[section.idref];
+
+				return this.spineItems.splice(index, 1);
+			}
+		}
+
+		/**
+   * Loop over the Sections in the Spine
+   * @return {method} forEach
+   */
+
+	}, {
+		key: "each",
+		value: function each() {
+			return this.spineItems.forEach.apply(this.spineItems, arguments);
+		}
+	}, {
+		key: "first",
+		value: function first() {
+			var index = 0;
+
+			do {
+				var next = this.get(index);
+
+				if (next && next.linear) {
+					return next;
+				}
+				index += 1;
+			} while (index < this.spineItems.length);
+		}
+	}, {
+		key: "last",
+		value: function last() {
+			var index = this.spineItems.length - 1;
+
+			do {
+				var prev = this.get(index);
+				if (prev && prev.linear) {
+					return prev;
+				}
+				index -= 1;
+			} while (index >= 0);
+		}
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			this.each(function (section) {
+				return section.destroy();
+			});
+
+			this.spineItems = undefined;
+			this.spineByHref = undefined;
+			this.spineById = undefined;
+
+			this.hooks.serialize.clear();
+			this.hooks.content.clear();
+			this.hooks = undefined;
+
+			this.epubcfi = undefined;
+
+			this.loaded = false;
+
+			this.items = undefined;
+			this.manifest = undefined;
+			this.spineNodeIndex = undefined;
+			this.baseUrl = undefined;
+			this.length = undefined;
+		}
+	}]);
+
+	return Spine;
+}();
+
+exports.default = Spine;
+module.exports = exports["default"];
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = __webpack_require__(0);
+
+var _epubcfi = __webpack_require__(1);
+
+var _epubcfi2 = _interopRequireDefault(_epubcfi);
+
+var _hook = __webpack_require__(10);
+
+var _hook2 = _interopRequireDefault(_hook);
+
+var _replacements = __webpack_require__(7);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Represents a Section of the Book
+ *
+ * In most books this is equivelent to a Chapter
+ * @param {object} item  The spine item representing the section
+ * @param {object} hooks hooks for serialize and content
+ */
+var Section = function () {
+	function Section(item, hooks) {
+		_classCallCheck(this, Section);
+
+		this.idref = item.idref;
+		this.linear = item.linear === "yes";
+		this.properties = item.properties;
+		this.index = item.index;
+		this.href = item.href;
+		this.url = item.url;
+		this.canonical = item.canonical;
+		this.next = item.next;
+		this.prev = item.prev;
+
+		this.cfiBase = item.cfiBase;
+
+		if (hooks) {
+			this.hooks = hooks;
+		} else {
+			this.hooks = {};
+			this.hooks.serialize = new _hook2.default(this);
+			this.hooks.content = new _hook2.default(this);
+		}
+
+		this.document = undefined;
+		this.contents = undefined;
+		this.output = undefined;
+	}
+
+	/**
+  * Load the section from its url
+  * @param  {method} _request a request method to use for loading
+  * @return {document} a promise with the xml document
+  */
+
+
+	_createClass(Section, [{
+		key: "load",
+		value: function load(_request) {
+			var request = _request || this.request || __webpack_require__(11);
+			var loading = new _core.defer();
+			var loaded = loading.promise;
+
+			if (this.contents) {
+				loading.resolve(this.contents);
+			} else {
+				request(this.url).then(function (xml) {
+					// var directory = new Url(this.url).directory;
+
+					this.document = xml;
+					this.contents = xml.documentElement;
+
+					return this.hooks.content.trigger(this.document, this);
+				}.bind(this)).then(function () {
+					loading.resolve(this.contents);
+				}.bind(this)).catch(function (error) {
+					loading.reject(error);
+				});
+			}
+
+			return loaded;
+		}
+
+		/**
+   * Adds a base tag for resolving urls in the section
+   * @private
+   */
+
+	}, {
+		key: "base",
+		value: function base() {
+			return (0, _replacements.replaceBase)(this.document, this);
+		}
+
+		/**
+   * Render the contents of a section
+   * @param  {method} _request a request method to use for loading
+   * @return {string} output a serialized XML Document
+   */
+
+	}, {
+		key: "render",
+		value: function render(_request) {
+			var rendering = new _core.defer();
+			var rendered = rendering.promise;
+			this.output; // TODO: better way to return this from hooks?
+
+			this.load(_request).then(function (contents) {
+				var userAgent = typeof navigator !== 'undefined' && navigator.userAgent || '';
+				var isIE = userAgent.indexOf('Trident') >= 0;
+				var Serializer;
+				if (typeof XMLSerializer === "undefined" || isIE) {
+					Serializer = __webpack_require__(16).XMLSerializer;
+				} else {
+					Serializer = XMLSerializer;
+				}
+				var serializer = new Serializer();
+				this.output = serializer.serializeToString(contents);
+				return this.output;
+			}.bind(this)).then(function () {
+				return this.hooks.serialize.trigger(this.output, this);
+			}.bind(this)).then(function () {
+				rendering.resolve(this.output);
+			}.bind(this)).catch(function (error) {
+				rendering.reject(error);
+			});
+
+			return rendered;
+		}
+
+		/**
+   * Find a string in a section
+   * @param  {string} _query The query string to find
+   * @return {object[]} A list of matches, with form {cfi, excerpt}
+   */
+
+	}, {
+		key: "find",
+		value: function find(_query) {
+			var section = this;
+			var matches = [];
+			var query = _query.toLowerCase();
+			var find = function find(node) {
+				var text = node.textContent.toLowerCase();
+				var range = section.document.createRange();
+				var cfi;
+				var pos;
+				var last = -1;
+				var excerpt;
+				var limit = 150;
+
+				while (pos != -1) {
+					// Search for the query
+					pos = text.indexOf(query, last + 1);
+
+					if (pos != -1) {
+						// We found it! Generate a CFI
+						range = section.document.createRange();
+						range.setStart(node, pos);
+						range.setEnd(node, pos + query.length);
+
+						cfi = section.cfiFromRange(range);
+
+						// Generate the excerpt
+						if (node.textContent.length < limit) {
+							excerpt = node.textContent;
+						} else {
+							excerpt = node.textContent.substring(pos - limit / 2, pos + limit / 2);
+							excerpt = "..." + excerpt + "...";
+						}
+
+						// Add the CFI to the matches list
+						matches.push({
+							cfi: cfi,
+							excerpt: excerpt
+						});
+					}
+
+					last = pos;
+				}
+			};
+
+			(0, _core.sprint)(section.document, function (node) {
+				find(node);
+			});
+
+			return matches;
+		}
+	}, {
+		key: "reconcileLayoutSettings",
+
+
+		/**
+  * Reconciles the current chapters layout properies with
+  * the global layout properities.
+  * @param {object} global  The globa layout settings object, chapter properties string
+  * @return {object} layoutProperties Object with layout properties
+  */
+		value: function reconcileLayoutSettings(global) {
+			//-- Get the global defaults
+			var settings = {
+				layout: global.layout,
+				spread: global.spread,
+				orientation: global.orientation
+			};
+
+			//-- Get the chapter's display type
+			this.properties.forEach(function (prop) {
+				var rendition = prop.replace("rendition:", "");
+				var split = rendition.indexOf("-");
+				var property, value;
+
+				if (split != -1) {
+					property = rendition.slice(0, split);
+					value = rendition.slice(split + 1);
+
+					settings[property] = value;
+				}
+			});
+			return settings;
+		}
+
+		/**
+   * Get a CFI from a Range in the Section
+   * @param  {range} _range
+   * @return {string} cfi an EpubCFI string
+   */
+
+	}, {
+		key: "cfiFromRange",
+		value: function cfiFromRange(_range) {
+			return new _epubcfi2.default(_range, this.cfiBase).toString();
+		}
+
+		/**
+   * Get a CFI from an Element in the Section
+   * @param  {element} el
+   * @return {string} cfi an EpubCFI string
+   */
+
+	}, {
+		key: "cfiFromElement",
+		value: function cfiFromElement(el) {
+			return new _epubcfi2.default(el, this.cfiBase).toString();
+		}
+
+		/**
+   * Unload the section document
+   */
+
+	}, {
+		key: "unload",
+		value: function unload() {
+			this.document = undefined;
+			this.contents = undefined;
+			this.output = undefined;
+		}
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			this.unload();
+			this.hooks.serialize.clear();
+			this.hooks.content.clear();
+
+			this.hooks = undefined;
+			this.idref = undefined;
+			this.linear = undefined;
+			this.properties = undefined;
+			this.index = undefined;
+			this.href = undefined;
+			this.url = undefined;
+			this.next = undefined;
+			this.prev = undefined;
+
+			this.cfiBase = undefined;
+		}
+	}]);
+
+	return Section;
+}();
+
+exports.default = Section;
+module.exports = exports["default"];
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = __webpack_require__(0);
+
+var _queue = __webpack_require__(12);
+
+var _queue2 = _interopRequireDefault(_queue);
+
+var _epubcfi = __webpack_require__(1);
+
+var _epubcfi2 = _interopRequireDefault(_epubcfi);
+
+var _constants = __webpack_require__(3);
+
+var _eventEmitter = __webpack_require__(2);
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Find Locations for a Book
+ * @param {Spine} spine
+ * @param {request} request
+ */
+var Locations = function () {
+	function Locations(spine, request, pause) {
+		_classCallCheck(this, Locations);
+
+		this.spine = spine;
+		this.request = request;
+		this.pause = pause || 100;
+
+		this.q = new _queue2.default(this);
+		this.epubcfi = new _epubcfi2.default();
+
+		this._locations = [];
+		this.total = 0;
+
+		this.break = 150;
+
+		this._current = 0;
+
+		this.currentLocation = '';
+		this._currentCfi = '';
+		this.processingTimeout = undefined;
+	}
+
+	/**
+  * Load all of sections in the book to generate locations
+  * @param  {int} chars how many chars to split on
+  * @return {object} locations
+  */
+
+
+	_createClass(Locations, [{
+		key: "generate",
+		value: function generate(chars) {
+
+			if (chars) {
+				this.break = chars;
+			}
+
+			this.q.pause();
+
+			this.spine.each(function (section) {
+				if (section.linear) {
+					this.q.enqueue(this.process.bind(this), section);
+				}
+			}.bind(this));
+
+			return this.q.run().then(function () {
+				this.total = this._locations.length - 1;
+
+				if (this._currentCfi) {
+					this.currentLocation = this._currentCfi;
+				}
+
+				return this._locations;
+				// console.log(this.percentage(this.book.rendition.location.start), this.percentage(this.book.rendition.location.end));
+			}.bind(this));
+		}
+	}, {
+		key: "createRange",
+		value: function createRange() {
+			return {
+				startContainer: undefined,
+				startOffset: undefined,
+				endContainer: undefined,
+				endOffset: undefined
+			};
+		}
+	}, {
+		key: "process",
+		value: function process(section) {
+
+			return section.load(this.request).then(function (contents) {
+				var completed = new _core.defer();
+				var locations = this.parse(contents, section.cfiBase);
+				this._locations = this._locations.concat(locations);
+
+				section.unload();
+
+				this.processingTimeout = setTimeout(function () {
+					return completed.resolve(locations);
+				}, this.pause);
+				return completed.promise;
+			}.bind(this));
+		}
+	}, {
+		key: "parse",
+		value: function parse(contents, cfiBase, chars) {
+			var locations = [];
+			var range;
+			var doc = contents.ownerDocument;
+			var body = (0, _core.qs)(doc, "body");
+			var counter = 0;
+			var prev;
+			var _break = chars || this.break;
+			var parser = function parser(node) {
+				var len = node.length;
+				var dist;
+				var pos = 0;
+
+				if (node.textContent.trim().length === 0) {
+					return false; // continue
+				}
+
+				// Start range
+				if (counter == 0) {
+					range = this.createRange();
+					range.startContainer = node;
+					range.startOffset = 0;
+				}
+
+				dist = _break - counter;
+
+				// Node is smaller than a break,
+				// skip over it
+				if (dist > len) {
+					counter += len;
+					pos = len;
+				}
+
+				while (pos < len) {
+					dist = _break - counter;
+
+					if (counter === 0) {
+						// Start new range
+						pos += 1;
+						range = this.createRange();
+						range.startContainer = node;
+						range.startOffset = pos;
+					}
+
+					// pos += dist;
+
+					// Gone over
+					if (pos + dist >= len) {
+						// Continue counter for next node
+						counter += len - pos;
+						// break
+						pos = len;
+						// At End
+					} else {
+						// Advance pos
+						pos += dist;
+
+						// End the previous range
+						range.endContainer = node;
+						range.endOffset = pos;
+						// cfi = section.cfiFromRange(range);
+						var cfi = new _epubcfi2.default(range, cfiBase).toString();
+						locations.push(cfi);
+						counter = 0;
+					}
+				}
+				prev = node;
+			};
+
+			(0, _core.sprint)(body, parser.bind(this));
+
+			// Close remaining
+			if (range && range.startContainer && prev) {
+				range.endContainer = prev;
+				range.endOffset = prev.length;
+				var cfi = new _epubcfi2.default(range, cfiBase).toString();
+				locations.push(cfi);
+				counter = 0;
+			}
+
+			return locations;
+		}
+
+		/**
+   * Get a location from an EpubCFI
+   * @param {EpubCFI} cfi
+   * @return {number}
+   */
+
+	}, {
+		key: "locationFromCfi",
+		value: function locationFromCfi(cfi) {
+			var loc = void 0;
+			if (_epubcfi2.default.prototype.isCfiString(cfi)) {
+				cfi = new _epubcfi2.default(cfi);
+			}
+			// Check if the location has not been set yet
+			if (this._locations.length === 0) {
+				return -1;
+			}
+
+			loc = (0, _core.locationOf)(cfi, this._locations, this.epubcfi.compare);
+
+			if (loc > this.total) {
+				return this.total;
+			}
+
+			return loc;
+		}
+
+		/**
+   * Get a percentage position in locations from an EpubCFI
+   * @param {EpubCFI} cfi
+   * @return {number}
+   */
+
+	}, {
+		key: "percentageFromCfi",
+		value: function percentageFromCfi(cfi) {
+			if (this._locations.length === 0) {
+				return null;
+			}
+			// Find closest cfi
+			var loc = this.locationFromCfi(cfi);
+			// Get percentage in total
+			return this.percentageFromLocation(loc);
+		}
+
+		/**
+   * Get a percentage position from a location index
+   * @param {number} location
+   * @return {number}
+   */
+
+	}, {
+		key: "percentageFromLocation",
+		value: function percentageFromLocation(loc) {
+			if (!loc || !this.total) {
+				return 0;
+			}
+
+			return loc / this.total;
+		}
+
+		/**
+   * Get an EpubCFI from location index
+   * @param {number} loc
+   * @return {EpubCFI} cfi
+   */
+
+	}, {
+		key: "cfiFromLocation",
+		value: function cfiFromLocation(loc) {
+			var cfi = -1;
+			// check that pg is an int
+			if (typeof loc != "number") {
+				loc = parseInt(loc);
+			}
+
+			if (loc >= 0 && loc < this._locations.length) {
+				cfi = this._locations[loc];
+			}
+
+			return cfi;
+		}
+
+		/**
+   * Get an EpubCFI from location percentage
+   * @param {number} percentage
+   * @return {EpubCFI} cfi
+   */
+
+	}, {
+		key: "cfiFromPercentage",
+		value: function cfiFromPercentage(percentage) {
+			var loc = void 0;
+			if (percentage > 1) {
+				console.warn("Normalize cfiFromPercentage value to between 0 - 1");
+			}
+
+			// Make sure 1 goes to very end
+			if (percentage >= 1) {
+				var cfi = new _epubcfi2.default(this._locations[this.total]);
+				cfi.collapse();
+				return cfi.toString();
+			}
+
+			loc = Math.ceil(this.total * percentage);
+			return this.cfiFromLocation(loc);
+		}
+
+		/**
+   * Load locations from JSON
+   * @param {json} locations
+   */
+
+	}, {
+		key: "load",
+		value: function load(locations) {
+			if (typeof locations === "string") {
+				this._locations = JSON.parse(locations);
+			} else {
+				this._locations = locations;
+			}
+			this.total = this._locations.length - 1;
+			return this._locations;
+		}
+
+		/**
+   * Save locations to JSON
+   * @return {json}
+   */
+
+	}, {
+		key: "save",
+		value: function save() {
+			return JSON.stringify(this._locations);
+		}
+	}, {
+		key: "getCurrent",
+		value: function getCurrent() {
+			return this._current;
+		}
+	}, {
+		key: "setCurrent",
+		value: function setCurrent(curr) {
+			var loc;
+
+			if (typeof curr == "string") {
+				this._currentCfi = curr;
+			} else if (typeof curr == "number") {
+				this._current = curr;
+			} else {
+				return;
+			}
+
+			if (this._locations.length === 0) {
+				return;
+			}
+
+			if (typeof curr == "string") {
+				loc = this.locationFromCfi(curr);
+				this._current = loc;
+			} else {
+				loc = curr;
+			}
+
+			this.emit(_constants.EVENTS.LOCATIONS.CHANGED, {
+				percentage: this.percentageFromLocation(loc)
+			});
+		}
+
+		/**
+   * Get the current location
+   */
+
+	}, {
+		key: "length",
+
+
+		/**
+   * Locations length
+   */
+		value: function length() {
+			return this._locations.length;
+		}
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			this.spine = undefined;
+			this.request = undefined;
+			this.pause = undefined;
+
+			this.q.stop();
+			this.q = undefined;
+			this.epubcfi = undefined;
+
+			this._locations = undefined;
+			this.total = undefined;
+
+			this.break = undefined;
+			this._current = undefined;
+
+			this.currentLocation = undefined;
+			this._currentCfi = undefined;
+			clearTimeout(this.processingTimeout);
+		}
+	}, {
+		key: "currentLocation",
+		get: function get() {
+			return this._current;
+		}
+
+		/**
+   * Set the current location
+   */
+		,
+		set: function set(curr) {
+			this.setCurrent(curr);
+		}
+	}]);
+
+	return Locations;
+}();
+
+(0, _eventEmitter2.default)(Locations.prototype);
+
+exports.default = Locations;
+module.exports = exports["default"];
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _pathWebpack = __webpack_require__(6);
+
+var _pathWebpack2 = _interopRequireDefault(_pathWebpack);
+
+var _core = __webpack_require__(0);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Handles Parsing and Accessing an Epub Container
+ * @class
+ * @param {document} [containerDocument] xml document
+ */
+var Container = function () {
+	function Container(containerDocument) {
+		_classCallCheck(this, Container);
+
+		this.packagePath = '';
+		this.directory = '';
+		this.encoding = '';
+
+		if (containerDocument) {
+			this.parse(containerDocument);
+		}
+	}
+
+	/**
+  * Parse the Container XML
+  * @param  {document} containerDocument
+  */
+
+
+	_createClass(Container, [{
+		key: "parse",
+		value: function parse(containerDocument) {
+			//-- <rootfile full-path="OPS/package.opf" media-type="application/oebps-package+xml"/>
+			var rootfile;
+
+			if (!containerDocument) {
+				throw new Error("Container File Not Found");
+			}
+
+			rootfile = (0, _core.qs)(containerDocument, "rootfile");
+
+			if (!rootfile) {
+				throw new Error("No RootFile Found");
+			}
+
+			this.packagePath = rootfile.getAttribute("full-path");
+			this.directory = _pathWebpack2.default.dirname(this.packagePath);
+			this.encoding = containerDocument.xmlEncoding;
+		}
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			this.packagePath = undefined;
+			this.directory = undefined;
+			this.encoding = undefined;
+		}
+	}]);
+
+	return Container;
+}();
+
+exports.default = Container;
+module.exports = exports["default"];
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = __webpack_require__(0);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Open Packaging Format Parser
+ * @class
+ * @param {document} packageDocument OPF XML
+ */
+var Packaging = function () {
+	function Packaging(packageDocument) {
+		_classCallCheck(this, Packaging);
+
+		this.manifest = {};
+		this.navPath = '';
+		this.ncxPath = '';
+		this.coverPath = '';
+		this.spineNodeIndex = 0;
+		this.spine = [];
+		this.metadata = {};
+
+		if (packageDocument) {
+			this.parse(packageDocument);
+		}
+	}
+
+	/**
+  * Parse OPF XML
+  * @param  {document} packageDocument OPF XML
+  * @return {object} parsed package parts
+  */
+
+
+	_createClass(Packaging, [{
+		key: 'parse',
+		value: function parse(packageDocument) {
+			var metadataNode, manifestNode, spineNode;
+
+			if (!packageDocument) {
+				throw new Error("Package File Not Found");
+			}
+
+			metadataNode = (0, _core.qs)(packageDocument, "metadata");
+			if (!metadataNode) {
+				throw new Error("No Metadata Found");
+			}
+
+			manifestNode = (0, _core.qs)(packageDocument, "manifest");
+			if (!manifestNode) {
+				throw new Error("No Manifest Found");
+			}
+
+			spineNode = (0, _core.qs)(packageDocument, "spine");
+			if (!spineNode) {
+				throw new Error("No Spine Found");
+			}
+
+			this.manifest = this.parseManifest(manifestNode);
+			this.navPath = this.findNavPath(manifestNode);
+			this.ncxPath = this.findNcxPath(manifestNode, spineNode);
+			this.coverPath = this.findCoverPath(packageDocument);
+
+			this.spineNodeIndex = (0, _core.indexOfElementNode)(spineNode);
+
+			this.spine = this.parseSpine(spineNode, this.manifest);
+
+			this.metadata = this.parseMetadata(metadataNode);
+
+			this.metadata.direction = spineNode.getAttribute("page-progression-direction");
+
+			return {
+				"metadata": this.metadata,
+				"spine": this.spine,
+				"manifest": this.manifest,
+				"navPath": this.navPath,
+				"ncxPath": this.ncxPath,
+				"coverPath": this.coverPath,
+				"spineNodeIndex": this.spineNodeIndex
+			};
+		}
+
+		/**
+   * Parse Metadata
+   * @private
+   * @param  {document} xml
+   * @return {object} metadata
+   */
+
+	}, {
+		key: 'parseMetadata',
+		value: function parseMetadata(xml) {
+			var metadata = {};
+
+			metadata.title = this.getElementText(xml, "title");
+			metadata.creator = this.getElementText(xml, "creator");
+			metadata.description = this.getElementText(xml, "description");
+
+			metadata.pubdate = this.getElementText(xml, "date");
+
+			metadata.publisher = this.getElementText(xml, "publisher");
+
+			metadata.identifier = this.getElementText(xml, "identifier");
+			metadata.language = this.getElementText(xml, "language");
+			metadata.rights = this.getElementText(xml, "rights");
+
+			metadata.modified_date = this.getPropertyText(xml, "dcterms:modified");
+
+			metadata.layout = this.getPropertyText(xml, "rendition:layout");
+			metadata.orientation = this.getPropertyText(xml, "rendition:orientation");
+			metadata.flow = this.getPropertyText(xml, "rendition:flow");
+			metadata.viewport = this.getPropertyText(xml, "rendition:viewport");
+			// metadata.page_prog_dir = packageXml.querySelector("spine").getAttribute("page-progression-direction");
+
+			return metadata;
+		}
+
+		/**
+   * Parse Manifest
+   * @private
+   * @param  {document} manifestXml
+   * @return {object} manifest
+   */
+
+	}, {
+		key: 'parseManifest',
+		value: function parseManifest(manifestXml) {
+			var manifest = {};
+
+			//-- Turn items into an array
+			// var selected = manifestXml.querySelectorAll("item");
+			var selected = (0, _core.qsa)(manifestXml, "item");
+			var items = Array.prototype.slice.call(selected);
+
+			//-- Create an object with the id as key
+			items.forEach(function (item) {
+				var id = item.getAttribute("id"),
+				    href = item.getAttribute("href") || "",
+				    type = item.getAttribute("media-type") || "",
+				    properties = item.getAttribute("properties") || "";
+
+				manifest[id] = {
+					"href": href,
+					// "url" : href,
+					"type": type,
+					"properties": properties.length ? properties.split(" ") : []
+				};
+			});
+
+			return manifest;
+		}
+
+		/**
+   * Parse Spine
+   * @param  {document} spineXml
+   * @param  {Packaging.manifest} manifest
+   * @return {object} spine
+   */
+
+	}, {
+		key: 'parseSpine',
+		value: function parseSpine(spineXml, manifest) {
+			var spine = [];
+
+			var selected = (0, _core.qsa)(spineXml, "itemref");
+			var items = Array.prototype.slice.call(selected);
+
+			// var epubcfi = new EpubCFI();
+
+			//-- Add to array to mantain ordering and cross reference with manifest
+			items.forEach(function (item, index) {
+				var idref = item.getAttribute("idref");
+				// var cfiBase = epubcfi.generateChapterComponent(spineNodeIndex, index, Id);
+				var props = item.getAttribute("properties") || "";
+				var propArray = props.length ? props.split(" ") : [];
+				// var manifestProps = manifest[Id].properties;
+				// var manifestPropArray = manifestProps.length ? manifestProps.split(" ") : [];
+
+				var itemref = {
+					"idref": idref,
+					"linear": item.getAttribute("linear") || "yes",
+					"properties": propArray,
+					// "href" : manifest[Id].href,
+					// "url" :  manifest[Id].url,
+					"index": index
+					// "cfiBase" : cfiBase
+				};
+				spine.push(itemref);
+			});
+
+			return spine;
+		}
+
+		/**
+   * Find TOC NAV
+   * @private
+   */
+
+	}, {
+		key: 'findNavPath',
+		value: function findNavPath(manifestNode) {
+			// Find item with property "nav"
+			// Should catch nav irregardless of order
+			// var node = manifestNode.querySelector("item[properties$='nav'], item[properties^='nav '], item[properties*=' nav ']");
+			var node = (0, _core.qsp)(manifestNode, "item", { "properties": "nav" });
+			return node ? node.getAttribute("href") : false;
+		}
+
+		/**
+   * Find TOC NCX
+   * media-type="application/x-dtbncx+xml" href="toc.ncx"
+   * @private
+   */
+
+	}, {
+		key: 'findNcxPath',
+		value: function findNcxPath(manifestNode, spineNode) {
+			// var node = manifestNode.querySelector("item[media-type='application/x-dtbncx+xml']");
+			var node = (0, _core.qsp)(manifestNode, "item", { "media-type": "application/x-dtbncx+xml" });
+			var tocId;
+
+			// If we can't find the toc by media-type then try to look for id of the item in the spine attributes as
+			// according to http://www.idpf.org/epub/20/spec/OPF_2.0.1_draft.htm#Section2.4.1.2,
+			// "The item that describes the NCX must be referenced by the spine toc attribute."
+			if (!node) {
+				tocId = spineNode.getAttribute("toc");
+				if (tocId) {
+					// node = manifestNode.querySelector("item[id='" + tocId + "']");
+					node = manifestNode.getElementById(tocId);
+				}
+			}
+
+			return node ? node.getAttribute("href") : false;
+		}
+
+		/**
+   * Find the Cover Path
+   * <item properties="cover-image" id="ci" href="cover.svg" media-type="image/svg+xml" />
+   * Fallback for Epub 2.0
+   * @param  {document} packageXml
+   * @return {string} href
+   */
+
+	}, {
+		key: 'findCoverPath',
+		value: function findCoverPath(packageXml) {
+			var pkg = (0, _core.qs)(packageXml, "package");
+			var epubVersion = pkg.getAttribute("version");
+
+			if (epubVersion === "2.0") {
+				var metaCover = (0, _core.qsp)(packageXml, "meta", { "name": "cover" });
+				if (metaCover) {
+					var coverId = metaCover.getAttribute("content");
+					// var cover = packageXml.querySelector("item[id='" + coverId + "']");
+					var cover = packageXml.getElementById(coverId);
+					return cover ? cover.getAttribute("href") : "";
+				} else {
+					return false;
+				}
+			} else {
+				// var node = packageXml.querySelector("item[properties='cover-image']");
+				var node = (0, _core.qsp)(packageXml, "item", { "properties": "cover-image" });
+				return node ? node.getAttribute("href") : "";
+			}
+		}
+
+		/**
+   * Get text of a namespaced element
+   * @private
+   * @param  {document} xml
+   * @param  {string} tag
+   * @return {string} text
+   */
+
+	}, {
+		key: 'getElementText',
+		value: function getElementText(xml, tag) {
+			var found = xml.getElementsByTagNameNS("http://purl.org/dc/elements/1.1/", tag);
+			var el;
+
+			if (!found || found.length === 0) return "";
+
+			el = found[0];
+
+			if (el.childNodes.length) {
+				return el.childNodes[0].nodeValue;
+			}
+
+			return "";
+		}
+
+		/**
+   * Get text by property
+   * @private
+   * @param  {document} xml
+   * @param  {string} property
+   * @return {string} text
+   */
+
+	}, {
+		key: 'getPropertyText',
+		value: function getPropertyText(xml, property) {
+			var el = (0, _core.qsp)(xml, "meta", { "property": property });
+
+			if (el && el.childNodes.length) {
+				return el.childNodes[0].nodeValue;
+			}
+
+			return "";
+		}
+
+		/**
+   * Load JSON Manifest
+   * @param  {document} packageDocument OPF XML
+   * @return {object} parsed package parts
+   */
+
+	}, {
+		key: 'load',
+		value: function load(json) {
+			var _this = this;
+
+			this.metadata = json.metadata;
+
+			this.spine = json.spine.map(function (item, index) {
+				item.index = index;
+				return item;
+			});
+
+			json.resources.forEach(function (item, index) {
+				_this.manifest[index] = item;
+
+				if (item.rel && item.rel[0] === "cover") {
+					_this.coverPath = item.href;
+				}
+			});
+
+			this.spineNodeIndex = 0;
+
+			this.toc = json.toc.map(function (item, index) {
+				item.label = item.title;
+				return item;
+			});
+
+			return {
+				"metadata": this.metadata,
+				"spine": this.spine,
+				"manifest": this.manifest,
+				"navPath": this.navPath,
+				"ncxPath": this.ncxPath,
+				"coverPath": this.coverPath,
+				"spineNodeIndex": this.spineNodeIndex,
+				"toc": this.toc
+			};
+		}
+	}, {
+		key: 'destroy',
+		value: function destroy() {
+			this.manifest = undefined;
+			this.navPath = undefined;
+			this.ncxPath = undefined;
+			this.coverPath = undefined;
+			this.spineNodeIndex = undefined;
+			this.spine = undefined;
+			this.metadata = undefined;
+		}
+	}]);
+
+	return Packaging;
+}();
+
+exports.default = Packaging;
+module.exports = exports['default'];
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = __webpack_require__(0);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Navigation Parser
+ * @param {document} xml navigation html / xhtml / ncx
+ */
+var Navigation = function () {
+	function Navigation(xml) {
+		_classCallCheck(this, Navigation);
+
+		this.toc = [];
+		this.tocByHref = {};
+		this.tocById = {};
+
+		this.landmarks = [];
+		this.landmarksByType = {};
+
+		this.length = 0;
+		if (xml) {
+			this.parse(xml);
+		}
+	}
+
+	/**
+  * Parse out the navigation items
+  * @param {document} xml navigation html / xhtml / ncx
+  */
+
+
+	_createClass(Navigation, [{
+		key: "parse",
+		value: function parse(xml) {
+			var isXml = xml.nodeType;
+			var html = void 0;
+			var ncx = void 0;
+
+			if (isXml) {
+				html = (0, _core.qs)(xml, "html");
+				ncx = (0, _core.qs)(xml, "ncx");
+			}
+
+			if (!isXml) {
+				this.toc = this.load(xml);
+			} else if (html) {
+				this.toc = this.parseNav(xml);
+				this.landmarks = this.parseLandmarks(xml);
+			} else if (ncx) {
+				this.toc = this.parseNcx(xml);
+			}
+
+			this.length = 0;
+
+			this.unpack(this.toc);
+		}
+
+		/**
+   * Unpack navigation items
+   * @private
+   * @param  {array} toc
+   */
+
+	}, {
+		key: "unpack",
+		value: function unpack(toc) {
+			var item;
+
+			for (var i = 0; i < toc.length; i++) {
+				item = toc[i];
+
+				if (item.href) {
+					this.tocByHref[item.href] = i;
+				}
+
+				if (item.id) {
+					this.tocById[item.id] = i;
+				}
+
+				this.length++;
+
+				if (item.subitems.length) {
+					this.unpack(item.subitems);
+				}
+			}
+		}
+
+		/**
+   * Get an item from the navigation
+   * @param  {string} target
+   * @return {object} navItems
+   */
+
+	}, {
+		key: "get",
+		value: function get(target) {
+			var index;
+
+			if (!target) {
+				return this.toc;
+			}
+
+			if (target.indexOf("#") === 0) {
+				index = this.tocById[target.substring(1)];
+			} else if (target in this.tocByHref) {
+				index = this.tocByHref[target];
+			}
+
+			return this.toc[index];
+		}
+
+		/**
+   * Get a landmark by type
+   * List of types: https://idpf.github.io/epub-vocabs/structure/
+   * @param  {string} type
+   * @return {object} landmarkItems
+   */
+
+	}, {
+		key: "landmark",
+		value: function landmark(type) {
+			var index;
+
+			if (!type) {
+				return this.landmarks;
+			}
+
+			index = this.landmarksByType[type];
+
+			return this.landmarks[index];
+		}
+
+		/**
+   * Parse toc from a Epub > 3.0 Nav
+   * @private
+   * @param  {document} navHtml
+   * @return {array} navigation list
+   */
+
+	}, {
+		key: "parseNav",
+		value: function parseNav(navHtml) {
+			var navElement = (0, _core.querySelectorByType)(navHtml, "nav", "toc");
+			var navItems = navElement ? (0, _core.qsa)(navElement, "li") : [];
+			var length = navItems.length;
+			var i;
+			var toc = {};
+			var list = [];
+			var item, parent;
+
+			if (!navItems || length === 0) return list;
+
+			for (i = 0; i < length; ++i) {
+				item = this.navItem(navItems[i]);
+				if (item) {
+					toc[item.id] = item;
+					if (!item.parent) {
+						list.push(item);
+					} else {
+						parent = toc[item.parent];
+						parent.subitems.push(item);
+					}
+				}
+			}
+
+			return list;
+		}
+
+		/**
+   * Create a navItem
+   * @private
+   * @param  {element} item
+   * @return {object} navItem
+   */
+
+	}, {
+		key: "navItem",
+		value: function navItem(item) {
+			var id = item.getAttribute("id") || undefined;
+			var content = (0, _core.filterChildren)(item, "a", true);
+
+			if (!content) {
+				return;
+			}
+
+			var src = content.getAttribute("href") || "";
+			var text = content.textContent || "";
+			var subitems = [];
+			var parentItem = (0, _core.getParentByTagName)(item, "li");
+			var parent = void 0;
+
+			if (parentItem) {
+				parent = parentItem.getAttribute("id");
+			}
+
+			while (!parent && parentItem) {
+				parentItem = (0, _core.getParentByTagName)(parentItem, "li");
+				if (parentItem) {
+					parent = parentItem.getAttribute("id");
+				}
+			}
+
+			return {
+				"id": id,
+				"href": src,
+				"label": text,
+				"subitems": subitems,
+				"parent": parent
+			};
+		}
+
+		/**
+   * Parse landmarks from a Epub > 3.0 Nav
+   * @private
+   * @param  {document} navHtml
+   * @return {array} landmarks list
+   */
+
+	}, {
+		key: "parseLandmarks",
+		value: function parseLandmarks(navHtml) {
+			var navElement = (0, _core.querySelectorByType)(navHtml, "nav", "landmarks");
+			var navItems = navElement ? (0, _core.qsa)(navElement, "li") : [];
+			var length = navItems.length;
+			var i;
+			var list = [];
+			var item;
+
+			if (!navItems || length === 0) return list;
+
+			for (i = 0; i < length; ++i) {
+				item = this.landmarkItem(navItems[i]);
+				if (item) {
+					list.push(item);
+					this.landmarksByType[item.type] = i;
+				}
+			}
+
+			return list;
+		}
+
+		/**
+   * Create a landmarkItem
+   * @private
+   * @param  {element} item
+   * @return {object} landmarkItem
+   */
+
+	}, {
+		key: "landmarkItem",
+		value: function landmarkItem(item) {
+			var content = (0, _core.filterChildren)(item, "a", true);
+
+			if (!content) {
+				return;
+			}
+
+			var type = content.getAttributeNS("http://www.idpf.org/2007/ops", "type") || undefined;
+			var href = content.getAttribute("href") || "";
+			var text = content.textContent || "";
+
+			return {
+				"href": href,
+				"label": text,
+				"type": type
+			};
+		}
+
+		/**
+   * Parse from a Epub > 3.0 NC
+   * @private
+   * @param  {document} navHtml
+   * @return {array} navigation list
+   */
+
+	}, {
+		key: "parseNcx",
+		value: function parseNcx(tocXml) {
+			var navPoints = (0, _core.qsa)(tocXml, "navPoint");
+			var length = navPoints.length;
+			var i;
+			var toc = {};
+			var list = [];
+			var item, parent;
+
+			if (!navPoints || length === 0) return list;
+
+			for (i = 0; i < length; ++i) {
+				item = this.ncxItem(navPoints[i]);
+				toc[item.id] = item;
+				if (!item.parent) {
+					list.push(item);
+				} else {
+					parent = toc[item.parent];
+					parent.subitems.push(item);
+				}
+			}
+
+			return list;
+		}
+
+		/**
+   * Create a ncxItem
+   * @private
+   * @param  {element} item
+   * @return {object} ncxItem
+   */
+
+	}, {
+		key: "ncxItem",
+		value: function ncxItem(item) {
+			var id = item.getAttribute("id") || false,
+			    content = (0, _core.qs)(item, "content"),
+			    src = content.getAttribute("src"),
+			    navLabel = (0, _core.qs)(item, "navLabel"),
+			    text = navLabel.textContent ? navLabel.textContent : "",
+			    subitems = [],
+			    parentNode = item.parentNode,
+			    parent;
+
+			if (parentNode && parentNode.nodeName === "navPoint") {
+				parent = parentNode.getAttribute("id");
+			}
+
+			return {
+				"id": id,
+				"href": src,
+				"label": text,
+				"subitems": subitems,
+				"parent": parent
+			};
+		}
+
+		/**
+   * Load Spine Items
+   * @param  {object} json the items to be loaded
+   */
+
+	}, {
+		key: "load",
+		value: function load(json) {
+			var _this = this;
+
+			return json.map(function (item) {
+				item.label = item.title;
+				if (item.children) {
+					item.subitems = _this.load(item.children);
+				}
+				return item;
+			});
+		}
+
+		/**
+   * forEach pass through
+   * @param  {Function} fn function to run on each item
+   * @return {method} forEach loop
+   */
+
+	}, {
+		key: "forEach",
+		value: function forEach(fn) {
+			return this.toc.forEach(fn);
+		}
+	}]);
+
+	return Navigation;
+}();
+
+exports.default = Navigation;
+module.exports = exports["default"];
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _replacements = __webpack_require__(7);
+
+var _core = __webpack_require__(0);
+
+var _url = __webpack_require__(5);
+
+var _url2 = _interopRequireDefault(_url);
+
+var _mime = __webpack_require__(17);
+
+var _mime2 = _interopRequireDefault(_mime);
+
+var _path = __webpack_require__(4);
+
+var _path2 = _interopRequireDefault(_path);
+
+var _pathWebpack = __webpack_require__(6);
+
+var _pathWebpack2 = _interopRequireDefault(_pathWebpack);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Handle Package Resources
+ * @class
+ * @param {Manifest} manifest
+ * @param {[object]} options
+ * @param {[string="base64"]} options.replacements
+ * @param {[Archive]} options.archive
+ * @param {[method]} options.resolver
+ */
+var Resources = function () {
+	function Resources(manifest, options) {
+		_classCallCheck(this, Resources);
+
+		this.settings = {
+			replacements: options && options.replacements || "base64",
+			archive: options && options.archive,
+			resolver: options && options.resolver,
+			request: options && options.request
+		};
+		this.manifest = manifest;
+		this.resources = Object.keys(manifest).map(function (key) {
+			return manifest[key];
+		});
+
+		this.replacementUrls = [];
+
+		this.html = [];
+		this.assets = [];
+		this.css = [];
+
+		this.urls = [];
+		this.cssUrls = [];
+
+		this.split();
+		this.splitUrls();
+	}
+
+	/**
+  * Split resources by type
+  * @private
+  */
+
+
+	_createClass(Resources, [{
+		key: "split",
+		value: function split() {
+
+			// HTML
+			this.html = this.resources.filter(function (item) {
+				if (item.type === "application/xhtml+xml" || item.type === "text/html") {
+					return true;
+				}
+			});
+
+			// Exclude HTML
+			this.assets = this.resources.filter(function (item) {
+				if (item.type !== "application/xhtml+xml" && item.type !== "text/html") {
+					return true;
+				}
+			});
+
+			// Only CSS
+			this.css = this.resources.filter(function (item) {
+				if (item.type === "text/css") {
+					return true;
+				}
+			});
+		}
+
+		/**
+   * Convert split resources into Urls
+   * @private
+   */
+
+	}, {
+		key: "splitUrls",
+		value: function splitUrls() {
+
+			// All Assets Urls
+			this.urls = this.assets.map(function (item) {
+				return item.href;
+			}.bind(this));
+
+			// Css Urls
+			this.cssUrls = this.css.map(function (item) {
+				return item.href;
+			});
+		}
+	}, {
+		key: "createUrl",
+		value: function createUrl(url) {
+			var parsedUrl = new _url2.default(url);
+			var mimeType = _mime2.default.lookup(parsedUrl.filename);
+
+			if (this.settings.archive) {
+				return this.settings.archive.createUrl(url, { "base64": this.settings.replacements === "base64" });
+			} else {
+				if (this.settings.replacements === "base64") {
+					return this.settings.request(url, 'blob').then(function (blob) {
+						return (0, _core.blob2base64)(blob);
+					}).then(function (blob) {
+						return (0, _core.createBase64Url)(blob, mimeType);
+					});
+				} else {
+					return this.settings.request(url, 'blob').then(function (blob) {
+						return (0, _core.createBlobUrl)(blob, mimeType);
+					});
+				}
+			}
+		}
+
+		/**
+   * Create blob urls for all the assets
+   * @return {Promise}         returns replacement urls
+   */
+
+	}, {
+		key: "replacements",
+		value: function replacements() {
+			var _this = this;
+
+			if (this.settings.replacements === "none") {
+				return new Promise(function (resolve) {
+					resolve(this.urls);
+				}.bind(this));
+			}
+
+			var replacements = this.urls.map(function (url) {
+				var absolute = _this.settings.resolver(url);
+
+				return _this.createUrl(absolute).catch(function (err) {
+					console.error(err);
+					return null;
+				});
+			});
+
+			return Promise.all(replacements).then(function (replacementUrls) {
+				_this.replacementUrls = replacementUrls.filter(function (url) {
+					return typeof url === "string";
+				});
+				return replacementUrls;
+			});
+		}
+
+		/**
+   * Replace URLs in CSS resources
+   * @private
+   * @param  {Archive} [archive]
+   * @param  {method} [resolver]
+   * @return {Promise}
+   */
+
+	}, {
+		key: "replaceCss",
+		value: function replaceCss(archive, resolver) {
+			var replaced = [];
+			archive = archive || this.settings.archive;
+			resolver = resolver || this.settings.resolver;
+			this.cssUrls.forEach(function (href) {
+				var replacement = this.createCssFile(href, archive, resolver).then(function (replacementUrl) {
+					// switch the url in the replacementUrls
+					var indexInUrls = this.urls.indexOf(href);
+					if (indexInUrls > -1) {
+						this.replacementUrls[indexInUrls] = replacementUrl;
+					}
+				}.bind(this));
+
+				replaced.push(replacement);
+			}.bind(this));
+			return Promise.all(replaced);
+		}
+
+		/**
+   * Create a new CSS file with the replaced URLs
+   * @private
+   * @param  {string} href the original css file
+   * @return {Promise}  returns a BlobUrl to the new CSS file or a data url
+   */
+
+	}, {
+		key: "createCssFile",
+		value: function createCssFile(href) {
+			var _this2 = this;
+
+			var newUrl;
+
+			if (_pathWebpack2.default.isAbsolute(href)) {
+				return new Promise(function (resolve) {
+					resolve();
+				});
+			}
+
+			var absolute = this.settings.resolver(href);
+
+			// Get the text of the css file from the archive
+			var textResponse;
+
+			if (this.settings.archive) {
+				textResponse = this.settings.archive.getText(absolute);
+			} else {
+				textResponse = this.settings.request(absolute, "text");
+			}
+
+			// Get asset links relative to css file
+			var relUrls = this.urls.map(function (assetHref) {
+				var resolved = _this2.settings.resolver(assetHref);
+				var relative = new _path2.default(absolute).relative(resolved);
+
+				return relative;
+			});
+
+			if (!textResponse) {
+				// file not found, don't replace
+				return new Promise(function (resolve) {
+					resolve();
+				});
+			}
+
+			return textResponse.then(function (text) {
+				// Replacements in the css text
+				text = (0, _replacements.substitute)(text, relUrls, _this2.replacementUrls);
+
+				// Get the new url
+				if (_this2.settings.replacements === "base64") {
+					newUrl = (0, _core.createBase64Url)(text, "text/css");
+				} else {
+					newUrl = (0, _core.createBlobUrl)(text, "text/css");
+				}
+
+				return newUrl;
+			}, function (err) {
+				// handle response errors
+				return new Promise(function (resolve) {
+					resolve();
+				});
+			});
+		}
+
+		/**
+   * Resolve all resources URLs relative to an absolute URL
+   * @param  {string} absolute to be resolved to
+   * @param  {[resolver]} resolver
+   * @return {string[]} array with relative Urls
+   */
+
+	}, {
+		key: "relativeTo",
+		value: function relativeTo(absolute, resolver) {
+			resolver = resolver || this.settings.resolver;
+
+			// Get Urls relative to current sections
+			return this.urls.map(function (href) {
+				var resolved = resolver(href);
+				var relative = new _path2.default(absolute).relative(resolved);
+				return relative;
+			}.bind(this));
+		}
+
+		/**
+   * Get a URL for a resource
+   * @param  {string} path
+   * @return {string} url
+   */
+
+	}, {
+		key: "get",
+		value: function get(path) {
+			var indexInUrls = this.urls.indexOf(path);
+			if (indexInUrls === -1) {
+				return;
+			}
+			if (this.replacementUrls.length) {
+				return new Promise(function (resolve, reject) {
+					resolve(this.replacementUrls[indexInUrls]);
+				}.bind(this));
+			} else {
+				return this.createUrl(path);
+			}
+		}
+
+		/**
+   * Substitute urls in content, with replacements,
+   * relative to a url if provided
+   * @param  {string} content
+   * @param  {string} [url]   url to resolve to
+   * @return {string}         content with urls substituted
+   */
+
+	}, {
+		key: "substitute",
+		value: function substitute(content, url) {
+			var relUrls;
+			if (url) {
+				relUrls = this.relativeTo(url);
+			} else {
+				relUrls = this.urls;
+			}
+			return (0, _replacements.substitute)(content, relUrls, this.replacementUrls);
+		}
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			this.settings = undefined;
+			this.manifest = undefined;
+			this.resources = undefined;
+			this.replacementUrls = undefined;
+			this.html = undefined;
+			this.assets = undefined;
+			this.css = undefined;
+
+			this.urls = undefined;
+			this.cssUrls = undefined;
+		}
+	}]);
+
+	return Resources;
+}();
+
+exports.default = Resources;
+module.exports = exports["default"];
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _epubcfi = __webpack_require__(1);
+
+var _epubcfi2 = _interopRequireDefault(_epubcfi);
+
+var _core = __webpack_require__(0);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Page List Parser
+ * @param {document} [xml]
+ */
+var PageList = function () {
+	function PageList(xml) {
+		_classCallCheck(this, PageList);
+
+		this.pages = [];
+		this.locations = [];
+		this.epubcfi = new _epubcfi2.default();
+
+		this.firstPage = 0;
+		this.lastPage = 0;
+		this.totalPages = 0;
+
+		this.toc = undefined;
+		this.ncx = undefined;
+
+		if (xml) {
+			this.pageList = this.parse(xml);
+		}
+
+		if (this.pageList && this.pageList.length) {
+			this.process(this.pageList);
+		}
+	}
+
+	/**
+  * Parse PageList Xml
+  * @param  {document} xml
+  */
+
+
+	_createClass(PageList, [{
+		key: "parse",
+		value: function parse(xml) {
+			var html = (0, _core.qs)(xml, "html");
+			var ncx = (0, _core.qs)(xml, "ncx");
+
+			if (html) {
+				return this.parseNav(xml);
+			} else if (ncx) {
+				// Not supported
+				// return this.parseNcx(xml);
+				return;
+			}
+		}
+
+		/**
+   * Parse a Nav PageList
+   * @private
+   * @param  {document} navHtml
+   * @return {PageList.item[]} list
+   */
+
+	}, {
+		key: "parseNav",
+		value: function parseNav(navHtml) {
+			var navElement = (0, _core.querySelectorByType)(navHtml, "nav", "page-list");
+			var navItems = navElement ? (0, _core.qsa)(navElement, "li") : [];
+			var length = navItems.length;
+			var i;
+			var list = [];
+			var item;
+
+			if (!navItems || length === 0) return list;
+
+			for (i = 0; i < length; ++i) {
+				item = this.item(navItems[i]);
+				list.push(item);
+			}
+
+			return list;
+		}
+
+		/**
+   * Page List Item
+   * @private
+   * @param  {object} item
+   * @return {object} pageListItem
+   */
+
+	}, {
+		key: "item",
+		value: function item(_item) {
+			var content = (0, _core.qs)(_item, "a"),
+			    href = content.getAttribute("href") || "",
+			    text = content.textContent || "",
+			    page = parseInt(text),
+			    isCfi = href.indexOf("epubcfi"),
+			    split,
+			    packageUrl,
+			    cfi;
+
+			if (isCfi != -1) {
+				split = href.split("#");
+				packageUrl = split[0];
+				cfi = split.length > 1 ? split[1] : false;
+				return {
+					"cfi": cfi,
+					"href": href,
+					"packageUrl": packageUrl,
+					"page": page
+				};
+			} else {
+				return {
+					"href": href,
+					"page": page
+				};
+			}
+		}
+
+		/**
+   * Process pageList items
+   * @private
+   * @param  {array} pageList
+   */
+
+	}, {
+		key: "process",
+		value: function process(pageList) {
+			pageList.forEach(function (item) {
+				this.pages.push(item.page);
+				if (item.cfi) {
+					this.locations.push(item.cfi);
+				}
+			}, this);
+			this.firstPage = parseInt(this.pages[0]);
+			this.lastPage = parseInt(this.pages[this.pages.length - 1]);
+			this.totalPages = this.lastPage - this.firstPage;
+		}
+
+		/**
+   * Get a PageList result from a EpubCFI
+   * @param  {string} cfi EpubCFI String
+   * @return {string} page
+   */
+
+	}, {
+		key: "pageFromCfi",
+		value: function pageFromCfi(cfi) {
+			var pg = -1;
+
+			// Check if the pageList has not been set yet
+			if (this.locations.length === 0) {
+				return -1;
+			}
+
+			// TODO: check if CFI is valid?
+
+			// check if the cfi is in the location list
+			// var index = this.locations.indexOf(cfi);
+			var index = (0, _core.indexOfSorted)(cfi, this.locations, this.epubcfi.compare);
+			if (index != -1) {
+				pg = this.pages[index];
+			} else {
+				// Otherwise add it to the list of locations
+				// Insert it in the correct position in the locations page
+				//index = EPUBJS.core.insert(cfi, this.locations, this.epubcfi.compare);
+				index = (0, _core.locationOf)(cfi, this.locations, this.epubcfi.compare);
+				// Get the page at the location just before the new one, or return the first
+				pg = index - 1 >= 0 ? this.pages[index - 1] : this.pages[0];
+				if (pg !== undefined) {
+					// Add the new page in so that the locations and page array match up
+					//this.pages.splice(index, 0, pg);
+				} else {
+					pg = -1;
+				}
+			}
+			return pg;
+		}
+
+		/**
+   * Get an EpubCFI from a Page List Item
+   * @param  {string} pg
+   * @return {string} cfi
+   */
+
+	}, {
+		key: "cfiFromPage",
+		value: function cfiFromPage(pg) {
+			var cfi = -1;
+			// check that pg is an int
+			if (typeof pg != "number") {
+				pg = parseInt(pg);
+			}
+
+			// check if the cfi is in the page list
+			// Pages could be unsorted.
+			var index = this.pages.indexOf(pg);
+			if (index != -1) {
+				cfi = this.locations[index];
+			}
+			// TODO: handle pages not in the list
+			return cfi;
+		}
+
+		/**
+   * Get a Page from Book percentage
+   * @param  {number} percent
+   * @return {string} page
+   */
+
+	}, {
+		key: "pageFromPercentage",
+		value: function pageFromPercentage(percent) {
+			var pg = Math.round(this.totalPages * percent);
+			return pg;
+		}
+
+		/**
+   * Returns a value between 0 - 1 corresponding to the location of a page
+   * @param  {int} pg the page
+   * @return {number} percentage
+   */
+
+	}, {
+		key: "percentageFromPage",
+		value: function percentageFromPage(pg) {
+			var percentage = (pg - this.firstPage) / this.totalPages;
+			return Math.round(percentage * 1000) / 1000;
+		}
+
+		/**
+   * Returns a value between 0 - 1 corresponding to the location of a cfi
+   * @param  {string} cfi EpubCFI String
+   * @return {number} percentage
+   */
+
+	}, {
+		key: "percentageFromCfi",
+		value: function percentageFromCfi(cfi) {
+			var pg = this.pageFromCfi(cfi);
+			var percentage = this.percentageFromPage(pg);
+			return percentage;
+		}
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			this.pages = undefined;
+			this.locations = undefined;
+			this.epubcfi = undefined;
+
+			this.pageList = undefined;
+
+			this.toc = undefined;
+			this.ncx = undefined;
+		}
+	}]);
+
+	return PageList;
+}();
+
+exports.default = PageList;
+module.exports = exports["default"];
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = __webpack_require__(0);
+
+var _constants = __webpack_require__(3);
+
+var _eventEmitter = __webpack_require__(2);
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Figures out the CSS values to apply for a layout
+ * @class
+ * @param {object} settings
+ * @param {string} [settings.layout='reflowable']
+ * @param {string} [settings.spread]
+ * @param {int} [settings.minSpreadWidth=800]
+ * @param {boolean} [settings.evenSpreads=false]
+ */
+var Layout = function () {
+	function Layout(settings) {
+		_classCallCheck(this, Layout);
+
+		this.settings = settings;
+		this.name = settings.layout || "reflowable";
+		this._spread = settings.spread === "none" ? false : true;
+		this._minSpreadWidth = settings.minSpreadWidth || 800;
+		this._evenSpreads = settings.evenSpreads || false;
+
+		if (settings.flow === "scrolled" || settings.flow === "scrolled-continuous" || settings.flow === "scrolled-doc") {
+			this._flow = "scrolled";
+		} else {
+			this._flow = "paginated";
+		}
+
+		this.width = 0;
+		this.height = 0;
+		this.spreadWidth = 0;
+		this.delta = 0;
+
+		this.columnWidth = 0;
+		this.gap = 0;
+		this.divisor = 1;
+
+		this.props = {
+			name: this.name,
+			spread: this._spread,
+			flow: this._flow,
+			width: 0,
+			height: 0,
+			spreadWidth: 0,
+			delta: 0,
+			columnWidth: 0,
+			gap: 0,
+			divisor: 1
+		};
+	}
+
+	/**
+  * Switch the flow between paginated and scrolled
+  * @param  {string} flow paginated | scrolled
+  */
+
+
+	_createClass(Layout, [{
+		key: "flow",
+		value: function flow(_flow) {
+			if (typeof _flow != "undefined") {
+				if (_flow === "scrolled" || _flow === "scrolled-continuous" || _flow === "scrolled-doc") {
+					this._flow = "scrolled";
+				} else {
+					this._flow = "paginated";
+				}
+				// this.props.flow = this._flow;
+				this.update({ flow: this._flow });
+			}
+			return this._flow;
+		}
+
+		/**
+   * Switch between using spreads or not, and set the
+   * width at which they switch to single.
+   * @param  {string} spread true | false
+   * @param  {boolean} min integer in pixels
+   */
+
+	}, {
+		key: "spread",
+		value: function spread(_spread, min) {
+
+			if (_spread) {
+				this._spread = _spread === "none" ? false : true;
+				// this.props.spread = this._spread;
+				this.update({ spread: this._spread });
+			}
+
+			if (min >= 0) {
+				this._minSpreadWidth = min;
+			}
+
+			return this._spread;
+		}
+
+		/**
+   * Calculate the dimensions of the pagination
+   * @param  {number} _width  [description]
+   * @param  {number} _height [description]
+   * @param  {number} _gap    [description]
+   */
+
+	}, {
+		key: "calculate",
+		value: function calculate(_width, _height, _gap) {
+
+			var divisor = 1;
+			var gap = _gap || 0;
+
+			//-- Check the width and create even width columns
+			// var fullWidth = Math.floor(_width);
+			var width = _width;
+			var height = _height;
+
+			var section = Math.floor(width / 12);
+
+			var columnWidth;
+			var spreadWidth;
+			var pageWidth;
+			var delta;
+
+			if (this._spread && width >= this._minSpreadWidth) {
+				divisor = 2;
+			} else {
+				divisor = 1;
+			}
+
+			if (this.name === "reflowable" && this._flow === "paginated" && !(_gap >= 0)) {
+				gap = section % 2 === 0 ? section : section - 1;
+			}
+
+			if (this.name === "pre-paginated") {
+				gap = 0;
+			}
+
+			//-- Double Page
+			if (divisor > 1) {
+				// width = width - gap;
+				// columnWidth = (width - gap) / divisor;
+				// gap = gap / divisor;
+				columnWidth = width / divisor - gap;
+				pageWidth = columnWidth + gap;
+			} else {
+				columnWidth = width;
+				pageWidth = width;
+			}
+
+			if (this.name === "pre-paginated" && divisor > 1) {
+				width = columnWidth;
+			}
+
+			spreadWidth = columnWidth * divisor + gap;
+
+			delta = width;
+
+			this.width = width;
+			this.height = height;
+			this.spreadWidth = spreadWidth;
+			this.pageWidth = pageWidth;
+			this.delta = delta;
+
+			this.columnWidth = columnWidth;
+			this.gap = gap;
+			this.divisor = divisor;
+
+			// this.props.width = width;
+			// this.props.height = _height;
+			// this.props.spreadWidth = spreadWidth;
+			// this.props.pageWidth = pageWidth;
+			// this.props.delta = delta;
+			//
+			// this.props.columnWidth = colWidth;
+			// this.props.gap = gap;
+			// this.props.divisor = divisor;
+
+			this.update({
+				width: width,
+				height: height,
+				spreadWidth: spreadWidth,
+				pageWidth: pageWidth,
+				delta: delta,
+				columnWidth: columnWidth,
+				gap: gap,
+				divisor: divisor
+			});
+		}
+
+		/**
+   * Apply Css to a Document
+   * @param  {Contents} contents
+   * @return {Promise}
+   */
+
+	}, {
+		key: "format",
+		value: function format(contents) {
+			var formating;
+
+			if (this.name === "pre-paginated") {
+				formating = contents.fit(this.columnWidth, this.height);
+			} else if (this._flow === "paginated") {
+				formating = contents.columns(this.width, this.height, this.columnWidth, this.gap);
+			} else {
+				// scrolled
+				formating = contents.size(this.width, null);
+			}
+
+			return formating; // might be a promise in some View Managers
+		}
+
+		/**
+   * Count number of pages
+   * @param  {number} totalLength
+   * @param  {number} pageLength
+   * @return {{spreads: Number, pages: Number}}
+   */
+
+	}, {
+		key: "count",
+		value: function count(totalLength, pageLength) {
+
+			var spreads = void 0,
+			    pages = void 0;
+
+			if (this.name === "pre-paginated") {
+				spreads = 1;
+				pages = 1;
+			} else if (this._flow === "paginated") {
+				pageLength = pageLength || this.delta;
+				spreads = Math.ceil(totalLength / pageLength);
+				pages = spreads * this.divisor;
+			} else {
+				// scrolled
+				pageLength = pageLength || this.height;
+				spreads = Math.ceil(totalLength / pageLength);
+				pages = spreads;
+			}
+
+			return {
+				spreads: spreads,
+				pages: pages
+			};
+		}
+	}, {
+		key: "update",
+		value: function update(props) {
+			var _this = this;
+
+			// Remove props that haven't changed
+			Object.keys(props).forEach(function (propName) {
+				if (_this.props[propName] === props[propName]) {
+					delete props[propName];
+				}
+			});
+
+			if (Object.keys(props).length > 0) {
+				var newProps = (0, _core.extend)(this.props, props);
+				this.emit(_constants.EVENTS.LAYOUT.UPDATED, newProps, props);
+			}
+		}
+	}]);
+
+	return Layout;
+}();
+
+(0, _eventEmitter2.default)(Layout.prototype);
+
+exports.default = Layout;
+module.exports = exports["default"];
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _url = __webpack_require__(5);
+
+var _url2 = _interopRequireDefault(_url);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Themes to apply to displayed content
+ * @class
+ * @param {Rendition} rendition
+ */
+var Themes = function () {
+	function Themes(rendition) {
+		_classCallCheck(this, Themes);
+
+		this.rendition = rendition;
+		this._themes = {
+			"default": {
+				"rules": {},
+				"url": "",
+				"serialized": ""
+			}
+		};
+		this._overrides = {};
+		this._current = "default";
+		this._injected = [];
+		this.rendition.hooks.content.register(this.inject.bind(this));
+		this.rendition.hooks.content.register(this.overrides.bind(this));
+	}
+
+	/**
+  * Add themes to be used by a rendition
+  * @param {object | string}
+  * @example themes.register("light", "http://example.com/light.css")
+  * @example themes.register("light", { "body": { "color": "purple"}})
+  * @example themes.register({ "light" : {...}, "dark" : {...}})
+  */
+
+
+	_createClass(Themes, [{
+		key: "register",
+		value: function register() {
+			if (arguments.length === 0) {
+				return;
+			}
+			if (arguments.length === 1 && _typeof(arguments[0]) === "object") {
+				return this.registerThemes(arguments[0]);
+			}
+			if (arguments.length === 1 && typeof arguments[0] === "string") {
+				return this.default(arguments[0]);
+			}
+			if (arguments.length === 2 && typeof arguments[1] === "string") {
+				return this.registerUrl(arguments[0], arguments[1]);
+			}
+			if (arguments.length === 2 && _typeof(arguments[1]) === "object") {
+				return this.registerRules(arguments[0], arguments[1]);
+			}
+		}
+
+		/**
+   * Add a default theme to be used by a rendition
+   * @param {object | string} theme
+   * @example themes.register("http://example.com/default.css")
+   * @example themes.register({ "body": { "color": "purple"}})
+   */
+
+	}, {
+		key: "default",
+		value: function _default(theme) {
+			if (!theme) {
+				return;
+			}
+			if (typeof theme === "string") {
+				return this.registerUrl("default", theme);
+			}
+			if ((typeof theme === "undefined" ? "undefined" : _typeof(theme)) === "object") {
+				return this.registerRules("default", theme);
+			}
+		}
+	}, {
+		key: "registerThemes",
+		value: function registerThemes(themes) {
+			for (var theme in themes) {
+				if (themes.hasOwnProperty(theme)) {
+					if (typeof themes[theme] === "string") {
+						this.registerUrl(theme, themes[theme]);
+					} else {
+						this.registerRules(theme, themes[theme]);
+					}
+				}
+			}
+		}
+	}, {
+		key: "registerUrl",
+		value: function registerUrl(name, input) {
+			var url = new _url2.default(input);
+			this._themes[name] = { "url": url.toString() };
+			if (this._injected[name]) {
+				this.update(name);
+			}
+		}
+	}, {
+		key: "registerRules",
+		value: function registerRules(name, rules) {
+			this._themes[name] = { "rules": rules };
+			// TODO: serialize css rules
+			if (this._injected[name]) {
+				this.update(name);
+			}
+		}
+	}, {
+		key: "select",
+		value: function select(name) {
+			var prev = this._current;
+			var contents;
+
+			this._current = name;
+			this.update(name);
+
+			contents = this.rendition.getContents();
+			contents.forEach(function (content) {
+				content.removeClass(prev);
+				content.addClass(name);
+			});
+		}
+	}, {
+		key: "update",
+		value: function update(name) {
+			var _this = this;
+
+			var contents = this.rendition.getContents();
+			contents.forEach(function (content) {
+				_this.add(name, content);
+			});
+		}
+	}, {
+		key: "inject",
+		value: function inject(contents) {
+			var links = [];
+			var themes = this._themes;
+			var theme;
+
+			for (var name in themes) {
+				if (themes.hasOwnProperty(name) && (name === this._current || name === "default")) {
+					theme = themes[name];
+					if (theme.rules && Object.keys(theme.rules).length > 0 || theme.url && links.indexOf(theme.url) === -1) {
+						this.add(name, contents);
+					}
+					this._injected.push(name);
+				}
+			}
+
+			if (this._current != "default") {
+				contents.addClass(this._current);
+			}
+		}
+	}, {
+		key: "add",
+		value: function add(name, contents) {
+			var theme = this._themes[name];
+
+			if (!theme || !contents) {
+				return;
+			}
+
+			if (theme.url) {
+				contents.addStylesheet(theme.url);
+			} else if (theme.serialized) {
+				// TODO: handle serialized
+			} else if (theme.rules) {
+				contents.addStylesheetRules(theme.rules);
+				theme.injected = true;
+			}
+		}
+	}, {
+		key: "override",
+		value: function override(name, value) {
+			var _this2 = this;
+
+			var contents = this.rendition.getContents();
+
+			this._overrides[name] = value;
+
+			contents.forEach(function (content) {
+				content.css(name, _this2._overrides[name]);
+			});
+		}
+	}, {
+		key: "overrides",
+		value: function overrides(contents) {
+			var overrides = this._overrides;
+
+			for (var rule in overrides) {
+				if (overrides.hasOwnProperty(rule)) {
+					contents.css(rule, overrides[rule]);
+				}
+			}
+		}
+
+		/**
+   * Adjust the font size of a rendition
+   * @param {number} size
+   */
+
+	}, {
+		key: "fontSize",
+		value: function fontSize(size) {
+			this.override("font-size", size);
+		}
+
+		/**
+   * Adjust the font-family of a rendition
+   * @param {string} f
+   */
+
+	}, {
+		key: "font",
+		value: function font(f) {
+			this.override("font-family", f);
+		}
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			this.rendition = undefined;
+			this._themes = undefined;
+			this._overrides = undefined;
+			this._current = undefined;
+			this._injected = undefined;
+		}
+	}]);
+
+	return Themes;
+}();
+
+exports.default = Themes;
+module.exports = exports["default"];
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _eventEmitter = __webpack_require__(2);
+
+var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+
+var _epubcfi = __webpack_require__(1);
+
+var _epubcfi2 = _interopRequireDefault(_epubcfi);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+	* Handles managing adding & removing Annotations
+	* @param {Rendition} rendition
+	* @class
+	*/
+var Annotations = function () {
+	function Annotations(rendition) {
+		_classCallCheck(this, Annotations);
+
+		this.rendition = rendition;
+		this.highlights = [];
+		this.underlines = [];
+		this.marks = [];
+		this._annotations = {};
+		this._annotationsBySectionIndex = {};
+
+		this.rendition.hooks.render.register(this.inject.bind(this));
+		this.rendition.hooks.unloaded.register(this.clear.bind(this));
+	}
+
+	/**
+  * Add an annotation to store
+  * @param {string} type Type of annotation to add: "highlight", "underline", "mark"
+  * @param {EpubCFI} cfiRange EpubCFI range to attach annotation to
+  * @param {object} data Data to assign to annotation
+  * @param {function} [cb] Callback after annotation is added
+  * @returns {Annotation} annotation
+  */
+
+
+	_createClass(Annotations, [{
+		key: "add",
+		value: function add(type, cfiRange, data, cb) {
+			var hash = encodeURI(cfiRange);
+			var cfi = new _epubcfi2.default(cfiRange);
+			var sectionIndex = cfi.spinePos;
+			var annotation = new Annotation({
+				type: type,
+				cfiRange: cfiRange,
+				data: data,
+				sectionIndex: sectionIndex,
+				cb: cb
+			});
+
+			this._annotations[hash] = annotation;
+
+			if (sectionIndex in this._annotationsBySectionIndex) {
+				this._annotationsBySectionIndex[sectionIndex].push(hash);
+			} else {
+				this._annotationsBySectionIndex[sectionIndex] = [hash];
+			}
+
+			var views = this.rendition.views();
+
+			views.forEach(function (view) {
+				if (annotation.sectionIndex === view.index) {
+					annotation.attach(view);
+				}
+			});
+
+			return annotation;
+		}
+
+		/**
+   * Remove an annotation from store
+   * @param {EpubCFI} cfiRange EpubCFI range the annotation is attached to
+   * @param {string} type Type of annotation to add: "highlight", "underline", "mark"
+   */
+
+	}, {
+		key: "remove",
+		value: function remove(cfiRange, type) {
+			var _this = this;
+
+			var hash = encodeURI(cfiRange);
+
+			if (hash in this._annotations) {
+				var annotation = this._annotations[hash];
+
+				if (type && annotation.type !== type) {
+					return;
+				}
+
+				var views = this.rendition.views();
+				views.forEach(function (view) {
+					_this._removeFromAnnotationBySectionIndex(annotation.sectionIndex, hash);
+					if (annotation.sectionIndex === view.index) {
+						annotation.detach(view);
+					}
+				});
+
+				delete this._annotations[hash];
+			}
+		}
+
+		/**
+   * Remove an annotations by Section Index
+   * @private
+   */
+
+	}, {
+		key: "_removeFromAnnotationBySectionIndex",
+		value: function _removeFromAnnotationBySectionIndex(sectionIndex, hash) {
+			this._annotationsBySectionIndex[sectionIndex] = this._annotationsAt(sectionIndex).filter(function (h) {
+				return h !== hash;
+			});
+		}
+
+		/**
+   * Get annotations by Section Index
+   * @private
+   */
+
+	}, {
+		key: "_annotationsAt",
+		value: function _annotationsAt(index) {
+			return this._annotationsBySectionIndex[index];
+		}
+
+		/**
+   * Add a highlight to the store
+   * @param {EpubCFI} cfiRange EpubCFI range to attach annotation to
+   * @param {object} data Data to assign to annotation
+   * @param {function} cb Callback after annotation is added
+   */
+
+	}, {
+		key: "highlight",
+		value: function highlight(cfiRange, data, cb) {
+			this.add("highlight", cfiRange, data, cb);
+		}
+
+		/**
+   * Add a underline to the store
+   * @param {EpubCFI} cfiRange EpubCFI range to attach annotation to
+   * @param {object} data Data to assign to annotation
+   * @param {function} cb Callback after annotation is added
+   */
+
+	}, {
+		key: "underline",
+		value: function underline(cfiRange, data, cb) {
+			this.add("underline", cfiRange, data, cb);
+		}
+
+		/**
+   * Add a mark to the store
+   * @param {EpubCFI} cfiRange EpubCFI range to attach annotation to
+   * @param {object} data Data to assign to annotation
+   * @param {function} cb Callback after annotation is added
+   */
+
+	}, {
+		key: "mark",
+		value: function mark(cfiRange, data, cb) {
+			this.add("mark", cfiRange, data, cb);
+		}
+
+		/**
+   * iterate over annotations in the store
+   */
+
+	}, {
+		key: "each",
+		value: function each() {
+			return this._annotations.forEach.apply(this._annotations, arguments);
+		}
+
+		/**
+   * Hook for injecting annotation into a view
+   * @param {View} view
+   * @private
+   */
+
+	}, {
+		key: "inject",
+		value: function inject(view) {
+			var _this2 = this;
+
+			var sectionIndex = view.index;
+			if (sectionIndex in this._annotationsBySectionIndex) {
+				var annotations = this._annotationsBySectionIndex[sectionIndex];
+				annotations.forEach(function (hash) {
+					var annotation = _this2._annotations[hash];
+					annotation.attach(view);
+				});
+			}
+		}
+
+		/**
+   * Hook for removing annotation from a view
+   * @param {View} view
+   * @private
+   */
+
+	}, {
+		key: "clear",
+		value: function clear(view) {
+			var _this3 = this;
+
+			var sectionIndex = view.index;
+			if (sectionIndex in this._annotationsBySectionIndex) {
+				var annotations = this._annotationsBySectionIndex[sectionIndex];
+				annotations.forEach(function (hash) {
+					var annotation = _this3._annotations[hash];
+					annotation.detach(view);
+				});
+			}
+		}
+
+		/**
+   * [Not Implemented] Show annotations
+   * @TODO: needs implementation in View
+   */
+
+	}, {
+		key: "show",
+		value: function show() {}
+
+		/**
+   * [Not Implemented] Hide annotations
+   * @TODO: needs implementation in View
+   */
+
+	}, {
+		key: "hide",
+		value: function hide() {}
+	}]);
+
+	return Annotations;
+}();
+
+/**
+ * Annotation object
+ * @class
+ * @param {object} options
+ * @param {string} options.type Type of annotation to add: "highlight", "underline", "mark"
+ * @param {EpubCFI} options.cfiRange EpubCFI range to attach annotation to
+ * @param {object} options.data Data to assign to annotation
+ * @param {int} options.sectionIndex Index in the Spine of the Section annotation belongs to
+ * @param {function} [options.cb] Callback after annotation is added
+ * @returns {Annotation} annotation
+ */
+
+
+var Annotation = function () {
+	function Annotation(_ref) {
+		var type = _ref.type,
+		    cfiRange = _ref.cfiRange,
+		    data = _ref.data,
+		    sectionIndex = _ref.sectionIndex,
+		    cb = _ref.cb;
+
+		_classCallCheck(this, Annotation);
+
+		this.type = type;
+		this.cfiRange = cfiRange;
+		this.data = data;
+		this.sectionIndex = sectionIndex;
+		this.mark = undefined;
+		this.cb = cb;
+	}
+
+	/**
+  * Update stored data
+  * @param {object} data
+  */
+
+
+	_createClass(Annotation, [{
+		key: "update",
+		value: function update(data) {
+			this.data = data;
+		}
+
+		/**
+   * Add to a view
+   * @param {View} view
+   */
+
+	}, {
+		key: "attach",
+		value: function attach(view) {
+			var cfiRange = this.cfiRange,
+			    data = this.data,
+			    type = this.type,
+			    mark = this.mark,
+			    cb = this.cb;
+
+			var result = void 0;
+
+			if (type === "highlight") {
+				result = view.highlight(cfiRange, data, cb);
+			} else if (type === "underline") {
+				result = view.underline(cfiRange, data, cb);
+			} else if (type === "mark") {
+				result = view.mark(cfiRange, data, cb);
+			}
+
+			this.mark = result;
+
+			return result;
+		}
+
+		/**
+   * Remove from a view
+   * @param {View} view
+   */
+
+	}, {
+		key: "detach",
+		value: function detach(view) {
+			var cfiRange = this.cfiRange,
+			    type = this.type;
+
+			var result = void 0;
+
+			if (view) {
+				if (type === "highlight") {
+					result = view.unhighlight(cfiRange);
+				} else if (type === "underline") {
+					result = view.ununderline(cfiRange);
+				} else if (type === "mark") {
+					result = view.unmark(cfiRange);
+				}
+			}
+
+			this.mark = undefined;
+
+			return result;
+		}
+
+		/**
+   * [Not Implemented] Get text of an annotation
+   * @TODO: needs implementation in contents
+   */
+
+	}, {
+		key: "text",
+		value: function text() {}
+	}]);
+
+	return Annotation;
+}();
+
+(0, _eventEmitter2.default)(Annotation.prototype);
+
+exports.default = Annotations;
+module.exports = exports["default"];
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Underline = exports.Highlight = exports.Mark = exports.Pane = undefined;
+
+var _get = function get(object, property, receiver) {
+    if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {
+        var parent = Object.getPrototypeOf(object);if (parent === null) {
+            return undefined;
+        } else {
+            return get(parent, property, receiver);
+        }
+    } else if ("value" in desc) {
+        return desc.value;
+    } else {
+        var getter = desc.get;if (getter === undefined) {
+            return undefined;
+        }return getter.call(receiver);
+    }
+};
+
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
+
+var _svg = __webpack_require__(54);
+
+var _svg2 = _interopRequireDefault(_svg);
+
+var _events = __webpack_require__(55);
+
+var _events2 = _interopRequireDefault(_events);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+
+var Pane = exports.Pane = function () {
+    function Pane(target) {
+        var container = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.body;
+
+        _classCallCheck(this, Pane);
+
+        this.target = target;
+        this.element = _svg2.default.createElement('svg');
+        this.marks = [];
+
+        // Match the coordinates of the target element
+        this.element.style.position = 'absolute';
+        // Disable pointer events
+        this.element.setAttribute('pointer-events', 'none');
+
+        // Set up mouse event proxying between the target element and the marks
+        _events2.default.proxyMouse(this.target, this.marks);
+
+        this.container = container;
+        this.container.appendChild(this.element);
+
+        this.render();
+    }
+
+    _createClass(Pane, [{
+        key: 'addMark',
+        value: function addMark(mark) {
+            var g = _svg2.default.createElement('g');
+            this.element.appendChild(g);
+            mark.bind(g, this.container);
+
+            this.marks.push(mark);
+
+            mark.render();
+            return mark;
+        }
+    }, {
+        key: 'removeMark',
+        value: function removeMark(mark) {
+            var idx = this.marks.indexOf(mark);
+            if (idx === -1) {
+                return;
+            }
+            var el = mark.unbind();
+            this.element.removeChild(el);
+            this.marks.splice(idx, 1);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            setCoords(this.element, coords(this.target, this.container));
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = this.marks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var m = _step.value;
+
+                    m.render();
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+        }
+    }]);
+
+    return Pane;
+}();
+
+var Mark = exports.Mark = function () {
+    function Mark() {
+        _classCallCheck(this, Mark);
+
+        this.element = null;
+    }
+
+    _createClass(Mark, [{
+        key: 'bind',
+        value: function bind(element, container) {
+            this.element = element;
+            this.container = container;
+        }
+    }, {
+        key: 'unbind',
+        value: function unbind() {
+            var el = this.element;
+            this.element = null;
+            return el;
+        }
+    }, {
+        key: 'render',
+        value: function render() {}
+    }, {
+        key: 'dispatchEvent',
+        value: function dispatchEvent(e) {
+            if (!this.element) return;
+            this.element.dispatchEvent(e);
+        }
+    }, {
+        key: 'getBoundingClientRect',
+        value: function getBoundingClientRect() {
+            return this.element.getBoundingClientRect();
+        }
+    }, {
+        key: 'getClientRects',
+        value: function getClientRects() {
+            var rects = [];
+            var el = this.element.firstChild;
+            while (el) {
+                rects.push(el.getBoundingClientRect());
+                el = el.nextSibling;
+            }
+            return rects;
+        }
+    }, {
+        key: 'filteredRanges',
+        value: function filteredRanges() {
+            var rects = Array.from(this.range.getClientRects());
+
+            // De-duplicate the boxes
+            return rects.filter(function (box) {
+                for (var i = 0; i < rects.length; i++) {
+                    if (rects[i] === box) {
+                        return true;
+                    }
+                    var contained = contains(rects[i], box);
+                    if (contained) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+        }
+    }]);
+
+    return Mark;
+}();
+
+var Highlight = exports.Highlight = function (_Mark) {
+    _inherits(Highlight, _Mark);
+
+    function Highlight(range, className, data, attributes) {
+        _classCallCheck(this, Highlight);
+
+        var _this = _possibleConstructorReturn(this, (Highlight.__proto__ || Object.getPrototypeOf(Highlight)).call(this));
+
+        _this.range = range;
+        _this.className = className;
+        _this.data = data || {};
+        _this.attributes = attributes || {};
+        return _this;
+    }
+
+    _createClass(Highlight, [{
+        key: 'bind',
+        value: function bind(element, container) {
+            _get(Highlight.prototype.__proto__ || Object.getPrototypeOf(Highlight.prototype), 'bind', this).call(this, element, container);
+
+            for (var attr in this.data) {
+                if (this.data.hasOwnProperty(attr)) {
+                    this.element.dataset[attr] = this.data[attr];
+                }
+            }
+
+            for (var attr in this.attributes) {
+                if (this.attributes.hasOwnProperty(attr)) {
+                    this.element.setAttribute(attr, this.attributes[attr]);
+                }
+            }
+
+            if (this.className) {
+                this.element.classList.add(this.className);
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            // Empty element
+            while (this.element.firstChild) {
+                this.element.removeChild(this.element.firstChild);
+            }
+
+            var docFrag = this.element.ownerDocument.createDocumentFragment();
+            var filtered = this.filteredRanges();
+            var offset = this.element.getBoundingClientRect();
+            var container = this.container.getBoundingClientRect();
+
+            for (var i = 0, len = filtered.length; i < len; i++) {
+                var r = filtered[i];
+                var el = _svg2.default.createElement('rect');
+                el.setAttribute('x', r.left - offset.left + container.left);
+                el.setAttribute('y', r.top - offset.top + container.top);
+                el.setAttribute('height', r.height);
+                el.setAttribute('width', r.width);
+                docFrag.appendChild(el);
+            }
+
+            this.element.appendChild(docFrag);
+        }
+    }]);
+
+    return Highlight;
+}(Mark);
+
+var Underline = exports.Underline = function (_Highlight) {
+    _inherits(Underline, _Highlight);
+
+    function Underline(range, className, data, attributes) {
+        _classCallCheck(this, Underline);
+
+        return _possibleConstructorReturn(this, (Underline.__proto__ || Object.getPrototypeOf(Underline)).call(this, range, className, data, attributes));
+    }
+
+    _createClass(Underline, [{
+        key: 'render',
+        value: function render() {
+            // Empty element
+            while (this.element.firstChild) {
+                this.element.removeChild(this.element.firstChild);
+            }
+
+            var docFrag = this.element.ownerDocument.createDocumentFragment();
+            var filtered = this.filteredRanges();
+            var offset = this.element.getBoundingClientRect();
+            var container = this.container.getBoundingClientRect();
+
+            for (var i = 0, len = filtered.length; i < len; i++) {
+                var r = filtered[i];
+
+                var rect = _svg2.default.createElement('rect');
+                rect.setAttribute('x', r.left - offset.left + container.left);
+                rect.setAttribute('y', r.top - offset.top + container.top);
+                rect.setAttribute('height', r.height);
+                rect.setAttribute('width', r.width);
+                rect.setAttribute('fill', 'none');
+
+                var line = _svg2.default.createElement('line');
+                line.setAttribute('x1', r.left - offset.left + container.left);
+                line.setAttribute('x2', r.left - offset.left + container.left + r.width);
+                line.setAttribute('y1', r.top - offset.top + container.top + r.height - 1);
+                line.setAttribute('y2', r.top - offset.top + container.top + r.height - 1);
+
+                line.setAttribute('stroke-width', 1);
+                line.setAttribute('stroke', 'black'); //TODO: match text color?
+                line.setAttribute('stroke-linecap', 'square');
+
+                docFrag.appendChild(rect);
+
+                docFrag.appendChild(line);
+            }
+
+            this.element.appendChild(docFrag);
+        }
+    }]);
+
+    return Underline;
+}(Highlight);
+
+function coords(el, container) {
+    var offset = container.getBoundingClientRect();
+    var rect = el.getBoundingClientRect();
+
+    return {
+        top: rect.top - offset.top,
+        left: rect.left - offset.left,
+        height: el.scrollHeight,
+        width: el.scrollWidth
+    };
+}
+
+function setCoords(el, coords) {
+    el.style.top = coords.top + 'px';
+    el.style.left = coords.left + 'px';
+    el.style.height = coords.height + 'px';
+    el.style.width = coords.width + 'px';
+}
+
+function contains(rect1, rect2) {
+    return rect2.right <= rect1.right && rect2.left >= rect1.left && rect2.top >= rect1.top && rect2.bottom <= rect1.bottom;
+}
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.createElement = createElement;
+function createElement(name) {
+    return document.createElementNS('http://www.w3.org/2000/svg', name);
+}
+
+exports.default = {
+    createElement: createElement
+};
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.proxyMouse = proxyMouse;
+exports.clone = clone;
+// import 'babelify/polyfill'; // needed for Object.assign
+
+exports.default = {
+    proxyMouse: proxyMouse
+};
+
+/**
+ * Start proxying all mouse events that occur on the target node to each node in
+ * a set of tracked nodes.
+ *
+ * The items in tracked do not strictly have to be DOM Nodes, but they do have
+ * to have dispatchEvent, getBoundingClientRect, and getClientRects methods.
+ *
+ * @param target {Node} The node on which to listen for mouse events.
+ * @param tracked {Node[]} A (possibly mutable) array of nodes to which to proxy
+ *                         events.
+ */
+
+function proxyMouse(target, tracked) {
+    function dispatch(e) {
+        // We walk through the set of tracked elements in reverse order so that
+        // events are sent to those most recently added first.
+        //
+        // This is the least surprising behaviour as it simulates the way the
+        // browser would work if items added later were drawn "on top of"
+        // earlier ones.
+        for (var i = tracked.length - 1; i >= 0; i--) {
+            var t = tracked[i];
+            var x = e.clientX;
+            var y = e.clientY;
+
+            if (e.touches && e.touches.length) {
+                x = e.touches[0].clientX;
+                y = e.touches[0].clientY;
+            }
+
+            if (!contains(t, target, x, y)) {
+                continue;
+            }
+
+            // The event targets this mark, so dispatch a cloned event:
+            t.dispatchEvent(clone(e));
+            // We only dispatch the cloned event to the first matching mark.
+            break;
+        }
+    }
+
+    if (target.nodeName === "iframe" || target.nodeName === "IFRAME") {
+
+        try {
+            // Try to get the contents if same domain
+            this.target = target.contentDocument;
+        } catch (err) {
+            this.target = target;
+        }
+    } else {
+        this.target = target;
+    }
+
+    var _arr = ['mouseup', 'mousedown', 'click', 'touchstart'];
+    for (var _i = 0; _i < _arr.length; _i++) {
+        var ev = _arr[_i];
+        this.target.addEventListener(ev, function (e) {
+            return dispatch(e);
+        }, false);
+    }
+}
+
+/**
+ * Clone a mouse event object.
+ *
+ * @param e {MouseEvent} A mouse event object to clone.
+ * @returns {MouseEvent}
+ */
+function clone(e) {
+    var opts = Object.assign({}, e, { bubbles: false });
+    try {
+        return new MouseEvent(e.type, opts);
+    } catch (err) {
+        // compat: webkit
+        var copy = document.createEvent('MouseEvents');
+        copy.initMouseEvent(e.type, false, opts.cancelable, opts.view, opts.detail, opts.screenX, opts.screenY, opts.clientX, opts.clientY, opts.ctrlKey, opts.altKey, opts.shiftKey, opts.metaKey, opts.button, opts.relatedTarget);
+        return copy;
+    }
+}
+
+/**
+ * Check if the item contains the point denoted by the passed coordinates
+ * @param item {Object} An object with getBoundingClientRect and getClientRects
+ *                      methods.
+ * @param x {Number}
+ * @param y {Number}
+ * @returns {Boolean}
+ */
+function contains(item, target, x, y) {
+    // offset
+    var offset = target.getBoundingClientRect();
+
+    function rectContains(r, x, y) {
+        var top = r.top - offset.top;
+        var left = r.left - offset.left;
+        var bottom = top + r.height;
+        var right = left + r.width;
+        return top <= y && left <= x && bottom > y && right > x;
+    }
+
+    // Check overall bounding box first
+    var rect = item.getBoundingClientRect();
+    if (!rectContains(rect, x, y)) {
+        return false;
+    }
+
+    // Then continue to check each child rect
+    var rects = item.getClientRects();
+    for (var i = 0, len = rects.length; i < len; i++) {
+        if (rectContains(rects[i], x, y)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = __webpack_require__(0);
+
+var _throttle = __webpack_require__(57);
+
+var _throttle2 = _interopRequireDefault(_throttle);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Stage = function () {
+	function Stage(_options) {
+		_classCallCheck(this, Stage);
+
+		this.settings = _options || {};
+		this.id = "epubjs-container-" + (0, _core.uuid)();
+
+		this.container = this.create(this.settings);
+
+		if (this.settings.hidden) {
+			this.wrapper = this.wrap(this.container);
+		}
+	}
+
+	/*
+ * Creates an element to render to.
+ * Resizes to passed width and height or to the elements size
+ */
+
+
+	_createClass(Stage, [{
+		key: "create",
+		value: function create(options) {
+			var height = options.height; // !== false ? options.height : "100%";
+			var width = options.width; // !== false ? options.width : "100%";
+			var overflow = options.overflow || false;
+			var axis = options.axis || "vertical";
+			var direction = options.direction;
+
+			if (options.height && (0, _core.isNumber)(options.height)) {
+				height = options.height + "px";
+			}
+
+			if (options.width && (0, _core.isNumber)(options.width)) {
+				width = options.width + "px";
+			}
+
+			// Create new container element
+			var container = document.createElement("div");
+
+			container.id = this.id;
+			container.classList.add("epub-container");
+
+			// Style Element
+			// container.style.fontSize = "0";
+			container.style.wordSpacing = "0";
+			container.style.lineHeight = "0";
+			container.style.verticalAlign = "top";
+			container.style.position = "relative";
+
+			if (axis === "horizontal") {
+				// container.style.whiteSpace = "nowrap";
+				container.style.display = "flex";
+				container.style.flexDirection = "row";
+				container.style.flexWrap = "nowrap";
+			}
+
+			if (width) {
+				container.style.width = width;
+			}
+
+			if (height) {
+				container.style.height = height;
+			}
+
+			if (overflow) {
+				container.style.overflow = overflow;
+			}
+
+			if (direction) {
+				container.dir = direction;
+				container.style["direction"] = direction;
+			}
+
+			if (direction && this.settings.fullsize) {
+				document.body.style["direction"] = direction;
+			}
+
+			return container;
+		}
+	}, {
+		key: "wrap",
+		value: function wrap(container) {
+			var wrapper = document.createElement("div");
+
+			wrapper.style.visibility = "hidden";
+			wrapper.style.overflow = "hidden";
+			wrapper.style.width = "0";
+			wrapper.style.height = "0";
+
+			wrapper.appendChild(container);
+			return wrapper;
+		}
+	}, {
+		key: "getElement",
+		value: function getElement(_element) {
+			var element;
+
+			if ((0, _core.isElement)(_element)) {
+				element = _element;
+			} else if (typeof _element === "string") {
+				element = document.getElementById(_element);
+			}
+
+			if (!element) {
+				throw new Error("Not an Element");
+			}
+
+			return element;
+		}
+	}, {
+		key: "attachTo",
+		value: function attachTo(what) {
+
+			var element = this.getElement(what);
+			var base;
+
+			if (!element) {
+				return;
+			}
+
+			if (this.settings.hidden) {
+				base = this.wrapper;
+			} else {
+				base = this.container;
+			}
+
+			element.appendChild(base);
+
+			this.element = element;
+
+			return element;
+		}
+	}, {
+		key: "getContainer",
+		value: function getContainer() {
+			return this.container;
+		}
+	}, {
+		key: "onResize",
+		value: function onResize(func) {
+			// Only listen to window for resize event if width and height are not fixed.
+			// This applies if it is set to a percent or auto.
+			if (!(0, _core.isNumber)(this.settings.width) || !(0, _core.isNumber)(this.settings.height)) {
+				this.resizeFunc = (0, _throttle2.default)(func, 50);
+				window.addEventListener("resize", this.resizeFunc, false);
+			}
+		}
+	}, {
+		key: "onOrientationChange",
+		value: function onOrientationChange(func) {
+			this.orientationChangeFunc = func;
+			window.addEventListener("orientationchange", this.orientationChangeFunc, false);
+		}
+	}, {
+		key: "size",
+		value: function size(width, height) {
+			var bounds;
+			// var width = _width || this.settings.width;
+			// var height = _height || this.settings.height;
+
+			// If width or height are set to false, inherit them from containing element
+			if (width === null) {
+				bounds = this.element.getBoundingClientRect();
+
+				if (bounds.width) {
+					width = bounds.width;
+					this.container.style.width = bounds.width + "px";
+				}
+			}
+
+			if (height === null) {
+				bounds = bounds || this.element.getBoundingClientRect();
+
+				if (bounds.height) {
+					height = bounds.height;
+					this.container.style.height = bounds.height + "px";
+				}
+			}
+
+			if (!(0, _core.isNumber)(width)) {
+				bounds = this.container.getBoundingClientRect();
+				width = bounds.width;
+				//height = bounds.height;
+			}
+
+			if (!(0, _core.isNumber)(height)) {
+				bounds = bounds || this.container.getBoundingClientRect();
+				//width = bounds.width;
+				height = bounds.height;
+			}
+
+			this.containerStyles = window.getComputedStyle(this.container);
+
+			this.containerPadding = {
+				left: parseFloat(this.containerStyles["padding-left"]) || 0,
+				right: parseFloat(this.containerStyles["padding-right"]) || 0,
+				top: parseFloat(this.containerStyles["padding-top"]) || 0,
+				bottom: parseFloat(this.containerStyles["padding-bottom"]) || 0
+			};
+
+			// Bounds not set, get them from window
+			var _windowBounds = (0, _core.windowBounds)();
+			if (!width) {
+				width = _windowBounds.width;
+			}
+			if (this.settings.fullsize || !height) {
+				height = _windowBounds.height;
+			}
+
+			return {
+				width: width - this.containerPadding.left - this.containerPadding.right,
+				height: height - this.containerPadding.top - this.containerPadding.bottom
+			};
+		}
+	}, {
+		key: "bounds",
+		value: function bounds() {
+			var box = void 0;
+			if (this.container.style.overflow !== "visible") {
+				box = this.container && this.container.getBoundingClientRect();
+			}
+
+			if (!box || !box.width || !box.height) {
+				return (0, _core.windowBounds)();
+			} else {
+				return box;
+			}
+		}
+	}, {
+		key: "getSheet",
+		value: function getSheet() {
+			var style = document.createElement("style");
+
+			// WebKit hack --> https://davidwalsh.name/add-rules-stylesheets
+			style.appendChild(document.createTextNode(""));
+
+			document.head.appendChild(style);
+
+			return style.sheet;
+		}
+	}, {
+		key: "addStyleRules",
+		value: function addStyleRules(selector, rulesArray) {
+			var scope = "#" + this.id + " ";
+			var rules = "";
+
+			if (!this.sheet) {
+				this.sheet = this.getSheet();
+			}
+
+			rulesArray.forEach(function (set) {
+				for (var prop in set) {
+					if (set.hasOwnProperty(prop)) {
+						rules += prop + ":" + set[prop] + ";";
+					}
+				}
+			});
+
+			this.sheet.insertRule(scope + selector + " {" + rules + "}", 0);
+		}
+	}, {
+		key: "axis",
+		value: function axis(_axis) {
+			if (_axis === "horizontal") {
+				this.container.style.display = "flex";
+				this.container.style.flexDirection = "row";
+				this.container.style.flexWrap = "nowrap";
+			} else {
+				this.container.style.display = "block";
+			}
+		}
+
+		// orientation(orientation) {
+		// 	if (orientation === "landscape") {
+		//
+		// 	} else {
+		//
+		// 	}
+		//
+		// 	this.orientation = orientation;
+		// }
+
+	}, {
+		key: "direction",
+		value: function direction(dir) {
+			if (this.container) {
+				this.container.dir = dir;
+				this.container.style["direction"] = dir;
+			}
+
+			if (this.settings.fullsize) {
+				document.body.style["direction"] = dir;
+			}
+		}
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			var base;
+
+			if (this.element) {
+
+				if (this.settings.hidden) {
+					base = this.wrapper;
+				} else {
+					base = this.container;
+				}
+
+				if (this.element.contains(this.container)) {
+					this.element.removeChild(this.container);
+				}
+
+				window.removeEventListener("resize", this.resizeFunc);
+				window.removeEventListener("orientationChange", this.orientationChangeFunc);
+			}
+		}
+	}]);
+
+	return Stage;
+}();
+
+exports.default = Stage;
+module.exports = exports["default"];
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var debounce = __webpack_require__(21),
+    isObject = __webpack_require__(15);
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * Creates a throttled function that only invokes `func` at most once per
+ * every `wait` milliseconds. The throttled function comes with a `cancel`
+ * method to cancel delayed `func` invocations and a `flush` method to
+ * immediately invoke them. Provide `options` to indicate whether `func`
+ * should be invoked on the leading and/or trailing edge of the `wait`
+ * timeout. The `func` is invoked with the last arguments provided to the
+ * throttled function. Subsequent calls to the throttled function return the
+ * result of the last `func` invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the throttled function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.throttle` and `_.debounce`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to throttle.
+ * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=true]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new throttled function.
+ * @example
+ *
+ * // Avoid excessively updating the position while scrolling.
+ * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+ *
+ * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+ * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
+ * jQuery(element).on('click', throttled);
+ *
+ * // Cancel the trailing throttled invocation.
+ * jQuery(window).on('popstate', throttled.cancel);
+ */
+function throttle(func, wait, options) {
+  var leading = true,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  if (isObject(options)) {
+    leading = 'leading' in options ? !!options.leading : leading;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+  return debounce(func, wait, {
+    'leading': leading,
+    'maxWait': wait,
+    'trailing': trailing
+  });
+}
+
+module.exports = throttle;
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__(22);
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+module.exports = now;
+
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+module.exports = freeGlobal;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(15),
+    isSymbol = __webpack_require__(61);
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = toNumber;
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__(62),
+    isObjectLike = __webpack_require__(65);
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && baseGetTag(value) == symbolTag);
+}
+
+module.exports = isSymbol;
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Symbol = __webpack_require__(23),
+    getRawTag = __webpack_require__(63),
+    objectToString = __webpack_require__(64);
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+module.exports = baseGetTag;
+
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Symbol = __webpack_require__(23);
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
+
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
+    }
+  }
+  return result;
+}
+
+module.exports = getRawTag;
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports) {
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+module.exports = objectToString;
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Views = function () {
+	function Views(container) {
+		_classCallCheck(this, Views);
+
+		this.container = container;
+		this._views = [];
+		this.length = 0;
+		this.hidden = false;
+	}
+
+	_createClass(Views, [{
+		key: "all",
+		value: function all() {
+			return this._views;
+		}
+	}, {
+		key: "first",
+		value: function first() {
+			return this._views[0];
+		}
+	}, {
+		key: "last",
+		value: function last() {
+			return this._views[this._views.length - 1];
+		}
+	}, {
+		key: "indexOf",
+		value: function indexOf(view) {
+			return this._views.indexOf(view);
+		}
+	}, {
+		key: "slice",
+		value: function slice() {
+			return this._views.slice.apply(this._views, arguments);
+		}
+	}, {
+		key: "get",
+		value: function get(i) {
+			return this._views[i];
+		}
+	}, {
+		key: "append",
+		value: function append(view) {
+			this._views.push(view);
+			if (this.container) {
+				this.container.appendChild(view.element);
+			}
+			this.length++;
+			return view;
+		}
+	}, {
+		key: "prepend",
+		value: function prepend(view) {
+			this._views.unshift(view);
+			if (this.container) {
+				this.container.insertBefore(view.element, this.container.firstChild);
+			}
+			this.length++;
+			return view;
+		}
+	}, {
+		key: "insert",
+		value: function insert(view, index) {
+			this._views.splice(index, 0, view);
+
+			if (this.container) {
+				if (index < this.container.children.length) {
+					this.container.insertBefore(view.element, this.container.children[index]);
+				} else {
+					this.container.appendChild(view.element);
+				}
+			}
+
+			this.length++;
+			return view;
+		}
+	}, {
+		key: "remove",
+		value: function remove(view) {
+			var index = this._views.indexOf(view);
+
+			if (index > -1) {
+				this._views.splice(index, 1);
+			}
+
+			this.destroy(view);
+
+			this.length--;
+		}
+	}, {
+		key: "destroy",
+		value: function destroy(view) {
+			if (view.displayed) {
+				view.destroy();
+			}
+
+			if (this.container) {
+				this.container.removeChild(view.element);
+			}
+			view = null;
+		}
+
+		// Iterators
+
+	}, {
+		key: "forEach",
+		value: function forEach() {
+			return this._views.forEach.apply(this._views, arguments);
+		}
+	}, {
+		key: "clear",
+		value: function clear() {
+			// Remove all views
+			var view;
+			var len = this.length;
+
+			if (!this.length) return;
+
+			for (var i = 0; i < len; i++) {
+				view = this._views[i];
+				this.destroy(view);
+			}
+
+			this._views = [];
+			this.length = 0;
+		}
+	}, {
+		key: "find",
+		value: function find(section) {
+
+			var view;
+			var len = this.length;
+
+			for (var i = 0; i < len; i++) {
+				view = this._views[i];
+				if (view.displayed && view.section.index == section.index) {
+					return view;
+				}
+			}
+		}
+	}, {
+		key: "displayed",
+		value: function displayed() {
+			var displayed = [];
+			var view;
+			var len = this.length;
+
+			for (var i = 0; i < len; i++) {
+				view = this._views[i];
+				if (view.displayed) {
+					displayed.push(view);
+				}
+			}
+			return displayed;
+		}
+	}, {
+		key: "show",
+		value: function show() {
+			var view;
+			var len = this.length;
+
+			for (var i = 0; i < len; i++) {
+				view = this._views[i];
+				if (view.displayed) {
+					view.show();
+				}
+			}
+			this.hidden = false;
+		}
+	}, {
+		key: "hide",
+		value: function hide() {
+			var view;
+			var len = this.length;
+
+			for (var i = 0; i < len; i++) {
+				view = this._views[i];
+				if (view.displayed) {
+					view.hide();
+				}
+			}
+			this.hidden = true;
+		}
+	}]);
+
+	return Views;
+}();
+
+exports.default = Views;
+module.exports = exports["default"];
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _core = __webpack_require__(0);
+
+var _request = __webpack_require__(11);
+
+var _request2 = _interopRequireDefault(_request);
+
+var _mime = __webpack_require__(17);
+
+var _mime2 = _interopRequireDefault(_mime);
+
+var _path = __webpack_require__(4);
+
+var _path2 = _interopRequireDefault(_path);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Handles Unzipping a requesting files from an Epub Archive
+ * @class
+ */
+var Archive = function () {
+	function Archive() {
+		_classCallCheck(this, Archive);
+
+		this.zip = undefined;
+		this.urlCache = {};
+
+		this.checkRequirements();
+	}
+
+	/**
+  * Checks to see if JSZip exists in global namspace,
+  * Requires JSZip if it isn't there
+  * @private
+  */
+
+
+	_createClass(Archive, [{
+		key: "checkRequirements",
+		value: function checkRequirements() {
+			try {
+				if (typeof JSZip === "undefined") {
+					var _JSZip = __webpack_require__(68);
+					this.zip = new _JSZip();
+				} else {
+					this.zip = new JSZip();
+				}
+			} catch (e) {
+				throw new Error("JSZip lib not loaded");
+			}
+		}
+
+		/**
+   * Open an archive
+   * @param  {binary} input
+   * @param  {boolean} isBase64 tells JSZip if the input data is base64 encoded
+   * @return {Promise} zipfile
+   */
+
+	}, {
+		key: "open",
+		value: function open(input, isBase64) {
+			return this.zip.loadAsync(input, { "base64": isBase64 });
+		}
+
+		/**
+   * Load and Open an archive
+   * @param  {string} zipUrl
+   * @param  {boolean} isBase64 tells JSZip if the input data is base64 encoded
+   * @return {Promise} zipfile
+   */
+
+	}, {
+		key: "openUrl",
+		value: function openUrl(zipUrl, isBase64) {
+			return (0, _request2.default)(zipUrl, "binary").then(function (data) {
+				return this.zip.loadAsync(data, { "base64": isBase64 });
+			}.bind(this));
+		}
+
+		/**
+   * Request a url from the archive
+   * @param  {string} url  a url to request from the archive
+   * @param  {string} [type] specify the type of the returned result
+   * @return {Promise}
+   */
+
+	}, {
+		key: "request",
+		value: function request(url, type) {
+			var deferred = new _core.defer();
+			var response;
+			var path = new _path2.default(url);
+
+			// If type isn't set, determine it from the file extension
+			if (!type) {
+				type = path.extension;
+			}
+
+			if (type == "blob") {
+				response = this.getBlob(url);
+			} else {
+				response = this.getText(url);
+			}
+
+			if (response) {
+				response.then(function (r) {
+					var result = this.handleResponse(r, type);
+					deferred.resolve(result);
+				}.bind(this));
+			} else {
+				deferred.reject({
+					message: "File not found in the epub: " + url,
+					stack: new Error().stack
+				});
+			}
+			return deferred.promise;
+		}
+
+		/**
+   * Handle the response from request
+   * @private
+   * @param  {any} response
+   * @param  {string} [type]
+   * @return {any} the parsed result
+   */
+
+	}, {
+		key: "handleResponse",
+		value: function handleResponse(response, type) {
+			var r;
+
+			if (type == "json") {
+				r = JSON.parse(response);
+			} else if ((0, _core.isXml)(type)) {
+				r = (0, _core.parse)(response, "text/xml");
+			} else if (type == "xhtml") {
+				r = (0, _core.parse)(response, "application/xhtml+xml");
+			} else if (type == "html" || type == "htm") {
+				r = (0, _core.parse)(response, "text/html");
+			} else {
+				r = response;
+			}
+
+			return r;
+		}
+
+		/**
+   * Get a Blob from Archive by Url
+   * @param  {string} url
+   * @param  {string} [mimeType]
+   * @return {Blob}
+   */
+
+	}, {
+		key: "getBlob",
+		value: function getBlob(url, mimeType) {
+			var decodededUrl = window.decodeURIComponent(url.substr(1)); // Remove first slash
+			var entry = this.zip.file(decodededUrl);
+
+			if (entry) {
+				mimeType = mimeType || _mime2.default.lookup(entry.name);
+				return entry.async("uint8array").then(function (uint8array) {
+					return new Blob([uint8array], { type: mimeType });
+				});
+			}
+		}
+
+		/**
+   * Get Text from Archive by Url
+   * @param  {string} url
+   * @param  {string} [encoding]
+   * @return {string}
+   */
+
+	}, {
+		key: "getText",
+		value: function getText(url, encoding) {
+			var decodededUrl = window.decodeURIComponent(url.substr(1)); // Remove first slash
+			var entry = this.zip.file(decodededUrl);
+
+			if (entry) {
+				return entry.async("string").then(function (text) {
+					return text;
+				});
+			}
+		}
+
+		/**
+   * Get a base64 encoded result from Archive by Url
+   * @param  {string} url
+   * @param  {string} [mimeType]
+   * @return {string} base64 encoded
+   */
+
+	}, {
+		key: "getBase64",
+		value: function getBase64(url, mimeType) {
+			var decodededUrl = window.decodeURIComponent(url.substr(1)); // Remove first slash
+			var entry = this.zip.file(decodededUrl);
+
+			if (entry) {
+				mimeType = mimeType || _mime2.default.lookup(entry.name);
+				return entry.async("base64").then(function (data) {
+					return "data:" + mimeType + ";base64," + data;
+				});
+			}
+		}
+
+		/**
+   * Create a Url from an unarchived item
+   * @param  {string} url
+   * @param  {object} [options.base64] use base64 encoding or blob url
+   * @return {Promise} url promise with Url string
+   */
+
+	}, {
+		key: "createUrl",
+		value: function createUrl(url, options) {
+			var deferred = new _core.defer();
+			var _URL = window.URL || window.webkitURL || window.mozURL;
+			var tempUrl;
+			var response;
+			var useBase64 = options && options.base64;
+
+			if (url in this.urlCache) {
+				deferred.resolve(this.urlCache[url]);
+				return deferred.promise;
+			}
+
+			if (useBase64) {
+				response = this.getBase64(url);
+
+				if (response) {
+					response.then(function (tempUrl) {
+
+						this.urlCache[url] = tempUrl;
+						deferred.resolve(tempUrl);
+					}.bind(this));
+				}
+			} else {
+
+				response = this.getBlob(url);
+
+				if (response) {
+					response.then(function (blob) {
+
+						tempUrl = _URL.createObjectURL(blob);
+						this.urlCache[url] = tempUrl;
+						deferred.resolve(tempUrl);
+					}.bind(this));
+				}
+			}
+
+			if (!response) {
+				deferred.reject({
+					message: "File not found in the epub: " + url,
+					stack: new Error().stack
+				});
+			}
+
+			return deferred.promise;
+		}
+
+		/**
+   * Revoke Temp Url for a achive item
+   * @param  {string} url url of the item in the archive
+   */
+
+	}, {
+		key: "revokeUrl",
+		value: function revokeUrl(url) {
+			var _URL = window.URL || window.webkitURL || window.mozURL;
+			var fromCache = this.urlCache[url];
+			if (fromCache) _URL.revokeObjectURL(fromCache);
+		}
+	}, {
+		key: "destroy",
+		value: function destroy() {
+			var _URL = window.URL || window.webkitURL || window.mozURL;
+			for (var fromCache in this.urlCache) {
+				_URL.revokeObjectURL(fromCache);
+			}
+			this.zip = undefined;
+			this.urlCache = {};
+		}
+	}]);
+
+	return Archive;
+}();
+
+exports.default = Archive;
+module.exports = exports["default"];
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports) {
+
+if(typeof __WEBPACK_EXTERNAL_MODULE_68__ === 'undefined') {var e = new Error("Cannot find module \"jszip\""); e.code = 'MODULE_NOT_FOUND'; throw e;}
+module.exports = __WEBPACK_EXTERNAL_MODULE_68__;
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* From https://github.com/webcomponents/URL/blob/master/url.js
+ * Added UMD, file link handling */
+
+/* Any copyright is dedicated to the Public Domain.
+ * http://creativecommons.org/publicdomain/zero/1.0/ */
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+(function (root, factory) {
+  // Fix for this being undefined in modules
+  if (!root) {
+    root = window || global;
+  }
+  if (( false ? 'undefined' : _typeof(module)) === 'object' && module.exports) {
+    // Node
+    module.exports = factory(root);
+  } else if (true) {
+    // AMD. Register as an anonymous module.
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {
+    // Browser globals (root is window)
+    root.URL = factory(root);
+  }
+})(undefined, function (scope) {
+  // feature detect for URL constructor
+  var hasWorkingUrl = false;
+  if (!scope.forceJURL) {
+    try {
+      var u = new URL('b', 'http://a');
+      u.pathname = 'c%20d';
+      hasWorkingUrl = u.href === 'http://a/c%20d';
+    } catch (e) {}
+  }
+
+  if (hasWorkingUrl) return scope.URL;
+
+  var relative = Object.create(null);
+  relative['ftp'] = 21;
+  relative['file'] = 0;
+  relative['gopher'] = 70;
+  relative['http'] = 80;
+  relative['https'] = 443;
+  relative['ws'] = 80;
+  relative['wss'] = 443;
+
+  var relativePathDotMapping = Object.create(null);
+  relativePathDotMapping['%2e'] = '.';
+  relativePathDotMapping['.%2e'] = '..';
+  relativePathDotMapping['%2e.'] = '..';
+  relativePathDotMapping['%2e%2e'] = '..';
+
+  function isRelativeScheme(scheme) {
+    return relative[scheme] !== undefined;
+  }
+
+  function invalid() {
+    clear.call(this);
+    this._isInvalid = true;
+  }
+
+  function IDNAToASCII(h) {
+    if ('' == h) {
+      invalid.call(this);
+    }
+    // XXX
+    return h.toLowerCase();
+  }
+
+  function percentEscape(c) {
+    var unicode = c.charCodeAt(0);
+    if (unicode > 0x20 && unicode < 0x7F &&
+    // " # < > ? `
+    [0x22, 0x23, 0x3C, 0x3E, 0x3F, 0x60].indexOf(unicode) == -1) {
+      return c;
+    }
+    return encodeURIComponent(c);
+  }
+
+  function percentEscapeQuery(c) {
+    // XXX This actually needs to encode c using encoding and then
+    // convert the bytes one-by-one.
+
+    var unicode = c.charCodeAt(0);
+    if (unicode > 0x20 && unicode < 0x7F &&
+    // " # < > ` (do not escape '?')
+    [0x22, 0x23, 0x3C, 0x3E, 0x60].indexOf(unicode) == -1) {
+      return c;
+    }
+    return encodeURIComponent(c);
+  }
+
+  var EOF = undefined,
+      ALPHA = /[a-zA-Z]/,
+      ALPHANUMERIC = /[a-zA-Z0-9\+\-\.]/;
+
+  function parse(input, stateOverride, base) {
+    function err(message) {
+      errors.push(message);
+    }
+
+    var state = stateOverride || 'scheme start',
+        cursor = 0,
+        buffer = '',
+        seenAt = false,
+        seenBracket = false,
+        errors = [];
+
+    loop: while ((input[cursor - 1] != EOF || cursor == 0) && !this._isInvalid) {
+      var c = input[cursor];
+      switch (state) {
+        case 'scheme start':
+          if (c && ALPHA.test(c)) {
+            buffer += c.toLowerCase(); // ASCII-safe
+            state = 'scheme';
+          } else if (!stateOverride) {
+            buffer = '';
+            state = 'no scheme';
+            continue;
+          } else {
+            err('Invalid scheme.');
+            break loop;
+          }
+          break;
+
+        case 'scheme':
+          if (c && ALPHANUMERIC.test(c)) {
+            buffer += c.toLowerCase(); // ASCII-safe
+          } else if (':' == c) {
+            this._scheme = buffer;
+            buffer = '';
+            if (stateOverride) {
+              break loop;
+            }
+            if (isRelativeScheme(this._scheme)) {
+              this._isRelative = true;
+            }
+            if ('file' == this._scheme) {
+              state = 'relative';
+            } else if (this._isRelative && base && base._scheme == this._scheme) {
+              state = 'relative or authority';
+            } else if (this._isRelative) {
+              state = 'authority first slash';
+            } else {
+              state = 'scheme data';
+            }
+          } else if (!stateOverride) {
+            buffer = '';
+            cursor = 0;
+            state = 'no scheme';
+            continue;
+          } else if (EOF == c) {
+            break loop;
+          } else {
+            err('Code point not allowed in scheme: ' + c);
+            break loop;
+          }
+          break;
+
+        case 'scheme data':
+          if ('?' == c) {
+            this._query = '?';
+            state = 'query';
+          } else if ('#' == c) {
+            this._fragment = '#';
+            state = 'fragment';
+          } else {
+            // XXX error handling
+            if (EOF != c && '\t' != c && '\n' != c && '\r' != c) {
+              this._schemeData += percentEscape(c);
+            }
+          }
+          break;
+
+        case 'no scheme':
+          if (!base || !isRelativeScheme(base._scheme)) {
+            err('Missing scheme.');
+            invalid.call(this);
+          } else {
+            state = 'relative';
+            continue;
+          }
+          break;
+
+        case 'relative or authority':
+          if ('/' == c && '/' == input[cursor + 1]) {
+            state = 'authority ignore slashes';
+          } else {
+            err('Expected /, got: ' + c);
+            state = 'relative';
+            continue;
+          }
+          break;
+
+        case 'relative':
+          this._isRelative = true;
+          if ('file' != this._scheme) this._scheme = base._scheme;
+          if (EOF == c) {
+            this._host = base._host;
+            this._port = base._port;
+            this._path = base._path.slice();
+            this._query = base._query;
+            this._username = base._username;
+            this._password = base._password;
+            break loop;
+          } else if ('/' == c || '\\' == c) {
+            if ('\\' == c) err('\\ is an invalid code point.');
+            state = 'relative slash';
+          } else if ('?' == c) {
+            this._host = base._host;
+            this._port = base._port;
+            this._path = base._path.slice();
+            this._query = '?';
+            this._username = base._username;
+            this._password = base._password;
+            state = 'query';
+          } else if ('#' == c) {
+            this._host = base._host;
+            this._port = base._port;
+            this._path = base._path.slice();
+            this._query = base._query;
+            this._fragment = '#';
+            this._username = base._username;
+            this._password = base._password;
+            state = 'fragment';
+          } else {
+            var nextC = input[cursor + 1];
+            var nextNextC = input[cursor + 2];
+            if ('file' != this._scheme || !ALPHA.test(c) || nextC != ':' && nextC != '|' || EOF != nextNextC && '/' != nextNextC && '\\' != nextNextC && '?' != nextNextC && '#' != nextNextC) {
+              this._host = base._host;
+              this._port = base._port;
+              this._username = base._username;
+              this._password = base._password;
+              this._path = base._path.slice();
+              this._path.pop();
+            }
+            state = 'relative path';
+            continue;
+          }
+          break;
+
+        case 'relative slash':
+          if ('/' == c || '\\' == c) {
+            if ('\\' == c) {
+              err('\\ is an invalid code point.');
+            }
+            if ('file' == this._scheme) {
+              state = 'file host';
+            } else {
+              state = 'authority ignore slashes';
+            }
+          } else {
+            if ('file' != this._scheme) {
+              this._host = base._host;
+              this._port = base._port;
+              this._username = base._username;
+              this._password = base._password;
+            }
+            state = 'relative path';
+            continue;
+          }
+          break;
+
+        case 'authority first slash':
+          if ('/' == c) {
+            state = 'authority second slash';
+          } else {
+            err("Expected '/', got: " + c);
+            state = 'authority ignore slashes';
+            continue;
+          }
+          break;
+
+        case 'authority second slash':
+          state = 'authority ignore slashes';
+          if ('/' != c) {
+            err("Expected '/', got: " + c);
+            continue;
+          }
+          break;
+
+        case 'authority ignore slashes':
+          if ('/' != c && '\\' != c) {
+            state = 'authority';
+            continue;
+          } else {
+            err('Expected authority, got: ' + c);
+          }
+          break;
+
+        case 'authority':
+          if ('@' == c) {
+            if (seenAt) {
+              err('@ already seen.');
+              buffer += '%40';
+            }
+            seenAt = true;
+            for (var i = 0; i < buffer.length; i++) {
+              var cp = buffer[i];
+              if ('\t' == cp || '\n' == cp || '\r' == cp) {
+                err('Invalid whitespace in authority.');
+                continue;
+              }
+              // XXX check URL code points
+              if (':' == cp && null === this._password) {
+                this._password = '';
+                continue;
+              }
+              var tempC = percentEscape(cp);
+              null !== this._password ? this._password += tempC : this._username += tempC;
+            }
+            buffer = '';
+          } else if (EOF == c || '/' == c || '\\' == c || '?' == c || '#' == c) {
+            cursor -= buffer.length;
+            buffer = '';
+            state = 'host';
+            continue;
+          } else {
+            buffer += c;
+          }
+          break;
+
+        case 'file host':
+          if (EOF == c || '/' == c || '\\' == c || '?' == c || '#' == c) {
+            if (buffer.length == 2 && ALPHA.test(buffer[0]) && (buffer[1] == ':' || buffer[1] == '|')) {
+              state = 'relative path';
+            } else if (buffer.length == 0) {
+              state = 'relative path start';
+            } else {
+              this._host = IDNAToASCII.call(this, buffer);
+              buffer = '';
+              state = 'relative path start';
+            }
+            continue;
+          } else if ('\t' == c || '\n' == c || '\r' == c) {
+            err('Invalid whitespace in file host.');
+          } else {
+            buffer += c;
+          }
+          break;
+
+        case 'host':
+        case 'hostname':
+          if (':' == c && !seenBracket) {
+            // XXX host parsing
+            this._host = IDNAToASCII.call(this, buffer);
+            buffer = '';
+            state = 'port';
+            if ('hostname' == stateOverride) {
+              break loop;
+            }
+          } else if (EOF == c || '/' == c || '\\' == c || '?' == c || '#' == c) {
+            this._host = IDNAToASCII.call(this, buffer);
+            buffer = '';
+            state = 'relative path start';
+            if (stateOverride) {
+              break loop;
+            }
+            continue;
+          } else if ('\t' != c && '\n' != c && '\r' != c) {
+            if ('[' == c) {
+              seenBracket = true;
+            } else if (']' == c) {
+              seenBracket = false;
+            }
+            buffer += c;
+          } else {
+            err('Invalid code point in host/hostname: ' + c);
+          }
+          break;
+
+        case 'port':
+          if (/[0-9]/.test(c)) {
+            buffer += c;
+          } else if (EOF == c || '/' == c || '\\' == c || '?' == c || '#' == c || stateOverride) {
+            if ('' != buffer) {
+              var temp = parseInt(buffer, 10);
+              if (temp != relative[this._scheme]) {
+                this._port = temp + '';
+              }
+              buffer = '';
+            }
+            if (stateOverride) {
+              break loop;
+            }
+            state = 'relative path start';
+            continue;
+          } else if ('\t' == c || '\n' == c || '\r' == c) {
+            err('Invalid code point in port: ' + c);
+          } else {
+            invalid.call(this);
+          }
+          break;
+
+        case 'relative path start':
+          if ('\\' == c) err("'\\' not allowed in path.");
+          state = 'relative path';
+          if ('/' != c && '\\' != c) {
+            continue;
+          }
+          break;
+
+        case 'relative path':
+          if (EOF == c || '/' == c || '\\' == c || !stateOverride && ('?' == c || '#' == c)) {
+            if ('\\' == c) {
+              err('\\ not allowed in relative path.');
+            }
+            var tmp;
+            if (tmp = relativePathDotMapping[buffer.toLowerCase()]) {
+              buffer = tmp;
+            }
+            if ('..' == buffer) {
+              this._path.pop();
+              if ('/' != c && '\\' != c) {
+                this._path.push('');
+              }
+            } else if ('.' == buffer && '/' != c && '\\' != c) {
+              this._path.push('');
+            } else if ('.' != buffer) {
+              if ('file' == this._scheme && this._path.length == 0 && buffer.length == 2 && ALPHA.test(buffer[0]) && buffer[1] == '|') {
+                buffer = buffer[0] + ':';
+              }
+              this._path.push(buffer);
+            }
+            buffer = '';
+            if ('?' == c) {
+              this._query = '?';
+              state = 'query';
+            } else if ('#' == c) {
+              this._fragment = '#';
+              state = 'fragment';
+            }
+          } else if ('\t' != c && '\n' != c && '\r' != c) {
+            buffer += percentEscape(c);
+          }
+          break;
+
+        case 'query':
+          if (!stateOverride && '#' == c) {
+            this._fragment = '#';
+            state = 'fragment';
+          } else if (EOF != c && '\t' != c && '\n' != c && '\r' != c) {
+            this._query += percentEscapeQuery(c);
+          }
+          break;
+
+        case 'fragment':
+          if (EOF != c && '\t' != c && '\n' != c && '\r' != c) {
+            this._fragment += c;
+          }
+          break;
+      }
+
+      cursor++;
+    }
+  }
+
+  function clear() {
+    this._scheme = '';
+    this._schemeData = '';
+    this._username = '';
+    this._password = null;
+    this._host = '';
+    this._port = '';
+    this._path = [];
+    this._query = '';
+    this._fragment = '';
+    this._isInvalid = false;
+    this._isRelative = false;
+  }
+
+  // Does not process domain names or IP addresses.
+  // Does not handle encoding for the query parameter.
+  function jURL(url, base /* , encoding */) {
+    if (base !== undefined && !(base instanceof jURL)) base = new jURL(String(base));
+
+    this._url = url;
+    clear.call(this);
+
+    var input = url.replace(/^[ \t\r\n\f]+|[ \t\r\n\f]+$/g, '');
+    // encoding = encoding || 'utf-8'
+
+    parse.call(this, input, null, base);
+  }
+
+  jURL.prototype = {
+    toString: function toString() {
+      return this.href;
+    },
+    get href() {
+      if (this._isInvalid) return this._url;
+
+      var authority = '';
+      if ('' != this._username || null != this._password) {
+        authority = this._username + (null != this._password ? ':' + this._password : '') + '@';
+      }
+
+      return this.protocol + (this._isRelative ? '//' + authority + this.host : '') + this.pathname + this._query + this._fragment;
+    },
+    set href(href) {
+      clear.call(this);
+      parse.call(this, href);
+    },
+
+    get protocol() {
+      return this._scheme + ':';
+    },
+    set protocol(protocol) {
+      if (this._isInvalid) return;
+      parse.call(this, protocol + ':', 'scheme start');
+    },
+
+    get host() {
+      return this._isInvalid ? '' : this._port ? this._host + ':' + this._port : this._host;
+    },
+    set host(host) {
+      if (this._isInvalid || !this._isRelative) return;
+      parse.call(this, host, 'host');
+    },
+
+    get hostname() {
+      return this._host;
+    },
+    set hostname(hostname) {
+      if (this._isInvalid || !this._isRelative) return;
+      parse.call(this, hostname, 'hostname');
+    },
+
+    get port() {
+      return this._port;
+    },
+    set port(port) {
+      if (this._isInvalid || !this._isRelative) return;
+      parse.call(this, port, 'port');
+    },
+
+    get pathname() {
+      return this._isInvalid ? '' : this._isRelative ? '/' + this._path.join('/') : this._schemeData;
+    },
+    set pathname(pathname) {
+      if (this._isInvalid || !this._isRelative) return;
+      this._path = [];
+      parse.call(this, pathname, 'relative path start');
+    },
+
+    get search() {
+      return this._isInvalid || !this._query || '?' == this._query ? '' : this._query;
+    },
+    set search(search) {
+      if (this._isInvalid || !this._isRelative) return;
+      this._query = '?';
+      if ('?' == search[0]) search = search.slice(1);
+      parse.call(this, search, 'query');
+    },
+
+    get hash() {
+      return this._isInvalid || !this._fragment || '#' == this._fragment ? '' : this._fragment;
+    },
+    set hash(hash) {
+      if (this._isInvalid) return;
+      this._fragment = '#';
+      if ('#' == hash[0]) hash = hash.slice(1);
+      parse.call(this, hash, 'fragment');
+    },
+
+    get origin() {
+      var host;
+      if (this._isInvalid || !this._scheme) {
+        return '';
+      }
+      // javascript: Gecko returns String(""), WebKit/Blink String("null")
+      // Gecko throws error for "data://"
+      // data: Gecko returns "", Blink returns "data://", WebKit returns "null"
+      // Gecko returns String("") for file: mailto:
+      // WebKit/Blink returns String("SCHEME://") for file: mailto:
+      switch (this._scheme) {
+        case 'file':
+          return 'file://'; // EPUBJS Added
+        case 'data':
+        case 'javascript':
+        case 'mailto':
+          return 'null';
+      }
+      host = this.host;
+      if (!host) {
+        return '';
+      }
+      return this._scheme + '://' + host;
+    }
+  };
+
+  // Copy over the static methods
+  var OriginalURL = scope.URL;
+  if (OriginalURL) {
+    jURL.createObjectURL = function (blob) {
+      // IE extension allows a second optional options argument.
+      // http://msdn.microsoft.com/en-us/library/ie/hh772302(v=vs.85).aspx
+      return OriginalURL.createObjectURL.apply(OriginalURL, arguments);
+    };
+    jURL.revokeObjectURL = function (url) {
+      OriginalURL.revokeObjectURL(url);
+    };
+  }
+
+  return jURL;
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(70)(module)))
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ })
+/******/ ]);
+});
+//# sourceMappingURL=epub.js.map

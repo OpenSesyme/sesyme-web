@@ -1,116 +1,179 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Sesyme | Book Preview</title>
-	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  	<link rel="stylesheet" href="../css/w3.css">
-  	<link rel="stylesheet" href="../css/font-awesome/css/font-awesome.css">
-  	<link rel="stylesheet" type="../text/css" href="../css/animation.css">
-  	<link rel="stylesheet" type="text/css" href="../css/animate.css">
-  	<link rel="stylesheet" type="text/css" href="../css/main.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  	<script type="text/javascript" src="../js/main.js"></script>
-  	<style type="text/css">
-  	    body {
-		  margin: 0;
-		  background: #fafafa;
-		  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-		  color: #333;
-		  position: absolute;
-		  height: 100%;
-		  width: 100%;
-		  min-height: 800px;
-		}
-  	</style>
+  <title>Sesyme | Reader</title>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/w3.css">
+    <link rel="stylesheet" href="../css/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="../text/css" href="../css/animation.css">
+    <link rel="stylesheet" type="text/css" href="../css/animate.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/main.js"></script>
+    <style type="text/css">
+        body {
+          margin: 0;
+          background: #f2f2f2;
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          color: #333;
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          min-height: 800px;
+        }
+        #toc_modal.modal.right .modal-dialog {
+  position: fixed;
+  margin: auto;
+  width: 320px;
+  height: 100%;
+  -webkit-transform: translate3d(0%, 0, 0);
+      -ms-transform: translate3d(0%, 0, 0);
+       -o-transform: translate3d(0%, 0, 0);
+          transform: translate3d(0%, 0, 0);
+}
+
+#toc_modal.modal.right .modal-content {
+  height: 100%;
+  overflow-y: auto;
+}
+
+#toc_modal.modal.right .modal-body {
+  padding: 15px 15px 80px;
+}
+
+#toc_modal.modal.right.fade .modal-dialog {
+  right: 0px;
+  -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+     -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+       -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+          transition: opacity 0.3s linear, right 0.3s ease-out;
+}
+
+#toc_modal.modal.right.fade.in .modal-dialog {
+  right: 0;
+}
+
+#toc_modal .modal-content {
+  border-radius: 0;
+  border: none;
+}
+
+#toc_modal .modal-header {
+  border-bottom-color: #EEEEEE;
+  background-color: #FAFAFA;
+}
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm fixed-top w3-card write-quest-nav">
-		<ul class="nav navbar-nav">
+  <nav class="navbar navbar-expand-sm fixed-top w3-card write-quest-nav">
+    <ul class="nav navbar-nav">
             <li class="nav-item">
                 <button type="button" class="nav-link" onclick="history.back(-1)"><i class="fa fa-arrow-left"></i> Back</button>
             </li>
         </ul>
 
-		<ul class="nav navbar-nav">
-			<li class="nav-item" style="margin-left: 20px;">
-				<h3 class="book-title-on-preview"></h3>
-			</li>
-			<li class="nav-item" style="margin-left: 20px; margin-top: 10px; radius: 5px;">
-				<input id="search_book" type="text" placeHolder="Type to search" style="padding-left: 10px; padding-right: 10px; border: none; border-radius: 5px;"/>
-			</li>
-			
-			<li class="nav-item" style="margin-left: 20px; margin-top: 10px; radius: 5px;">
-			    <button class="searchBtn" id="previous_search">Prev</button>
-			</li>
-			
-			<li class="nav-item" style="margin-left: 20px; margin-top: 10px; radius: 5px;">
-			    <p class="searchBtn" id="results_search"></p>
-			</li>
-			
-			<li class="nav-item" style="margin-left: 20px; margin-top: 10px; radius: 5px;">
-			    <button class="searchBtn" id="next_search">Next</button>
-			</li>
-		</ul>
-		
-		<ul class="navbar-nav ml-auto">
-			<li id="full_screen" class="nav-item" style="cursor: pointer;">
-				<p hidden>Full Screen</p>
-				<img id="fullscreen_img" src="../img/fullscreen.png" style="width: 20px">
-			</li>
-			<li class="dropdown nav-item ml-3">
-			    <a style="cursor: pointer" class="trigger-drop"><i class="fa fa-list-ul" style="font-size: 26px"></i></a>
-			    <ul class="drop list-unstyled" style="cursor: pointer;"></ul>
-			</li>
-		</ul>
-	</nav>
-	<div class="scroll">
-	    <div id="title"></div> 
-        <!--<select id="toc"></select>-->
+    <ul class="nav navbar-nav">
+      <li class="nav-item" style="margin-left: 20px;">
+        <h3 class="book-title-on-preview"></h3>
+      </li>
+      <li class="nav-item" style="margin-left: 20px; margin-top: 10px; radius: 5px;">
+        <input id="search_book" type="text" placeHolder="Type to search" style="padding-left: 10px; padding-right: 10px; border: none; border-radius: 5px;"/>
+      </li>
+      
+      <li class="nav-item" style="margin-left: 20px; margin-top: 10px; radius: 5px;">
+          <button class="searchBtn" id="previous_search">Prev</button>
+      </li>
+      
+      <li class="nav-item" style="margin-left: 20px; margin-top: 10px; radius: 5px;">
+          <p class="searchBtn" id="results_search"></p>
+      </li>
+      
+      <li class="nav-item" style="margin-left: 20px; margin-top: 10px; radius: 5px;">
+          <button class="searchBtn" id="next_search">Next</button>
+      </li>
+    </ul>
+    
+    <ul class="navbar-nav ml-auto">
+      <li id="full_screen" class="nav-item ml-3" style="cursor: pointer;">
+        <p hidden>Full Screen</p>
+        <img id="fullscreen_img" src="../img/fullscreen.png" style="width: 20px">
+      </li>
+      <li class="dropdown nav-item ml-3">
+          <a style="cursor: pointer" class="trigger-drop"><img src="../img/info.png" style="width: 20px" /></a>
+          <ul id="highlights" class="drop list-unstyled" style="cursor: pointer;"></ul>
+      </li>
+      <li class="nav-item ">
+          <a id="tableOfContents" data-toggle="modal" data-target="#toc_modal" style="cursor: pointer">
+              <i class="fa fa-list-ul" style="font-size: 26px"></i>
+            </a>
+      </li>
+    </ul>
+  </nav>
+  
+  <div class="modal right fade" id="toc_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Table of Contents</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <ul id="toc">
+          </ul>
+        </div>
+
+      </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+  </div><!-- modal -->
+  
+  <div>
+      <div id="title"></div> 
         <div id="viewer" class="spreads viewerNormalScreen"></div>
         <a id="prev" href="#prev" class="arrow">‹</a>
-        <a id="next" href="#next" class="arrow">›</a>  
-        <div id="extras">
-            <ul id="highlights"></ul>
-        </div>
-    </div>
-    <div class="progress-bar-container w3-card">
-        <div class="progress-bar">
-          <span class="bar">
-            <span class="progress"></span>
-          </span>
+        <a id="next" href="#next" class="arrow">›</a>
+        <div class="progress-bar-container w3-card">
+            <div class="progress-bar">
+              <span class="bar">
+                <span class="progress" id="myProgress"></span>
+              </span>
+            </div>
         </div>
     </div>
 
-	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
-  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
-  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
-  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
-  	<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-messaging.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
-  	<script type="text/javascript" src="../js/main.js"></script>
-  	<script type="text/javascript" src="../js/epub.js"></script>
-  	<script type="text/javascript" src="../js/functions.js"></script>
-  	<script src="https://unpkg.com/popper.js@1"></script>
-    <script src="https://unpkg.com/tippy.js@5"></script>
-    <script>
-        // $('body').mouseup(function (e) { 
-        //     if ($(e.target).closest(".progress-bar-container").length === 0) { 
-        //         $(".progress-bar-container").hide();
-        //         $(".write-quest-nav").hide();
-        //     }
-        // });
-        
-        // window.onclick = function(event) {
-        //   $(".progress-bar-container").hide();
-        // }
-    </script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-messaging.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+  <script type="text/javascript" src="../js/main.js"></script>
+  <script type="text/javascript" src="../js/epub.js"></script>
+  <script type="text/javascript" src="../js/functions.js"></script>
+  <script src="https://unpkg.com/popper.js@1"></script>
+  <script src="https://unpkg.com/tippy.js@5"></script>
+  <script>
+      // $('body').mouseup(function (e) { 
+      //     if ($(e.target).closest(".progress-bar-container").length === 0) { 
+      //         $(".progress-bar-container").hide();
+      //         $(".write-quest-nav").hide();
+      //     }
+      // });
+      
+      // window.onclick = function(event) {
+      //   $(".progress-bar-container").hide();
+      // }
+  </script>
 </body>
 </html>

@@ -913,6 +913,10 @@ function pagination(){
 =======================================*/
 function loadQuestionsPage(){
 	showLoader();
+	$('#navbar_menu').on('click', 'li', function(){
+		var menuItem = $(this).find('h3').text().trim();
+		openMenuItem(menuItem);
+	});
 	UsersRef.doc(sessionStorage.getItem("user_id")).onSnapshot(function(user)
 	{
 		var html = '';
@@ -1116,6 +1120,29 @@ function loadQuestionsPage(){
 			window.location.href = "../profile/profile.html";
 		}
 	});
+}
+
+function openMenuItem(menuItem){
+	$('body').children('section').hide();
+	if (menuItem == "Home") {
+		$('#q_and_a').show();
+	}else{
+		$('#'+menuItem.toLowerCase()+'_section').show();
+	}
+	
+	switch(menuItem){
+	case "Books":
+		loadLibrary();
+	break;
+	case "Notifications":
+		load_notifications();
+	break;
+	case "Profile":
+		loadProfile();
+	break;
+	default:
+		loadQuestionsPage();
+	}
 }
 
 function fetchQuestions(){
@@ -2917,7 +2944,7 @@ $('#report_description').on('keyup focusout', function()
 	var report_description = $(this).val();
 	if(report_description.length < 6)
 	{
-		show_feedback_status("Your report report description should be at least 10 letters long");
+		show_feedback_status("Your report description should be at least 10 letters long");
 	}else
 	{
 		show_feedback_status(null);
@@ -2983,8 +3010,7 @@ function sendEmail()
 	var description = $('#report_description').val().trim();
 	var fullname = "";
 	UsersRef.doc(sessionStorage.getItem("user_id")).get()
-	.then(function(data)
-	{
+	.then(function(data){
 		$('.feedback-submit').addClass('disabled');
 		$.ajax(
 		{
@@ -3002,16 +3028,13 @@ function sendEmail()
 			console.log(error);
 		});
 	});
-}  
+}
 
-
-	function composeTidy()
-	{
-
-	$('#report').val('');
-	$('#report_description').val('');
-	$('.feedback_status').html("<div>Email sent</div>");
-	$('.feedback-submit').removeClass('disabled');
+	function composeTidy(){
+		$('#report').val('');
+		$('#report_description').val('');
+		$('.feedback_status').html("<div>Email sent</div>");
+		$('.feedback-submit').removeClass('disabled');
 	}
 
 /*======================================
@@ -3081,7 +3104,7 @@ function loadLibrary(){
 	$('#library_div').on('click', '.book', function(){
 		var bookUrl = $(this).find('p').text();
 		sessionStorage.setItem("BookUrl", bookUrl);
-		window.location.href="preview.html";
+		window.location.href="../books/preview.html";
 	});
 	
 	$('#search_books').on('keyup', function(){
@@ -3130,6 +3153,7 @@ function loadReading(){
     var params = URLSearchParams && new URLSearchParams(document.location.search.substring(1));
     var url = params && params.get("url") && decodeURIComponent(params.get("url"));
     var currentSectionIndex = (params && params.get("loc")) ? params.get("loc") : undefined;
+    var bar = document.getElementById("myProgress");
     var pageTimeout = null;
     var currentCfi;
     var bookId;
@@ -3167,26 +3191,25 @@ function loadReading(){
                 doSearch(searchText).then((results) =>{
                     var index = 0;
                     if(results.length > 0){
-                        displayResult(results, index);
+                        var oldIndex = -1;
+                        displayResult(results, oldIndex, index);
                         $('.searchBtn').show();
                     }else{
                         $('.searchBtn').hide();
                     }
-                    results.forEach((result) =>{
-                        var cfi = result.cfi;
-                        rendition.annotations.add("highlight", cfi, {}, (e) => {console.log("highlight clicked", e.target);} , "hl", {"fill": "blue", "fill-opacity": "0.3", "mix-blend-mode": "multiply"});
-                    })
                     $('#next_search').on('click', function(){
                         if(index < (results.length - 1)){
                             index++;
-                            displayResult(results, index);
+                            var oldIndex = index - 1;
+                            displayResult(results, oldIndex, index);
                             
                         }
                     });
                     $('#previous_search').on('click', function(){
                         if(index > 0){
                             index--;
-                            displayResult(results, index);
+                            var oldIndex = index + 1;
+                            displayResult(results, oldIndex, index);
                         }
                     });
                 });
@@ -3201,6 +3224,40 @@ function loadReading(){
         	}
         	savedHighlights.forEach((cfiRange) => {
                 rendition.annotations.highlight(cfiRange);
+                book.getRange(cfiRange).then(function (range) {
+                    var li = document.createElement('li');
+                    var a = document.createElement('a');
+                    var remove = document.createElement('a');
+                    var textNode;
+                    var text;
+                    saveHighlight(cfiRange);
+                    
+                    localStorage.setItem("highlights" + bookId, JSON.stringify(savedHighlights));
+            
+                    if (range) {
+                      text = range.toString();
+                      textNode = document.createTextNode(text);
+            
+                      a.textContent = cfiRange;
+                      a.href = "#" + cfiRange;
+                      a.onclick = function () {
+                        rendition.display(cfiRange);
+                      };
+            
+                      remove.textContent = "remove";
+                      remove.href = "#" + cfiRange;
+                      remove.onclick = function () {
+                        rendition.annotations.remove(cfiRange);
+                        $(this).closest('li').remove();
+                        return false;
+                      };
+            
+                      li.appendChild(a);
+                      li.appendChild(textNode);
+                      li.appendChild(remove);
+                      highlights.appendChild(li);
+                    }
+                });
             });
             rendition.display(localStorage.getItem('cfi'+bookId));
             $('.book-title-on-preview').text(title);
@@ -3231,6 +3288,13 @@ function loadReading(){
 
         rendition.on("keyup", keyListener);
         document.addEventListener("keyup", keyListener, false);
+        $(window).on( "swipeleft", function( event ) {
+            rendition.next();
+        });
+        
+        $(window).on( "swiperight", function( event ) {
+            rendition.prev();
+        });
     });
 
     var title = document.getElementById("title");
@@ -3260,7 +3324,7 @@ function loadReading(){
       var current = book.navigation && book.navigation.get(section.href);
 
       if (current) {
-        var $select = document.getElementsByClassName("list-unstyled")[0];
+        var $select = document.getElementById("toc");
         var $selected = $select.querySelector("option[selected]");
         if ($selected) {
           $selected.removeAttribute("selected");
@@ -3278,7 +3342,9 @@ function loadReading(){
 
     rendition.on("relocated", function(location){
         currentCfi = location.start.cfi;
-        $('.progress').text((book.locations.percentageFromCfi(currentCfi)) * 100);
+        var progress = ((book.locations.percentageFromCfi(currentCfi)) * 100).toFixed(2);
+        console.log(progress);
+        setProgress(progress);
         if(pageTimeout != null){
             clearTimeout(pageTimeout);
         }
@@ -3309,7 +3375,7 @@ function loadReading(){
     });
 
     book.loaded.navigation.then(function(toc){
-		var $select = document.getElementsByClassName("list-unstyled")[0],
+		var $select = document.getElementById("toc"),
 		docfrag = document.createDocumentFragment();
 
 		toc.forEach(function(chapter) {
@@ -3322,9 +3388,9 @@ function loadReading(){
 		    }
 		});
 
-		$('.list-unstyled').append(docfrag);
+		$('#toc').append(docfrag);
 
-		$('.list-unstyled').on('click', 'li', function(){
+		$('#toc').on('click', 'li', function(){
 			url = $(this).attr("ref");
 			console.log(url);
 			rendition.display(url);
@@ -3337,7 +3403,7 @@ function loadReading(){
         'background': 'rgba(255,255,0, 0.3)'
       },
       '.epubjs-hl' : {
-        'fill': 'yellow', 'fill-opacity': '0.3', 'mix-blend-mode': 'multiply'
+        'fill': 'blue', 'fill-opacity': '0.3', 'mix-blend-mode': 'multiply'
       }
     });
 
@@ -3352,6 +3418,7 @@ function loadReading(){
         var textNode;
         var text;
         saveHighlight(cfiRange);
+        rendition.annotations.add("highlight", cfiRange);
         
         localStorage.setItem("highlights" + bookId, JSON.stringify(savedHighlights));
 
@@ -3369,6 +3436,7 @@ function loadReading(){
           remove.href = "#" + cfiRange;
           remove.onclick = function () {
             rendition.annotations.remove(cfiRange);
+            $(this).closest('li').remove();
             return false;
           };
 
@@ -3399,12 +3467,11 @@ function loadReading(){
         }
     }
     
-    function displayResult(results, index){
+    function displayResult(results, oldIndex, index){
         var resultNum = index + 1;
         $('#results_search').text(resultNum + "/" + results.length);
         $('#results_search').show();
-        if(index != 0){
-            var oldIndex = index - 1;
+        if(oldIndex > -1){
             var oldResult = results[oldIndex];
             var cfiRange = oldResult.cfi;
             rendition.annotations.remove(cfiRange);
@@ -3413,6 +3480,7 @@ function loadReading(){
             var newResult = results[index];
             var cfi = newResult.cfi;
             rendition.display(cfi);
+            rendition.annotations.add("highlight", cfi, {}, (e) => {console.log("highlight clicked", e.target);} , "hl", {"fill": "blue", "fill-opacity": "0.3", "mix-blend-mode": "multiply"});
        }
     }
     
@@ -3435,6 +3503,15 @@ function loadReading(){
             });
         }, (1.5 * 60 * 1000));
     }
+    
+	function setProgress(percent){
+	    bar.style.width = percent + "%";
+
+	    if (percent > 90)
+	        bar.className = "bar bar-success";
+	    else if (percent > 50)
+	        bar.className = "bar bar-warning";
+	}
 }
 
 
