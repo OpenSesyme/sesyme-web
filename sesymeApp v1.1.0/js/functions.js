@@ -52,8 +52,8 @@ window.onload = function(){
 		case "signup.html":
 			loadSignUp();
 			break;
-		case "library.html":
-			loadLibrary();
+		case "prevview.html":
+			loadReading();
 			break;
 
 		case "home.html":
@@ -2292,16 +2292,376 @@ function loadLogIn(){
 	});
 }
 
-
 function loadLibrary(){
-	$('#reading_area').hide();
-	$('.book').on('click', function(){
-		$('#books_home').hide();
-		$('#reading_area').show();
-		var book = ePub("../ebooks/IFRS1.epub");
-  		var rendition = book.renderTo("area", {width: 600, height: 400});
-  		var displayed = rendition.display();
+	var booksList = [
+		"../ebooks/framework.epub",
+		"../ebooks/IFRS1.epub",
+		"../ebooks/IFRS10.epub",
+		"../ebooks/IFRS3.epub",
+		"../ebooks/IFRS5.epub",
+		"../ebooks/IFRS6.epub",
+		"../ebooks/IFRS7.epub",
+		"../ebooks/IFRS8.epub",
+		"../ebooks/IFRS9.epub"];
+	$('#library_div').empty();
+
+	$('#library_div').on('click', '.book', function(){
+		var bookUrl = $(this).find('p').text();
+		sessionStorage.setItem("BookUrl", bookUrl);
+		window.location.href="preview.html";
 	});
+	
+	$('#search_books').on('keyup', function(){
+		var search = $(this).val().toLowerCase();
+		var books = $('#library_div').children();
+		var found = 0;
+		for (var i = books.length - 1; i >= 0; i--) {
+			var book = books[i];
+			var title = $(book).find('h4').text().toLowerCase();
+			if (!title.includes(search)) {
+				$(book).hide();
+			}else{
+				$(book).show();
+				found++;
+			}
+			if(found == 0){
+			    $('#no_books_found').show();
+			}else{
+			    $('#no_books_found').hide();
+			}
+		}
+	});
+	
+	booksList.forEach((bookUrl) =>{
+		var book = ePub(bookUrl);
+        book.coverUrl().then((url) => {
+            book.loaded.metadata.then((metadata) => {
+            var title = metadata.title;
+            console.log(title);
+            var bookHtml = '<div class="col-3">\
+							    <div class="book">\
+							        <h4 hidden>'+title+'</h4>\
+								    <p hidden>'+bookUrl+'</p>\
+								    <a><img src='+url+' alt="Cover"></a>\
+							    </div>\
+						    </div>';
+			$('#library_div').append(bookHtml);
+        });
+        });
+        
+	});
+}
+
+function loadReading(){
+    var bookUrl = sessionStorage.getItem("BookUrl");
+    var params = URLSearchParams && new URLSearchParams(document.location.search.substring(1));
+    var url = params && params.get("url") && decodeURIComponent(params.get("url"));
+    var currentSectionIndex = (params && params.get("loc")) ? params.get("loc") : undefined;
+    var pageTimeout = null;
+    var currentCfi;
+    var bookId;
+    
+    $('#full_screen').on('click', function(){
+        var text = $(this).find('p').text();
+        if(text == "Full Screen"){
+            openFullScreen(document.documentElement);
+            $(this).find('p').text("Exit Full Screen");
+            $('#fullscreen_img').attr("src", "../img/compress.png");
+            // $('#viewer').removeClass("viewerNormalScreen");
+        }else{
+            closeFullscreen();
+            $(this).find('p').text("Full Screen");
+            $('#fullscreen_img').attr("src", "../img/fullscreen.png");
+            // $('#viewer').addClass("viewerNormalScreen");
+        }
+    });
+
+    // Load the opf
+    var book = ePub(bookUrl);
+    var rendition = book.renderTo("viewer", {
+      width: "100%",
+      height: 600,
+      spread: "always"
+    });
+
+    rendition.display(currentSectionIndex);
+
+    book.ready.then(() => {
+        book.locations.generate();
+        $('#search_book').on('change', function(){
+            var searchText = $(this).val();
+            if(searchText != null && searchText != ''){
+                doSearch(searchText).then((results) =>{
+                    var index = 0;
+                    if(results.length > 0){
+                        displayResult(results, index);
+                        $('.searchBtn').show();
+                    }else{
+                        $('.searchBtn').hide();
+                    }
+                    results.forEach((result) =>{
+                        var cfi = result.cfi;
+                        rendition.annotations.add("highlight", cfi, {}, (e) => {console.log("highlight clicked", e.target);} , "hl", {"fill": "blue", "fill-opacity": "0.3", "mix-blend-mode": "multiply"});
+                    })
+                    $('#next_search').on('click', function(){
+                        if(index < (results.length - 1)){
+                            index++;
+                            displayResult(results, index);
+                            
+                        }
+                    });
+                    $('#previous_search').on('click', function(){
+                        if(index > 0){
+                            index--;
+                            displayResult(results, index);
+                        }
+                    });
+                });
+            }
+        });
+        var next = document.getElementById("next");
+        book.loaded.metadata.then((metadata) => {
+            var title = metadata.title;
+            bookId = metadata.identifier;
+          	if (localStorage.getItem("highlights" + bookId) != null) {
+        		savedHighlights = JSON.parse(localStorage.getItem("highlights" + bookId));
+        	}
+        	savedHighlights.forEach((cfiRange) => {
+                rendition.annotations.highlight(cfiRange);
+            });
+            rendition.display(localStorage.getItem('cfi'+bookId));
+            $('.book-title-on-preview').text(title);
+        });
+        
+        next.addEventListener("click", function(e){
+            book.package.metadata.direction === "rtl" ? rendition.prev() : rendition.next();
+            e.preventDefault();
+        }, false);
+
+        var prev = document.getElementById("prev");
+        prev.addEventListener("click", function(e){
+            book.package.metadata.direction === "rtl" ? rendition.next() : rendition.prev();
+            e.preventDefault();
+        }, false);
+        
+        var keyListener = function(e){
+            // Left Key
+            if ((e.keyCode || e.which) == 37) {
+              book.package.metadata.direction === "rtl" ? rendition.next() : rendition.prev();
+            }
+    
+            // Right Key
+            if ((e.keyCode || e.which) == 39) {
+              book.package.metadata.direction === "rtl" ? rendition.prev() : rendition.next();
+            }
+        };
+
+        rendition.on("keyup", keyListener);
+        document.addEventListener("keyup", keyListener, false);
+    });
+
+    var title = document.getElementById("title");
+    
+    rendition.on("displayed", event => {
+        let start = null;
+        let end = null;
+        const el = event.document.documentElement;
+
+        el.addEventListener('touchstart', event => {
+            start = event.changedTouches[0];
+        });
+        el.addEventListener('touchend', event => {
+            end = event.changedTouches[0];
+
+            let hr = (end.screenX - start.screenX) / el.getBoundingClientRect().width;
+            let vr = (end.screenY - start.screenY) / el.getBoundingClientRect().height;
+
+            if (hr > vr && hr > 0.25) return rendition.prev();
+            if (hr < vr && hr < -0.25) return rendition.next();
+            if (vr > hr && vr > 0.25) return;
+            if (vr < hr && vr < -0.25) return;
+        });
+    });
+
+    rendition.on("rendered", function(section){
+      var current = book.navigation && book.navigation.get(section.href);
+
+      if (current) {
+        var $select = document.getElementsByClassName("list-unstyled")[0];
+        var $selected = $select.querySelector("option[selected]");
+        if ($selected) {
+          $selected.removeAttribute("selected");
+        }
+
+        var $options = $select.querySelectorAll("option");
+        for (var i = 0; i < $options.length; ++i) {
+          let selected = $options[i].getAttribute("ref") === current.href;
+          if (selected) {
+            $options[i].setAttribute("selected", "");
+          }
+        }
+      }
+    });
+
+    rendition.on("relocated", function(location){
+        currentCfi = location.start.cfi;
+        $('.progress').text((book.locations.percentageFromCfi(currentCfi)) * 100);
+        if(pageTimeout != null){
+            clearTimeout(pageTimeout);
+        }
+        checkPageRead(currentCfi);
+        var next = book.package.metadata.direction === "rtl" ?  document.getElementById("prev") : document.getElementById("next");
+        var prev = book.package.metadata.direction === "rtl" ?  document.getElementById("next") : document.getElementById("prev");
+        
+        if (location.atEnd) {
+        next.style.visibility = "hidden";
+        } else {
+        next.style.visibility = "visible";
+        }
+        
+        if (location.atStart) {
+        prev.style.visibility = "hidden";
+        } else {
+        prev.style.visibility = "visible";
+        }
+    });
+
+    rendition.on("layout", function(layout) {
+      let viewer = document.getElementById("viewer");
+      if (layout.spread) {
+        viewer.classList.remove('single');
+      } else {
+        viewer.classList.add('single');
+      }
+    });
+
+    book.loaded.navigation.then(function(toc){
+		var $select = document.getElementsByClassName("list-unstyled")[0],
+		docfrag = document.createDocumentFragment();
+
+		toc.forEach(function(chapter) {
+		    if(!(chapter.href).includes(".pdf")){
+		        var option = document.createElement("li");
+    			option.textContent = chapter.label;
+    			option.setAttribute("ref", chapter.href);
+    
+    			docfrag.appendChild(option);
+		    }
+		});
+
+		$('.list-unstyled').append(docfrag);
+
+		$('.list-unstyled').on('click', 'li', function(){
+			url = $(this).attr("ref");
+			console.log(url);
+			rendition.display(url);
+			return false;
+		});
+	});
+
+    rendition.themes.default({
+      '::selection': {
+        'background': 'rgba(255,255,0, 0.3)'
+      },
+      '.epubjs-hl' : {
+        'fill': 'yellow', 'fill-opacity': '0.3', 'mix-blend-mode': 'multiply'
+      }
+    });
+
+    // Illustration of how to get text from a saved cfiRange
+    var highlights = document.getElementById('highlights');
+    
+    rendition.on("selected", function(cfiRange) {
+      book.getRange(cfiRange).then(function (range) {
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        var remove = document.createElement('a');
+        var textNode;
+        var text;
+        saveHighlight(cfiRange);
+        
+        localStorage.setItem("highlights" + bookId, JSON.stringify(savedHighlights));
+
+        if (range) {
+          text = range.toString();
+          textNode = document.createTextNode(text);
+
+          a.textContent = cfiRange;
+          a.href = "#" + cfiRange;
+          a.onclick = function () {
+            rendition.display(cfiRange);
+          };
+
+          remove.textContent = "remove";
+          remove.href = "#" + cfiRange;
+          remove.onclick = function () {
+            rendition.annotations.remove(cfiRange);
+            return false;
+          };
+
+          li.appendChild(a);
+          li.appendChild(textNode);
+          li.appendChild(remove);
+          highlights.appendChild(li);
+        }
+      });
+    });
+
+    window.addEventListener("unload", function () {
+        console.log("unloading");
+        localStorage.setItem('cfi'+bookId, currentCfi);
+        this.book.destroy();
+    });
+    
+    function doSearch(q) {
+        return Promise.all(
+            book.spine.spineItems.map(item => item.load(book.load.bind(book)).then(item.find.bind(item, q)).finally(item.unload.bind(item)))
+        ).then(results => Promise.resolve([].concat.apply([], results)));
+    };
+    
+    function saveHighlight(range){
+        var index = savedHighlights.indexOf(range);
+        if (index == -1){
+            savedHighlights.push(range);
+        }
+    }
+    
+    function displayResult(results, index){
+        var resultNum = index + 1;
+        $('#results_search').text(resultNum + "/" + results.length);
+        $('#results_search').show();
+        if(index != 0){
+            var oldIndex = index - 1;
+            var oldResult = results[oldIndex];
+            var cfiRange = oldResult.cfi;
+            rendition.annotations.remove(cfiRange);
+        }
+        if(index < results.length){
+            var newResult = results[index];
+            var cfi = newResult.cfi;
+            rendition.display(cfi);
+       }
+    }
+    
+    function checkPageRead(cfi){
+        pageTimeout = setTimeout(function(){ 
+            var stats;
+            UsersRef.doc(myEmail).get().then((user) =>{
+                stats = user.get("pagesRead");
+                if(stats == null){
+                    stats = [];
+                }
+                var time = new Date().getTime();
+                var newEntry = {date: time, page: cfi}
+                stats.push(newEntry);
+                UsersRef.doc(myEmail).update({pagesRead: stats}).then(function(){
+                    console.log("Stats Saved");
+                });
+            }).catch((error) =>{
+                console.log(error);
+            });
+        }, (1.5 * 60 * 1000));
+    }
 }
 
 
@@ -2324,6 +2684,8 @@ function showSnackbar(text){
 	var snackbarHtml = '<div id="snackbar">'+text+'</div>';
 	if ($('body').find('#snackbar').length == 0) {
 		$('body').append(snackbarHtml);
+	}else{
+		$('#snackbar').text(text);
 	}
 
 	var x = document.getElementById("snackbar");
@@ -2352,4 +2714,28 @@ function saveNotification(receiver, type, elementRef, text){
 			});
 		}
 	});
+}
+
+function openFullScreen(elem) {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+}
+
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) { /* Firefox */
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE/Edge */
+    document.msExitFullscreen();
+  }
 }
