@@ -52,7 +52,7 @@ window.onload = function(){
 		case "signup.html":
 			loadSignUp();
 			break;
-		case "prevview.html":
+		case "preview.html":
 			loadReading();
 			break;
 
@@ -929,7 +929,7 @@ function loadQuestionsPage(){
 			if(count == 0)
 			{
 				html = '<a class="interests-nav-link" aria-selected="true" href="home.html">All</a>\
-				<a class="interests-nav-link">'+interest+'</a>';
+				<a class="interests-nav-link" style="cursor: pointer;">'+interest+'</a>';
 				$('#interestsNavContents').append(html);
 				count++;
 				
@@ -1126,8 +1126,10 @@ function openMenuItem(menuItem){
 	$('body').children('section').hide();
 	if (menuItem == "Home") {
 		$('#q_and_a').show();
+		$('.bottom-nav').show();
 	}else{
 		$('#'+menuItem.toLowerCase()+'_section').show();
+		$('.bottom-nav').hide();
 	}
 	
 	switch(menuItem){
@@ -1350,7 +1352,7 @@ function loadReplies(){
 				        <div class="author-details">\
 				            <img src='+userImage+' alt="Profile picture" class="avatar" style="width: 40px; height: 40px;">\
 				            <div class="name">'+name+'</div><br/>\
-				            <div class="time"><i class="fa fa-clock-o"></i> '+timeToShow+'</div>\
+				            <div class="time"><i class="fa fa-clock-o" style="color: #6400ae"></i> '+timeToShow+'</div>\
 				            <button type="button" class="btn quest-options-btn"><i class="fa fa-chevron-down"></i></button> \
 				        </div>   \
 					</div>\

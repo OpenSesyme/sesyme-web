@@ -16,61 +16,54 @@
   	<script type="text/javascript" src="../js/main.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm fixed-top" id="sesyme_nav">
-		<a class="navbar-brand">
-    		<img src="../img/logo_desktop.png" alt="Logo" style="width:100px;">
-  		</a>
+	<div class="main-nav-wrap">
+		<nav class="navbar navbar-expand-sm fixed-top" id="sesyme_nav">
+			<a class="navbar-brand">
+	    		<img src="../img/logo_desktop.png" alt="Logo" style="width:100px;">
+	  		</a>
 
-  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-			<span class="navbar-toggler-icon"></span>
-		</button>
 
-		<div class="collapse navbar-collapse" id="collapsibleNavbar">
-			<ul class="navbar-nav ml-auto" id="navbar_menu">
-				<li class="nav-item w3-center">
-					<a class="nav-link" style="margin-right: 30px; margin-top: 5px;">
-						<i class="fa fa-home" style="font-size: 25px"></i>
-						<h3>Home</h3>
-					</a>
-				</li>
-				<li class="nav-item w3-center">
-					<a class="nav-link" style="margin-right: 30px; margin-top: 5px;">
-						<img src="../img/booksImg2.png" alt="Profile Picture" style="width: 28px;">
-						<h3>Books</h3>
-					</a>
-				</li>
-				<li class="nav-item w3-center">
-					<a class="nav-link" style="margin-right: 30px; margin-top: 5px;">
-						<i class="fa fa-bell-o" style="font-size: 25px"></i>
-						<h3>Notifications</h3>
-					</a>
-				</li>
-				<li class="nav-item w3-center">
-					<a class="nav-link" id="nav-profile-pic">
-						<img src="../img/profilePic.jpg" alt="">
-						<h3>Profile</h3>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
-
-	<section id="q_and_a" class="scroll">
-		<div id="loader">
-        	<div>
-            	<!-- Loading wheel for when something is happening or page is loading -->
-        	</div>
-    	</div>
-		<div class="content m-auto">
-			<div class="searchBar pt-3 pb-1">
-				<div class="form-group has-search col-sm-12">
-					<span class="fa fa-search form-control-feedback"></span>
+	  		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<div class="searchBar">
+				<div class="has-search ">
 					<input type="text" id="search_home" class="form-control" placeholder="Search">
 				</div>
 			</div>
 
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="nav navbar-nav ml-auto" id="navbar_menu">
+					<li class="nav-item w3-center">
+						<a class="nav-link" style="margin-right: 30px; margin-top: 5px;">
+							<i class="fa fa-home" style="font-size: 25px"></i>
+							<h3>Home</h3>
+						</a>
+					</li>
+					<li class="nav-item w3-center">
+						<a class="nav-link" style="margin-right: 30px; margin-top: 5px;">
+							<img src="../img/booksImg2.png" alt="Profile Picture" style="width: 28px;">
+							<h3>Books</h3>
+						</a>
+					</li>
+					<li class="nav-item w3-center">
+						<a class="nav-link" style="margin-right: 30px; margin-top: 5px;">
+							<i class="fa fa-bell-o" style="font-size: 25px"></i>
+							<h3>Notifications</h3>
+						</a>
+					</li>
+					<li class="nav-item w3-center">
+						<a class="nav-link" id="nav-profile-pic">
+							<img src="../img/profilePic.jpg" alt="">
+							<h3>Profile</h3>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div class="bottom-nav">
 			<div class="my-interests">
-
 				<nav id="interestsNav" class="interests-nav">
 				    <div id="interestsNavContents" class="interests-nav-contents">
 
@@ -84,7 +77,16 @@
 					<svg class="pn-Advancer_Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 551 1024"><path d="M105.56 985.817L553.53 512 105.56 38.183l-85.857 81.173 409.6 433.23v-81.172l-409.6 433.23 85.856 81.174z"/></svg>
 				</button>
 			</div>
+		</div>
+	</div>
 
+	<section id="q_and_a" class="scroll">
+		<div id="loader">
+        	<div>
+            	<!-- Loading wheel for when something is happening or page is loading -->
+        	</div>
+    	</div>
+		<div class="content m-auto">
 			<div class="questions">
 				<!-- Loading Questions -->
 			</div>

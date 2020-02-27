@@ -57,6 +57,8 @@ a {
 ===========================================*/
 
 .questions .quest1 {
+	cursor: pointer;
+	z-index: +1;
     background-color: #fff;
     margin-top: 5px;
     margin-bottom: 10px;
@@ -124,6 +126,10 @@ a {
   size: .6rem;
   color: grey;
   font-family: Arial, sans-serif;
+}
+
+.questions .quest1 .author .caption .author-details .time i {
+	color: #6400ae !important;
 }
 
 .questions .quest1 .postImage {
@@ -271,6 +277,10 @@ a {
   color: grey;
 }
 
+.replies .reply1 .author .caption .author-details .time i {
+	color: #6400ae;
+}
+
 .replies .reply1 .author .caption .author-details .quest-options-btn {
     float: right;
     margin-top: -30px;
@@ -314,9 +324,13 @@ a {
 /*===========================================
 			Sesyme Nav
 ===========================================*/
+.main-nav-wrap {
+	box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+	height: 120px;
+	z-index: +9999;
+}
 #sesyme_nav {
 	background-color: #fff !important;
-	box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
 }
 
 #sesyme_nav ul li a {
@@ -340,6 +354,17 @@ a {
     height: 30px; 
     border-radius: 50px; 
     object-fit: cover;
+}
+
+.bottom-nav {
+	width: 100%;
+	height: 50px;
+	top: 70px;
+	padding: 0 0.5em;
+	position: fixed;
+	background-color: #fff;
+	z-index: +9999;
+	border-top: 2px solid #fafafa;
 }
 
 /*===========================================
@@ -913,7 +938,6 @@ a {
 ===========================================*/
 
 #q_and_a {
-    margin-top: 70px;
     padding-bottom: 10px;
 }
 
@@ -948,38 +972,27 @@ a {
 
 #q_and_a .content {
     width: 650px;
-    padding: 1em;
+    padding-bottom: 1em;
+    margin-bottom: 155px;
 }
 
-#q_and_a .content .searchBar {
+.searchBar {
     text-align: center;
-    background-color: #fff;
+    position: absolute;
+    top: 20px;
+    left: 40%;
 }
 
-#q_and_a .content .searchBar .has-search {
+.searchBar .has-search {
    text-align: center;
-   padding-left: 8em;
 }
 
-#q_and_a .content .searchBar .has-search .form-control {
-    padding-left: 2.375rem;
+.searchBar .has-search .form-control {
     border-radius: 50px;
 }
 
-#q_and_a .content .searchBar .has-search .form-control-feedback {
-    position: absolute;
-    z-index: 2;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    pointer-events: none;
-    color: #aaa;
-}
-
-#q_and_a .content .searchBar .has-search input {
-    width: 70%;
+.searchBar .has-search input {
+    width: 120%;
 }
 
 #q_and_a .write-questionBtn a {
@@ -1475,6 +1488,7 @@ a {
 .interests-nav-link {
     text-decoration: none;
     color: #888;
+    cursor: pointer;
     font-size: 1.2rem;
     font-family: -apple-system, sans-serif;
     display: inline-flex;
@@ -1484,7 +1498,7 @@ a {
     margin-right: 2px;
     border-radius: 50px;
     padding: 0 11px;
-    background-color: #fff;
+    background-color: #fafafa;
 }
 
 .interests-nav-link:hover {
@@ -1596,7 +1610,7 @@ a {
 }
 
 #books_home {
-    margin-top: 80px;
+
 }
 
 #books_home .content .sidenav {
@@ -2166,7 +2180,6 @@ a {
 ===========================================*/
 
 #userProfile {
-    padding-top: 70px;
     height: 100vh;
 }
 
@@ -2191,11 +2204,9 @@ a {
 
 #userProfile .content {
     width: 650px;
-    height: 100vh;
     padding: 0;
     background-color: #fff;
-    margin-top: 15px;
-    padding-bottom: 2%;
+    margin-bottom: 115px;
 }
 
 #userProfile .content .fb-profile img.fb-image-lg {
@@ -3303,7 +3314,6 @@ a {
 ===========================================*/
 
 #notifications {
-    padding-top: 70px;
     height: 100vh;
 }
 
@@ -3328,11 +3338,8 @@ a {
 
 #notifications .content {
     width: 650px;
-    height: 90vh;
-    padding: 0;
-    background-color: #fff;
-    margin-top: 15px;
-    padding: 1em;
+    height: 100vh;
+    padding-bottom: 335px;
 }
 
 #notifications .content .notification {
