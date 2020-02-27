@@ -1127,9 +1127,13 @@ function openMenuItem(menuItem){
 	if (menuItem == "Home") {
 		$('#q_and_a').show();
 		$('.bottom-nav').show();
+		$('.main-nav').addClass('main-nav-wrap');
+		$('.main-nav').removeClass('main-nav-wrap2');
 	}else{
 		$('#'+menuItem.toLowerCase()+'_section').show();
 		$('.bottom-nav').hide();
+		$('.main-nav').removeClass('main-nav-wrap');
+		$('.main-nav').addClass('main-nav-wrap2');
 	}
 	
 	switch(menuItem){
@@ -1431,7 +1435,7 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 				   								<a class="w3-bar-item w3-button" id="optionItem">'+options[1]+'</a>\
 				            				</div>\
 				            			</div>\
-							            <span class="reply-type">'+type+'</span>\
+							            <br><span class="reply-type">'+type+'</span>\
 						        	</div>\
 								</div>\
 							</div>\
