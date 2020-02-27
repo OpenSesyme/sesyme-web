@@ -579,9 +579,13 @@ function verifyFullname(fullname){
 		return false;
 	}
 
-	if(firstname.length > 3 && lastname.length > 3){
+	if(firstname.length >= 3 && lastname.length >= 3){
 		basicInfoErrorDisplay("");
 		return true;
+	}else
+	{
+		basicInfoErrorDisplay("Name and surname should be at least 3 letters each");
+		return false;		
 	}
 }
 
@@ -921,22 +925,13 @@ function loadQuestionsPage(){
 	{
 		var html = '';
 		myInterests = [];
-		var count = 0;
-
+		$('#interestsNavContents').empty();
+		$('#interestsNavContents').append('<a class="interests-nav-link" aria-selected="true" href="home.html">All</a>');
 		myInterests = user.data().interests;
 		myInterests.forEach(function(interest)
-		{
-			if(count == 0)
-			{
-				html = '<a class="interests-nav-link" aria-selected="true" href="home.html">All</a>\
-				<a class="interests-nav-link" style="cursor: pointer;">'+interest+'</a>';
-				$('#interestsNavContents').append(html);
-				count++;
-				
-			}
+		{		
 			 html = '<a class="interests-nav-link">'+interest+'</a>';
 			 $('#interestsNavContents').append(html);
-			 count++;
 		});
 
 	});
