@@ -325,6 +325,18 @@ a {
 /*===========================================
 			Sesyme Nav
 ===========================================*/
+#index_nav {
+	background-color: #6400ae;
+	color: #fff;
+	letter-spacing: 1px;
+	font-weight: 600;
+}
+
+#index_nav ul li a:hover {
+	color: #e6e6e6;
+	text-decoration: none;
+}
+
 .main-nav-wrap {
 	box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
 	height: 120px;
@@ -417,9 +429,14 @@ a {
   	padding: .7em;
   	margin-bottom: 10px;
   	border-radius: 5px;
-  	border: none;
+  	border: 1px solid transparent;
   	color: white;
   	background-color: rgba(226, 136, 204, 0.2);
+}
+
+#sesyme_home .login-form input:focus {
+	border: 1px solid #e288cb;
+	outline: none;
 }
 
 #sesyme_home .login-form button {
@@ -431,6 +448,10 @@ a {
   	text-transform: uppercase;
   	background: transparent;
   	border: 2px solid #fff;
+}
+
+#sesyme_home .login-form button:focus {
+	outline: none;
 }
 
 #sesyme_home .login-form button:hover {
@@ -581,17 +602,19 @@ a {
 }
 
 #signup .content .display-images .profile-pic {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     margin-top: -100px;
     margin-left: 40px;
 }
 
 #signup .content .display-images .profile-pic img {
-    width: 100%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
     border-radius: 50%;
-    border: 6px solid #fff;
+    border: 4px solid #fff;
 }
 
 #signup .content .display-images .profile-pic [type="file"] {
@@ -1346,6 +1369,7 @@ a {
 #read_replies .content .quest1 .author .caption img {
   width: 100%;
   height: auto;
+  object-fit: cover;
   border: 2px solid #e6e6e6;
 }
 
@@ -1358,6 +1382,7 @@ a {
   position: relative;
   float: left;
   width: 3rem;
+  object-fit: cover;
   border-radius: 50%;
 }
 
@@ -1616,225 +1641,32 @@ a {
 .book img {
     box-shadow:0 2px 2px 0 rgba(0,0,0,0.16),0 1px 4px 0 rgba(0,0,0,0.12);
     height: 230px;
-
 }
 
 #books_home {
-
+    margin-top: 15px;
+    height: 90vh;
+    padding-bottom: 85px;
 }
 
-#books_home .content .sidenav {
-    height: 100%;
-    width: 300px;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    background-color: #fff;
-    overflow-x: hidden;
-    padding: 20px;
-    font-family: "Roboto", sans-serif;
-    box-shadow:0 2px 2px 0 rgba(0,0,0,0.16),0 1px 4px 0 rgba(0,0,0,0.12);
-}
-
-#books_home .content .sidenav button {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    text-align: left;
-    background-color: #f2f2f2;
-    border: none;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-#books_home .content .sidenav button:focus {
-    outline: none;
-}
-
-#books_home .content .sidenav button:hover {
-    color: #6400ae;
-    transition: .6s;
-}
-
-#books_home .content .sidenav button i {
-    color: #6400ae;
-}
-
-@media screen and (max-height: 450px) {
-    #books_home .content .sidenav {
-        padding-top: 15px;
-    }
-
-    #books_home .content .sidenav a {
-        font-size: 18px;
-    }
-}
-
-#books_home .content .main {
-    margin-left: 300px;
-    padding: 1em;
-    height: 100vh;
-    padding-bottom: 100px;
-}
-
-#books_home .content .main::-webkit-scrollbar {
+#books_home::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
-#books_home .content .main::-webkit-scrollbar-track {
+#books_home::-webkit-scrollbar-track {
   background: #e6e6e6;
 }
 
 /* Handle */
-#books_home .content .main::-webkit-scrollbar-thumb {
+#books_home::-webkit-scrollbar-thumb {
   background: #999;
 }
 
 /* Handle on hover */
-#books_home .content .main::-webkit-scrollbar-thumb:hover {
+#books_home::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-
-#books_home .content .main .search-book {
-
-}
-
-#books_home .content .main .search-bookt .searchBar .has-search {
-   text-align: center;
-   padding-left: 8em;
-}
-
-#books_home .content .main .search-book .searchBar .has-search .form-control {
-    padding-left: 2.375rem;
-    border-radius: 50px;
-}
-
-#books_home .content .main .search-book .searchBar .has-search .form-control-feedback {
-    position: absolute;
-    z-index: 2;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    pointer-events: none;
-    color: #aaa;
-}
-
-#books_home .content .main .search-book .searchBar .has-search input {
-    width: 100%;
-}
-
-#books_home .content .main .search-book #searchResults h3 {
-    font-size: 20px;
-    text-align: left !important;
-    font-family: "Roboto", sans-serif;
-}
-
-#books_home .content .main .search-book #searchResults h3 i {
-    font-weight: bold;
-}
-
-#books_home .content .main .search-book #searchResults {
-    text-align: center;
-}
-
-#books_home .content .main .search-book #searchResults img {
-    width: 150px;
-    text-align: center;
-}
-
-#books_home .content .main .search-book #recommendations {
-    margin-top: 5%;
-    text-align: center;
-}
-
-#books_home .content .main .search-book #recommendations h3 {
-    text-align: left !important;
-    font-family: "Roboto", sans-serif;
-    font-weight: bold;
-    letter-spacing: 1px;
-    font-size: 18px;
-    text-transform: uppercase;
-}
-
-#books_home .content .main .search-book #recommendations img {
-    width: 150px;
-    text-align: center;
-}
-
-#books_home .content .main .my-library {
-    padding: 1em;
-    display: none;
-}
-
-#books_home .content .main .my-library .my-books {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#books_home .content .main .my-library .my-books img {
-    width: 150px;
-    margin-bottom: 20px;
-}
-
-#books_home .content .main .my-library .my-book .progress-bar {
-    background-color: #6400ae !important;
-}
-
-#books_home .content .main .all-books {
-    display: none;
-}
-
-#books_home .content .main .all-books .category {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-#books_home .content .main .all-books .category h3 {
-    text-align: left;
-    font-weight: bold;
-    font-family: "Roboto", sans-serif;
-}
-
-#books_home .content .main .all-books .category h3  .view-all {
-    font-size: 18px;
-    color: #336699;
-}
-
-#books_home .content .main .all-books .category img {
-    width: 150px;
-}
-
-#books_home .content .main .all-books .searchBar .has-search {
-   text-align: center;
-   padding-left: 0em;
-}
-
-#books_home .content .main .all-books .searchBar .has-search .form-control {
-    padding-left: 2.375rem;
-    border-radius: 50px;
-}
-
-#books_home .content .main .all-books .searchBar .has-search .form-control-feedback {
-    position: absolute;
-    z-index: 2;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    pointer-events: none;
-    color: #aaa;
-}
-
-#books_home .content .main .all-books .searchBar .has-search input {
-    width: 100%;
-}
-
 
 #previewBook {
     padding: 5rem;
@@ -2859,12 +2691,6 @@ a {
     font-weight: bold;
 }
 
-/*================================================
-                  Settings
-=================================================*/
-
-
-
 /*===========================================
             Edit User Profile
 ===========================================*/
@@ -2921,6 +2747,7 @@ a {
 #editProfile .content .display-images .cover-image [type="file"] + label {
     border: none;
     color: #fff;
+    text-shadow: -1px -1px 0px #2196f3, 3px 3px 0px #2196f3, 6px 6px 0px #0d47a1;
     cursor: pointer;
     display: inline-block;
     position: relative;
@@ -2958,6 +2785,7 @@ a {
 #editProfile .content .display-images .profile-pic [type="file"] + label {
     border: none;
     color: #fff;
+    text-shadow: -1px -1px 0px #000, 3px 3px 0px #6400ae;
     cursor: pointer;
     display: inline-block;
     position: relative;
@@ -3521,7 +3349,7 @@ a {
 }
 
 .viewerNormalScreen {
-    margin-top: 130px !important;
+    margin-top: 100px !important;
 }
 
 #viewer.spreads .epub-view > iframe {
