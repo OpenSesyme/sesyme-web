@@ -123,7 +123,6 @@ window.onload = function(){
 function loadSignUp(){
 	$("#page1").appendTo('.content');
 	$('#next_sign_up').on('click', function(){
-		console.log(pageNum);
 		switch(pageNum){
 			case 2:
 				createUser();
@@ -488,8 +487,6 @@ function verifyPassword(){
 	}
 }
 
-
-
 function specialChars(password){
 	var format = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 	if( password.match(format) ){
@@ -537,7 +534,7 @@ function ageRestrict(date){
         return false;
     }
     else if (thirteenYearsAgo.isAfter(birthday)) {
-				basicInfoErrorDisplay("");
+		basicInfoErrorDisplay("");
         return true;
     }
     else {
@@ -565,7 +562,6 @@ function cellNumberVerify(cellNumber){
 			return false;
 		}
 	}
-
 }
 
 function verifyCourse(course)
@@ -663,7 +659,6 @@ function tickedInterest(interest){
 	}
 	signUpInfo.interests = arrayInterest;
 }
-
 
 function showSignUpError (error){
 	if (error != null) {
@@ -966,7 +961,8 @@ function ReportPost(id){
 }
 
 function HidePost(id){
-	console.log("Hide: " + id);
+
+
 }
 
 function EditPost(type, id){
@@ -2456,10 +2452,7 @@ function updateImage(id, file, upload_type)
 	if(upload_type === "profile_pic")
 	{
 		showLoader();
-		//delete old pic
 		var pic = storage.ref("profilePics/"+id+" Profile pic.jpg");
-			// File deleted successfully
-		//upload new pic
 		var uploadTask = storage.ref("profilePics/"+id+" Profile pic.jpg").put(file);
 		uploadTask.on('state_changed', function(snapshot){
 			var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
@@ -2485,33 +2478,30 @@ function updateImage(id, file, upload_type)
 
 	if(upload_type === "cover_pic")
 	{
-		//pic to be deleted
 		showLoader();
 		var pic = storage.ref("Cover Pics/"+id+" Cover.jpg");
-			// File deleted successfully
-
-			//upload new pic
-			var uploadTask = storage.ref("Cover Pics/"+id+" Cover.jpg").put(file);
-			uploadTask.on('state_changed', function(snapshot){
-				var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
-				$('#progress').text((progress).toFixed(2) + " %");
-				console.log('Upload is ' + progress + '% done');
-				switch (snapshot.state) {
-					case firebase.storage.TaskState.PAUSED: // or 'paused'
-						console.log('Upload is paused');
-						break;
-					case firebase.storage.TaskState.RUNNING: // or 'running'
-						console.log('Upload is running');
-						break;
-				}
-			}, function(error) {
-				console.log(error);
-			}, function() {
-				uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-					UsersRef.doc(id).update({coverUrl: downloadURL});
-					hideLoader();
-				});
+		//upload new pic
+		var uploadTask = storage.ref("Cover Pics/"+id+" Cover.jpg").put(file);
+		uploadTask.on('state_changed', function(snapshot){
+			var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
+			$('#progress').text((progress).toFixed(2) + " %");
+			console.log('Upload is ' + progress + '% done');
+			switch (snapshot.state) {
+				case firebase.storage.TaskState.PAUSED: // or 'paused'
+					console.log('Upload is paused');
+					break;
+				case firebase.storage.TaskState.RUNNING: // or 'running'
+					console.log('Upload is running');
+					break;
+			}
+		}, function(error) {
+			console.log(error);
+		}, function() {
+			uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+				UsersRef.doc(id).update({coverUrl: downloadURL});
+				hideLoader();
 			});
+		});
 	}
 }
 
