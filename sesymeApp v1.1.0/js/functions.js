@@ -227,30 +227,7 @@ function loadSignUp(){
 		var error = null;
 		if (validateEmail(email)) {
 		
-		UsersRef.doc(email).get().then(function(user)
-		{
-			firebase.auth().getUserByEmail(email)
-			.then(function(userRecord) {
-			  // See the UserRecord reference doc for the contents of userRecord.
-			  console.log('Successfully fetched user data:', userRecord.toJSON());
-			})
-			.catch(function(error) {
-			 console.log('Error fetching user data:', error);
-			});
-			
-			// users.forEach(function(user)
-			// {
-			// 	if(user.get("uID") == email)
-			// 	{
-			// 		error = "Email address already in use!!";
-			// 	}else
-			// 	{
-			// 		error = null;
-			// 	}
-			// });
-			
-		});
-			// signUpInfo.email = email;
+			signUpInfo.email = email;
 		}else{
 			error = "Please Enter a valid Email address";
 		}
@@ -402,7 +379,6 @@ function signUpMethod(){
 	console.log(email);
 	
 	var password = signUpInfo.password;
-	console.log(password);
 	firebase.auth().createUserWithEmailAndPassword(email, password)
 	.then(function(){
 		showLoader();
@@ -483,6 +459,7 @@ function signUpMethod(){
 						
 					}else
 					{
+						sessionStorage.setItem("user_id", email);
 						hideLoader();
 						window.location.href = "../q_and_a/home.html";
 					}
@@ -534,6 +511,7 @@ function signUpMethod(){
 					
 				}else
 				{
+					sessionStorage.setItem("user_id", email);
 					hideLoader();
 					window.location.href = "../q_and_a/home.html";
 				}
@@ -643,7 +621,7 @@ function ageRestrict(date){
         return false;
     }
     else if (thirteenYearsAgo.isAfter(birthday)) {
-				basicInfoErrorDisplay("");
+		basicInfoErrorDisplay("");
         return true;
     }
     else {
@@ -671,7 +649,6 @@ function cellNumberVerify(cellNumber){
 			return false;
 		}
 	}
-
 }
 
 function verifyCourse(course)
@@ -761,13 +738,13 @@ function tickedInterest(interest){
 }
 
 function saveInterest(){
-	if(arrayInterest.length > 2){
+	if(arrayInterest.length > 1){
 		signUpInfo.interests = arrayInterest;
 		moveNext = true;
 		$('#interest_status').html("");
 		return true;
 	}else{
-		$('#interest_status').html("<div class='text-danger'>Please select at least 3 interests</div>");
+		$('#interest_status').html("<div class='text-danger'>Please select at least 2 interests</div>");
 		moveNext = false;
 	}
 }
@@ -889,6 +866,7 @@ function changePage(){
 		case 3:
 			return true;
 			break;
+
 		case 4:
 			if(saveInterest() && moveNext){
 				signUpMethod();
@@ -897,11 +875,9 @@ function changePage(){
 				return false;
 			}
 			break;
-		case 5:
-			return true;
-			break;
 		default:
 			return false;
+			break;
 	}
 }
 
@@ -1231,7 +1207,8 @@ function ReportPost(id){
 }
 
 function HidePost(id){
-	console.log("Hide: " + id);
+
+
 }
 
 function EditPost(type, id){
@@ -2732,8 +2709,6 @@ function updateImage(id, file, upload_type)
 		showLoader();
 		//delete old pic
 		var pic = storage.ref("profilePics/"+id+" Profile pic.jpg");
-		pic.delete().then(function() {
-			// File deleted successfully
 		//upload new pic
 		var uploadTask = storage.ref("profilePics/"+id+" Profile pic.jpg").put(file);
 		uploadTask.on('state_changed', function(snapshot){
@@ -2756,11 +2731,6 @@ function updateImage(id, file, upload_type)
 				  hideLoader();
 			  });
 		});
-		  }).catch(function(error) {
-			  console.log("error while deleting");
-
-			// Uh-oh, an error occurred!
-		  });
 	}
 
 	if(upload_type === "cover_pic")
@@ -2768,36 +2738,29 @@ function updateImage(id, file, upload_type)
 		//pic to be deleted
 		showLoader();
 		var pic = storage.ref("Cover Pics/"+id+" Cover.jpg");
-		pic.delete().then(function() {
-			// File deleted successfully
 
-			//upload new pic
-			var uploadTask = storage.ref("Cover Pics/"+id+" Cover.jpg").put(file);
-			uploadTask.on('state_changed', function(snapshot){
-				var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
-				$('#progress').text((progress).toFixed(2) + " %");
-				console.log('Upload is ' + progress + '% done');
-				switch (snapshot.state) {
-					case firebase.storage.TaskState.PAUSED: // or 'paused'
-						console.log('Upload is paused');
-						break;
-					case firebase.storage.TaskState.RUNNING: // or 'running'
-						console.log('Upload is running');
-						break;
-				}
-			}, function(error) {
-				console.log(error);
-			}, function() {
-				uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-					UsersRef.doc(id).update({coverUrl: downloadURL});
-					hideLoader();
-				});
+		//upload new pic
+		var uploadTask = storage.ref("Cover Pics/"+id+" Cover.jpg").put(file);
+		uploadTask.on('state_changed', function(snapshot){
+			var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
+			$('#progress').text((progress).toFixed(2) + " %");
+			console.log('Upload is ' + progress + '% done');
+			switch (snapshot.state) {
+				case firebase.storage.TaskState.PAUSED: // or 'paused'
+					console.log('Upload is paused');
+					break;
+				case firebase.storage.TaskState.RUNNING: // or 'running'
+					console.log('Upload is running');
+					break;
+			}
+		}, function(error) {
+			console.log(error);
+		}, function() {
+			uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+				UsersRef.doc(id).update({coverUrl: downloadURL});
+				hideLoader();
 			});
-
-		  }).catch(function(error) {
-			// Uh-oh, an error occurred!
-			console.log("error happened while deleting");
-		  });
+		});
 	}
 }
 
