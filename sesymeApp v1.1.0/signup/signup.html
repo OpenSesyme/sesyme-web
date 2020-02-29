@@ -36,10 +36,23 @@
 		</ul>
 	</nav>
 	<section id="signup">
+		<div class="w3-center mx-auto scroll" style="width: 850px; max-height: 500px; padding: 10px; background-color: #336699;">
+			<div style="text-align: left;">
+				<div id="progress_sign_up" style="height: 25px; width: 20%; background-color: #008000;"></div>
+				<p id="step_sign_up" style="color: #fff; margin-top: -22px; padding-left: 5px;">Sign-up</p>
+			</div>
+			<div class="content" style="background-color: #fff; width: 100%;">
+			</div>
+			<div style="text-align: right; margin-top: 5px; padding-left: 10px;">
+				<button id="prev_sign_up" class="btn btn-outline-primary">Prev</button>
+				<button id="next_sign_up" class="btn btn-outline-primary">Next</button>
+			</div>
+		</div>
+	</section>
+	<section style="display: none;">
 		<div class="container">
-			<div class="content">
+			<div id="content">
 				<div class="page" id="page1">
-					<h2>Sign-up</h2>
 					<div class="sign-form-1">
 						<form action="#" method="POST">
 							<input type="email" id="email_sign_up" placeholder="Email">
@@ -48,30 +61,21 @@
 							<p id="error_message_sign_up" class="text-danger" style="display: none;">
 								<!-- Error message -->
 							</p>
-							<!-- <p id="password_message_sign_up"  style="font-size: .8em">Password must contain the following:</p>
-							<ul style="font-size: .8em; margin-top: -10px; margin-left: -10px">
-								<li>at least one number 0-9</li>
-								<li>A special character e.g. "," "@" "$" etc</li>
-								<li>At least one Uppercase</li>
-								<li>At least one Lowercase</li>
-								<li>Must be at least 7 characters long</li>
-							</ul> -->
 
 							<div class="login-btn">
 								<span>Already have an account? <a href="../index.html">Login</a></span>
 							</div>
 
-							<hr class="hr-line" style="width: 50%, margin: auto;">
+							<!-- <hr class="hr-line" style="width: 50%, margin: auto;"> -->
 
-							<div style="text-align: center; margin-top: 30px;">
+							<!-- <div style="text-align: center; margin-top: 30px;">
 								<a><img src="../img/btn_google.png" style="width: 40%;"></a>
-							</div>
+							</div> -->
 						</form>
 					</div>
 				</div>
 
 				<div class="page" id="page2">
-					<h2> <span style="color: #b3b3b3">Sign-up</span> / Basic Info</h2>
 					<div class="sign-form-2">
 						<div id="basic_info"></div>
 						<form action="#" method="POST">
@@ -141,7 +145,6 @@
 				</div>
 
 				<div class="page" id="page3">
-					<h2> <span style="color: #b3b3b3">Sign-up / Basic Info</span> / Display</h2>
 					<div class="display-images">
 						<div class="cover-image w3-display-container">
 							<img src="../img/cover.jpg" alt="Cover">
@@ -161,7 +164,6 @@
 				</div>
 
 				<div class="page" id="page4">
-					<h2> <span style="color: #b3b3b3">Sign-up / Basic Info / Display</span> / Choose Interests</h2>
 					<div id="select_interests" class="sign-up-form-3">
 						<div id="interest_status"></div>
 						<div class="row" style="text-align: center; margin-bottom: 4px;">

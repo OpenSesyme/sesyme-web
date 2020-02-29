@@ -698,9 +698,9 @@ a {
   display: block;
 }
 
-.page {
+/*.page {
   display: none;
-}
+}*/
 
 .page-active {
   display: block;

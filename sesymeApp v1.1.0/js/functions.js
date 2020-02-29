@@ -13,6 +13,9 @@ var questionCategories = [];
 var myInterests = [];
 var savedHighlights = [];
 var file = null;
+var currentPage;
+var pageNum = 2;
+var selectedMenuItem = null;
 
 /*======================================
 		Firebase initialisation
@@ -46,180 +49,117 @@ window.onload = function(){
 	if (sessionStorage.getItem("selectedQuestion") != null) {
 		selectedQuestion = sessionStorage.getItem("selectedQuestion");
 	}
-		var url = window.location.href.split("/");
-		page = url[url.length - 1].trim();
-		switch(page){
-
-		case "signup.html":
-			loadSignUp();
-			break;
-		case "preview.html":
-			loadReading();
-			break;
-
-		case "home.html":
-				if(sessionStorage.getItem("user_id") != null)
-				{
-					loadQuestionsPage();
-				}else
-				{
-					loadLogIn();
-				}
-		break;
-
-		case "replies.html":
-			if(sessionStorage.getItem("user_id") != null)
-			{
-				loadReplies();
-			}else
-			{
-				loadLogIn();
-			}
-		break;
-
-		case "write_question.html":
-			if(sessionStorage.getItem("user_id") != null)
-			{
-				loadWriteQuestion();
-			}else
-			{
-				loadLogIn();
-			}
-		break;
-
-		case "write_reply.html":
-			if(sessionStorage.getItem("user_id") != null)
-			{
-				loadPostReply();
-			}else
-			{
-				loadLogIn();
-			}
-		break;
-
-		case "profile.html":
-			if(sessionStorage.getItem("user_id") != null)
-			{
-				loadProfile();
-			}else
-			{
-				loadLogIn();
-			}
-		break;
-		case "editProfile.html":
-			if(sessionStorage.getItem("user_id") != null)
-			{
-				loadEditProfile();
-
-			}else
-			{
-				loadLogIn();
-			}
-		break;
-		case "notifications.html":
-			if(sessionStorage.getItem("user_id") != null)
-			{
-				load_notifications();
-
-			}else
-			{
-				loadLogIn();
-			}
-		break;
-		case "user_questions.html":
-			if(sessionStorage.getItem("user_id") != null)
-			{
-				load_user_questions();
-
-			}else
-			{
-				loadLogIn();
-			}
-		break;
-		case "user_replies.html":
-			if(sessionStorage.getItem("user_id") != null)
-			{
-				load_user_replies();
-
-			}else
-			{
-				loadLogIn();
-			}
-		break;
-		case "user_profile.html":
-			if(sessionStorage.getItem("user_id") != null)
-			{
-				load_user_profile();
-
-			}else
-			{
-				loadLogIn();
-			}
-		break;
-		case "manage_interests.html":
-			if(sessionStorage.getItem("user_id") != null)
-			{
-				load_user_interests();
-
-			}else
-			{
-				loadLogIn();
-			}
-		break;
-		default:
-			loadLogIn();
-		break;
-	    }
-
+	var url = window.location.href.split("/");
+	page = url[url.length - 1].trim();
 
     firebase.auth().onAuthStateChanged(function(user) {
   		if (user) {
     		myEmail = user.email;
-
     		var emailVerified = user.emailVerified;
     		var isAnonymous = user.isAnonymous;
     		var uid = user.uid;
-    		if (page == "index.html" || page == "") {
-  				window.location.href= "q_and_a/home.html";
-  			}else if (page == "signup.html"){
-  				console.log("Signed Up");
-			}
-			UsersRef.doc(myEmail).get().then(function(data)
-			{
-				var user = data.data();
-				$('#nav-profile-pic img').attr('src', user.profileUrl);
-			});
   		} else {
   			console.log("User is signed out");
   			if (page != "index.html" && page != "" && page != "signup.html") {
   				window.location.href= "../index.html";
   			}
   		}
+  		switch(page){
+			case "signup.html":
+				loadSignUp();
+				break;
+			case "preview.html":
+				loadReading();
+				break;
+			case "home.html":
+				loadQuestionsPage();
+				if (sessionStorage.getItem("homeCurrentPage") != null) {
+					var menuItem = sessionStorage.getItem("homeCurrentPage");
+					if (menuItem != null) {
+						openMenuItem(menuItem);
+					}
+				}
+			break;
+			case "replies.html":
+				loadReplies();
+			break;
+			case "write_question.html":
+				loadWriteQuestion();
+			break;
+			case "write_reply.html":
+				loadPostReply();
+			break;
+			case "profile.html":
+				loadProfile();
+			break;
+			case "editProfile.html":
+				loadEditProfile();
+			break;
+			case "notifications.html":
+				load_notifications();
+			break;
+			case "user_questions.html":
+				load_user_questions();
+			break;
+			case "user_replies.html":
+				load_user_replies();
+			break;
+			case "user_profile.html":
+				load_user_profile();
+			break;
+			case "manage_interests.html":
+				load_user_interests();
+			break;
+			default:
+				loadLogIn();
+			break;
+		}
 	});
-}
-
-
-$('#userProfile').on('click', '.logout', function(e){
-		firebase.auth().signOut().then(function(){
-			sessionStorage.clear();
-		});
-})
-
-function checkSession()
-{
-	if(sessionStorage.getItem("user_id") == null)
-	{
-		firebase.auth().signOut().then(function(){
-			sessionStorage.clear();
-		});
-	}
 }
 
 /*======================================
 			Sign Up process
 =======================================*/
 function loadSignUp(){
-	pagination();
+	$("#page1").appendTo('.content');
+	$('#next_sign_up').on('click', function(){
+		console.log(pageNum);
+		switch(pageNum){
+			case 2:
+				createUser();
+				$('#step_sign_up').text("Sign-up / Basic Info");
+			break;
+			case 3:
+				console.log("Saving");
+				saveInfo();
+				$('#step_sign_up').text("Sign-up / Basic Info / Display Pics");
+			break;
+			case 4:
+				saveUserPics();
+				$('#step_sign_up').text("Sign-up / Basic Info / Display Pics / Choose Interests");
+			break;
+			case 5:
+				showLoader();
+				if (signUpInfo.interests.length < 3) {
+					showSnackbar("Please select at least 3 interests");
+					return;
+				}
+				UsersRef.doc(signUpInfo.email).update({interests: signUpInfo.interests}).then(()=>{
+					hideLoader();
+					window.location.href = "../q_and_a/home.html";
+				}).catch((error) =>{
+					showSnackbar(error.message);
+				});
+			break;
+		}
+	});
+
+	$('#prev_sign_up').on('click', function(){
+		if (pageNum > 2) {
+			prevPage();
+		}
+	});
+
 	$('#email_sign_up').focus();
 	$('#email_sign_up').focusout(function(){
 		var email = $(this).val().trim();
@@ -246,7 +186,6 @@ function loadSignUp(){
 
 	$('#fullName_sign_up').focusout(function(){
 		var fullname = $(this).val().trim();
-		var error = null;
 		if(verifyFullname(fullname)){
 			signUpInfo.fullname = fullname;
 		}
@@ -263,7 +202,6 @@ function loadSignUp(){
 
 	$('#gender_sign_up').change(function(){
 		var gender = $(this).val();
-		var error = null;
 		if(genderVerify(gender)){
 			signUpInfo.gender = gender;
 		}
@@ -318,14 +256,12 @@ function loadSignUp(){
 		if ($.inArray(fileType, validImageTypes) < 0) {
 			showSnackbar("Selected file is not an Image");
 			return;
-		}else
-		{
+		}else{
 			viewCover_pic(this);
 		}
 	});
 	
-	$('.page .display-images').on('change', '#profilePic', function(e)
-	{
+	$('.page .display-images').on('change', '#profilePic', function(e){
 		var selectedImg = e.target.files[0];
 		var ImgName = selectedImg.name;
 		var fileType = selectedImg.type;
@@ -333,9 +269,8 @@ function loadSignUp(){
 		if ($.inArray(fileType, validImageTypes) < 0) {
 			showSnackbar("Selected file is not an Image");
 			return;
-		}else
-		{
-		viewProfile_pic(this);
+		}else{
+			viewProfile_pic(this);
 		}
 	});
 
@@ -344,6 +279,125 @@ function loadSignUp(){
 		e.preventDefault();
 		e.stopPropagation();
 		signUpMethod();
+	});
+}
+
+function nextPage(){
+	$('.content').empty();
+	$('#page'+pageNum).appendTo('.content');
+	$('#page'+(pageNum - 1)).removeClass("page-active");
+	$('#page'+pageNum).addClass("page-active");
+	$('#progress_sign_up').css("width", ((pageNum/4) * 100) + "%");
+	pageNum++;
+}
+
+function prevPage(){
+	$('.content').empty();
+	$('#page'+(pageNum - 1)).appendTo('.content');
+	$('#page'+pageNum).removeClass("page-active");
+	$('#page'+(pageNum - 1)).addClass("page-active");
+	$('#progress_sign_up').css("width", (((pageNum - 1)/4) * 100) + "%");
+	pageNum--;
+}
+
+function createUser(){
+	showLoader();
+	var email = signUpInfo.email;
+	var password = signUpInfo.password;
+	if (email != null && password != null) {
+		firebase.auth().createUserWithEmailAndPassword(email, password)
+		.then(function(){
+			nextPage();
+			hideLoader();
+		}).catch((error) => {
+			showSignUpError(error.message);
+			hideLoader();
+		});
+	}else{
+		showSignUpError("Please fill up all the fields");
+		hideLoader();
+	}
+}
+
+function saveInfo(){
+	var email = signUpInfo.email;
+	showLoader();
+	UsersRef.doc(email).set({
+		fullName: signUpInfo.fullname,
+		dateOfBirth: signUpInfo.birthDate,
+		course: signUpInfo.course,
+		affiliation: signUpInfo.affiliation,
+		university: signUpInfo.university,
+		gender: signUpInfo.gender,
+		uID: email,
+	}).then(function(){
+		console.log("Saved");
+		hideLoader();
+		nextPage();
+	}).catch((error) =>{
+		console.log("Not Saved");
+		showSnackbar(error.message);
+		hideLoader();
+	});
+}
+
+function saveUserPics(){
+	var email = signUpInfo.email;
+	showLoader();
+	var id = email;
+	var pic = "profilePics/"+id+" Profile pic.jpg";
+	var file = signUpInfo.profile_img;
+	//upload new pic
+	var uploadTask = storage.ref(pic).put(signUpInfo.profile_img);
+	uploadTask.on('state_changed', function(snapshot){
+		var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
+		$('#progress').text((progress).toFixed(2) + " %");
+		switch (snapshot.state) {
+			case firebase.storage.TaskState.PAUSED: // or 'paused'
+				console.log('Upload is paused');
+			break;
+			case firebase.storage.TaskState.RUNNING: // or 'running'
+				console.log('Upload is running');
+			break;
+		}
+	}, function(error) {
+		console.log(error);
+		return false;
+	}, function() {
+		uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+			var id = email;
+			UsersRef.doc(id).update({profileUrl: downloadURL});
+			var pic = "Cover Pics/"+id+" Cover.jpg";
+			var file = signUpInfo.cover_img;
+			//upload new pic
+			var uploadTask = storage.ref(pic).put(file);
+			uploadTask.on('state_changed', function(snapshot){
+				var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
+				$('#progress').text((progress).toFixed(2) + " %");
+				console.log('Upload is ' + progress + '% done');
+				switch (snapshot.state) {
+					case firebase.storage.TaskState.PAUSED: // or 'paused'
+						console.log('Upload is paused');
+					break;
+					case firebase.storage.TaskState.RUNNING: // or 'running'
+						console.log('Upload is running');
+					break;
+				}
+			}, function(error) {
+				console.log(error);
+				return false;
+			}, function() {
+				uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+					UsersRef.doc(email).update({coverUrl: downloadURL});
+					hideLoader();
+					nextPage();
+				});
+			}).catch(function(error) {
+				// Uh-oh, an error occurred!
+				console.log("Error while uploading image");
+				hideLoader();
+			});				
+		});
 	});
 }
 
@@ -370,122 +424,6 @@ function viewProfile_pic(input) {
 		}
         reader.readAsDataURL(input.files[0]);
     }
-}
-
-function signUpMethod(){
-	var email = signUpInfo.email;
-	console.log(email);
-	
-	var password = signUpInfo.password;
-	console.log(password);
-	firebase.auth().createUserWithEmailAndPassword(email, password)
-	.then(function(){
-		showLoader();
-		UsersRef.doc(email).set({
-			fullName: signUpInfo.fullname,
-			dateOfBirth: signUpInfo.birthDate,
-			course: signUpInfo.course,
-			affiliation: signUpInfo.affiliation,
-			university: signUpInfo.university,
-			gender: signUpInfo.gender,
-			interests: signUpInfo.interests,
-			uID: email,
-		})
-		.then(function(){
-			var id = email;
-			var pic = "profilePics/"+id+" Profile pic.jpg";
-			var file = signUpInfo.profile_img;
-			//upload new pic
-			var uploadTask = storage.ref(pic).put(signUpInfo.profile_img);
-			uploadTask.on('state_changed', function(snapshot){
-			var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
-			$('#progress').text((progress).toFixed(2) + " %");
-			console.log('Upload is ' + progress + '% done');
-			switch (snapshot.state) {
-			case firebase.storage.TaskState.PAUSED: // or 'paused'
-					console.log('Upload is paused');
-					break;
-			case firebase.storage.TaskState.RUNNING: // or 'running'
-					console.log('Upload is running');
-					break;
-			}
-			}, function(error) {
-				console.log(error);
-				return false;
-			}, function() {
-			uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-				var id = email;
-				UsersRef.doc(id).update({profileUrl: downloadURL});
-				var pic = "Cover Pics/"+id+" Cover.jpg";
-
-				var file = signUpInfo.cover_img;
-				//upload new pic
-				var uploadTask = storage.ref(pic).put(file);
-				uploadTask.on('state_changed', function(snapshot){
-					var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
-					$('#progress').text((progress).toFixed(2) + " %");
-					console.log('Upload is ' + progress + '% done');
-					switch (snapshot.state) {
-						case firebase.storage.TaskState.PAUSED: // or 'paused'
-							console.log('Upload is paused');
-							break;
-						case firebase.storage.TaskState.RUNNING: // or 'running'
-							console.log('Upload is running');
-							break;
-					}
-				}, function(error) {
-					console.log(error);
-					return false;
-				}, function() {
-					uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-						UsersRef.doc(email).update({coverUrl: downloadURL});
-						sessionStorage.setItem("user_id", email);
-						hideLoader();
-						window.location.href = "../q_and_a/home.html";
-
-					});
-		
-		
-				}).catch(function(error) {
-					// Uh-oh, an error occurred!
-					console.log("Error while uploading image");
-				});				
-			});
-	
-			}).catch(function(error) {
-				console.log("Error while uploading image");
-	
-			// Uh-oh, an error occurred!
-			});
-		}).catch(function(error){
-			console.log(error);
-		});
-	})
-	.catch(function(error) {
-  		var errorCode = error.code;
-  		var errorMessage = error.message;
-  		alert("Error Code: " + errorCode + "\n" + "Message: " + errorMessage);
-	});
-}
-
-function signInWithGoogle(){
-	var provider = new firebase.auth.GoogleAuthProvider();
-	firebase.auth().signInWithPopup(provider).then(function(result) {
-  		// This gives you a Google Access Token. You can use it to access the Google API.
-  		var token = result.credential.accessToken;
-  		// The signed-in user info.
-  		var user = result.user;
-  		var email = user.email;
-	}).catch(function(error) {
-	  	// Handle Errors here.
-  		var errorCode = error.code;
-  		var errorMessage = error.message;
-  		// The email of the user's account used.
-  		var email = error.email;
-  		// The firebase.auth.AuthCredential type that was used.
-  		var credential = error.credential;
-  		// ...
-	});
 }
 
 function getDeviceRegToken(){
@@ -646,6 +584,15 @@ function verifyCourse(course)
 
 function verifyStudentNumber(studentNo)
 {
+	var index = pilotStudents.findIndex((e) => e.studentNumber == studentNo);
+	if (index == -1) {
+		alert("Sorry this pilot is only focused on accounring level 2 and level 3 students."+
+			" \n If you are part of the above mentioned please contact OpenSesyme at info@opensesyme.com");
+		firebase.auth().signOut().then(function(){
+			window.location.href = "../index.html";
+		});
+		return;
+	}
 	if(isNaN(studentNo))
 	{
 		basicInfoErrorDisplay("Student number must be only digits");
@@ -714,21 +661,8 @@ function tickedInterest(interest){
 	} else {
 	  arrayInterest.splice(idx, 1);
 	}
+	signUpInfo.interests = arrayInterest;
 }
-
-function saveInterest(){
-	if(arrayInterest.length > 2){
-		signUpInfo.interests = arrayInterest;
-		moveNext = true;
-		$('#interest_status').html("");
-		return true;
-	}else{
-		$('#interest_status').html("<div class='text-danger'>Please select at least 3 interests</div>");
-		moveNext = false;
-	}
-}
-
-
 
 
 function showSignUpError (error){
@@ -742,177 +676,6 @@ function showSignUpError (error){
 	}
 }
 
-
-function verifyQuestion(title, description)
-{
-	var error = "";
-
-	var title_ = title.toLowerCase();
-
-	console.log();
-
-	if(title.length < 6)
-	{
-		error = "Your question should be at least 6 words long";
-	}else if(description.length < 15)
-	{
-		error = "Your description should be at least 15 words long";
-	}else  if(!title_.includes("what") && !title_.includes("how") && !title_.includes("when") &&  !title_.includes("who"))
-	 {
-		 error = "Your question should contain What or How or When or Who";
-	 }else
-	 {
-	 		error = "";
-	 }
-
-	questionStatus(error);
-	if(error == "")
-	{
-		return true;
-	}else
-	{
-		return false;
-	}
-}
-
-function questionStatus(error)
-{
-	$('.question_status').html('<div class="text-danger">'+error+'</div>');
-}
-
-function verify_reply(description)
-{
-
-	var error = "";
-
-	if(description.length < 3)
-	{
-		error = "Your reply should be at least 3 letters long";
-	}else
-	 {
-	 		error = "";
-	 }
-
-	replyStatus(error);
-	if(error == "")
-	{
-		return true;
-	}else
-	{
-		return false;
-	}
-
-}
-
-function replyStatus(error)
-{
-	$('.reply_status').html('<div class="text-danger">'+error+'</div>');
-}
-
-function addCategory(value)
-{
-		console.log(value);
-}
-
-function changePage(){
-
-	//sign up
-	var email = $('#email_sign_up').val().trim();
-	var password = $('#password_sign_up').val().trim();
-
-	//basic information
-	var fullname = $('#fullName_sign_up').val().trim();
-	var studentNo = $('#student_no_sign_up').val().trim();
-	var datepicker = $('#datepicker_sign_up').val();
-	var phone = $('#phone_sign_up').val().trim();
-	var gender = $('#gender_sign_up').val();
-	var course = $('#course_sign_up').val().trim();
-	var university = $('#university_selector').val();
-	var affiliation = $('#affiliation_selector').val();
-
-	switch(myNextPage){
-		case 1:
-			if (password.length > 6 && email.length > 5 && moveNext) {
-				moveNext = false;
-				return true;
-			}else{
-				return false;
-			}
-			break;
-		case 2:
-			if(verifyFullname(fullname) && verifyStudentNumber(studentNo) && ageRestrict(datepicker)
-				&& cellNumberVerify(phone) && genderVerify(gender) && verifyCourse(course)
-				&& verifyUniversity(university) && verifyAffiliation(affiliation) && moveNext){
-				return true;
-			}else{
-				return false;
-			}
-			break;
-		case 3:
-			return true;
-			break;
-		case 4:
-			if(saveInterest() && moveNext){
-				signUpMethod();
-				return true;
-			}else{
-				return false;
-			}
-			break;
-		case 5:
-			return true;
-			break;
-		default:
-			return false;
-	}
-}
-
-function pagination(){
-	$('#sesyme_paging').twbsPagination({
-		totalPages: 5,
-		// the current page that show on start
-		startPage: 1,
-
-		moveNextF: changePage,
-
-		// maximum visible pages
-		visiblePages: 5,
-
-		initiateStartPageClick: true,
-
-		// template for pagination links
-		href: false,
-
-		// variable name in href template for page number
-		hrefVariable: '{{number}}',
-
-		// Text labels
-		first: null,
-		prev: '<i class="fa fa-chevron-left"></i>',
-		next: '<i class="fa fa-chevron-right"></i>',
-		last: null,
-
-		// carousel-style pagination
-		loop: false,
-
-		// callback function
-		onPageClick: function (event, page) {
-			$('.page-active').removeClass('page-active');
-	    	$('#page'+page).addClass('page-active');
-	    	currentPage = page;
-	    	myNextPage = page;
-		},
-
-		// pagination Classes
-		paginationClass: 'pagination',
-		nextClass: 'next',
-		pageClass: 'page',
-		activeClass: 'active',
-		disabledClass: 'disabled'
-
-		});
-}
-
 /*======================================
 			Questions Home Page
 =======================================*/
@@ -920,9 +683,10 @@ function loadQuestionsPage(){
 	showLoader();
 	$('#navbar_menu').on('click', 'li', function(){
 		var menuItem = $(this).find('h3').text().trim();
+		console.log(menuItem);
 		openMenuItem(menuItem);
 	});
-	UsersRef.doc(sessionStorage.getItem("user_id")).onSnapshot(function(user)
+	UsersRef.doc(myEmail).onSnapshot(function(user)
 	{
 		var html = '';
 		myInterests = [];
@@ -934,7 +698,7 @@ function loadQuestionsPage(){
 			 html = '<a class="interests-nav-link">'+interest+'</a>';
 			 $('#interestsNavContents').append(html);
 		});
-
+		$('#nav-profile-pic img').attr('src', user.data().profileUrl);
 	});
     users = [];
 	$('.questions').empty();
@@ -973,7 +737,7 @@ function loadQuestionsPage(){
 				QuestionsCollection.doc(id).get()
 				.then(function(_document)
 				{
-					if(sessionStorage.getItem("user_id") !== _document.get("author"))
+					if(myEmail !== _document.get("author"))
 					{
 						var text = "liked your question: "+_document.get("author");
 						var type = "Question";
@@ -1116,10 +880,19 @@ function loadQuestionsPage(){
 			window.location.href = "../profile/profile.html";
 		}
 	});
+
+	window.addEventListener("unload", function(event) { 
+		if (selectedMenuItem != null) {
+			sessionStorage.setItem("homeCurrentPage", selectedMenuItem);
+		}
+	});
 }
 
 function openMenuItem(menuItem){
 	$('body').children('section').hide();
+	selectedMenuItem = menuItem;
+	sessionStorage.setItem("homeCurrentPage", selectedMenuItem);
+	console.log(menuItem);
 	if (menuItem == "Home") {
 		$('#q_and_a').show();
 		$('.bottom-nav').show();
@@ -1133,17 +906,17 @@ function openMenuItem(menuItem){
 	}
 	
 	switch(menuItem){
-	case "Books":
-		loadLibrary();
-	break;
-	case "Notifications":
-		load_notifications();
-	break;
-	case "Profile":
-		loadProfile();
-	break;
-	default:
-		loadQuestionsPage();
+		case "Books":
+			loadLibrary();
+		break;
+		case "Notifications":
+			load_notifications();
+		break;
+		case "Profile":
+			loadProfile();
+		break;
+		default:
+			loadQuestionsPage();
 	}
 }
 
@@ -1901,7 +1674,7 @@ function postReply(type, description, id, attType){
 		QuestionsCollection.doc(selectedQuestion).get()
 		.then(function(_document)
 		{
-			if(sessionStorage.getItem("user_id") !== _document.get("author"))
+			if(myEmail !== _document.get("author"))
 			{
 				var text = "";
 				if(type == "Answer")
@@ -1928,14 +1701,13 @@ function postReply(type, description, id, attType){
 /*=====================================
           PROFILE PAGE
 =====================================*/
-/*+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--
+/*=======================================================================================
 										PROFILE VIEW
-+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--*/
-function loadProfile()
-{
+=========================================================================================*/
+function loadProfile(){
 	showLoader();
 	document.title = "My profile";
-	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(user)
+	UsersRef.doc(myEmail).get().then(function(user)
 	{
 		var data = user.data();
 		var profile_pic = null;
@@ -1965,11 +1737,13 @@ function loadProfile()
 			$('#userProfile').ready(function(){
 				hideLoader();
 			});
-		}).catch(function(error){
-			console.log(error);
-			$('#userProfile').ready(function(){
-				hideLoader();
-			});
+		});
+	});
+
+	$('.logout').on('click', function(){
+		firebase.auth().signOut().then(function(){
+			sessionStorage.setItem("homeCurrentPage", "Home");
+			window.location.href = "../index.html";
 		});
 	});
 }
@@ -1979,7 +1753,7 @@ function load_user_questions()
 
 	showLoader();
 	document.title = "My questions";
-	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(user)
+	UsersRef.doc(myEmail).get().then(function(user)
 	{
 		var data = user.data();
 		var profile_pic = null;
@@ -1993,7 +1767,7 @@ function load_user_questions()
 
 		var fullname = data.fullName;
 
-		QuestionsCollection.where("author", "==", sessionStorage.getItem("user_id"))
+		QuestionsCollection.where("author", "==", myEmail)
 		.orderBy("dateTime", "desc").get().then(function(questions)
 		{
 			
@@ -2115,8 +1889,6 @@ function load_user_questions()
     			break;
     	}
     });
-	
-
 }
 
 function EditOwnPost(type, id){
@@ -2130,12 +1902,10 @@ function EditOwnPost(type, id){
 }
 
 
-function load_user_replies()
-{
-
+function load_user_replies(){
 	showLoader();
 	document.title = "My replies";
-	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(user)
+	UsersRef.doc(myEmail).get().then(function(user)
 	{
 		var data = user.data();
 		var profile_pic = null;
@@ -2149,7 +1919,7 @@ function load_user_replies()
 
 		var fullname = data.fullName;
 
-		db.collectionGroup("Replies").where("author", "==", sessionStorage.getItem("user_id"))
+		db.collectionGroup("Replies").where("author", "==", myEmail)
 		.where("type", "==", "Answer").orderBy("dateTime", "desc").get().then(function(replies)
 		{
 			
@@ -2428,7 +2198,6 @@ function load_user_profile()
 }
 
 
-
 /*+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+-
 										PROFILE EDIT VIEW
 +-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--+-+-+-+-+-+-+-+-+--*/
@@ -2436,7 +2205,7 @@ function load_user_profile()
 function loadEditProfile()
 {
 	showLoader();
-	UsersRef.doc(sessionStorage.getItem("user_id")).get().then(function(user)
+	UsersRef.doc(myEmail).get().then(function(user)
 	{
 		var data = user.data();
 		var profile_pic = null;
@@ -2539,7 +2308,6 @@ function readProfile_pic(input) {
         reader.onload = function (e) {
             $('#editProfile').find(".profile-pic").children().first().attr('src', e.target.result);
 			profile_img = input.files[0];
-
 		}
         reader.readAsDataURL(input.files[0]);
     }
@@ -2575,14 +2343,11 @@ $('#profilePic').on('change', function(e)
 	}
 });
 
-
-
-
 $('.profile-edit #university_selector').on('change', function(e)
 {
 	e.stopPropagation();
 	var university = $('#university_selector').val();
-	UsersRef.doc(sessionStorage.getItem("user_id")).update(
+	UsersRef.doc(myEmail).update(
 	{
 		university: university,
 	}).then(function()
@@ -2600,7 +2365,7 @@ $('.profile-edit #datepicker_sign_up').on('change', function(e)
 {
 	e.stopPropagation();
 	var dob = $('#datepicker_sign_up').val();
-	UsersRef.doc(sessionStorage.getItem("user_id")).update({dateOfBirth: dob})
+	UsersRef.doc(myEmail).update({dateOfBirth: dob})
 	.then(function()
 	{
 		console.log("edited");
@@ -2615,7 +2380,7 @@ $('.profile-edit #gender_sign_up').on('change', function(e)
 {
 	e.stopPropagation();
 	var gender = $('#gender_sign_up').val();
-	UsersRef.doc(sessionStorage.getItem("user_id")).update({gender: gender})
+	UsersRef.doc(myEmail).update({gender: gender})
 	.then(function()
 	{
 		console.log("edited");
@@ -2630,7 +2395,7 @@ $('.profile-edit #affiliation_selector').on('change', function(e)
 {
 	e.stopPropagation();
 	var affiliation = $('#affiliation_selector').val();
-	UsersRef.doc(sessionStorage.getItem("user_id")).update({affiliation: affiliation})
+	UsersRef.doc(myEmail).update({affiliation: affiliation})
 	.then(function()
 	{
 		console.log("edited");
@@ -2653,7 +2418,7 @@ $("#save_edit_changes").on('click', function(e)
 	var affiliation = $('#affiliation_selector').val();
 	var p_img = profile_img;
 	var c_img = cover_img;
-	var id = sessionStorage.getItem("user_id");
+	var id = myEmail;
 
 	if(fullname != "" && course_name != "" && dob != "" && gender != "" && university != "" && affiliation != "")
 	{
@@ -2693,7 +2458,6 @@ function updateImage(id, file, upload_type)
 		showLoader();
 		//delete old pic
 		var pic = storage.ref("profilePics/"+id+" Profile pic.jpg");
-		pic.delete().then(function() {
 			// File deleted successfully
 		//upload new pic
 		var uploadTask = storage.ref("profilePics/"+id+" Profile pic.jpg").put(file);
@@ -2717,11 +2481,6 @@ function updateImage(id, file, upload_type)
 				  hideLoader();
 			  });
 		});
-		  }).catch(function(error) {
-			  console.log("error while deleting");
-
-			// Uh-oh, an error occurred!
-		  });
 	}
 
 	if(upload_type === "cover_pic")
@@ -2729,7 +2488,6 @@ function updateImage(id, file, upload_type)
 		//pic to be deleted
 		showLoader();
 		var pic = storage.ref("Cover Pics/"+id+" Cover.jpg");
-		pic.delete().then(function() {
 			// File deleted successfully
 
 			//upload new pic
@@ -2754,11 +2512,6 @@ function updateImage(id, file, upload_type)
 					hideLoader();
 				});
 			});
-
-		  }).catch(function(error) {
-			// Uh-oh, an error occurred!
-			console.log("error happened while deleting");
-		  });
 	}
 }
 
@@ -2770,7 +2523,7 @@ function load_user_interests()
 	showLoader();
 	var arr = [];
 	var kids = $('#select_interests .row').children();
-	var id = sessionStorage.getItem('user_id');
+	var id = myEmail;
 	UsersRef.doc(id).get()
 	.then(function(user)
 	{
@@ -2817,11 +2570,8 @@ function load_user_interests()
 			{
 				showSnackbar("Interests should be at least 3");
 			}
-		})
+		});
 	});
-
-	
-	
 }
 
 /*=========================================================================================================
@@ -2834,7 +2584,7 @@ var notification_id = null;
 function load_notifications()
 {
 	showLoader();
-	Notifications.where("receiver", "==", sessionStorage.getItem("user_id")).orderBy("time", "desc")
+	Notifications.where("receiver", "==", myEmail).orderBy("time", "desc")
 	.onSnapshot(function(doc)
 	{
 
@@ -2918,10 +2668,7 @@ $('#notifications .content').on('click', '.notification', function(e)
 		sessionStorage.setItem("selectedQuestion", selectedQuestion);
 		window.location.href = "../q_and_a/replies.html";
 	});
-
-	
 });
-
 
 
 /*===============================================================================================
@@ -2952,23 +2699,18 @@ $('#report_description').on('keyup focusout', function()
 	}
 });
 
-$('.feedback-submit').on('click', function(e)
-{
+$('.feedback-submit').on('click', function(e){
 	var report = $('#report').val().trim();
 	var description = $('#report_description').val().trim();
 
-	if(validate_feedBack(report, description))
-	{
+	if(validate_feedBack(report, description)){
 		sendEmail();
-	}else
-	{
+	}else{
 		validate_feedBack(report, description);
 	}
-
 });
 
-function validate_feedBack(report, description)
-{
+function validate_feedBack(report, description){
 	var error = null;
 	if(report.length < 5)
 	{
@@ -2976,67 +2718,54 @@ function validate_feedBack(report, description)
 	}else if(description.length < 8)
 	{
 		error = "Report should be at least 9 letters";
-	}else
-	{
+	}else{
 		error = null;
 	}
 
 	show_feedback_status(error);
-	if(error != null)
-	{
+	if(error != null){
 		return false;
-	}else
-	{
+	}else{
 			return true;
 	}
-
-
 }
 
-function show_feedback_status(error)
-{
-		if(error != null)
-		{
+function show_feedback_status(error){
+		if(error != null){
 			$('.feedback_status').html(`<div class="text-danger">${error}</div>`);
-		}else
-		{
+		}else{
 			$('.feedback_status').html("");
 		}
 }
 
-
-function sendEmail()
-{
+function sendEmail(){
 	var report = $('#report').val().trim();
 	var description = $('#report_description').val().trim();
 	var fullname = "";
-	UsersRef.doc(sessionStorage.getItem("user_id")).get()
+	UsersRef.doc(myEmail).get()
 	.then(function(data){
 		$('.feedback-submit').addClass('disabled');
-		$.ajax(
-		{
+		$.ajax({
 			url: '../includes/email.php',
 			method: 'POST',
-			data: {report: report, description: description, fullname:data.get("fullName"),  email: sessionStorage.getItem("user_id")}
-		}).then(function(data)
-		{
+			data: {report: report, description: description, fullname:data.get("fullName"),  email: myEmail}
+		}).then(function(data){
 			var report = $('#report').val("");
 			var description = $('#report_description').val("");
 			$('.feedback-submit').addClass('disabled');
 			
-		}).catch(function(error)
-		{
+		}).catch(function(error){
 			console.log(error);
 		});
 	});
 }
 
-	function composeTidy(){
-		$('#report').val('');
-		$('#report_description').val('');
-		$('.feedback_status').html("<div>Email sent</div>");
-		$('.feedback-submit').removeClass('disabled');
-	}
+function composeTidy(){
+	$('#report').val('');
+	$('#report_description').val('');
+	$('.feedback_status').html("<div>Email sent</div>");
+	$('.feedback-submit').removeClass('disabled');
+}
 
 /*======================================
 			Login
@@ -3064,8 +2793,44 @@ function loadLogIn(){
 		firebase.auth().signInWithEmailAndPassword(email, password)
 		.then(function(){
 		    hideLoader();
-			sessionStorage.setItem("user_id", email);
-			window.location.href = "q_and_a/home.html";
+		    UsersRef.doc(email).get().then((user) => {
+		    	var studentNo = user.data().studentNumber;
+		    	if (studentNo == null) {
+		    		var number = prompt("Please enter your Student Number", "");
+					if (number != null) {
+		    			var index = pilotStudents.findIndex((e) => e.studentNumber == number);
+		    			if (index == null || index == -1) {
+							alert("Sorry this pilot is only focused on accounring level 2 and level 3 students."+
+								" \n If you are part of the above mentioned please contact OpenSesyme at info@opensesyme.com");
+							firebase.auth().signOut().then(function(){
+								window.location.href = "index.html";
+							});
+							return;
+						}else{
+							UsersRef.doc(email).update({studentNumber: number}).then(()=>{
+								window.location.href = "q_and_a/home.html";
+							});
+						}
+						
+					}else{
+						number = prompt("Please enter your Student Number", "");
+					}
+		    	}else{
+		    		var index = pilotStudents.findIndex((e) => e.studentNumber == studentNo);
+		    		if (index == null || index == -1) {
+						alert("Sorry this pilot is only focused on accounring level 2 and level 3 students."+
+							" \n If you are part of the above mentioned please contact OpenSesyme at info@opensesyme.com");
+						firebase.auth().signOut().then(function(){
+							window.location.href = "index.html";
+						});
+						return;
+					}else{
+						window.location.href = "q_and_a/home.html";
+					}
+		    	}
+		    	
+				
+		    });
 		})
 		.catch(function(error) {
   			var errorCode = error.code;
@@ -3090,6 +2855,10 @@ function loadLogIn(){
 		});
 	});
 }
+
+/*=======================================================
+					Library
+========================================================*/
 
 function loadLibrary(){
 	var booksList = [
@@ -3615,3 +3384,122 @@ function closeFullscreen() {
     document.msExitFullscreen();
   }
 }
+
+var pilotStudents = [{firsName: "Ntlakanipho", lastName: "Mvanyashe", studentNumber: 219501572},
+	{firsName: "Qhama", lastName: "Macothoza", studentNumber: 219502153},
+	{firsName: "Inga", lastName: "Nodwengu", studentNumber: 219414122},
+	{firsName: "Allen", lastName: "Mqadi", studentNumber: 219137382},
+	{firsName: "Lucky", lastName: "Moyikwa", studentNumber: 219152446},
+	{firsName: "Khanyisa", lastName: "Rawu", studentNumber: 218199090},
+	{firsName: "Siviwe", lastName: "Mntengwane", studentNumber: 211133019},
+	{firsName: "Sisipo", lastName: "Madulini", studentNumber: 217292542},
+	{firsName: "Sibulele", lastName: "Novukela", studentNumber: 217293115},
+	{firsName: "Onelisa", lastName: "Mbimi", studentNumber: 216198194},
+	{firsName: "Ntombenhle", lastName: "Maduna", studentNumber: 216102995},
+	{firsName: "Sinovuyo", lastName: "Maphupha", studentNumber: 219244766},
+	{firsName: "Nikile Gwiba", lastName: "Madikane", studentNumber: 216045649},
+	{firsName: "Anathi", lastName: "Hem", studentNumber: 218269447},
+	{firsName: "Athandiwe", lastName: "Myalwa", studentNumber: 219077657},
+	{firsName: "Sinikelo", lastName: "Mpendu", studentNumber: 217147151},
+	{firsName: "Asemahle", lastName: "Nobeleza", studentNumber: 217146554},
+	{firsName: "Abenathi", lastName: "Mzimvubu", studentNumber: 218280467},
+	{firsName: "Loyiso", lastName: "Nontshe", studentNumber: 219399859},
+	{firsName: "Lulama", lastName: "Basin", studentNumber: 219008507},
+	{firsName: "Khanya", lastName: "Mvo", studentNumber: 219500029},
+	{firsName: "Lonwabo", lastName: "Mniki", studentNumber: 217237967},
+	{firsName: "Mpilo", lastName: "Maduya", studentNumber:219432325},
+	{firsName: "Amanda", lastName: "Jacobs", studentNumber: 219371946},
+	{firsName: "Yoxolo", lastName: "Nondabula", studentNumber: 218265182},
+	{firsName: "Zimkhitha", lastName: "Nokhamatye", studentNumber: 217269303},
+	{firsName: "Thandiwe", lastName: "Ngwenya", studentNumber: 217246567},
+	{firsName: "Zuko", lastName: "Bhadulana", studentNumber: 219413827},
+	{firsName: "Dikonyela", lastName: "Mokotla", studentNumber: 219242852},
+	{firsName: "Yandisa", lastName: "Mkhonyo", studentNumber: 219502196},
+	{firsName: "Mlomuli", lastName: "Mkhothu", studentNumber: 217215335},
+	{firsName: "Nkubeko", lastName: "Tengo", studentNumber: 219418411},
+	{firsName: "Aphelele", lastName: "Magugwana", studentNumber: 219285691},
+	{firsName: "Luyanda", lastName: "Skisazana", studentNumber: 219501394},
+	{firsName: "Yamkela", lastName: "Gcilitshana", studentNumber: 216221986},
+	{firsName: "Pindisiwe", lastName: "Buyeye", studentNumber: 217252834},
+	{firsName: "Pumlani", lastName: "Marasha", studentNumber: 218025815},
+    {firsName: "Nangomso", lastName: "Ntlango", studentNumber: 218273541},
+	{firsName: "Mzondeleli", lastName: "Mntonga", studentNumber: 218280513},
+	{firsName: "Ntokozo", lastName: "Hlophe", studentNumber: 217279759},
+	{firsName: "Luvo", lastName: "Nogo", studentNumber: 214134369},
+	{firsName: "Luvuyo", lastName: "Bungane", studentNumber: 216039320},
+	{firsName: "Phumlani", lastName: "Nomvangayi", studentNumber: 217189997},
+	{firsName: "Sive", lastName: "Johnson", studentNumber: 217252117},
+	{firsName: "Niko", lastName: "Mbokwana", studentNumber: 217253059},
+	{firsName: "Ziyanda", lastName: "Koyana", studentNumber: 217238238},
+	{firsName: "Mesuli", lastName: "Diko", studentNumber: 217252826},
+	{firsName: "Phatheka", lastName: "Sikatele", studentNumber: 215173155},
+	{firsName: "Xolisile", lastName: "Ntamo", studentNumber: 209198796},
+	{firsName: "Lutlutlo", lastName: "Nleatle", studentNumber: 219421269},
+	{firsName: "Nonyameko", lastName: "Mefonya", studentNumber: 217253040},
+	{firsName: "Asiphe", lastName: "Khwatha", studentNumber: 217252893},
+	{firsName: "Nonopha", lastName: "Maqathu", studentNumber: 217097324},
+	{firsName: "Noma-Afrika", lastName: "Msindo", studentNumber: 216263603},
+	{firsName: "Nonjabulo N.N", lastName: "Biyela", studentNumber: 218010311},
+	{firsName: "Nosisi", lastName: "Mbokwana", studentNumber: 218170912},
+	{firsName: "Rearabetsoe", lastName: "Mphafi", studentNumber: 218287291},
+	{firsName: "Siphokazi", lastName: "Ntuli", studentNumber: 218184697},
+	{firsName: "Fanele", lastName: "Makhathini", studentNumber: 218280440},
+	{firsName: "Lebohang", lastName: "Muse", studentNumber: 218255349},
+	{firsName: "Zodwa", lastName: "Mhlekwa", studentNumber: 218194153},
+	{firsName: "Asiphe", lastName: "Makaula", studentNumber: 218269749},
+	{firsName: "Axola", lastName: "Tdhegfu", studentNumber: 217246397},
+	{firsName: "Masizakhe", lastName: "Soqashe", studentNumber: 218286309},
+	{firsName: "Zosuliwe", lastName: "Shushu", studentNumber: 218281560},
+	{firsName: "Sisanda", lastName: "Mngqongwa", studentNumber: 217051375},
+	{firsName: "Siyamthanda", lastName: "Mtekelana", studentNumber: 217056318},
+	{firsName: "Sinamandla", lastName: "Konzana", studentNumber: 217000533},
+	{firsName: "Amahle", lastName: "Madukuda", studentNumber: 218174330},
+	{firsName: "Lihle", lastName: "Ngwadla", studentNumber: 217241328},
+	{firsName: "Nkosikhona L", lastName: "Vuke", studentNumber: 218104502},
+	{firsName: "Lukanyo", lastName: "Manqaba", studentNumber: 217107486},
+	{firsName: "Uviwe", lastName: "Kunana", studentNumber: 218180101},
+	{firsName: "Atalanta", lastName: "Magile", studentNumber: 218184921},
+	{firsName: "Imibongo", lastName: "Ntshana", studentNumber: 218185111},
+	{firsName: "Khanide", lastName: "Kulani", studentNumber: 217152958},
+	{firsName: "Nelisiwe", lastName: "Kunene", studentNumber: 218281692},
+	{firsName: "Sizipiwe", lastName: "Mlindelwa", studentNumber: 218172311},
+	{firsName: "Tarollo", lastName: "Lehanya", studentNumber: 217275524},
+	{firsName: "Nicole", lastName: "Moshesh", studentNumber: 216070142},
+	{firsName: "Tabile", lastName: "Mpini", studentNumber: 217192181},
+	{firsName: "Luntu", lastName: "Notswayi", studentNumber: 218187238},
+	{firsName: "Mihlali", lastName: "Mtati", studentNumber: 218105924},
+	{firsName: "Bulelani", lastName: "Mbele", studentNumber: 218255411},
+	{firsName: "Amanda", lastName: "Mdudi", studentNumber: 217001963},
+	{firsName: "Zisipo", lastName: "Masentse", studentNumber: 217280625},
+	{firsName: "Netha", lastName: "Mketwa", studentNumber: 217279724},
+	{firsName: "Asanda", lastName: "Blayi", studentNumber: 215184300},
+	{firsName: "Yamkela Z", lastName: "Mjali", studentNumber: 216045614},
+	{firsName: "Nosiniko", lastName: "Xhanti", studentNumber: 218154755},
+	{firsName: "Thina", lastName: "Phuka", studentNumber: 218172753},
+ 	{firsName: "Esethu", lastName: "Jali", studentNumber: 216045754},
+	{firsName: "Noluthando", lastName: "Njokwana", studentNumber: 216045754},
+	{firsName: "Simangele", lastName: "Mbatha", studentNumber: 215131886},
+	{firsName: "Yamkela", lastName: "Mke", studentNumber: 218280718},
+	{firsName: "Inalise", lastName: "Qaliyana", studentNumber: 217253881},
+	{firsName: "Zenande", lastName: "Mvana", studentNumber: 217253725},
+	{firsName: "Someleze", lastName: "Simunca", studentNumber: 217255981},
+	{firsName: "Lihle", lastName: "Mbelesi", studentNumber: 217026834},
+	{firsName: "Mbuyiselo", lastName: "Mpayipeli", studentNumber: 216256194},
+	{firsName: "Athi", lastName: "Nanto", studentNumber: 216003857},
+	{firsName: "Vuyolwethu", lastName: "Kaleni", studentNumber: 2172522966},
+	{firsName: "Mazewu", lastName: "Zingisa", studentNumber: 216126703},
+	{firsName: "Yamkela", lastName: "Lengimbo", studentNumber: 218280424},
+	{firsName: "Sisa", lastName: "Mxhelwana", studentNumber: 218180357},
+	{firsName: "Lindiswa", lastName: "Zibobo", studentNumber: 218002130},
+	{firsName: "Khanya B", lastName: "Bana", studentNumber: 217003044},
+	{firsName: "Awongile Y", lastName: "Gwantshu", studentNumber: 217193552},
+	{firsName: "Siphesihle", lastName: "Qhabalaka", studentNumber: 216001277},
+	{firsName: "Siphumle", lastName: "Khuphelo", studentNumber: 217073948},
+	{firsName: "Aviwe S", lastName: "Mhlauli", studentNumber: 216264146},
+	{firsName: "Tabiso", lastName: "Bana", studentNumber: 218278052},
+	{firsName: "Indiphile", lastName: "Siroqo", studentNumber: 217254608},
+	{firsName: "Kanyo", lastName: "Nompozolo", studentNumber: 217236103},
+	{firsName: "Akhona", lastName: "Wayise", studentNumber: 218279078},
+	{firsName: "Bevan", lastName: "Mondweni", studentNumber: 215199502},
+	{firsName: "Lwandile", lastName: "Qulo-Qolo", studentNumber: 218185294},
+	{firsName: "Nondumiso", lastName: "Lurwengu", studentNumber: 215214641}];
