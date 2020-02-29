@@ -11,6 +11,7 @@ var myEmail = null;
 var selectedQuestion = null;
 var questionCategories = [];
 var myInterests = [];
+var savedHighlights = [];
 var file = null;
 
 /*======================================
@@ -32,12 +33,10 @@ firebase.analytics();
 var db = firebase.firestore();
 var auth = firebase.auth();
 var storage = firebase.storage();
- messaging = firebase.messaging();
 var UsersRef = db.collection("UserDetails");
 var QuestionsCollection = db.collection("Questions");
 var LikesCollection = db.collection("liked");
 var Notifications = db.collection("Notifications");
-messaging.usePublicVapidKey("BJM5BlaMC-_gBntgWLtoPt7GMvc_9tdLBMsLKO9giQrp9MYxSW_sayD-F5p-USjI7T1GsFvV4CWUMsCjW8V0fUs");
 
 
 /*=====================================
@@ -176,7 +175,7 @@ window.onload = function(){
     firebase.auth().onAuthStateChanged(function(user) {
   		if (user) {
     		myEmail = user.email;
-			checkSession();
+
     		var emailVerified = user.emailVerified;
     		var isAnonymous = user.isAnonymous;
     		var uid = user.uid;
@@ -226,7 +225,10 @@ function loadSignUp(){
 		var email = $(this).val().trim();
 		var error = null;
 		if (validateEmail(email)) {
+<<<<<<< HEAD
 		
+=======
+>>>>>>> develop
 			signUpInfo.email = email;
 		}else{
 			error = "Please Enter a valid Email address";
@@ -394,29 +396,51 @@ function signUpMethod(){
 		})
 		.then(function(){
 			var id = email;
+			var pic = "profilePics/"+id+" Profile pic.jpg";
+			var file = signUpInfo.profile_img;
+			//upload new pic
+			var uploadTask = storage.ref(pic).put(signUpInfo.profile_img);
+			uploadTask.on('state_changed', function(snapshot){
+			var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
+			$('#progress').text((progress).toFixed(2) + " %");
+			console.log('Upload is ' + progress + '% done');
+			switch (snapshot.state) {
+			case firebase.storage.TaskState.PAUSED: // or 'paused'
+					console.log('Upload is paused');
+					break;
+			case firebase.storage.TaskState.RUNNING: // or 'running'
+					console.log('Upload is running');
+					break;
+			}
+			}, function(error) {
+				console.log(error);
+				return false;
+			}, function() {
+			uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+				var id = email;
+				UsersRef.doc(id).update({profileUrl: downloadURL});
+				var pic = "Cover Pics/"+id+" Cover.jpg";
 
-			if(signUpInfo.profile_img != null)
-			{
-				var pic = "profilePics/"+id+" Profile pic.jpg";
-				var file = signUpInfo.profile_img;
+				var file = signUpInfo.cover_img;
 				//upload new pic
-				var uploadTask = storage.ref(pic).put(signUpInfo.profile_img);
+				var uploadTask = storage.ref(pic).put(file);
 				uploadTask.on('state_changed', function(snapshot){
-				var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
-				$('#progress').text((progress).toFixed(2) + " %");
-				console.log('Upload is ' + progress + '% done');
-				switch (snapshot.state) {
-				case firebase.storage.TaskState.PAUSED: // or 'paused'
-						console.log('Upload is paused');
-						break;
-				case firebase.storage.TaskState.RUNNING: // or 'running'
-						console.log('Upload is running');
-						break;
-				}
+					var progress = (+(snapshot.bytesTransferred) / +(snapshot.totalBytes)) * 100;
+					$('#progress').text((progress).toFixed(2) + " %");
+					console.log('Upload is ' + progress + '% done');
+					switch (snapshot.state) {
+						case firebase.storage.TaskState.PAUSED: // or 'paused'
+							console.log('Upload is paused');
+							break;
+						case firebase.storage.TaskState.RUNNING: // or 'running'
+							console.log('Upload is running');
+							break;
+					}
 				}, function(error) {
 					console.log(error);
 					return false;
 				}, function() {
+<<<<<<< HEAD
 				uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
 					var id = email;
 					UsersRef.doc(id).update({profileUrl: downloadURL});			
@@ -459,14 +483,21 @@ function signUpMethod(){
 						
 					}else
 					{
+=======
+					uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+						UsersRef.doc(email).update({coverUrl: downloadURL});
+>>>>>>> develop
 						sessionStorage.setItem("user_id", email);
 						hideLoader();
 						window.location.href = "../q_and_a/home.html";
-					}
-				});
+
+					});
+		
 		
 				}).catch(function(error) {
+					// Uh-oh, an error occurred!
 					console.log("Error while uploading image");
+<<<<<<< HEAD
 		
 				// Uh-oh, an error occurred!
 				});
@@ -517,6 +548,16 @@ function signUpMethod(){
 				}
 
 			}
+=======
+				});				
+			});
+	
+			}).catch(function(error) {
+				console.log("Error while uploading image");
+	
+			// Uh-oh, an error occurred!
+			});
+>>>>>>> develop
 		}).catch(function(error){
 			console.log(error);
 		});
@@ -528,6 +569,44 @@ function signUpMethod(){
 	});
 }
 
+function signInWithGoogle(){
+	var provider = new firebase.auth.GoogleAuthProvider();
+	firebase.auth().signInWithPopup(provider).then(function(result) {
+  		// This gives you a Google Access Token. You can use it to access the Google API.
+  		var token = result.credential.accessToken;
+  		// The signed-in user info.
+  		var user = result.user;
+  		var email = user.email;
+	}).catch(function(error) {
+	  	// Handle Errors here.
+  		var errorCode = error.code;
+  		var errorMessage = error.message;
+  		// The email of the user's account used.
+  		var email = error.email;
+  		// The firebase.auth.AuthCredential type that was used.
+  		var credential = error.credential;
+  		// ...
+	});
+}
+
+function getDeviceRegToken(){
+	messaging.getToken().then((currentToken) => {
+		if (currentToken) {
+		    sendTokenToServer(currentToken);
+		    updateUIForPushEnabled(currentToken);
+		} else {
+		    // Show permission request.
+		    console.log('No Instance ID token available. Request permission to generate one.');
+		    // Show permission UI.
+		    updateUIForPushPermissionRequired();
+		    setTokenSentToServer(false);
+		}
+	}).catch((err) => {
+		console.log('An error occurred while retrieving token. ', err);
+		showToken('Error retrieving Instance ID token. ', err);
+		setTokenSentToServer(false);
+	});
+}
 
 function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -764,7 +843,7 @@ function showSignUpError (error){
 }
 
 
-function verifyQuestion(title)
+function verifyQuestion(title, description)
 {
 	var error = "";
 
@@ -775,7 +854,13 @@ function verifyQuestion(title)
 	if(title.length < 6)
 	{
 		error = "Your question should be at least 6 words long";
-	}else 
+	}else if(description.length < 15)
+	{
+		error = "Your description should be at least 15 words long";
+	}else  if(!title_.includes("what") && !title_.includes("how") && !title_.includes("when") &&  !title_.includes("who"))
+	 {
+		 error = "Your question should contain What or How or When or Who";
+	 }else
 	 {
 	 		error = "";
 	 }
@@ -1001,7 +1086,7 @@ function loadQuestionsPage(){
 
     $('.questions').on('click', '#options_btn', function(e){
 		e.stopPropagation();
-
+		console.log("check");
 		
     	var x = $(this).closest('.quest-options-btn').find('#dropOptions')[0];
     	if (x.className.indexOf("w3-show") == -1) {
@@ -1457,7 +1542,6 @@ QuestionsCollection.doc(selectedQuestion).collection("Replies")
 							<div class="reply-footer">\
 								<div class="likes-and-replays pb-2">\
 									<span><i class="fa fa-heart"></i> '+likes+'</span>\
-									<span class="w3-right"> '+replies+' Replies</span>\
 								</div>\
 								<div class="user-action pt-3 pb-4 w3-center">\
 									<a id="like_button_replies" class="w3-left">\
@@ -1588,16 +1672,13 @@ function loadWriteQuestion(){
 			$('.select-categories').click();
 		});
 	}
-
 	$('#post_question').on('click', function(){
 		var title = $('#questionTitle').val().trim();
-		var description = $('#questionDiscription').val().trim();
-		if(verifyQuestion(title)){
+		var description = $('#questionDiscription').val();
+		if(verifyQuestion(title, description)){
 			postQuestion(title, description);
 		}
 	});
-
-
 
 	$('.image_file').change(function(){
 		readURL(this);
@@ -1732,7 +1813,11 @@ function verifyQuestion(title, description){
 
 	if(title.length < 6){
 		error = "Your question should be at least 6 words long";
-	}else if (questionCategories.length == 0) {
+	}else if(description.length < 15){
+		error = "Your description should be at least 15 words long";
+	}else  if(!title_.includes("what") && !title_.includes("how") && !title_.includes("when") &&  !title_.includes("who")){
+		error = "Your question should contain What or How or When or Who";
+ 	}else if (questionCategories.length == 0) {
  		error = "Please select at least one category";
  	}else{
  		error = "";
@@ -1756,7 +1841,6 @@ function postQuestion(title, description){
 	var d = new Date();
 	var id = d.getTime().toString();
 	var isEdited = false;
-	var EditQuestion = sessionStorage.getItem("EditQuestion");
 	showLoader();
 	if (EditQuestion != null) {
 		id = EditQuestion;
@@ -3062,24 +3146,12 @@ function loadLogIn(){
 		$('#sign_in_error').hide();
 		var email = $('#m_email_sign_in').val().trim();
 		var password = $('#m_password_sign_in').val().trim();
+		showLoader();
 		firebase.auth().signInWithEmailAndPassword(email, password)
 		.then(function(){
-			// UsersRef.doc(email).get().then(function(user)
-			// {
-			// 	console.log(user);
-				
-			// 	var user_data = user.data();
-			// 	if(user_data.webRegToken == null || user_data.webRegToken == "")
-			// 	{
-			// 		sessionStorage.setItem("user_id", email);
-			// 		window.location.href = "q_and_a/home.html";			
-			// 	}else
-			// 	{
-					sessionStorage.setItem("user_id", email);
-					window.location.href = "/home.html";
-			// 	}
-			// });
-
+		    hideLoader();
+			sessionStorage.setItem("user_id", email);
+			window.location.href = "q_and_a/home.html";
 		})
 		.catch(function(error) {
   			var errorCode = error.code;
@@ -3108,6 +3180,16 @@ function loadLogIn(){
 function loadLibrary(){
 	var booksList = [
 		"../ebooks/framework.epub",
+		"../ebooks/IAS1.epub",
+		"../ebooks/IAS10.epub",
+		"../ebooks/IAS2.epub",
+		"../ebooks/IAS12.epub",
+		"../ebooks/IAS27.epub",
+		"../ebooks/IAS32.epub",
+		"../ebooks/IAS36.epub",
+		"../ebooks/IAS37.epub",
+		"../ebooks/IAS38.epub",
+		"../ebooks/IAS8.epub",
 		"../ebooks/IFRS1.epub",
 		"../ebooks/IFRS10.epub",
 		"../ebooks/IFRS3.epub",
@@ -3115,7 +3197,13 @@ function loadLibrary(){
 		"../ebooks/IFRS6.epub",
 		"../ebooks/IFRS7.epub",
 		"../ebooks/IFRS8.epub",
-		"../ebooks/IFRS9.epub"];
+		"../ebooks/IFRS9.epub",
+		"../ebooks/IFRS11.epub",
+		"../ebooks/IFRS12.epub",
+		"../ebooks/IFRS13.epub",
+		"../ebooks/IFRS14.epub",
+		"../ebooks/IFRS15.epub",
+		"../ebooks/IFRS16.epub"];
 	$('#library_div').empty();
 
 	$('#library_div').on('click', '.book', function(){
@@ -3124,7 +3212,7 @@ function loadLibrary(){
 		window.location.href="../books/preview.html";
 	});
 	
-	$('#search_books').on('keyup', function(){
+	$('#search_home').on('keyup', function(){
 		var search = $(this).val().toLowerCase();
 		var books = $('#library_div').children();
 		var found = 0;
@@ -3147,21 +3235,34 @@ function loadLibrary(){
 	
 	booksList.forEach((bookUrl) =>{
 		var book = ePub(bookUrl);
+		console.log(bookUrl);
+		console.log(book);
         book.coverUrl().then((url) => {
+            console.log(url);
             book.loaded.metadata.then((metadata) => {
-            var title = metadata.title;
-            console.log(title);
-            var bookHtml = '<div class="col-3">\
-							    <div class="book">\
-							        <h4 hidden>'+title+'</h4>\
-								    <p hidden>'+bookUrl+'</p>\
-								    <a><img src='+url+' alt="Cover"></a>\
-							    </div>\
-						    </div>';
-			$('#library_div').append(bookHtml);
+                var title = metadata.title;
+                var bookHtml = '<div class="col-3">\
+    							    <div class="book">\
+    							        <h4 hidden>'+title+'</h4>\
+    								    <p hidden>'+bookUrl+'</p>\
+    								    <a><img src='+url+' alt="Cover"></a>\
+    							    </div>\
+    						    </div>';
+    			$('#library_div').append(bookHtml);
+            });
+        }).catch(function(){
+            book.loaded.metadata.then((metadata) => {
+                var title = metadata.title;
+                var bookHtml = '<div class="col-3">\
+    							    <div class="book" style="position: relative;">\
+    							        <h4 class="w3-center" style="position: absolute; top: 10px; width: 80px; color: #fff; padding: 10px;">'+title+'</h4>\
+    								    <p hidden>'+bookUrl+'</p>\
+    								    <a><img src="../img/fallback_book_cover.jpg" alt="Cover"></a>\
+    							    </div>\
+    						    </div>';
+    			$('#library_div').append(bookHtml);
+            });
         });
-        });
-        
 	});
 }
 
