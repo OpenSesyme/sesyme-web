@@ -15,6 +15,7 @@ var savedHighlights = [];
 var file = null;
 var currentPage;
 var pageNum = 2;
+var infoSaved = false;
 var selectedMenuItem = null;
 
 /*======================================
@@ -129,7 +130,6 @@ function loadSignUp(){
 				$('#step_sign_up').text("Sign-up / Basic Info");
 			break;
 			case 3:
-				console.log("Saving");
 				saveInfo();
 				$('#step_sign_up').text("Sign-up / Basic Info / Display Pics");
 			break;
@@ -147,6 +147,7 @@ function loadSignUp(){
 					hideLoader();
 					window.location.href = "../q_and_a/home.html";
 				}).catch((error) =>{
+					hideLoader();
 					showSnackbar(error.message);
 				});
 			break;
@@ -327,12 +328,16 @@ function saveInfo(){
 		course: signUpInfo.course,
 		affiliation: signUpInfo.affiliation,
 		university: signUpInfo.university,
+		studentNumber: signUpInfo.studentNo,
 		gender: signUpInfo.gender,
 		uID: email,
 	}).then(function(){
 		console.log("Saved");
 		hideLoader();
-		nextPage();
+		if (!infoSaved) {
+			nextPage();
+			infoSaved = true;
+		}
 	}).catch((error) =>{
 		console.log("Not Saved");
 		showSnackbar(error.message);
@@ -391,10 +396,6 @@ function saveUserPics(){
 					hideLoader();
 					nextPage();
 				});
-			}).catch(function(error) {
-				// Uh-oh, an error occurred!
-				console.log("Error while uploading image");
-				hideLoader();
 			});				
 		});
 	});
@@ -2844,6 +2845,15 @@ function loadLogIn(){
   			$('#sign_in_error').show();
 		});
 	});
+
+	$('#forget_password').on('click', function(){
+		var email = prompt("Please Enter your email address", "");
+		auth.sendPasswordResetEmail(email).then(function() {
+			showSnackbar("Password Reset instructions sent to " + email);
+		}).catch(function(error) {
+			showSnackbar(error.message);
+		});
+	});
 }
 
 /*=======================================================
@@ -3492,4 +3502,5 @@ var pilotStudents = [{firsName: "Ntlakanipho", lastName: "Mvanyashe", studentNum
 	{firsName: "Akhona", lastName: "Wayise", studentNumber: 218279078},
 	{firsName: "Bevan", lastName: "Mondweni", studentNumber: 215199502},
 	{firsName: "Lwandile", lastName: "Qulo-Qolo", studentNumber: 218185294},
-	{firsName: "Nondumiso", lastName: "Lurwengu", studentNumber: 215214641}];
+	{firsName: "Nondumiso", lastName: "Lurwengu", studentNumber: 215214641},
+	{firsName: "Sesyme", lastName: "Developer", studentNumber: 123456789}];

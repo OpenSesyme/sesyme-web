@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Francois+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
 
 @font-face {
   	font-family: "untitled-font-1";
@@ -42,8 +43,21 @@ a {
 }
 
 .active-tab, .active-tab i {
-    background-color: #6400ae !important;
-    color: #fff !important;
+  background-color: #6400ae !important;
+  color: #fff !important;
+}
+
+.cover-title {
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  width: 80px;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 300;
+  text-align: center;
+  font-family: "Abril Fatface", sans-serif;
+  padding: 10px;
 }
 
 /*--------------------------------------------------------------------------------------------------
@@ -698,9 +712,9 @@ a {
   display: block;
 }
 
-/*.page {
+.page {
   display: none;
-}*/
+}
 
 .page-active {
   display: block;
@@ -3309,7 +3323,6 @@ a {
 @keyframes fadeout {
   from {bottom: 30px; opacity: 1;}
   to {bottom: 0; opacity: 0;}
-<<<<<<< HEAD
 }
 
 #nav-profile-pic img
